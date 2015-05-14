@@ -1,0 +1,13 @@
+<manifest
+    package="net.xpece.android.support"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Reading Ringtones on API 11 or 14 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application>
+        <activity
+            android:theme="@style/Theme.AppCompat.PickerDialog"
+            android:name=".app.RingtonePickerActivity"/>
+    </application>
+
+</manifest>

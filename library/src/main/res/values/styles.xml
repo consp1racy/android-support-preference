@@ -1,0 +1,70 @@
+<resources>
+
+    <style name="PreferenceFragment.Material" parent="*android:PreferenceFragment">
+        <!--<item name="android:layout">@layout/preference_list_fragment_material</item>-->
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+    </style>
+
+    <style name="PreferenceActivity.Material" parent="*android:PreferenceActivity">
+        <!--<item name="android:layout">@layout/preference_list_content_material</item>-->
+        <!--<item name="headerLayout">@layout/preference_header_item_material</item>-->
+        <!--<item name="headerRemoveIconIfEmpty">true</item>-->
+    </style>
+
+    <style name="Preference.Material" parent="">
+        <item name="android:layout">@layout/preference_material</item>
+    </style>
+
+    <style name="Preference.Material.PreferenceScreen"/>
+
+    <style name="Preference.Material.Information">
+        <item name="android:layout">@layout/preference_information_material</item>
+        <item name="android:enabled">false</item>
+        <item name="android:shouldDisableView">false</item>
+    </style>
+
+    <style name="Preference.Material.Category">
+        <item name="android:layout">@layout/preference_category_material</item>
+        <!-- The title should not dim if the category is disabled, instead only the preference children should dim. -->
+        <item name="android:shouldDisableView">false</item>
+        <item name="android:selectable">false</item>
+    </style>
+
+    <style name="Preference.Material.CheckBoxPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
+    </style>
+
+    <style name="Preference.Material.SwitchPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_switch</item>
+        <item name="android:textOn">@string/capital_on</item>
+        <item name="android:textOff">@string/capital_off</item>
+        <!--<item name="android:textOn">@null</item>-->
+        <!--<item name="android:textOff">@null</item>-->
+    </style>
+
+    <!--<style name="Preference.Material.SeekBarPreference">-->
+        <!--<item name="android:layout">@layout/preference_widget_seekbar_material</item>-->
+    <!--</style>-->
+
+    <style name="Preference.Material.DialogPreference">
+        <item name="android:positiveButtonText">@android:string/ok</item>
+        <item name="android:negativeButtonText">@android:string/cancel</item>
+    </style>
+
+    <style name="Preference.Material.DialogPreference.YesNoPreference">
+        <item name="android:positiveButtonText">@android:string/yes</item>
+        <item name="android:negativeButtonText">@android:string/no</item>
+    </style>
+
+    <style name="Preference.Material.DialogPreference.EditTextPreference">
+        <item name="android:dialogLayout">@layout/preference_dialog_edittext_material</item>
+    </style>
+
+    <style name="Preference.Material.RingtonePreference">
+        <item name="android:ringtoneType">ringtone</item>
+        <item name="android:showSilent">true</item>
+        <item name="android:showDefault">true</item>
+    </style>
+
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AppCompat.Light.Preference">
+        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
+        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
+        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
+        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
+        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
+
+        <item name="textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="Theme.AppCompat.Preference">
+        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
+        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
+        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
+        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
+        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
+
+        <item name="textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.DarkActionBar.Preference">
+        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
+        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
+        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
+        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
+        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
+
+        <item name="textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="Theme.AppCompat.PickerDialog" parent="Theme.AppCompat.Dialog.Alert"/>
+</resources>
