@@ -17,4 +17,11 @@ class Util {
         ta.recycle();
         return d;
     }
+
+    public static int resolveColor(Context context, @AttrRes int attr) {
+        TypedArray ta = context.obtainStyledAttributes(new int[]{attr});
+        int c = ta.getColor(0, 0);
+        ta.recycle();
+        return c;
+    }
 }

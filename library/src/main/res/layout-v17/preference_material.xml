@@ -21,13 +21,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/activatedBackgroundIndicator"
     android:clipToPadding="false"
     android:gravity="center_vertical"
     android:minHeight="?attr/listPreferredItemHeightSmall"
-    android:paddingEnd="?attr/listPreferredItemPaddingRight"
-    android:paddingStart="?attr/listPreferredItemPaddingLeft"
+    android:paddingRight="?attr/listPreferredItemPaddingRight"
+    android:paddingLeft="?attr/listPreferredItemPaddingLeft"
     android:baselineAligned="false">
+    <!-- background is supposed to be activated, done that in code -->
 
     <LinearLayout
         android:id="@+id/icon_frame"

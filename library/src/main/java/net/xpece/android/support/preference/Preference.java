@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +91,7 @@ public class Preference extends android.preference.Preference {
 
         return null;
     }
+
     /**
      * mIconResId is overridden by mIcon, if mIcon is specified.
      */
@@ -274,6 +278,8 @@ public class Preference extends android.preference.Preference {
      * @return The View that displays this Preference.
      * @see #onBindView(View)
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @SuppressWarnings("deprecation")
     protected View onCreateView(ViewGroup parent) {
         final LayoutInflater layoutInflater =
             (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -289,7 +295,22 @@ public class Preference extends android.preference.Preference {
                 widgetFrame.setVisibility(View.GONE);
             }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            layout.setBackgroundDrawable(createActivatedBackground(layout));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackground(createActivatedBackground(layout));
+        }
         return layout;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private static Drawable createActivatedBackground(View layout) {
+        Context context = layout.getContext();
+        StateListDrawable d = new StateListDrawable();
+        int activated = Util.resolveColor(context, R.attr.colorControlActivated);
+        d.addState(new int[]{android.R.attr.state_activated}, new ColorDrawable(activated));
+        d.addState(StateSet.WILD_CARD, new ColorDrawable(0));
+        return null;
     }
 
     /**

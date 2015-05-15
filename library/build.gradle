@@ -21,3 +21,11 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'net.xpece.android'
+    PUBLISH_ARTIFACT_ID = 'support-preference'
+    PUBLISH_VERSION = '0.1.0'
+}
+
+apply from: '../android-release-aar.gradle'

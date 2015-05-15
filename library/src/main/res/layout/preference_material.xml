@@ -22,14 +22,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    tools:background="@android:color/transparent"
     android:clipToPadding="false"
     android:gravity="center_vertical"
     android:minHeight="?attr/listPreferredItemHeightSmall"
     android:paddingLeft="?attr/listPreferredItemPaddingLeft"
     android:paddingRight="?attr/listPreferredItemPaddingRight"
-    tools:ignore="RtlHardcoded">
+    tools:ignore="RtlHardcoded"
+    android:baselineAligned="false">
+    <!-- background is supposed to be activated, done that in code -->
 
     <LinearLayout
         android:id="@+id/icon_frame"
