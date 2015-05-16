@@ -98,7 +98,7 @@ public abstract class DialogPreference extends Preference implements
             mDialogTitle = getTitle();
         }
         mDialogMessage = a.getString(R.styleable.DialogPreference_android_dialogMessage);
-        mDialogIcon = a.getDrawable(R.styleable.DialogPreference_android_dialogIcon);
+        setDialogIcon(a.getDrawable(R.styleable.DialogPreference_android_dialogIcon));
         mPositiveButtonText = a.getString(R.styleable.DialogPreference_android_positiveButtonText);
         mNegativeButtonText = a.getString(R.styleable.DialogPreference_android_negativeButtonText);
         mDialogLayoutResId = a.getResourceId(R.styleable.DialogPreference_android_dialogLayout, mDialogLayoutResId);
@@ -178,7 +178,7 @@ public abstract class DialogPreference extends Preference implements
      * @param dialogIconRes The icon, as a resource ID.
      */
     public void setDialogIcon(int dialogIconRes) {
-        mDialogIcon = ContextCompat.getDrawable(getContext(), dialogIconRes);
+        setDialogIcon(ContextCompat.getDrawable(getContext(), dialogIconRes));
     }
 
     /**

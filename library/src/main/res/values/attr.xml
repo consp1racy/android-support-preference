@@ -33,6 +33,11 @@
         <attr name="android:shouldDisableView"/>
     </declare-styleable>
 
+    <declare-styleable name="ListPreference">
+        <attr name="android:entries"/>
+        <attr name="android:entryValues"/>
+    </declare-styleable>
+
     <!-- Base attributes available to DialogPreference. -->
     <declare-styleable name="DialogPreference">
         <!-- The title in the dialog. -->

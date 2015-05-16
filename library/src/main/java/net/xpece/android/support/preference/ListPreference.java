@@ -44,10 +44,6 @@ public class ListPreference extends DialogPreference {
     private static final int[] STYLEABLE_PREFERENCE = new int[]{
         android.R.attr.summary
     };
-    private static final int[] STYLEABLE_LIST_PREFERENCE = new int[]{
-        android.R.attr.entries,
-        android.R.attr.entryValues
-    };
 
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
@@ -76,9 +72,9 @@ public class ListPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE_LIST_PREFERENCE, defStyleAttr, defStyleRes);
-        mEntries = a.getTextArray(0);
-        mEntryValues = a.getTextArray(1);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
+        mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
+        mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
         a.recycle();
 
         /* Retrieve the Preference summary attribute since it's private

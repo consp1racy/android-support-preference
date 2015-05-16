@@ -4,9 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -14,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.StateSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -295,22 +292,12 @@ public class Preference extends android.preference.Preference {
                 widgetFrame.setVisibility(View.GONE);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            layout.setBackgroundDrawable(createActivatedBackground(layout));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            layout.setBackground(createActivatedBackground(layout));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackground(Util.createActivatedBackground(layout));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            layout.setBackgroundDrawable(Util.createActivatedBackground(layout));
         }
         return layout;
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private static Drawable createActivatedBackground(View layout) {
-        Context context = layout.getContext();
-        StateListDrawable d = new StateListDrawable();
-        int activated = Util.resolveColor(context, R.attr.colorControlActivated);
-        d.addState(new int[]{android.R.attr.state_activated}, new ColorDrawable(activated));
-        d.addState(StateSet.WILD_CARD, new ColorDrawable(0));
-        return null;
     }
 
     /**
@@ -449,13 +436,13 @@ public class Preference extends android.preference.Preference {
      * value was persisted, since we may not necessarily commit if there
      * will be a batch commit later.)
      * @hide Pending API approval
-     * @see #getPersistedStringSet(Set)
+     * @see #getPersistedStringSet2(Set)
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    protected boolean persistStringSet(Set<String> values) {
+    protected boolean persistStringSet2(Set<String> values) {
         if (shouldPersist()) {
             // Shouldn't store null
-            if (values.equals(getPersistedStringSet(null))) {
+            if (values.equals(getPersistedStringSet2(null))) {
                 // It's already there, so the same as persisting
                 return true;
             }
@@ -481,10 +468,10 @@ public class Preference extends android.preference.Preference {
      * @return The value from the SharedPreferences or the default return
      * value.
      * @hide Pending API approval
-     * @see #persistStringSet(Set)
+     * @see #persistStringSet2(Set)
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    protected Set<String> getPersistedStringSet(Set<String> defaultReturnValue) {
+    protected Set<String> getPersistedStringSet2(Set<String> defaultReturnValue) {
         if (!shouldPersist()) {
             return defaultReturnValue;
         }

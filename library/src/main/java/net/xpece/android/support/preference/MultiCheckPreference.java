@@ -40,10 +40,6 @@ public class MultiCheckPreference extends DialogPreference {
     private static final int[] STYLEABLE_PREFERENCE = new int[]{
         android.R.attr.summary
     };
-    private static final int[] STYLEABLE_LIST_PREFERENCE = new int[]{
-        android.R.attr.entries,
-        android.R.attr.entryValues
-    };
 
     private CharSequence[] mEntries;
     private String[] mEntryValues;
@@ -71,12 +67,12 @@ public class MultiCheckPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE_LIST_PREFERENCE, defStyleAttr, defStyleRes);
-        mEntries = a.getTextArray(0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
+        mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
         if (mEntries != null) {
             setEntries(mEntries);
         }
-        setEntryValues(a.getTextArray(1));
+        setEntryValues(a.getTextArray(R.styleable.ListPreference_android_entryValues));
         a.recycle();
 
         /* Retrieve the Preference summary attribute since it's private
@@ -257,7 +253,7 @@ public class MultiCheckPreference extends DialogPreference {
                 "ListPreference requires an entries array and an entryValues array.");
         }
 
-        mOrigValues = Arrays.copyOf(mSetValues, mSetValues.length);
+        mOrigValues = Util.copyOf(mSetValues, mSetValues.length);
         builder.setMultiChoiceItems(mEntries, mSetValues,
             new DialogInterface.OnMultiChoiceClickListener() {
                 @Override

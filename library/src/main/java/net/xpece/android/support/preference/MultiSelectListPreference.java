@@ -44,11 +44,6 @@ import java.util.Set;
  * @since API 11
  */
 public class MultiSelectListPreference extends DialogPreference {
-    private static final int[] STYLEABLE_LIST_PREFERENCE = new int[]{
-        android.R.attr.entries,
-        android.R.attr.entryValues
-    };
-
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private Set<String> mValues = new HashSet<String>();
@@ -75,9 +70,9 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        final TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE_LIST_PREFERENCE, defStyleAttr, defStyleRes);
-        mEntries = a.getTextArray(0);
-        mEntryValues = a.getTextArray(1);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
+        mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
+        mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
         a.recycle();
     }
 
@@ -150,7 +145,7 @@ public class MultiSelectListPreference extends DialogPreference {
         mValues.clear();
         mValues.addAll(values);
 
-        persistStringSet(values);
+        persistStringSet2(values);
     }
 
     /**
@@ -243,7 +238,7 @@ public class MultiSelectListPreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        setValues(restoreValue ? getPersistedStringSet(mValues) : (Set<String>) defaultValue);
+        setValues(restoreValue ? getPersistedStringSet2(mValues) : (Set<String>) defaultValue);
     }
 
     @Override

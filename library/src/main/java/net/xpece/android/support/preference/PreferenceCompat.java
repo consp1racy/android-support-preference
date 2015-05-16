@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Eugen on 13. 5. 2015.
  */
-public class PreferenceCompat {
+class PreferenceCompat {
 
     private static final Method METHOD_PERFORM_CLICK;
     private static final Method METHOD_ON_KEY;
