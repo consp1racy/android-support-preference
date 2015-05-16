@@ -4,6 +4,17 @@ Material themes for preference widgets and support preference widgets.
 
 Available from API 7.
 
+## Screenshots
+
+All taken from a API 10 device.
+
+![Overview 1](./docs/device-2015-05-16-022153.png)&nbsp;
+![Overview 2](./docs/device-2015-05-16-022305.png)&nbsp;
+![EditTextPreference](./docs/device-2015-05-16-022337.png)&nbsp;
+![ListPreference](./docs/device-2015-05-16-022400.png)&nbsp;
+![RingtonePreference](./docs/device-2015-05-16-022428.png)&nbsp;
+![SeekBarDialogPreference](./docs/device-2015-05-16-022503.png)
+
 ## Contents
 
 - `Preference`
