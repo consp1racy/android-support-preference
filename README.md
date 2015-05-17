@@ -62,15 +62,15 @@ For now: Please read known issues at the bottom of this page and carefully exami
 ## Changelog
 
 **0.1.2**
-Czech strings
-`SeekBar` in `SeekBarDialogActivity` uses `ColorFilter` to match theme
+- Czech strings
+- `SeekBar` in `SeekBarDialogActivity` uses `ColorFilter` to match theme
 
 **0.1.1**
-Initial release
-Backported material style and icon capability for `Preference` children
-Backported `SwitchPreference`
-Material styled `RingtonePreference` picker dialog/activity
-Some hidden preferences made public
+- Initial release
+- Backported material style and icon capability for `Preference` children
+- Backported `SwitchPreference`
+- Material styled `RingtonePreference` picker dialog/activity
+- Some hidden preferences made public
 
 ## Work TBD
 
