@@ -47,13 +47,15 @@ All taken from a API 10 device.
 
 ## How to get the library?
 
-    repositories {
-        maven { url "http://dl.bintray.com/consp1racy/maven" }
-    }
-  
-    dependencies {
-        compile 'net.xpece.android:support-preference:0.1.2'
-    }
+```groovy
+repositories {
+    maven { url "http://dl.bintray.com/consp1racy/maven" }
+}
+
+dependencies {
+    compile 'net.xpece.android:support-preference:0.1.2'
+}
+```
 
 ## How to use the library?
 
@@ -85,19 +87,19 @@ For now: Please read known issues at the bottom of this page and carefully exami
 - `SeekBarDialogPreference` has no Material style for `SeekBar` yet.
 
 - Use this method to handle checkbox preferences until it's released:
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    public static void setChecked(Preference preference, boolean checked) {
-        if (preference instanceof net.xpece.android.support.preference.TwoStatePreference) {
-            ((net.xpece.android.support.preference.TwoStatePreference) preference).setChecked(checked);
-        } else if (preference instanceof android.preference.CheckBoxPreference) {
-            ((android.preference.CheckBoxPreference) preference).setChecked(checked);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH
-            && preference instanceof android.preference.TwoStatePreference) {
-            ((android.preference.TwoStatePreference) preference).setChecked(checked);
-        } else {
-            Timber.e("#setChecked called on non-checkable preference!");
-        }
-    }
-
+```java
+  @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+  public static void setChecked(Preference preference, boolean checked) {
+      if (preference instanceof net.xpece.android.support.preference.TwoStatePreference) {
+          ((net.xpece.android.support.preference.TwoStatePreference) preference).setChecked(checked);
+      } else if (preference instanceof android.preference.CheckBoxPreference) {
+          ((android.preference.CheckBoxPreference) preference).setChecked(checked);
+      } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH
+          && preference instanceof android.preference.TwoStatePreference) {
+          ((android.preference.TwoStatePreference) preference).setChecked(checked);
+      } else {
+          Timber.e("#setChecked called on non-checkable preference!");
+      }
+  }
+```
 - If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project and override `android:seekBarStyle` in your theme appropriately.
