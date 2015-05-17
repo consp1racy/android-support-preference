@@ -2,7 +2,7 @@
 
 Material themes for preference widgets and support preference widgets.
 
-Available from API 7.
+Available from API 7. Depends on appcompat-v7-r22.1.1.
 
 ## Screenshots
 
@@ -55,6 +55,10 @@ All taken from a API 10 device.
         compile 'net.xpece.android:support-preference:0.1.2'
     }
 
+## How to use the library?
+
+For now: Please read known issues at the bottom of this page and carefully examine the sample project.
+
 ## Changelog
 
 **0.1.2**
@@ -75,7 +79,7 @@ Some hidden preferences made public
 - `CheckBoxPreference` and `SwitchPreference` don't animate on Lollipop. Use native counterparts.
 - `SeekBarDialogPreference` has no Material style for `SeekBar` yet.
 
-Use this method to handle checkbox preferences until it's released:
+- Use this method to handle checkbox preferences until it's released:
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static void setChecked(Preference preference, boolean checked) {
@@ -90,3 +94,5 @@ Use this method to handle checkbox preferences until it's released:
             Timber.e("#setChecked called on non-checkable preference!");
         }
     }
+
+- If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project and override `android:seekBarStyle` in your theme appropriately.
