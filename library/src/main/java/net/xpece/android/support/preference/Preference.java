@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.xpece.android.support.R;
-
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -70,7 +68,7 @@ public class Preference extends android.preference.Preference {
             tryCommit = PreferenceManager.class.getDeclaredMethod("tryCommit", SharedPreferences.Editor.class);
             tryCommit.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         METHOD_TRY_COMMIT = tryCommit;
     }

@@ -38,8 +38,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import net.xpece.android.support.R;
-
 /**
  * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the

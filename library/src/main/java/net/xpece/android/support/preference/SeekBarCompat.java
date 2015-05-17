@@ -17,8 +17,6 @@ import android.util.StateSet;
 import android.widget.AbsSeekBar;
 import android.widget.SeekBar;
 
-import net.xpece.android.support.R;
-
 import java.lang.reflect.Field;
 
 /**

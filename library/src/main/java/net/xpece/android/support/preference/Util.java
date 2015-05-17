@@ -11,7 +11,10 @@ import android.support.annotation.AttrRes;
 import android.util.StateSet;
 import android.view.View;
 
-import net.xpece.android.support.R;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 /**
  * Created by Eugen on 13. 5. 2015.
@@ -92,4 +95,13 @@ class Util {
         return null;
     }
 
+    public static void skipCurrentTag(XmlPullParser parser)
+        throws XmlPullParserException, IOException {
+        int outerDepth = parser.getDepth();
+        int type;
+        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
+            && (type != XmlPullParser.END_TAG
+            || parser.getDepth() > outerDepth)) {
+        }
+    }
 }

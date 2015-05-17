@@ -30,7 +30,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import net.xpece.android.support.R;
 import net.xpece.android.support.app.RingtonePickerActivity;
 
 /**

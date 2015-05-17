@@ -28,8 +28,6 @@ import android.support.v7.app.AlertDialog.Builder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import net.xpece.android.support.R;
-
 /**
  * A {@link Preference} that displays a list of entries as
  * a dialog.

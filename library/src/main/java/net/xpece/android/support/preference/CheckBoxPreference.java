@@ -26,8 +26,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
 
-import net.xpece.android.support.R;
-
 /**
  * A {@link Preference} that provides checkbox widget
  * functionality.

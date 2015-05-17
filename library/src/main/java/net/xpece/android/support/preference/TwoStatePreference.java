@@ -29,8 +29,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import net.xpece.android.support.R;
-
 /**
  * Common base class for preferences that have two selectable states, persist a
  * boolean value in SharedPreferences, and may have dependent preferences that are

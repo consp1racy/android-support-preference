@@ -35,7 +35,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.xpece.android.support.R;
+import net.xpece.android.support.preference.R;
 
 /**
  * The {@link RingtonePickerActivity} allows the user to choose one from all of the

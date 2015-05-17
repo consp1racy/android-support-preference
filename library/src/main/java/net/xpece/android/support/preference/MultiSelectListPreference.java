@@ -26,8 +26,6 @@ import android.os.Parcelable;
 import android.support.v7.app.AlertDialog.Builder;
 import android.util.AttributeSet;
 
-import net.xpece.android.support.R;
-
 import java.util.HashSet;
 import java.util.Set;
 

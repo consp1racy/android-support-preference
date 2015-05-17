@@ -33,8 +33,6 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.EditText;
 
-import net.xpece.android.support.R;
-
 /**
  * A {@link Preference} that allows for string
  * input.

@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -15,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import net.xpece.android.support.R;
+import java.lang.reflect.Method;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -30,6 +31,19 @@ import net.xpece.android.support.R;
  */
 public class AppCompatPreferenceActivity extends PreferenceActivity implements AppCompatCallback {
     private static final String TAG = AppCompatPreferenceActivity.class.getSimpleName();
+
+    private static final Method METHOD_REQUIRE_PREFERENCE_MANAGER;
+
+    static {
+        Method requirePreferenceManager = null;
+        try {
+            requirePreferenceManager = PreferenceActivity.class.getDeclaredMethod("requirePreferenceManager");
+            requirePreferenceManager.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        METHOD_REQUIRE_PREFERENCE_MANAGER = requirePreferenceManager;
+    }
 
     private AppCompatDelegate mAppCompatDelegate;
 
@@ -186,4 +200,42 @@ public class AppCompatPreferenceActivity extends PreferenceActivity implements A
     public void setSupportActionBar(@Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
+
+    /**
+     * Adds preferences from activities that match the given {@link Intent}.
+     *
+     * @param intent The {@link Intent} to query activities.
+     * @deprecated This function is not relevant for a modern fragment-based
+     * PreferenceActivity.
+     */
+    @Deprecated
+    public void addPreferencesFromIntent(Intent intent) {
+        requirePreferenceManager();
+
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromIntent(getPreferenceManager(), this, intent, getPreferenceScreen()));
+    }
+
+    /**
+     * Inflates the given XML resource and adds the preference hierarchy to the current
+     * preference hierarchy.
+     *
+     * @param preferencesResId The XML resource ID to inflate.
+     * @deprecated This function is not relevant for a modern fragment-based
+     * PreferenceActivity.
+     */
+    @Deprecated
+    public void addPreferencesFromResource(int preferencesResId) {
+        requirePreferenceManager();
+
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromResource(getPreferenceManager(), this, preferencesResId, getPreferenceScreen()));
+    }
+
+    private void requirePreferenceManager() {
+        try {
+            METHOD_REQUIRE_PREFERENCE_MANAGER.invoke(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

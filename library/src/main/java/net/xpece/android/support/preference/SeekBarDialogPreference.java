@@ -29,8 +29,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import net.xpece.android.support.R;
-
 public class SeekBarDialogPreference extends DialogPreference {
     private static final String TAG = "SeekBarDialogPreference";
 

@@ -51,7 +51,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import net.xpece.android.support.R;
+import net.xpece.android.support.preference.R;
 
 import java.lang.ref.WeakReference;
 

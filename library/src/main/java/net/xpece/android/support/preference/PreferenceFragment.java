@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import net.xpece.android.support.R;
-
 /**
  * Created by Eugen on 13. 5. 2015.
  */

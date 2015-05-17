@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -15,6 +16,7 @@ public class PreferenceCompat {
 
     private static final Method METHOD_PERFORM_CLICK;
     private static final Method METHOD_ON_KEY;
+    private static final Method METHOD_ON_ATTACHED_TO_HIERARCHY;
 
     static {
         Method performClick = null;
@@ -34,6 +36,15 @@ public class PreferenceCompat {
             // don't care
         }
         METHOD_ON_KEY = onKey;
+
+        Method onAttachedToHierarchy = null;
+        try {
+            onAttachedToHierarchy = android.preference.Preference.class.getDeclaredMethod("onAttachedToHierarchy", PreferenceManager.class);
+            onAttachedToHierarchy.setAccessible(true);
+        } catch (Exception ex) {
+            // don't care
+        }
+        METHOD_ON_ATTACHED_TO_HIERARCHY = onAttachedToHierarchy;
     }
 
     private PreferenceCompat() {}
@@ -68,6 +79,14 @@ public class PreferenceCompat {
         }
 
         return null;
+    }
+
+    public static void onAttachedToHierarchy(android.preference.Preference preference, PreferenceManager manager) {
+        try {
+            METHOD_ON_ATTACHED_TO_HIERARCHY.invoke(preference, manager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

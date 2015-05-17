@@ -27,8 +27,6 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 
-import net.xpece.android.support.R;
-
 /**
  * A {@link Preference} that provides a two-state toggleable option.
  * <p/>
