@@ -1,5 +1,8 @@
 package net.xpece.android.support.preference;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import java.lang.reflect.Method;
@@ -7,7 +10,8 @@ import java.lang.reflect.Method;
 /**
  * Created by Eugen on 13. 5. 2015.
  */
-class PreferenceCompat {
+public class PreferenceCompat {
+    private static final String TAG = PreferenceCompat.class.getSimpleName();
 
     private static final Method METHOD_PERFORM_CLICK;
     private static final Method METHOD_ON_KEY;
@@ -34,11 +38,21 @@ class PreferenceCompat {
 
     private PreferenceCompat() {}
 
-    public static void performClick(android.preference.Preference preference) {
+    /**
+     * Not used.
+     *
+     * @param preference
+     */
+    static void performClick(android.preference.Preference preference) {
         tryInvoke(METHOD_PERFORM_CLICK, preference);
     }
 
-    public static boolean onKey(android.preference.Preference preference, int keyCode, KeyEvent event) {
+    /**
+     * Not used.
+     *
+     * @param preference
+     */
+    static boolean onKey(android.preference.Preference preference, int keyCode, KeyEvent event) {
         try {
             return (boolean) tryInvoke(METHOD_ON_KEY, preference, keyCode, event);
         } catch (Exception ex) {
@@ -54,5 +68,19 @@ class PreferenceCompat {
         }
 
         return null;
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public static void setChecked(android.preference.Preference preference, boolean checked) {
+        if (preference instanceof net.xpece.android.support.preference.TwoStatePreference) {
+            ((net.xpece.android.support.preference.TwoStatePreference) preference).setChecked(checked);
+        } else if (preference instanceof android.preference.CheckBoxPreference) {
+            ((android.preference.CheckBoxPreference) preference).setChecked(checked);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH
+            && preference instanceof android.preference.TwoStatePreference) {
+            ((android.preference.TwoStatePreference) preference).setChecked(checked);
+        } else {
+            Log.e(TAG, "setChecked(Preference, boolean) called on non-checkable preference!");
+        }
     }
 }

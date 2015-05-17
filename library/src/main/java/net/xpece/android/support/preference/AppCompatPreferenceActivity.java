@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +49,7 @@ public class AppCompatPreferenceActivity extends PreferenceActivity implements A
         ListView list = (ListView) findViewById(android.R.id.list);
         list.setPadding(0, 0, 0, 0);
         list.setSelector(Util.resolveDrawable(this, R.attr.selectableItemBackground));
+        list.setCacheColorHint(0);
     }
 
     @Override
@@ -185,17 +185,5 @@ public class AppCompatPreferenceActivity extends PreferenceActivity implements A
      */
     public void setSupportActionBar(@Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
-    }
-
-    private static void voidListPadding(ViewGroup root) {
-        for (int i = 0; i < root.getChildCount(); i++) {
-            View child = root.getChildAt(i);
-            if (child instanceof ListView && child.getId() == android.R.id.list) {
-                Log.d(TAG, "found list");
-                child.setPadding(0, 0, 0, 0);
-            } else if (child instanceof ViewGroup) {
-                voidListPadding((ViewGroup) child);
-            }
-        }
     }
 }
