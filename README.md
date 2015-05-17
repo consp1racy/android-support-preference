@@ -72,6 +72,11 @@ Backported `SwitchPreference`
 Material styled `RingtonePreference` picker dialog/activity
 Some hidden preferences made public
 
+## Work TBD
+
+- Try unifying view IDs inside layouts so they can be used interchangeably with native and custom preferences
+  - This will make custom `Preference` and `CheckBoxPreference` obsolete if you target at least API 14
+
 ## Known issues
 
 - Doesn't work well with fragment headers. Use simple preference layout as much as possible.
