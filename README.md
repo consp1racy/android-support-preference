@@ -47,9 +47,46 @@ All taken from a API 10 device.
 
 ## How to get the library?
 
+    repositories {
+        maven { url "http://dl.bintray.com/consp1racy/maven" }
+    }
+  
+    dependencies {
+        compile 'net.xpece.android:support-preference:0.1.2'
+    }
+
+## Changelog
+
+**0.1.2**
+Czech strings
+`SeekBar` in `SeekBarDialogActivity` uses `ColorFilter` to match theme
+
+**0.1.1**
+Initial release
+Backported material style and icon capability for `Preference` children
+Backported `SwitchPreference`
+Material styled `RingtonePreference` picker dialog/activity
+Some hidden preferences made public
+
 ## Known issues
 
 - Doesn't work well with fragment headers. Use simple preference layout as much as possible.
 - Multilingual strings for Ringtone picker activity are not pulled yet.
 - `CheckBoxPreference` and `SwitchPreference` don't animate on Lollipop. Use native counterparts.
 - `SeekBarDialogPreference` has no Material style for `SeekBar` yet.
+
+Use this method to handle checkbox preferences until it's released:
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public static void setChecked(Preference preference, boolean checked) {
+        if (preference instanceof net.xpece.android.support.preference.TwoStatePreference) {
+            ((net.xpece.android.support.preference.TwoStatePreference) preference).setChecked(checked);
+        } else if (preference instanceof android.preference.CheckBoxPreference) {
+            ((android.preference.CheckBoxPreference) preference).setChecked(checked);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH
+            && preference instanceof android.preference.TwoStatePreference) {
+            ((android.preference.TwoStatePreference) preference).setChecked(checked);
+        } else {
+            Timber.e("#setChecked called on non-checkable preference!");
+        }
+    }
