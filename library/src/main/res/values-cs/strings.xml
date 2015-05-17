@@ -1,0 +1,25 @@
+<resources
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Ringtone picker strings -->
+    <skip/>
+    <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. -->
+    <string name="ringtone_default">Výchozí vyzváněcí tón</string>
+    <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. This fills in the actual ringtone's title into the message. -->
+    <string name="ringtone_default_with_actual">Výchozí tón (<xliff:g id="actual_ringtone">%1$s</xliff:g>)</string>
+    <!-- Choice in the ringtone picker.  If chosen, there will be silence instead of a ringtone played. -->
+    <string name="ringtone_silent">Žádné</string>
+    <!-- The title of the ringtone picker dialog. -->
+    <string name="ringtone_picker_title">Vyzváněcí tóny</string>
+    <!-- If there is ever a ringtone set for some setting, but that ringtone can no longer be resolved, t his is shown instead.  For example, if the ringtone was on a SD card and it had been removed, this woudl be shown for ringtones on that SD card. -->
+    <string name="ringtone_unknown">Neznámý vyzváněcí tón</string>
+
+    <!-- Choice in the notification sound picker.  If chosen, the default notification sound will be
+         used. -->
+    <string name="notification_sound_default">Výchozí zvuk oznámení</string>
+
+    <!-- Choice in the alarm sound picker.  If chosen, the default alarm sound will be used. -->
+    <string name="alarm_sound_default">Výchozí zvuk budíku</string>
+
+    <string name="capital_on">I</string>
+    <string name="capital_off">O</string>
+</resources>

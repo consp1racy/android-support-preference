@@ -24,9 +24,9 @@
     android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:gravity="center_vertical"
-    android:minHeight="?attr/listPreferredItemHeightSmall"
-    android:paddingLeft="?attr/listPreferredItemPaddingLeft"
-    android:paddingRight="?attr/listPreferredItemPaddingRight"
+    android:minHeight="?listPreferredItemHeightSmall"
+    android:paddingLeft="?listPreferredItemPaddingLeft"
+    android:paddingRight="?listPreferredItemPaddingRight"
     tools:ignore="RtlHardcoded"
     android:baselineAligned="false">
     <!-- background is supposed to be activated, done that in code -->
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:textAppearance="?textAppearanceListItem"/>
 
         <TextView
             android:id="@+id/summary"
@@ -73,8 +73,8 @@
             android:layout_alignLeft="@android:id/title"
             android:layout_below="@android:id/title"
             android:maxLines="10"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:textAppearance="?textAppearanceListItemSecondary"
+            android:textColor="?android:textColorSecondary"/>
 
     </RelativeLayout>
 

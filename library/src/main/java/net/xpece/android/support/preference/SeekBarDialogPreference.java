@@ -84,6 +84,9 @@ public class SeekBarDialogPreference extends DialogPreference {
         }
 
         mSeekBar = getSeekBar(view);
+
+        SeekBarCompat.styleSeekBar(mSeekBar);
+
         mSeekBar.setProgress(getProgress());
     }
 

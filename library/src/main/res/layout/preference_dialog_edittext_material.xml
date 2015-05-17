@@ -34,13 +34,13 @@
 
         <TextView
             android:id="@+id/message"
-            style="?android:attr/textAppearanceSmall"
+            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="48dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:textColor="?android:textColorSecondary"/>
 
     </LinearLayout>
 

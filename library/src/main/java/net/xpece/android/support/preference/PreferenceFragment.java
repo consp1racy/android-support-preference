@@ -24,5 +24,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
         ListView list = (ListView) view.findViewById(android.R.id.list);
         list.setPadding(0, 0, 0, 0);
         list.setSelector(Util.resolveDrawable(context, R.attr.selectableItemBackground));
+        list.setCacheColorHint(0);
     }
 }
