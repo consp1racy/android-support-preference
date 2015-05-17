@@ -68,6 +68,7 @@ For now: Please read known issues at the bottom of this page and carefully exami
   - On Lollipop native `Preference`, `CheckBoxPreference`, `SwitchPreference` will be used.
   - Otherwise support version will be used.
   - Force either version by using fully qualified class name.
+  - You need to use `AppCompatPreferenceActivity` or special `PreferenceFragment` both of which are provided.
 - Added `PreferenceCompat#setChecked(Preference, boolean)` helper method.
 
 **0.1.2**
