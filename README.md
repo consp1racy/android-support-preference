@@ -13,7 +13,7 @@ All taken from a API 10 device.
 ![EditTextPreference](./docs/device-2015-05-16-022337.png)&nbsp;
 ![ListPreference](./docs/device-2015-05-16-022400.png)&nbsp;
 ![RingtonePreference](./docs/device-2015-05-16-022428.png)&nbsp;
-![SeekBarDialogPreference](./docs/device-2015-05-16-022503.png)
+![SeekBarDialogPreference](./docs/device-2015-05-17-164239.png)
 
 ## Contents
 
