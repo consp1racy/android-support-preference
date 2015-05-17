@@ -77,7 +77,8 @@ For now: Please read known issues at the bottom of this page and carefully exami
 ## Work TBD
 
 - Try unifying view IDs inside layouts so they can be used interchangeably with native and custom preferences
-  - This will make custom `Preference` and `CheckBoxPreference` obsolete if you target at least API 14
+  - This would make custom `Preference` and `CheckBoxPreference` obsolete if you target at least API 14.
+- Steal `PreferenceInflater` from SDK so we don't need to duplicate preference XML files in `res/xml-v21`.
 
 ## Known issues
 
