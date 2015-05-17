@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.xpece.android:support-preference:0.1.2'
+    compile 'net.xpece.android:support-preference:0.2.0'
 }
 ```
 
@@ -62,6 +62,13 @@ dependencies {
 For now: Please read known issues at the bottom of this page and carefully examine the sample project.
 
 ## Changelog
+
+**0.2.0**
+- No need for `net.xpece.android.support.preference.` prefix in XML files defining preferences, framework will choose automatically:
+  - On Lollipop native `Preference`, `CheckBoxPreference`, `SwitchPreference` will be used.
+  - Otherwise support version will be used.
+  - Force either version by using fully qualified class name.
+- Added `PreferenceCompat#setChecked(Preference, boolean)` helper method.
 
 **0.1.2**
 - Czech strings
@@ -84,23 +91,7 @@ For now: Please read known issues at the bottom of this page and carefully exami
 
 - Doesn't work well with fragment headers. Use simple preference layout as much as possible.
 - Multilingual strings for Ringtone picker activity are not pulled yet.
-- `CheckBoxPreference` and `SwitchPreference` don't animate on Lollipop. Use native counterparts.
+- <s>`CheckBoxPreference` and `SwitchPreference` don't animate on Lollipop. Use native counterparts.</s>
 - `SeekBarDialogPreference` has no Material style for `SeekBar` yet.
 
-- Use this method to handle checkbox preferences until it's released:
-```java
-  @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-  public static void setChecked(Preference preference, boolean checked) {
-      if (preference instanceof net.xpece.android.support.preference.TwoStatePreference) {
-          ((net.xpece.android.support.preference.TwoStatePreference) preference).setChecked(checked);
-      } else if (preference instanceof android.preference.CheckBoxPreference) {
-          ((android.preference.CheckBoxPreference) preference).setChecked(checked);
-      } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH
-          && preference instanceof android.preference.TwoStatePreference) {
-          ((android.preference.TwoStatePreference) preference).setChecked(checked);
-      } else {
-          Timber.e("#setChecked called on non-checkable preference!");
-      }
-  }
-```
-- If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project and override `android:seekBarStyle` in your theme appropriately.
+If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project and override `android:seekBarStyle` in your theme appropriately.
