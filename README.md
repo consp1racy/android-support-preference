@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.xpece.android:support-preference:0.2.0'
+    compile 'net.xpece.android:support-preference:0.2.1'
 }
 ```
 
@@ -63,7 +63,7 @@ For now: Please read known issues at the bottom of this page and carefully exami
 
 ## Changelog
 
-**0.2.0**
+**0.2.1**
 - No need for `net.xpece.android.support.preference.` prefix in XML files defining preferences, framework will choose automatically:
   - On Lollipop native `Preference`, `CheckBoxPreference`, `SwitchPreference` will be used.
   - Otherwise support version will be used.
