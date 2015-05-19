@@ -13,11 +13,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.view.View;
 
 import net.xpece.android.support.preference.AppCompatPreferenceActivity;
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.PreferenceFragment;
 import net.xpece.android.support.preference.RingtonePreference;
+
+import org.lucasr.dspec.DesignSpec;
 
 import java.util.List;
 
@@ -44,6 +47,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 18) {
+            View root = findViewById(android.R.id.content);
+            DesignSpec dspec = DesignSpec.fromResource(root, R.raw.dspec);
+            root.getOverlay().add(dspec);
+        }
+
 
         setupSimplePreferencesScreen();
     }
