@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.xpece.android:support-preference:0.2.1'
+    compile 'net.xpece.android:support-preference:0.2.2'
 }
 ```
 
@@ -62,6 +62,9 @@ dependencies {
 For now: Please read known issues at the bottom of this page and carefully examine the sample project.
 
 ## Changelog
+
+**0.2.2**
+- optional tinting via `app:asp_tintIcon="true"` and `app:asp_tintDialogIcon="true"` and `asp_tint` and `asp_tintMode`.
 
 **0.2.1**
 - No need for `net.xpece.android.support.preference.` prefix in XML files defining preferences, framework will choose automatically:
@@ -81,12 +84,6 @@ For now: Please read known issues at the bottom of this page and carefully exami
 - Backported `SwitchPreference`
 - Material styled `RingtonePreference` picker dialog/activity
 - Some hidden preferences made public
-
-## Work TBD
-
-- Try unifying view IDs inside layouts so they can be used interchangeably with native and custom preferences
-  - This would make custom `Preference` and `CheckBoxPreference` obsolete if you target at least API 14.
-- <s>Steal `PreferenceInflater` from SDK so we don't need to duplicate preference XML files in `res/xml-v21`.</s>
 
 ## Known issues
 
