@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -143,6 +144,12 @@ public class SeekBarDialogPreference extends DialogPreference {
         // Steal the XML dialogIcon attribute's value
         super.setDialogIcon(null);
         mMyIcon = dialogIcon;
+
+        if (mMyIcon != null && getTintList() != null && getTintMode() != null) {
+            mMyIcon = DrawableCompat.wrap(mMyIcon).mutate();
+            DrawableCompat.setTintList(mMyIcon, getTintList());
+            DrawableCompat.setTintMode(mMyIcon, getTintMode());
+        }
     }
 
     @Override
