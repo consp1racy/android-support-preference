@@ -3,11 +3,11 @@
 
     <declare-styleable name="Theme">
         <!-- Default style for Preference. -->
-        <!--<attr name="preferenceStyle" format="reference" />-->
+        <attr name="preferenceStyle" format="reference" />
         <!-- Default style for CheckBoxPreference. -->
-        <!--<attr name="checkBoxPreferenceStyle" format="reference"/>-->
+        <attr name="checkBoxPreferenceStyle" format="reference"/>
         <!-- Default style for DialogPreference. -->
-        <!--<attr name="dialogPreferenceStyle" format="reference"/>-->
+        <attr name="dialogPreferenceStyle" format="reference"/>
         <!-- Default style for EditTextPreference. -->
         <attr name="editTextPreferenceStyle" format="reference"/>
         <!-- Default style for RingtonePreference. -->
@@ -53,6 +53,7 @@
             <enum name="add" value="16"/>
             <enum name="overlay" value="17"/>
         </attr>
+        <attr name="asp_tintIcon" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ListPreference">
@@ -77,6 +78,8 @@
              be needed. If a custom DialogPreference is required, this should be set. For example,
              the EditTextPreference uses a layout with an EditText as this attribute. -->
         <attr name="android:dialogLayout"/>
+
+        <attr name="asp_tintDialogIcon" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="RingtonePreference">

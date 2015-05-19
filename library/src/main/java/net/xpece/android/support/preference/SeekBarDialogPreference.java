@@ -51,7 +51,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.dialogPreferenceStyle);
+        this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
     public SeekBarDialogPreference(Context context) {
@@ -145,10 +145,12 @@ public class SeekBarDialogPreference extends DialogPreference {
         super.setDialogIcon(null);
         mMyIcon = dialogIcon;
 
-        if (mMyIcon != null && getTintList() != null && getTintMode() != null) {
-            mMyIcon = DrawableCompat.wrap(mMyIcon).mutate();
-            DrawableCompat.setTintList(mMyIcon, getTintList());
-            DrawableCompat.setTintMode(mMyIcon, getTintMode());
+        if (getTintDialogIcon()) {
+            if (mMyIcon != null && getTintList() != null && getTintMode() != null) {
+                mMyIcon = DrawableCompat.wrap(mMyIcon).mutate();
+                DrawableCompat.setTintList(mMyIcon, getTintList());
+                DrawableCompat.setTintMode(mMyIcon, getTintMode());
+            }
         }
     }
 

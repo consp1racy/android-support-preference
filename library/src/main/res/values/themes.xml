@@ -6,9 +6,9 @@
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
-        <item name="android:preferenceStyle">@style/Preference.Material</item>
-        <item name="android:checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="android:dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
 
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
@@ -22,9 +22,9 @@
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
-        <item name="android:preferenceStyle">@style/Preference.Material</item>
-        <item name="android:checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="android:dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
 
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
@@ -38,9 +38,9 @@
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
-        <item name="android:preferenceStyle">@style/Preference.Material</item>
-        <item name="android:checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="android:dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="preferenceStyle">@style/Preference.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
 
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>

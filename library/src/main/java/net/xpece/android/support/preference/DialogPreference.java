@@ -21,7 +21,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -68,6 +71,8 @@ public abstract class DialogPreference extends Preference implements
     /** Which button was clicked. */
     private int mWhichButtonClicked;
 
+    private boolean mTintDialogIcon;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -80,7 +85,7 @@ public abstract class DialogPreference extends Preference implements
     }
 
     public DialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.dialogPreferenceStyle);
+        this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
     public DialogPreference(Context context) {
@@ -96,10 +101,11 @@ public abstract class DialogPreference extends Preference implements
             mDialogTitle = getTitle();
         }
         mDialogMessage = a.getString(R.styleable.DialogPreference_android_dialogMessage);
-        setDialogIcon(a.getDrawable(R.styleable.DialogPreference_android_dialogIcon));
         mPositiveButtonText = a.getString(R.styleable.DialogPreference_android_positiveButtonText);
         mNegativeButtonText = a.getString(R.styleable.DialogPreference_android_negativeButtonText);
         mDialogLayoutResId = a.getResourceId(R.styleable.DialogPreference_android_dialogLayout, mDialogLayoutResId);
+        mTintDialogIcon = a.getBoolean(R.styleable.DialogPreference_asp_tintDialogIcon, false);
+        setDialogIcon(a.getDrawable(R.styleable.DialogPreference_android_dialogIcon)); // after tint
         a.recycle();
     }
 
@@ -160,6 +166,26 @@ public abstract class DialogPreference extends Preference implements
         return mDialogMessage;
     }
 
+    @Override
+    public void setTintList(ColorStateList tintList) {
+        ColorStateList color = getTintList();
+        super.setTintList(tintList);
+
+        if (color != tintList) {
+            resetDialogIcon();
+        }
+    }
+
+    @Override
+    public void setTintMode(PorterDuff.Mode tintMode) {
+        PorterDuff.Mode mode = getTintMode();
+        super.setTintMode(tintMode);
+
+        if (mode != tintMode) {
+            resetDialogIcon();
+        }
+    }
+
     /**
      * Sets the icon of the dialog. This will be shown on subsequent dialogs.
      *
@@ -168,12 +194,13 @@ public abstract class DialogPreference extends Preference implements
     public void setDialogIcon(Drawable dialogIcon) {
         mDialogIcon = dialogIcon;
 
-//        if (mDialogIcon != null && getTintList() != null && getTintMode() != null) {
-//            mDialogIcon = DrawableCompat.wrap(mDialogIcon).mutate();
-//            DrawableCompat.setTintList(mDialogIcon, getTintList());
-//            DrawableCompat.setTintMode(mDialogIcon, getTintMode());
-//        }
-
+        if (mTintDialogIcon) {
+            if (mDialogIcon != null && getTintList() != null && getTintMode() != null) {
+                mDialogIcon = DrawableCompat.wrap(mDialogIcon).mutate();
+                DrawableCompat.setTintList(mDialogIcon, getTintList());
+                DrawableCompat.setTintMode(mDialogIcon, getTintMode());
+            }
+        }
     }
 
     /**
@@ -193,6 +220,23 @@ public abstract class DialogPreference extends Preference implements
      */
     public Drawable getDialogIcon() {
         return mDialogIcon;
+    }
+
+    public boolean getTintDialogIcon() {
+        return mTintDialogIcon;
+    }
+
+    public void setTintDialogIcon(boolean tintDialogIcon) {
+        if (mTintDialogIcon != tintDialogIcon) {
+            mTintDialogIcon = tintDialogIcon;
+            resetDialogIcon();
+        }
+    }
+
+    private void resetDialogIcon() {
+        Drawable icon = getDialogIcon();
+        setDialogIcon(null);
+        setDialogIcon(icon);
     }
 
     /**

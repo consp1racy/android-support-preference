@@ -63,7 +63,7 @@ public class CheckBoxPreference extends TwoStatePreference {
     }
 
     public CheckBoxPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.checkBoxPreferenceStyle);
+        this(context, attrs, R.attr.checkBoxPreferenceStyle);
     }
 
     public CheckBoxPreference(Context context) {

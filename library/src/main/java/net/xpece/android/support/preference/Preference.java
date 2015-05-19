@@ -108,6 +108,8 @@ public class Preference extends android.preference.Preference {
     private int mWidgetLayoutResId;
     private boolean mCanRecycleLayout = true;
 
+    private boolean mTintIcon = false;
+
     /**
      * Perform inflation from XML and apply a class-specific base style. This
      * constructor of Preference allows subclasses to use their own base style
@@ -178,7 +180,7 @@ public class Preference extends android.preference.Preference {
      * @see #Preference(Context, AttributeSet, int)
      */
     public Preference(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.preferenceStyle);
+        this(context, attrs, R.attr.preferenceStyle);
     }
 
     /**
@@ -207,6 +209,8 @@ public class Preference extends android.preference.Preference {
                 mTintList = a.getColorStateList(attr);
             } else if (attr == R.styleable.Preference_asp_tintMode) {
                 mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
+            } else if (attr == R.styleable.Preference_asp_tintIcon) {
+                mTintIcon = a.getBoolean(R.styleable.Preference_asp_tintIcon, false);
             }
         }
         a.recycle();
@@ -415,10 +419,12 @@ public class Preference extends android.preference.Preference {
         if ((icon == null && mIcon != null) || (icon != null && mIcon != icon)) {
             mIcon = icon;
 
-            if (mIcon != null && mTintList != null && mTintMode != null) {
-                mIcon = DrawableCompat.wrap(mIcon).mutate();
-                DrawableCompat.setTintList(mIcon, mTintList);
-                DrawableCompat.setTintMode(mIcon, mTintMode);
+            if (mTintIcon) {
+                if (mIcon != null && mTintList != null && mTintMode != null) {
+                    mIcon = DrawableCompat.wrap(mIcon).mutate();
+                    DrawableCompat.setTintList(mIcon, mTintList);
+                    DrawableCompat.setTintMode(mIcon, mTintMode);
+                }
             }
 
             notifyChanged();

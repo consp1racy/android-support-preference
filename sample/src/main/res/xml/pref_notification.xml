@@ -35,5 +35,6 @@
         android:icon="@drawable/ic_ring_volume_preference"
         android:key="notifications_new_message_volume"
         android:title="@string/pref_title_volume"
-        app:asp_tint="?colorAccent"/>
+        app:asp_tintDialogIcon="true"
+        app:asp_tintIcon="true"/>
 </PreferenceScreen>
