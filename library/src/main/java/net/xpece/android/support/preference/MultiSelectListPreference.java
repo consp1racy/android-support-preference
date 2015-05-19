@@ -32,13 +32,11 @@ import java.util.Set;
 /**
  * A {@link Preference} that displays a list of entries as
  * a dialog.
- * <p/>
+ * <p></p>
  * This preference will store a set of strings into the SharedPreferences.
  * This set will contain one or more values from the
  * {@link #setEntryValues(CharSequence[])} array.
  *
- * @attr ref android.R.styleable#MultiSelectListPreference_entries
- * @attr ref android.R.styleable#MultiSelectListPreference_entryValues
  * @since API 11
  */
 public class MultiSelectListPreference extends DialogPreference {
@@ -77,7 +75,7 @@ public class MultiSelectListPreference extends DialogPreference {
     /**
      * Sets the human-readable entries to be shown in the list. This will be
      * shown in subsequent dialogs.
-     * <p/>
+     * <p></p>
      * Each entry must have a corresponding index in
      * {@link #setEntryValues(CharSequence[])}.
      *

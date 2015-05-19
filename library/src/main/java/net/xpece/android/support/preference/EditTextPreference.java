@@ -36,15 +36,13 @@ import android.widget.EditText;
 /**
  * A {@link Preference} that allows for string
  * input.
- * <p/>
+ * <p></p>
  * It is a subclass of {@link DialogPreference} and shows the {@link EditText}
  * in a dialog. This {@link EditText} can be modified either programmatically
  * via {@link #getEditText()}, or through XML by setting any EditText
  * attributes on the EditTextPreference.
- * <p/>
+ * <p></p>
  * This preference will store a string into the SharedPreferences.
- * <p/>
- * See {@link com.android.internal.R.styleable#EditText EditText Attributes}.
  */
 public class EditTextPreference extends DialogPreference {
     /**
@@ -189,7 +187,6 @@ public class EditTextPreference extends DialogPreference {
         return mEditText;
     }
 
-    /** @hide */
     @Override
     protected boolean needInputMethod() {
         // We want the input method to show, if possible, when dialog is displayed

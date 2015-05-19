@@ -41,7 +41,6 @@ import java.util.HashMap;
  * @param <T> The type of the items to inflate
  * @param <P> The type of parents (that is those items that contain other items).
  * Must implement {@link GenericInflater.Parent}
- * @hide
  */
 public abstract class GenericInflater<T, P> {
 
@@ -73,7 +72,7 @@ public abstract class GenericInflater<T, P> {
          * Hook you can supply that is called when inflating from a
          * inflater. You can use this to customize the tag
          * names available in your XML files.
-         * <p/>
+         * <p></p>
          * Note that it is good practice to prefix these custom names with your
          * package (i.e., com.coolcompany.apps) to avoid conflicts with system
          * names.
@@ -185,7 +184,7 @@ public abstract class GenericInflater<T, P> {
      * each element name as the XML is parsed. If the factory returns an item,
      * that is added to the hierarchy. If it returns null, the next factory
      * default {@link #onCreateItem} method is called.
-     * <p/>
+     * <p></p>
      * If you have an existing inflater and want to add your
      * own factory to it, use {@link #cloneInContext} to clone the existing
      * instance and then you can use this function (once) on the returned new
@@ -226,7 +225,7 @@ public abstract class GenericInflater<T, P> {
     /**
      * Inflate a new hierarchy from the specified xml node. Throws
      * InflaterException if there is an error. *
-     * <p/>
+     * <p></p>
      * <em><strong>Important</strong></em>&nbsp;&nbsp;&nbsp;For performance
      * reasons, inflation relies heavily on pre-processing of XML files
      * that is done at build time. Therefore, it is not currently possible to
@@ -272,7 +271,7 @@ public abstract class GenericInflater<T, P> {
     /**
      * Inflate a new hierarchy from the specified XML node. Throws
      * InflaterException if there is an error.
-     * <p/>
+     * <p></p>
      * <em><strong>Important</strong></em>&nbsp;&nbsp;&nbsp;For performance
      * reasons, inflation relies heavily on pre-processing of XML files
      * that is done at build time. Therefore, it is not currently possible to
@@ -354,8 +353,8 @@ public abstract class GenericInflater<T, P> {
      * Low-level function for instantiating by name. This attempts to
      * instantiate class of the given <var>name</var> found in this
      * inflater's ClassLoader.
-     * <p/>
-     * <p/>
+     * <p></p>
+     * <p></p>
      * There are two things that can happen in an error case: either the
      * exception describing the error will be thrown, or a null will be
      * returned. You must deal with both possibilities -- the former will happen

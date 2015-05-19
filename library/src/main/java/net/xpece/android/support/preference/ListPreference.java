@@ -31,12 +31,9 @@ import android.util.AttributeSet;
 /**
  * A {@link Preference} that displays a list of entries as
  * a dialog.
- * <p/>
+ * <p></p>
  * This preference will store a string into the SharedPreferences. This string will be the value
  * from the {@link #setEntryValues(CharSequence[])} array.
- *
- * @attr ref android.R.styleable#ListPreference_entries
- * @attr ref android.R.styleable#ListPreference_entryValues
  */
 public class ListPreference extends DialogPreference {
     private static final int[] STYLEABLE_PREFERENCE = new int[]{
@@ -86,7 +83,7 @@ public class ListPreference extends DialogPreference {
     /**
      * Sets the human-readable entries to be shown in the list. This will be
      * shown in subsequent dialogs.
-     * <p/>
+     * <p></p>
      * Each entry must have a corresponding index in
      * {@link #setEntryValues(CharSequence[])}.
      *

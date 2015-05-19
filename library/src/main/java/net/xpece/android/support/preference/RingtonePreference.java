@@ -35,16 +35,12 @@ import net.xpece.android.support.app.RingtonePickerActivity;
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
  * The chosen ringtone's URI will be persisted as a string.
- * <p/>
+ * <p></p>
  * If the user chooses the "Default" item, the saved string will be one of
  * {@link System#DEFAULT_RINGTONE_URI},
  * {@link System#DEFAULT_NOTIFICATION_URI}, or
  * {@link System#DEFAULT_ALARM_ALERT_URI}. If the user chooses the "Silent"
  * item, the saved string will be an empty string.
- *
- * @attr ref android.R.styleable#RingtonePreference_ringtoneType
- * @attr ref android.R.styleable#RingtonePreference_showDefault
- * @attr ref android.R.styleable#RingtonePreference_showSilent
  */
 public class RingtonePreference extends Preference
     implements PreferenceManager.OnActivityResultListener {
@@ -188,7 +184,7 @@ public class RingtonePreference extends Preference
 
     /**
      * Called when a ringtone is chosen.
-     * <p/>
+     * <p></p>
      * By default, this saves the ringtone URI to the persistent storage as a
      * string.
      *
@@ -201,7 +197,7 @@ public class RingtonePreference extends Preference
     /**
      * Called when the chooser is about to be shown and the current ringtone
      * should be marked. Can return null to not mark any ringtone.
-     * <p/>
+     * <p></p>
      * By default, this restores the previous ringtone URI from the persistent
      * storage.
      *

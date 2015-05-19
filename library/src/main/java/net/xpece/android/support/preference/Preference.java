@@ -39,28 +39,13 @@ import java.util.Set;
  * This class contains a {@code key} that will be used as the key into the
  * {@link SharedPreferences}. It is up to the subclass to decide how to store
  * the value.
- * <p/>
+ * <p></p>
  * <div class="special reference">
  * <h3>Developer Guides</h3>
  * <p>For information about building a settings UI with Preferences,
  * read the <a href="{@docRoot}guide/topics/ui/settings.html">Settings</a>
  * guide.</p>
  * </div>
- *
- * @attr ref android.R.styleable#Preference_icon
- * @attr ref android.R.styleable#Preference_key
- * @attr ref android.R.styleable#Preference_title
- * @attr ref android.R.styleable#Preference_summary
- * @attr ref android.R.styleable#Preference_order
- * @attr ref android.R.styleable#Preference_fragment
- * @attr ref android.R.styleable#Preference_layout
- * @attr ref android.R.styleable#Preference_widgetLayout
- * @attr ref android.R.styleable#Preference_enabled
- * @attr ref android.R.styleable#Preference_selectable
- * @attr ref android.R.styleable#Preference_dependency
- * @attr ref android.R.styleable#Preference_persistent
- * @attr ref android.R.styleable#Preference_defaultValue
- * @attr ref android.R.styleable#Preference_shouldDisableView
  */
 public class Preference extends android.preference.Preference {
     private static final Method METHOD_TRY_COMMIT;
@@ -244,7 +229,7 @@ public class Preference extends android.preference.Preference {
      * Sets the layout resource that is inflated as the {@link View} to be shown
      * for this Preference. In most cases, the default layout is sufficient for
      * custom Preference objects and only the widget layout needs to be changed.
-     * <p/>
+     * <p></p>
      * This layout should contain a {@link ViewGroup} with ID
      * {@link android.R.id#widget_frame} to be the parent of the specific widget
      * for this Preference. It should similarly contain
@@ -305,7 +290,7 @@ public class Preference extends android.preference.Preference {
      * layout of this Preference (see {@link #setLayoutResource(int)}. If
      * changing this behavior, please specify a {@link ViewGroup} with ID
      * {@link android.R.id#widget_frame}.
-     * <p/>
+     * <p></p>
      * Make sure to call through to the superclass's implementation.
      *
      * @param parent The parent that this View will eventually be attached to.
@@ -338,10 +323,10 @@ public class Preference extends android.preference.Preference {
 
     /**
      * Binds the created View to the data for this Preference.
-     * <p/>
+     * <p></p>
      * This is a good place to grab references to custom Views in the layout and
      * set properties on them.
-     * <p/>
+     * <p></p>
      * Make sure to call through to the superclass's implementation.
      *
      * @param view The View that shows this Preference.
@@ -458,7 +443,6 @@ public class Preference extends android.preference.Preference {
      * the progress.
      *
      * @return True if the Preference handled the key. Returns false by default.
-     * @hide
      */
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return false;
@@ -470,7 +454,7 @@ public class Preference extends android.preference.Preference {
 
     /**
      * Attempts to persist a set of Strings to the {@link android.content.SharedPreferences}.
-     * <p/>
+     * <p></p>
      * This will check if this Preference is persistent, get an editor from
      * the {@link PreferenceManager}, put in the strings, and check if we should commit (and
      * commit if so).
@@ -479,7 +463,6 @@ public class Preference extends android.preference.Preference {
      * @return True if the Preference is persistent. (This is not whether the
      * value was persisted, since we may not necessarily commit if there
      * will be a batch commit later.)
-     * @hide Pending API approval
      * @see #getPersistedStringSet2(Set)
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -502,7 +485,7 @@ public class Preference extends android.preference.Preference {
     /**
      * Attempts to get a persisted set of Strings from the
      * {@link android.content.SharedPreferences}.
-     * <p/>
+     * <p></p>
      * This will check if this Preference is persistent, get the SharedPreferences
      * from the {@link PreferenceManager}, and get the value.
      *
@@ -511,7 +494,6 @@ public class Preference extends android.preference.Preference {
      * shared preferences.
      * @return The value from the SharedPreferences or the default return
      * value.
-     * @hide Pending API approval
      * @see #persistStringSet2(Set)
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

@@ -29,14 +29,8 @@ import android.widget.CompoundButton;
 
 /**
  * A {@link Preference} that provides a two-state toggleable option.
- * <p/>
+ * <p></p>
  * This preference will store a boolean into the SharedPreferences.
- *
- * @attr ref android.R.styleable#SwitchPreference_summaryOff
- * @attr ref android.R.styleable#SwitchPreference_summaryOn
- * @attr ref android.R.styleable#SwitchPreference_switchTextOff
- * @attr ref android.R.styleable#SwitchPreference_switchTextOn
- * @attr ref android.R.styleable#SwitchPreference_disableDependentsState
  */
 public class SwitchPreference extends TwoStatePreference {
     private static final int[] STYLEABLE_SWITCH_PREFERENCE = new int[]{

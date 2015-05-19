@@ -29,10 +29,8 @@ import android.util.AttributeSet;
 import java.util.Arrays;
 
 /**
- * @hide A {@link Preference} that displays a list of entries as
+ * A {@link Preference} that displays a list of entries as
  * a dialog which allow the user to toggle each individually on and off.
- * @attr ref android.R.styleable#ListPreference_entries
- * @attr ref android.R.styleable#ListPreference_entryValues
  */
 public class MultiCheckPreference extends DialogPreference {
     private static final int[] STYLEABLE_PREFERENCE = new int[]{
@@ -84,7 +82,7 @@ public class MultiCheckPreference extends DialogPreference {
     /**
      * Sets the human-readable entries to be shown in the list. This will be
      * shown in subsequent dialogs.
-     * <p/>
+     * <p></p>
      * Each entry must have a corresponding index in
      * {@link #setEntryValues(CharSequence[])}.
      *

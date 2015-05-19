@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  * handset devices, settings are presented as a single list. On tablets,
  * settings are split by category, with category headers shown to the left of
  * the list of settings.
- * <p/>
+ * <p></p>
  * See <a href="http://developer.android.com/design/patterns/settings.html">
  * Android Design: Settings</a> for design guidelines and the <a
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
@@ -135,7 +135,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity imp
      * </p>
      *
      * @param featureId The desired feature as defined in
-     * {@link android.view.Window} or {@link android.support.v4.view.WindowCompat}.
+     * {@link android.view.Window}.
      * @return Returns true if the requested feature is supported and now enabled.
      * @see android.app.Activity#requestWindowFeature
      * @see android.view.Window#requestFeature
@@ -172,7 +172,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity imp
 
     /**
      * Support library version of {@link android.app.Activity#getActionBar}.
-     * <p/>
+     * <p></p>
      * <p>Retrieve a reference to this activity's ActionBar.
      *
      * @return The Activity's ActionBar, or null if it does not have one.
@@ -183,15 +183,15 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity imp
     }
 
     /**
-     * Set a {@link android.widget.Toolbar Toolbar} to act as the {@link ActionBar} for this
+     * Set a {@link android.widget.Toolbar Toolbar} to act as the {@link android.app.ActionBar} for this
      * Activity window.
-     * <p/>
+     * <p></p>
      * <p>When set to a non-null value the {@link #getActionBar()} method will return
-     * an {@link ActionBar} object that can be used to control the given toolbar as if it were
+     * an {@link android.app.ActionBar} object that can be used to control the given toolbar as if it were
      * a traditional window decor action bar. The toolbar's menu will be populated with the
      * Activity's options menu and the navigation button will be wired through the standard
      * {@link android.R.id#home home} menu select action.</p>
-     * <p/>
+     * <p></p>
      * <p>In order to use a Toolbar within the Activity's window content the application
      * must not request the window feature {@link android.view.Window#FEATURE_ACTION_BAR FEATURE_ACTION_BAR}.</p>
      *

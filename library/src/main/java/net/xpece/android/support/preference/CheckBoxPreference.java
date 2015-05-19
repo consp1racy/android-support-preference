@@ -29,12 +29,8 @@ import android.widget.Checkable;
 /**
  * A {@link Preference} that provides checkbox widget
  * functionality.
- * <p/>
+ * <p></p>
  * This preference will store a boolean into the SharedPreferences.
- *
- * @attr ref android.R.styleable#CheckBoxPreference_summaryOff
- * @attr ref android.R.styleable#CheckBoxPreference_summaryOn
- * @attr ref android.R.styleable#CheckBoxPreference_disableDependentsState
  */
 public class CheckBoxPreference extends TwoStatePreference {
     private static final int[] STYLEABLE_CHECK_BOX_PREFERENCE = new int[]{
