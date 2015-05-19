@@ -24,7 +24,7 @@
     android:paddingRight="8dp">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@android:id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

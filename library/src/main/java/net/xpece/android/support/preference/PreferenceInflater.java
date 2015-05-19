@@ -100,6 +100,7 @@ class PreferenceInflater extends GenericInflater<android.preference.Preference, 
 
     @Override
     protected android.preference.Preference onCreateItem(String name, AttributeSet attrs) throws ClassNotFoundException {
+        // always use custom version of these
         switch (name) {
             case "SeekBarDialogPreference":
                 // is not public
@@ -120,14 +121,28 @@ class PreferenceInflater extends GenericInflater<android.preference.Preference, 
                 // in favor of one dialog theme
                 return new MultiSelectListPreference(mContext, attrs);
         }
+//        if (Build.VERSION.SDK_INT < 11) {
+//            // using native counterparts on honeycomb when feasible
+//            switch (name) {
+//                case "Preference":
+//                    // platform 11 layout support everything
+//                    return new Preference(mContext, attrs);
+//                case "CheckBoxPreference":
+//                    // platform 11 layout supports everything
+//                    return new CheckBoxPreference(mContext, attrs);
+//            }
+//        }
         if (Build.VERSION.SDK_INT < 21) {
             // using native counterparts on lollipop when feasible
             switch (name) {
                 case "Preference":
+                    // allow tinting
                     return new Preference(mContext, attrs);
                 case "CheckBoxPreference":
+                    // allow tinting
                     return new CheckBoxPreference(mContext, attrs);
                 case "SwitchPreference":
+                    // to ensure proper animation on 21
                     return new SwitchPreference(mContext, attrs);
             }
         }

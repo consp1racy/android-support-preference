@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class AppCompatPreferenceActivity extends PreferenceActivity implements AppCompatCallback {
+public abstract class AppCompatPreferenceActivity extends PreferenceActivity implements AppCompatCallback {
     private static final String TAG = AppCompatPreferenceActivity.class.getSimpleName();
 
     private static final Method METHOD_REQUIRE_PREFERENCE_MANAGER;

@@ -19,6 +19,7 @@
      type in the "widget_frame" layout. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -26,29 +27,39 @@
     android:minHeight="?listPreferredItemHeightSmall"
     android:paddingRight="?listPreferredItemPaddingRight"
     android:paddingLeft="?listPreferredItemPaddingLeft"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    tools:ignore="RtlHardcoded">
     <!-- background is supposed to be activated, done that in code -->
 
-    <LinearLayout
-        android:id="@+id/icon_frame"
-        android:layout_width="wrap_content"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/icon_frame"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="-4dp"-->
+        <!--android:gravity="start|center_vertical"-->
+        <!--android:minWidth="60dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingBottom="4dp"-->
+        <!--android:paddingEnd="12dp"-->
+        <!--android:paddingTop="4dp">-->
+
+        <!--<net.xpece.android.support.preference.PreferenceImageView-->
+            <!--android:id="@android:id/icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:maxHeight="48dp"-->
+            <!--android:maxWidth="48dp"/>-->
+    <!--</LinearLayout>-->
+
+    <net.xpece.android.support.preference.PreferenceImageView
+        android:id="@android:id/icon"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="-4dp"
-        android:gravity="start|center_vertical"
-        android:minWidth="60dp"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="4dp">
-
-        <net.xpece.android.support.preference.PreferenceImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="48dp"
-            android:maxWidth="48dp"/>
-    </LinearLayout>
-
+        android:layout_marginEnd="12dp"
+        android:scaleType="fitStart"
+        android:maxHeight="48dp"
+        android:maxWidth="48dp"/>
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -65,20 +76,20 @@
             android:textAppearance="?textAppearanceListItem"/>
 
         <TextView
-            android:id="@+id/summary"
+            android:id="@android:id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@android:id/title"
             android:layout_below="@android:id/title"
             android:maxLines="10"
-            android:textAppearance="?textAppearanceListItemSecondary"
+            android:textAppearance="?attr/asp_textAppearanceListItemSecondary"
             android:textColor="?android:textColorSecondary"/>
 
     </RelativeLayout>
 
     <!-- Preference should place its actual preference widget here. -->
     <LinearLayout
-        android:id="@+id/widget_frame"
+        android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="end|center_vertical"

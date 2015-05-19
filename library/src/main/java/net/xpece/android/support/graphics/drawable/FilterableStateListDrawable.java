@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.graphics.drawable;
 
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -12,11 +12,8 @@ import android.util.SparseArray;
  *
  * http://stackoverflow.com/questions/6018602/statelistdrawable-to-switch-colorfilters
  * @author Daniele Segato
- * <p/>
- * As mentioned in the SO post this is ugly and therefore will not be publicly available.
- * @author Eugen
  */
-class FilterableStateListDrawable extends StateListDrawable {
+public class FilterableStateListDrawable extends StateListDrawable {
 
     private int currIdx = -1;
     private int childrenCount = 0;

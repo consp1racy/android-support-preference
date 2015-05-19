@@ -60,7 +60,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     public MultiSelectListPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.dialogPreferenceStyle);
+        this(context, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
     public MultiSelectListPreference(Context context) {

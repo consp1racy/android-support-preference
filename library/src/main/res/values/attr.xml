@@ -3,11 +3,11 @@
 
     <declare-styleable name="Theme">
         <!-- Default style for Preference. -->
-        <attr name="preferenceStyle" format="reference" />
+        <!--<attr name="preferenceStyle" format="reference" />-->
         <!-- Default style for CheckBoxPreference. -->
-        <attr name="checkBoxPreferenceStyle" format="reference"/>
+        <!--<attr name="checkBoxPreferenceStyle" format="reference"/>-->
         <!-- Default style for DialogPreference. -->
-        <attr name="dialogPreferenceStyle" format="reference"/>
+        <!--<attr name="dialogPreferenceStyle" format="reference"/>-->
         <!-- Default style for EditTextPreference. -->
         <attr name="editTextPreferenceStyle" format="reference"/>
         <!-- Default style for RingtonePreference. -->
@@ -15,7 +15,7 @@
         <!-- Default style for switch preferences. -->
         <attr name="switchPreferenceStyle" format="reference"/>
 
-        <attr name="textAppearanceListItemSecondary" format="reference"/>
+        <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
@@ -31,6 +31,28 @@
              a custom layout (consisting of just the CheckBox) here. -->
         <attr name="android:widgetLayout"/>
         <attr name="android:shouldDisableView"/>
+
+        <attr name="asp_tint" format="color|reference"/>
+        <attr name="asp_tintMode" format="enum">
+            <enum name="clear" value="0"/>
+            <enum name="src" value="1"/>
+            <enum name="dst" value="2"/>
+            <enum name="src_over" value="3"/>
+            <enum name="dst_over" value="4"/>
+            <enum name="src_in" value="5"/>
+            <enum name="dst_in" value="6"/>
+            <enum name="src_out" value="7"/>
+            <enum name="dst_out" value="8"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="dst_atop" value="10"/>
+            <enum name="xor" value="11"/>
+            <enum name="darken" value="12"/>
+            <enum name="lighten" value="13"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+            <enum name="overlay" value="17"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ListPreference">

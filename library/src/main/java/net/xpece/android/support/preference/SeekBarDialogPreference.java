@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import net.xpece.android.support.widget.SeekBarCompat;
+
 public class SeekBarDialogPreference extends DialogPreference {
     private static final String TAG = "SeekBarDialogPreference";
 
@@ -48,7 +50,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.dialogPreferenceStyle);
+        this(context, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
     public SeekBarDialogPreference(Context context) {
@@ -74,7 +76,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     protected void onBindDialogView(@NonNull View view) {
         super.onBindDialogView(view);
 
-        final ImageView iconView = (ImageView) view.findViewById(R.id.icon);
+        final ImageView iconView = (ImageView) view.findViewById(android.R.id.icon);
         if (mMyIcon != null) {
             iconView.setImageDrawable(mMyIcon);
         } else {

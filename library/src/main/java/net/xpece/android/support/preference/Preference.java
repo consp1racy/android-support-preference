@@ -3,13 +3,16 @@ package net.xpece.android.support.preference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -93,6 +96,9 @@ public class Preference extends android.preference.Preference {
     private int mIconResId;
     private Drawable mIcon;
 
+    private ColorStateList mTintList = null;
+    private PorterDuff.Mode mTintMode = PorterDuff.Mode.SRC_IN;
+
     /**
      * @see #setShouldDisableView(boolean)
      */
@@ -172,7 +178,7 @@ public class Preference extends android.preference.Preference {
      * @see #Preference(Context, AttributeSet, int)
      */
     public Preference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.preferenceStyle);
+        this(context, attrs, android.R.attr.preferenceStyle);
     }
 
     /**
@@ -190,15 +196,44 @@ public class Preference extends android.preference.Preference {
             int attr = a.getIndex(i);
             if (attr == R.styleable.Preference_android_icon) {
                 mIconResId = a.getResourceId(attr, 0);
+                setIcon(mIconResId);
             } else if (attr == R.styleable.Preference_android_layout) {
                 mLayoutResId = a.getResourceId(attr, mLayoutResId);
             } else if (attr == R.styleable.Preference_android_widgetLayout) {
                 mWidgetLayoutResId = a.getResourceId(attr, mWidgetLayoutResId);
             } else if (attr == R.styleable.Preference_android_shouldDisableView) {
                 mShouldDisableView = a.getBoolean(attr, mShouldDisableView);
+            } else if (attr == R.styleable.Preference_asp_tint) {
+                mTintList = a.getColorStateList(attr);
+            } else if (attr == R.styleable.Preference_asp_tintMode) {
+                mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
             }
         }
         a.recycle();
+    }
+
+    public PorterDuff.Mode getTintMode() {
+        return mTintMode;
+    }
+
+    public void setTintMode(PorterDuff.Mode tintMode) {
+        mTintMode = tintMode;
+
+        int iconRes = mIconResId;
+        setIcon(null);
+        setIcon(iconRes);
+    }
+
+    public ColorStateList getTintList() {
+        return mTintList;
+    }
+
+    public void setTintList(ColorStateList tintList) {
+        mTintList = tintList;
+
+        int iconRes = mIconResId;
+        setIcon(null);
+        setIcon(iconRes);
     }
 
     /**
@@ -281,8 +316,7 @@ public class Preference extends android.preference.Preference {
 
         final View layout = layoutInflater.inflate(mLayoutResId, parent, false);
 
-        final ViewGroup widgetFrame = (ViewGroup) layout
-            .findViewById(R.id.widget_frame);
+        final ViewGroup widgetFrame = (ViewGroup) layout.findViewById(android.R.id.widget_frame);
         if (widgetFrame != null) {
             if (mWidgetLayoutResId != 0) {
                 layoutInflater.inflate(mWidgetLayoutResId, widgetFrame);
@@ -321,7 +355,7 @@ public class Preference extends android.preference.Preference {
             }
         }
 
-        final TextView summaryView = (TextView) view.findViewById(R.id.summary);
+        final TextView summaryView = (TextView) view.findViewById(android.R.id.summary);
         if (summaryView != null) {
             final CharSequence summary = getSummary();
             if (!TextUtils.isEmpty(summary)) {
@@ -332,7 +366,7 @@ public class Preference extends android.preference.Preference {
             }
         }
 
-        final ImageView imageView = (ImageView) view.findViewById(R.id.icon);
+        final ImageView imageView = (ImageView) view.findViewById(android.R.id.icon);
         if (imageView != null) {
             if (mIconResId != 0 || mIcon != null) {
                 if (mIcon == null) {
@@ -345,10 +379,10 @@ public class Preference extends android.preference.Preference {
             imageView.setVisibility(mIcon != null ? View.VISIBLE : View.GONE);
         }
 
-        final View imageFrame = view.findViewById(R.id.icon_frame);
-        if (imageFrame != null) {
-            imageFrame.setVisibility(mIcon != null ? View.VISIBLE : View.GONE);
-        }
+//        final View imageFrame = view.findViewById(R.id.icon_frame);
+//        if (imageFrame != null) {
+//            imageFrame.setVisibility(mIcon != null ? View.VISIBLE : View.GONE);
+//        }
 
         if (mShouldDisableView) {
             setEnabledStateOnViews(view, isEnabled());
@@ -380,6 +414,12 @@ public class Preference extends android.preference.Preference {
     public void setIcon(Drawable icon) {
         if ((icon == null && mIcon != null) || (icon != null && mIcon != icon)) {
             mIcon = icon;
+
+            if (mIcon != null && mTintList != null && mTintMode != null) {
+                mIcon = DrawableCompat.wrap(mIcon).mutate();
+                DrawableCompat.setTintList(mIcon, mTintList);
+                DrawableCompat.setTintMode(mIcon, mTintMode);
+            }
 
             notifyChanged();
         }

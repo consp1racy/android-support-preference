@@ -29,6 +29,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -80,7 +81,7 @@ public abstract class DialogPreference extends Preference implements
     }
 
     public DialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.dialogPreferenceStyle);
+        this(context, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
     public DialogPreference(Context context) {
@@ -167,6 +168,13 @@ public abstract class DialogPreference extends Preference implements
      */
     public void setDialogIcon(Drawable dialogIcon) {
         mDialogIcon = dialogIcon;
+
+        if (mDialogIcon != null && getTintList() != null && getTintMode() != null) {
+            mDialogIcon = DrawableCompat.wrap(mDialogIcon).mutate();
+            DrawableCompat.setTintList(mDialogIcon, getTintList());
+            DrawableCompat.setTintMode(mDialogIcon, getTintMode());
+        }
+
     }
 
     /**

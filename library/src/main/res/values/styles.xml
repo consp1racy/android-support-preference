@@ -19,7 +19,8 @@
     <style name="Preference.Material.PreferenceScreen"/>
 
     <style name="Preference.Material.Information">
-        <item name="android:layout">@layout/preference_information_material</item>
+        <!--<item name="android:layout">@layout/preference_information_material</item>-->
+        <item name="android:layout">@layout/preference_material</item>
         <item name="android:enabled">false</item>
         <item name="android:shouldDisableView">false</item>
     </style>

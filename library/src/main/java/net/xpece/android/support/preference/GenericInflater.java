@@ -43,7 +43,7 @@ import java.util.HashMap;
  * Must implement {@link GenericInflater.Parent}
  * @hide
  */
-abstract class GenericInflater<T, P> {
+public abstract class GenericInflater<T, P> {
 
     private static HashMap<Class, Method> METHODS_ADD_ITEM_FROM_INFLATER = new HashMap<>();
 

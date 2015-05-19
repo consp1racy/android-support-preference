@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -16,6 +16,9 @@ import android.support.v4.graphics.ColorUtils;
 import android.util.StateSet;
 import android.widget.AbsSeekBar;
 import android.widget.SeekBar;
+
+import net.xpece.android.support.graphics.drawable.FilterableStateListDrawable;
+import net.xpece.android.support.preference.R;
 
 import java.lang.reflect.Field;
 

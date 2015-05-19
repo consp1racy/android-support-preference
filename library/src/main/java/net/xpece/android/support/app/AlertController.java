@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.internal.widget.TintTypedArray;
 import android.text.TextUtils;
@@ -57,7 +58,7 @@ import java.lang.ref.WeakReference;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class AlertController {
+class AlertController {
     /**
      * No layout hint.
      */
@@ -178,6 +179,10 @@ public class AlertController {
         TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.alertDialogCenterButtons, outValue, true);
         return outValue.data != 0;
+    }
+
+    public <T extends AppCompatActivity & DialogInterface> AlertController(T activity) {
+        this(activity, activity, activity.getDelegate(), activity.getWindow());
     }
 
     public AlertController(Context context, DialogInterface di, AppCompatDelegate delegate, Window window) {
