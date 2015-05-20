@@ -38,8 +38,10 @@ All taken from an API 10 device.
     - Extracted Ringtone Picker Activity from AOSP
     - Customizable AppCompat theme
 
-- `AppCompatPreferenceActivity` and `PreferenceFragment`
+- `AppCompatPreferenceActivity`
     - Combines `PreferenceActivity` with appcompat-v7 theme and custom `PreferenceInflater`
+-  `PreferenceFragment`
+    - Combines `android.preference.PreferenceFragment` with custom `PreferenceInflater`
 
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
