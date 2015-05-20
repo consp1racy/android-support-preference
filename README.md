@@ -39,7 +39,7 @@ All taken from an API 10 device.
     - Customizable AppCompat theme
 
 - `AppCompatPreferenceActivity` and `PreferenceFragment`
-    - Use custom `PreferenceInflater`
+    - Combines `PreferenceActivity` with appcompat-v7 theme and custom `PreferenceInflater`
 
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
@@ -60,7 +60,7 @@ dependencies {
 
 For now: Please read known issues at the bottom of this page and carefully examine the sample project.
 
-Your preference activity or preference fragment must extend `AppCompatPreferenceActivity` or custom `PreferenceFragment` respectively.
+Your preference activity or preference fragment should extend `AppCompatPreferenceActivity` or custom `PreferenceFragment` respectively.
 
 The theme used by this activity must include the following attributes:
 
@@ -108,6 +108,8 @@ which you should customize further at least like so:
 ```
 
 If you'll be using custom `RingtonePreference` your app needs to request the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest. If for some reason you cannot do this, use `android.preference.RingtonePreference` which will use the system dialog.
+
+If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
 
 ## Changelog
 
