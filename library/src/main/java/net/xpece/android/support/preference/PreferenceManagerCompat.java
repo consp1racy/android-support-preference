@@ -154,7 +154,7 @@ public class PreferenceManagerCompat {
     }
 
     private static List<ResolveInfo> queryIntentActivities(Context context, Intent queryIntent) {
-        return context.getPackageManager().queryIntentActivities(queryIntent,
+        return context.getApplicationContext().getPackageManager().queryIntentActivities(queryIntent,
             PackageManager.GET_META_DATA);
     }
 
@@ -187,7 +187,7 @@ public class PreferenceManagerCompat {
                 }
 
                 final PreferenceInflater inflater = new PreferenceInflater(context, manager);
-                final XmlResourceParser parser = activityInfo.loadXmlMetaData(context
+                final XmlResourceParser parser = activityInfo.loadXmlMetaData(context.getApplicationContext()
                     .getPackageManager(), PreferenceManager.METADATA_KEY_PREFERENCES);
                 rootPreferences = (PreferenceScreen) inflater
                     .inflate(parser, rootPreferences, true);

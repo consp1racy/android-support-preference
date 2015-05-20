@@ -44,6 +44,17 @@ public class SeekBarCompat {
 
     private SeekBarCompat() {}
 
+    /**
+     * Will style {@link SeekBar} in the following fashion:
+     * <ul>
+     *     <li>Only widgets pre-Lollipop are tinted. Lollipop widgets are managed by platform.</li>
+     *     <li>Background is colored by {@link R.attr#colorControlNormal}.</li>
+     *     <li>Progress is colored by {@link R.attr#colorControlActivated}.</li>
+     *     <li>Thumb is colored by {@link R.attr#colorControlActivated}.
+     *     Pre-Honeycomb: Only when pressed is 40% alpha tint applied.</li>
+     * </ul>
+     * @param seekBar
+     */
     public static void styleSeekBar(SeekBar seekBar) {
         Context context = seekBar.getContext();
         TypedArray ta = context.obtainStyledAttributes(new int[]{R.attr.colorControlNormal, R.attr.colorControlActivated});
