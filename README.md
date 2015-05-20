@@ -1,6 +1,10 @@
 # Material Preference
 
-Material themes for preference widgets and support preference widgets.
+<img src="./sample/src/main/res/mipmap-xxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
+
+Material theme for preference widgets.
+
+Backporting dat material look *and* functionality.
 
 Available from API 7. Depends on appcompat-v7-r22.1.1.
 
