@@ -3,7 +3,6 @@ package net.xpece.android.support.preference;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -32,7 +31,6 @@ public class PreferenceManagerCompat {
     private static final Method METHOD_UNREGISTER_ON_ACTIVITY_RESULT_LISTENER;
     private static final Method METHOD_UNREGISTER_ON_ACTIVITY_STOP_LISTENER;
 
-    private static final Method METHOD_GET_EDITOR;
     private static final Method METHOD_SET_NO_COMMIT;
     private static final Method METHOD_GET_NEXT_REQUEST_CODE;
 
@@ -47,7 +45,6 @@ public class PreferenceManagerCompat {
         Method unregisterOnActivityResultListener = null;
         Method unregisterOnActivityStopListener = null;
 
-        Method getEditor = null;
         Method setNoCommit = null;
         Method getNextRequestCode = null;
 
@@ -68,24 +65,36 @@ public class PreferenceManagerCompat {
             unregisterOnActivityDestroyListener.setAccessible(true);
             unregisterOnActivityResultListener.setAccessible(true);
             unregisterOnActivityStopListener.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
-            getEditor = PreferenceManager.class.getDeclaredMethod("getEditor");
-            getEditor.setAccessible(true);
-
+        try {
             setNoCommit = PreferenceManager.class.getDeclaredMethod("setNoCommit", boolean.class);
             setNoCommit.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
+        try {
             getNextRequestCode = PreferenceManager.class.getDeclaredMethod("getNextRequestCode");
             getNextRequestCode.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
+        try {
             getActivity = PreferenceManager.class.getDeclaredMethod("getActivity");
             getActivity.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
-            // this one may actually fail, so do it last
+        try {
             getFragment = PreferenceManager.class.getDeclaredMethod("getFragment");
             getFragment.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            //
         }
 
         METHOD_REGISTER_ON_ACTIVITY_DESTROY_LISTENER = registerOnActivityDestroyListener;
@@ -95,7 +104,6 @@ public class PreferenceManagerCompat {
         METHOD_UNREGISTER_ON_ACTIVITY_RESULT_LISTENER = unregisterOnActivityResultListener;
         METHOD_UNREGISTER_ON_ACTIVITY_STOP_LISTENER = unregisterOnActivityStopListener;
 
-        METHOD_GET_EDITOR = getEditor;
         METHOD_SET_NO_COMMIT = setNoCommit;
         METHOD_GET_NEXT_REQUEST_CODE = getNextRequestCode;
 
@@ -106,57 +114,43 @@ public class PreferenceManagerCompat {
     private PreferenceManagerCompat() {}
 
     public static void registerOnActivityDestroyListener(PreferenceManager manager, PreferenceManager.OnActivityDestroyListener listener) {
-        tryInvoke(METHOD_REGISTER_ON_ACTIVITY_DESTROY_LISTENER, manager, listener);
+        Util.tryInvoke(METHOD_REGISTER_ON_ACTIVITY_DESTROY_LISTENER, manager, listener);
     }
 
     public static void registerOnActivityResultListener(PreferenceManager manager, PreferenceManager.OnActivityResultListener listener) {
-        tryInvoke(METHOD_REGISTER_ON_ACTIVITY_RESULT_LISTENER, manager, listener);
+        Util.tryInvoke(METHOD_REGISTER_ON_ACTIVITY_RESULT_LISTENER, manager, listener);
     }
 
     public static void registerOnActivityStopListener(PreferenceManager manager, PreferenceManager.OnActivityStopListener listener) {
-        tryInvoke(METHOD_REGISTER_ON_ACTIVITY_STOP_LISTENER, manager, listener);
+        Util.tryInvoke(METHOD_REGISTER_ON_ACTIVITY_STOP_LISTENER, manager, listener);
     }
 
     public static void unregisterOnActivityDestroyListener(PreferenceManager manager, PreferenceManager.OnActivityDestroyListener listener) {
-        tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_DESTROY_LISTENER, manager, listener);
+        Util.tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_DESTROY_LISTENER, manager, listener);
     }
 
     public static void unregisterOnActivityResultListener(PreferenceManager manager, PreferenceManager.OnActivityResultListener listener) {
-        tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_RESULT_LISTENER, manager, listener);
+        Util.tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_RESULT_LISTENER, manager, listener);
     }
 
     public static void unregisterOnActivityStopListener(PreferenceManager manager, PreferenceManager.OnActivityStopListener listener) {
-        tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_STOP_LISTENER, manager, listener);
-    }
-
-    public static SharedPreferences.Editor getEditor(PreferenceManager manager) {
-        return (SharedPreferences.Editor) tryInvoke(METHOD_GET_EDITOR, manager);
+        Util.tryInvoke(METHOD_UNREGISTER_ON_ACTIVITY_STOP_LISTENER, manager, listener);
     }
 
     public static int getNextRequestCode(PreferenceManager manager) {
-        return (int) tryInvoke(METHOD_GET_NEXT_REQUEST_CODE, manager);
+        return (int) Util.tryInvoke(METHOD_GET_NEXT_REQUEST_CODE, manager);
     }
 
     public static Activity getActivity(PreferenceManager manager) {
-        return (Activity) tryInvoke(METHOD_GET_ACTIVITY, manager);
+        return (Activity) Util.tryInvoke(METHOD_GET_ACTIVITY, manager);
     }
 
     public static PreferenceFragment getFragment(PreferenceManager manager) {
-        return (PreferenceFragment) tryInvoke(METHOD_GET_FRAGMENT, manager);
-    }
-
-    private static Object tryInvoke(Method method, Object receiver, Object... args) {
-        try {
-            return method.invoke(receiver, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return (PreferenceFragment) Util.tryInvoke(METHOD_GET_FRAGMENT, manager);
     }
 
     private static void setNoCommit(PreferenceManager manager, boolean value) {
-        tryInvoke(METHOD_SET_NO_COMMIT, manager, value);
+        Util.tryInvoke(METHOD_SET_NO_COMMIT, manager, value);
     }
 
     private static List<ResolveInfo> queryIntentActivities(Context context, Intent queryIntent) {

@@ -438,13 +438,6 @@ public abstract class GenericInflater<T, P> {
         } catch (InflateException e) {
             throw e;
 
-        } catch (ClassNotFoundException e) {
-            InflateException ie = new InflateException(attrs
-                .getPositionDescription()
-                + ": Error inflating class " + name);
-            ie.initCause(e);
-            throw ie;
-
         } catch (Exception e) {
             InflateException ie = new InflateException(attrs
                 .getPositionDescription()
@@ -458,15 +451,16 @@ public abstract class GenericInflater<T, P> {
      * Recursive method used to descend down the xml hierarchy and instantiate
      * items, instantiate their children, and then call onFinishInflate().
      */
+    @SuppressWarnings("unchecked")
     private void rInflate(XmlPullParser parser, T parent, final AttributeSet attrs)
         throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
 
         int type;
-        while (((type = parser.next()) != parser.END_TAG ||
-            parser.getDepth() > depth) && type != parser.END_DOCUMENT) {
+        while (((type = parser.next()) != XmlPullParser.END_TAG ||
+            parser.getDepth() > depth) && type != XmlPullParser.END_DOCUMENT) {
 
-            if (type != parser.START_TAG) {
+            if (type != XmlPullParser.START_TAG) {
                 continue;
             }
 
@@ -518,8 +512,9 @@ public abstract class GenericInflater<T, P> {
             Method[] ms = cls.getMethods();
             for (Method m2 : ms) {
                 if (m2.getName().equals("addItemFromInflater")) {
-                    // yeah, whoever uses this prolly won't return plain objects
-                    // plus there's a method with plain object we need to avoid
+                    // Yeah, whoever uses this prolly won't return plain objects
+                    // plus there's a method with plain object parameter we need to avoid.
+                    // Actually whoever uses this better implement the Parent interface.
                     Class<?>[] params = m2.getParameterTypes();
                     if (params.length != 1 || params[0] == Object.class) continue;
 

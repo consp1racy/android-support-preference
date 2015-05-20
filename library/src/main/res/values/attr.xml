@@ -3,7 +3,7 @@
 
     <declare-styleable name="Theme">
         <!-- Default style for Preference. -->
-        <attr name="preferenceStyle" format="reference" />
+        <attr name="preferenceStyle" format="reference"/>
         <!-- Default style for CheckBoxPreference. -->
         <attr name="checkBoxPreferenceStyle" format="reference"/>
         <!-- Default style for DialogPreference. -->
@@ -22,15 +22,6 @@
     <declare-styleable name="Preference">
         <!-- The optional icon for the preference -->
         <attr name="android:icon"/>
-        <!-- The layout for the Preference in a PreferenceActivity screen. This should
-             rarely need to be changed, look at widgetLayout instead. -->
-        <attr name="android:layout"/>
-        <!-- The layout for the controllable widget portion of a Preference. This is inflated
-             into the layout for a Preference and should be used more frequently than
-             the layout attribute. For example, a checkbox preference would specify
-             a custom layout (consisting of just the CheckBox) here. -->
-        <attr name="android:widgetLayout"/>
-        <attr name="android:shouldDisableView"/>
 
         <attr name="asp_tint" format="color|reference"/>
         <attr name="asp_tintMode" format="enum">
@@ -54,6 +45,21 @@
             <enum name="overlay" value="17"/>
         </attr>
         <attr name="asp_tintIcon" format="boolean"/>
+        <attr name="asp_iconPaddingEnabled" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CheckBoxPreference">
+        <attr name="android:summaryOn"/>
+        <attr name="android:summaryOff"/>
+        <attr name="android:disableDependentsState"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchPreference">
+        <attr name="android:summaryOn"/>
+        <attr name="android:summaryOff"/>
+        <attr name="android:textOn"/>
+        <attr name="android:textOff"/>
+        <attr name="android:disableDependentsState"/>
     </declare-styleable>
 
     <declare-styleable name="ListPreference">
@@ -63,20 +69,11 @@
 
     <!-- Base attributes available to DialogPreference. -->
     <declare-styleable name="DialogPreference">
-        <!-- The title in the dialog. -->
         <attr name="android:dialogTitle"/>
-        <!-- The message in the dialog. If a dialogLayout is provided and contains
-             a TextView with ID android:id/message, this message will be placed in there. -->
         <attr name="android:dialogMessage"/>
-        <!-- The icon for the dialog. -->
         <attr name="android:dialogIcon"/>
-        <!-- The positive button text for the dialog. Set to @null to hide the positive button. -->
         <attr name="android:positiveButtonText"/>
-        <!-- The negative button text for the dialog. Set to @null to hide the negative button. -->
         <attr name="android:negativeButtonText"/>
-        <!-- A layout to be used as the content View for the dialog. By default, this shouldn't
-             be needed. If a custom DialogPreference is required, this should be set. For example,
-             the EditTextPreference uses a layout with an EditText as this attribute. -->
         <attr name="android:dialogLayout"/>
 
         <attr name="asp_tintDialogIcon" format="boolean"/>

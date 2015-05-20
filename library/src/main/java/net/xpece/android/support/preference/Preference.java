@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -48,32 +47,6 @@ import java.util.Set;
  * </div>
  */
 public class Preference extends android.preference.Preference {
-    private static final Method METHOD_TRY_COMMIT;
-
-    static {
-        Method tryCommit = null;
-        try {
-            tryCommit = PreferenceManager.class.getDeclaredMethod("tryCommit", SharedPreferences.Editor.class);
-            tryCommit.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-        }
-        METHOD_TRY_COMMIT = tryCommit;
-    }
-
-    private static void tryCommit(android.preference.Preference preference, SharedPreferences.Editor editor) {
-        tryInvoke(METHOD_TRY_COMMIT, preference, editor);
-    }
-
-    private static Object tryInvoke(Method method, Object receiver, Object... args) {
-        try {
-            return method.invoke(receiver, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     /**
      * mIconResId is overridden by mIcon, if mIcon is specified.
@@ -83,17 +56,8 @@ public class Preference extends android.preference.Preference {
 
     private ColorStateList mTintList = null;
     private PorterDuff.Mode mTintMode = PorterDuff.Mode.SRC_IN;
-
-    /**
-     * @see #setShouldDisableView(boolean)
-     */
-    private boolean mShouldDisableView = true;
-
-    private int mLayoutResId = R.layout.preference_material;
-    private int mWidgetLayoutResId;
-    private boolean mCanRecycleLayout = true;
-
     private boolean mTintIcon = false;
+    private boolean mIconPaddingEnabled = false;
 
     /**
      * Perform inflation from XML and apply a class-specific base style. This
@@ -184,21 +148,27 @@ public class Preference extends android.preference.Preference {
             if (attr == R.styleable.Preference_android_icon) {
                 mIconResId = a.getResourceId(attr, 0);
                 setIcon(mIconResId);
-            } else if (attr == R.styleable.Preference_android_layout) {
-                mLayoutResId = a.getResourceId(attr, mLayoutResId);
-            } else if (attr == R.styleable.Preference_android_widgetLayout) {
-                mWidgetLayoutResId = a.getResourceId(attr, mWidgetLayoutResId);
-            } else if (attr == R.styleable.Preference_android_shouldDisableView) {
-                mShouldDisableView = a.getBoolean(attr, mShouldDisableView);
             } else if (attr == R.styleable.Preference_asp_tint) {
                 mTintList = a.getColorStateList(attr);
             } else if (attr == R.styleable.Preference_asp_tintMode) {
                 mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
             } else if (attr == R.styleable.Preference_asp_tintIcon) {
-                mTintIcon = a.getBoolean(R.styleable.Preference_asp_tintIcon, false);
+                mTintIcon = a.getBoolean(attr, false);
+            } else if (attr == R.styleable.Preference_asp_iconPaddingEnabled) {
+                mIconPaddingEnabled = a.getBoolean(attr, false);
             }
         }
         a.recycle();
+
+        if (getClass().getName().startsWith(BuildConfig.APPLICATION_ID)) {
+            // We can recycle the shit out of these!
+            // This also fixed no Switch and CheckBox animation issue on Lollipop.
+            PreferenceCompat.setCanRecycleLayout(this, true);
+        }
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            super.setIcon(null); // Let's free that reference, we manage the icon here.
+        }
     }
 
     public PorterDuff.Mode getTintMode() {
@@ -226,65 +196,6 @@ public class Preference extends android.preference.Preference {
     }
 
     /**
-     * Sets the layout resource that is inflated as the {@link View} to be shown
-     * for this Preference. In most cases, the default layout is sufficient for
-     * custom Preference objects and only the widget layout needs to be changed.
-     * <p></p>
-     * This layout should contain a {@link ViewGroup} with ID
-     * {@link android.R.id#widget_frame} to be the parent of the specific widget
-     * for this Preference. It should similarly contain
-     * {@link android.R.id#title} and {@link android.R.id#summary}.
-     *
-     * @param layoutResId The layout resource ID to be inflated and returned as
-     * a {@link View}.
-     * @see #setWidgetLayoutResource(int)
-     */
-    public void setLayoutResource(int layoutResId) {
-        if (layoutResId != mLayoutResId) {
-            // Layout changed
-            mCanRecycleLayout = false;
-        }
-
-        mLayoutResId = layoutResId;
-    }
-
-    /**
-     * Gets the layout resource that will be shown as the {@link View} for this Preference.
-     *
-     * @return The layout resource ID.
-     */
-    public int getLayoutResource() {
-        return mLayoutResId;
-    }
-
-    /**
-     * Sets the layout for the controllable widget portion of this Preference. This
-     * is inflated into the main layout. For example, a {@link android.preference.CheckBoxPreference}
-     * would specify a custom layout (consisting of just the CheckBox) here,
-     * instead of creating its own main layout.
-     *
-     * @param widgetLayoutResId The layout resource ID to be inflated into the
-     * main layout.
-     * @see #setLayoutResource(int)
-     */
-    public void setWidgetLayoutResource(int widgetLayoutResId) {
-        if (widgetLayoutResId != mWidgetLayoutResId) {
-            // Layout changed
-            mCanRecycleLayout = false;
-        }
-        mWidgetLayoutResId = widgetLayoutResId;
-    }
-
-    /**
-     * Gets the layout resource for the controllable widget portion of this Preference.
-     *
-     * @return The layout resource ID.
-     */
-    public int getWidgetLayoutResource() {
-        return mWidgetLayoutResId;
-    }
-
-    /**
      * Creates the View to be shown for this Preference in the
      * {@link PreferenceActivity}. The default behavior is to inflate the main
      * layout of this Preference (see {@link #setLayoutResource(int)}. If
@@ -303,12 +214,12 @@ public class Preference extends android.preference.Preference {
         final LayoutInflater layoutInflater =
             (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final View layout = layoutInflater.inflate(mLayoutResId, parent, false);
+        final View layout = layoutInflater.inflate(getLayoutResource(), parent, false);
 
         final ViewGroup widgetFrame = (ViewGroup) layout.findViewById(android.R.id.widget_frame);
         if (widgetFrame != null) {
-            if (mWidgetLayoutResId != 0) {
-                layoutInflater.inflate(mWidgetLayoutResId, widgetFrame);
+            if (getWidgetLayoutResource() != 0) {
+                layoutInflater.inflate(getWidgetLayoutResource(), widgetFrame);
             } else {
                 widgetFrame.setVisibility(View.GONE);
             }
@@ -373,7 +284,7 @@ public class Preference extends android.preference.Preference {
 //            imageFrame.setVisibility(mIcon != null ? View.VISIBLE : View.GONE);
 //        }
 
-        if (mShouldDisableView) {
+        if (getShouldDisableView()) {
             setEnabledStateOnViews(view, isEnabled());
         }
     }
@@ -402,6 +313,14 @@ public class Preference extends android.preference.Preference {
      */
     public void setIcon(Drawable icon) {
         if ((icon == null && mIcon != null) || (icon != null && mIcon != icon)) {
+
+            if (mIconPaddingEnabled) {
+                if (icon != null) {
+                    int padding = Util.dpToPxOffset(getContext(), 4);
+                    icon = Util.addDrawablePadding(icon, padding);
+                }
+            }
+
             mIcon = icon;
 
             if (mTintIcon) {
@@ -448,10 +367,6 @@ public class Preference extends android.preference.Preference {
         return false;
     }
 
-    private void tryCommit(SharedPreferences.Editor editor) {
-        tryCommit(this, editor);
-    }
-
     /**
      * Attempts to persist a set of Strings to the {@link android.content.SharedPreferences}.
      * <p></p>
@@ -465,7 +380,6 @@ public class Preference extends android.preference.Preference {
      * will be a batch commit later.)
      * @see #getPersistedStringSet2(Set)
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected boolean persistStringSet2(Set<String> values) {
         if (shouldPersist()) {
             // Shouldn't store null
@@ -474,8 +388,8 @@ public class Preference extends android.preference.Preference {
                 return true;
             }
 
-            SharedPreferences.Editor editor = PreferenceManagerCompat.getEditor(getPreferenceManager());
-            editor.putStringSet(getKey(), values);
+            SharedPreferences.Editor editor = getEditor();
+            SharedPreferencesCompat.putStringSet(editor, getKey(), values);
             tryCommit(editor);
             return true;
         }
@@ -496,17 +410,18 @@ public class Preference extends android.preference.Preference {
      * value.
      * @see #persistStringSet2(Set)
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected Set<String> getPersistedStringSet2(Set<String> defaultReturnValue) {
         if (!shouldPersist()) {
             return defaultReturnValue;
         }
-
-        return getPreferenceManager().getSharedPreferences().getStringSet(getKey(), defaultReturnValue);
+        return SharedPreferencesCompat.getStringSet(getSharedPreferences(), getKey(), defaultReturnValue);
     }
 
-    public boolean canRecycleLayout() {
-        return mCanRecycleLayout;
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private void tryCommit(SharedPreferences.Editor editor) {
+        if (shouldCommit()) {
+            SharedPreferencesCompat.apply(editor);
+        }
     }
 
 }

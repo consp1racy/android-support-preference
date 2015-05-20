@@ -15,14 +15,14 @@
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+        <item>John</item>
+        <item>Carrie</item>
+        <item>Frank</item>
     </string-array>
     <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
+        <item>John Cormack</item>
+        <item>Carrie Stone</item>
+        <item>Frank Moses</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->
@@ -57,5 +57,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
     <string name="pref_title_volume">Volume</string>
 </resources>

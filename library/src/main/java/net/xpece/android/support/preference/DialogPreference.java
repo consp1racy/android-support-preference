@@ -410,7 +410,7 @@ public abstract class DialogPreference extends Preference implements
      * @param view The content View of the dialog, if it is custom.
      */
     protected void onBindDialogView(View view) {
-        View dialogMessageView = view.findViewById(R.id.message);
+        View dialogMessageView = view.findViewById(android.R.id.message);
 
         if (dialogMessageView != null) {
             final CharSequence message = getDialogMessage();

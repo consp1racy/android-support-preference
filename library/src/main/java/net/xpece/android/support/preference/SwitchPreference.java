@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 /**
  * A {@link Preference} that provides a two-state toggleable option.
@@ -33,14 +34,6 @@ import android.widget.CompoundButton;
  * This preference will store a boolean into the SharedPreferences.
  */
 public class SwitchPreference extends TwoStatePreference {
-    private static final int[] STYLEABLE_SWITCH_PREFERENCE = new int[]{
-        android.R.attr.summaryOn,
-        android.R.attr.summaryOff,
-        android.R.attr.textOn,
-        android.R.attr.textOff,
-        android.R.attr.disableDependentsState
-    };
-
     private final Listener mListener = new Listener();
 
     // Switch text for on and off states
@@ -114,12 +107,12 @@ public class SwitchPreference extends TwoStatePreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE_SWITCH_PREFERENCE, defStyleAttr, defStyleRes);
-        setSummaryOn(a.getString(0));
-        setSummaryOff(a.getString(1));
-        setSwitchTextOn(a.getString(2));
-        setSwitchTextOff(a.getString(3));
-        setDisableDependentsState(a.getBoolean(4, false));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwitchPreference, defStyleAttr, defStyleRes);
+        setSummaryOn(a.getString(R.styleable.SwitchPreference_android_summaryOn));
+        setSummaryOff(a.getString(R.styleable.SwitchPreference_android_summaryOff));
+        setSwitchTextOn(a.getString(R.styleable.SwitchPreference_android_textOn));
+        setSwitchTextOff(a.getString(R.styleable.SwitchPreference_android_textOff));
+        setDisableDependentsState(a.getBoolean(R.styleable.SwitchPreference_android_disableDependentsState, false));
         a.recycle();
     }
 
@@ -132,12 +125,20 @@ public class SwitchPreference extends TwoStatePreference {
             if (checkableView instanceof SwitchCompat) {
                 final SwitchCompat switchView = (SwitchCompat) checkableView;
                 switchView.setOnCheckedChangeListener(null);
+            } else if (Build.VERSION.SDK_INT >= 14 && checkableView instanceof Switch) {
+                final Switch switchView = (Switch) checkableView;
+                switchView.setOnCheckedChangeListener(null);
             }
 
             ((Checkable) checkableView).setChecked(mChecked);
 
             if (checkableView instanceof SwitchCompat) {
                 final SwitchCompat switchView = (SwitchCompat) checkableView;
+                switchView.setTextOn(mSwitchOn);
+                switchView.setTextOff(mSwitchOff);
+                switchView.setOnCheckedChangeListener(mListener);
+            } else if (Build.VERSION.SDK_INT >= 14 && checkableView instanceof Switch) {
+                final Switch switchView = (Switch) checkableView;
                 switchView.setTextOn(mSwitchOn);
                 switchView.setTextOff(mSwitchOff);
                 switchView.setOnCheckedChangeListener(mListener);

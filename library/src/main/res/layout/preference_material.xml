@@ -57,6 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="-4dp"
         android:layout_marginRight="12dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginEnd="12dp"
         android:maxHeight="48dp"
         android:maxWidth="48dp"
         android:scaleType="fitStart"
@@ -83,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@android:id/title"
+            android:layout_alignStart="@android:id/title"
             android:layout_below="@android:id/title"
             android:maxLines="10"
             android:textAppearance="?attr/asp_textAppearanceListItemSecondary"
@@ -97,7 +100,8 @@
         android:layout_height="match_parent"
         android:gravity="end|center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         tools:ignore="RtlSymmetry"/>
 
 </LinearLayout>

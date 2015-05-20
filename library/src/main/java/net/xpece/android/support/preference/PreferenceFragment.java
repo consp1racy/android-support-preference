@@ -12,7 +12,7 @@ import android.widget.ListView;
  * Created by Eugen on 13. 5. 2015.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class PreferenceFragment extends android.preference.PreferenceFragment {
+public abstract class PreferenceFragment extends android.preference.PreferenceFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

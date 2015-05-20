@@ -1,5 +1,6 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
@@ -30,11 +31,13 @@
     <net.xpece.android.support.preference.SeekBarDialogPreference
         android:defaultValue="50"
         android:dependency="notifications_new_message"
-        android:dialogIcon="@drawable/ic_ring_volume_accent_24dp"
+        android:dialogIcon="@drawable/ic_ring_volume_black_24dp"
         android:dialogTitle=""
-        android:icon="@drawable/ic_ring_volume_preference"
+        android:icon="@drawable/ic_ring_volume_black_24dp"
         android:key="notifications_new_message_volume"
         android:title="@string/pref_title_volume"
+        app:asp_tint="@color/accent_state_list"
+        app:asp_iconPaddingEnabled="true"
         app:asp_tintDialogIcon="true"
         app:asp_tintIcon="true"/>
 </PreferenceScreen>

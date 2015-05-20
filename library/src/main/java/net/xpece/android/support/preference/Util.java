@@ -5,16 +5,21 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.util.StateSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Created by Eugen on 13. 5. 2015.
@@ -34,6 +39,26 @@ class Util {
         int c = ta.getColor(0, 0);
         ta.recycle();
         return c;
+    }
+
+    public static float dpToPx(Context context, int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    public static int dpToPxOffset(Context context, int dp) {
+        return (int) (dpToPx(context, dp));
+    }
+
+    public static int dpToPxSize(Context context, int dp) {
+        return (int) (0.5f + dpToPx(context, dp));
+    }
+
+    public static Drawable addDrawablePadding(Drawable drawable, int paddingPx) {
+        int totalPadding = paddingPx * 2;
+        GradientDrawable shape = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0, 0});
+        shape.setSize(drawable.getIntrinsicWidth() + totalPadding, drawable.getIntrinsicHeight() + totalPadding);
+        Drawable inset = new InsetDrawable(drawable, paddingPx);
+        return new LayerDrawable(new Drawable[]{shape, inset});
     }
 
     /**
@@ -104,4 +129,15 @@ class Util {
             || parser.getDepth() > outerDepth)) {
         }
     }
+
+    static Object tryInvoke(Method method, Object receiver, Object... args) {
+        try {
+            return method.invoke(receiver, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

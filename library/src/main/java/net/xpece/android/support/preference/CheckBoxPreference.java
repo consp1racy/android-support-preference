@@ -33,12 +33,6 @@ import android.widget.Checkable;
  * This preference will store a boolean into the SharedPreferences.
  */
 public class CheckBoxPreference extends TwoStatePreference {
-    private static final int[] STYLEABLE_CHECK_BOX_PREFERENCE = new int[]{
-        android.R.attr.summaryOn,
-        android.R.attr.summaryOff,
-        android.R.attr.disableDependentsState
-    };
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -51,10 +45,10 @@ public class CheckBoxPreference extends TwoStatePreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        final TypedArray a = context.obtainStyledAttributes(attrs, STYLEABLE_CHECK_BOX_PREFERENCE, defStyleAttr, defStyleRes);
-        setSummaryOn(a.getString(0));
-        setSummaryOff(a.getString(1));
-        setDisableDependentsState(a.getBoolean(2, false));
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CheckBoxPreference, defStyleAttr, defStyleRes);
+        setSummaryOn(a.getString(R.styleable.CheckBoxPreference_android_summaryOn));
+        setSummaryOff(a.getString(R.styleable.CheckBoxPreference_android_summaryOff));
+        setDisableDependentsState(a.getBoolean(R.styleable.CheckBoxPreference_android_disableDependentsState, false));
         a.recycle();
     }
 

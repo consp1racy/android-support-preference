@@ -2,52 +2,59 @@
 <resources>
 
     <style name="Theme.AppCompat.Light.Preference">
+        <!-- These need to be set so the platform's layouts are overridden. -->
         <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
+        <!-- These ensure our preferences have proper layouts and widgets. -->
         <item name="preferenceStyle">@style/Preference.Material</item>
         <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
         <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
         <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
 
+        <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
     <style name="Theme.AppCompat.Preference">
+        <!-- These need to be set so the platform's layouts are overridden. -->
         <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
+        <!-- These ensure our preferences have proper layouts and widgets. -->
         <item name="preferenceStyle">@style/Preference.Material</item>
         <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
         <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
         <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
 
+        <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
     <style name="Theme.AppCompat.Light.DarkActionBar.Preference">
+        <!-- These need to be set so the platform's layouts are overridden. -->
         <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
         <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
         <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
 
+        <!-- These ensure our preferences have proper layouts and widgets. -->
         <item name="preferenceStyle">@style/Preference.Material</item>
         <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
         <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
         <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
 
+        <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
+    <!-- This theme is used by the ringtone picker activity. Can be overridden. -->
     <style name="Theme.AppCompat.PickerDialog" parent="Theme.AppCompat.Dialog.Alert"/>
 </resources>

@@ -221,18 +221,22 @@ public class MultiSelectListPreference extends DialogPreference {
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        final CharSequence[] defaultValues = a.getTextArray(index);
-        final int valueCount = defaultValues.length;
-        final Set<String> result = new HashSet<String>();
+        final Set<String> result = new HashSet<>();
+        try {
+            final CharSequence[] defaultValues = a.getTextArray(index);
+            final int valueCount = defaultValues == null ? 0 : defaultValues.length;
 
-        for (int i = 0; i < valueCount; i++) {
-            result.add(defaultValues[i].toString());
+            for (int i = 0; i < valueCount; i++) {
+                result.add(defaultValues[i].toString());
+            }
+        } catch (NullPointerException ex) {
+            // TADA! Now you don't need to specify an empty array in XML.
         }
-
         return result;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         setValues(restoreValue ? getPersistedStringSet2(mValues) : (Set<String>) defaultValue);
     }

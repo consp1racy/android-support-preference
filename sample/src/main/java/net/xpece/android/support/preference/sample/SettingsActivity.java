@@ -16,9 +16,12 @@ import android.text.TextUtils;
 
 import net.xpece.android.support.preference.AppCompatPreferenceActivity;
 import net.xpece.android.support.preference.ListPreference;
+import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.PreferenceFragment;
 import net.xpece.android.support.preference.RingtonePreference;
+import net.xpece.android.support.preference.SharedPreferencesCompat;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -50,7 +53,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 //            DesignSpec dspec = DesignSpec.fromResource(root, R.raw.dspec);
 //            root.getOverlay().add(dspec);
 //        }
-
 
         setupSimplePreferencesScreen();
     }
@@ -156,21 +158,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     index >= 0
                         ? listPreference.getEntries()[index]
                         : null);
-
-            } else if (preference instanceof android.preference.ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                android.preference.ListPreference listPreference = (android.preference.ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                    index >= 0
-                        ? listPreference.getEntries()[index]
-                        : null);
-
-            } else if (preference instanceof RingtonePreference
-                || preference instanceof android.preference.RingtonePreference) {
+            } else if (preference instanceof RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
                 // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
@@ -216,10 +204,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         // Trigger the listener immediately with the preference's
         // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-            PreferenceManager
-                .getDefaultSharedPreferences(preference.getContext())
-                .getString(preference.getKey(), ""));
+        if (preference instanceof MultiSelectListPreference) {
+            String summary = SharedPreferencesCompat.getStringSet(
+                PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
+                preference.getKey(),
+                new HashSet<String>())
+                .toString();
+            summary = summary.trim().substring(1, summary.length() - 1); // strip []
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, summary);
+        } else {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                PreferenceManager
+                    .getDefaultSharedPreferences(preference.getContext())
+                    .getString(preference.getKey(), ""));
+        }
     }
 
     /**
