@@ -65,6 +65,7 @@ public abstract class DialogPreference extends Preference implements
     private int mWhichButtonClicked;
 
     private boolean mTintDialogIcon;
+    private boolean mDialogIconPaddingEnabled;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -98,6 +99,7 @@ public abstract class DialogPreference extends Preference implements
         mNegativeButtonText = a.getString(R.styleable.DialogPreference_android_negativeButtonText);
         mDialogLayoutResId = a.getResourceId(R.styleable.DialogPreference_android_dialogLayout, mDialogLayoutResId);
         mTintDialogIcon = a.getBoolean(R.styleable.DialogPreference_asp_tintDialogIcon, false);
+        mDialogIconPaddingEnabled = a.getBoolean(R.styleable.DialogPreference_asp_dialogIconPaddingEnabled, false);
         setDialogIcon(a.getDrawable(R.styleable.DialogPreference_android_dialogIcon)); // after tint
         a.recycle();
     }
@@ -165,7 +167,9 @@ public abstract class DialogPreference extends Preference implements
         super.setTintList(tintList);
 
         if (color != tintList) {
-            resetDialogIcon();
+            if (mTintDialogIcon) {
+                applyTint();
+            }
         }
     }
 
@@ -175,7 +179,9 @@ public abstract class DialogPreference extends Preference implements
         super.setTintMode(tintMode);
 
         if (mode != tintMode) {
-            resetDialogIcon();
+            if (mTintDialogIcon) {
+                applyTint();
+            }
         }
     }
 
@@ -185,14 +191,17 @@ public abstract class DialogPreference extends Preference implements
      * @param dialogIcon The icon, as a {@link Drawable}.
      */
     public void setDialogIcon(Drawable dialogIcon) {
+        if (mDialogIconPaddingEnabled) {
+            if (dialogIcon != null) {
+                int padding = Util.dpToPxOffset(getContext(), 4);
+                dialogIcon = Util.addDrawablePadding(dialogIcon, padding);
+            }
+        }
+
         mDialogIcon = dialogIcon;
 
         if (mTintDialogIcon) {
-            if (mDialogIcon != null && getTintList() != null && getTintMode() != null) {
-                mDialogIcon = DrawableCompat.wrap(mDialogIcon).mutate();
-                DrawableCompat.setTintList(mDialogIcon, getTintList());
-                DrawableCompat.setTintMode(mDialogIcon, getTintMode());
-            }
+            applyTint();
         }
     }
 
@@ -222,15 +231,26 @@ public abstract class DialogPreference extends Preference implements
     public void setTintDialogIcon(boolean tintDialogIcon) {
         if (mTintDialogIcon != tintDialogIcon) {
             mTintDialogIcon = tintDialogIcon;
-            resetDialogIcon();
+
+            if (mTintDialogIcon) {
+                applyTint();
+            }
         }
     }
 
-    private void resetDialogIcon() {
-        Drawable icon = getDialogIcon();
-        setDialogIcon(null);
-        setDialogIcon(icon);
+    private void applyTint() {
+        if (mDialogIcon != null && getTintList() != null && getTintMode() != null) {
+            mDialogIcon = DrawableCompat.wrap(mDialogIcon).mutate();
+            DrawableCompat.setTintList(mDialogIcon, getTintList());
+            DrawableCompat.setTintMode(mDialogIcon, getTintMode());
+        }
     }
+
+//    private void resetDialogIcon() {
+//        Drawable icon = getDialogIcon();
+//        setDialogIcon(null);
+//        setDialogIcon(icon);
+//    }
 
     /**
      * Sets the text of the positive button of the dialog. This will be shown on

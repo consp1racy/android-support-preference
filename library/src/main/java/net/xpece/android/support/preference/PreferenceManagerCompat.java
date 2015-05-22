@@ -159,6 +159,10 @@ public class PreferenceManagerCompat {
     }
 
     static PreferenceScreen inflateFromIntent(PreferenceManager manager, Context context, Intent queryIntent, PreferenceScreen rootPreferences) {
+        return inflateFromIntent(manager, context, queryIntent, rootPreferences, null);
+    }
+
+    static PreferenceScreen inflateFromIntent(PreferenceManager manager, Context context, Intent queryIntent, PreferenceScreen rootPreferences, GenericInflater.Factory<android.preference.Preference> factory) {
         final List<ResolveInfo> activities = queryIntentActivities(context, queryIntent);
         final HashSet<String> inflatedRes = new HashSet<String>();
 
@@ -187,6 +191,10 @@ public class PreferenceManagerCompat {
                 }
 
                 final PreferenceInflater inflater = new PreferenceInflater(context, manager);
+                if (factory != null) {
+                    inflater.setFactory(factory);
+                }
+
                 final XmlResourceParser parser = activityInfo.loadXmlMetaData(context.getApplicationContext()
                     .getPackageManager(), PreferenceManager.METADATA_KEY_PREFERENCES);
                 rootPreferences = (PreferenceScreen) inflater
@@ -201,6 +209,10 @@ public class PreferenceManagerCompat {
     }
 
     public static PreferenceScreen inflateFromResource(PreferenceManager manager, Context context, int resId, PreferenceScreen rootPreferences) {
+        return inflateFromResource(manager, context, resId, rootPreferences, null);
+    }
+
+    public static PreferenceScreen inflateFromResource(PreferenceManager manager, Context context, int resId, PreferenceScreen rootPreferences, GenericInflater.Factory<android.preference.Preference> factory) {
 // Block commits
 //        manager.setNoCommit(true);
         setNoCommit(manager, true);
@@ -209,6 +221,10 @@ public class PreferenceManagerCompat {
 //        rootPreferences = (PreferenceScreen) inflater.inflate(resId, rootPreferences, true);
 //        rootPreferences.onAttachedToHierarchy(this);
         final PreferenceInflater inflater = new PreferenceInflater(context, manager);
+        if (factory != null) {
+            inflater.setFactory(factory);
+        }
+
         android.preference.Preference prefs = inflater.inflate(resId, rootPreferences, true);
         rootPreferences = (PreferenceScreen) prefs;
         PreferenceCompat.onAttachedToHierarchy(rootPreferences, manager);

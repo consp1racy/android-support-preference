@@ -118,6 +118,8 @@ class PreferenceInflater extends GenericInflater<android.preference.Preference, 
                 return new CheckBoxPreference(mContext, attrs);
             case "SwitchPreference":
                 return new SwitchPreference(mContext, attrs);
+            case "SeekBarPreference":
+                return new SeekBarPreference(mContext, attrs);
         }
         return super.onCreateItem(name, attrs);
     }

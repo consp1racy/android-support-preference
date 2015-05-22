@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +31,9 @@ import java.lang.reflect.Method;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public abstract class AppCompatPreferenceActivity extends PreferenceActivity implements AppCompatCallback {
+public abstract class AppCompatPreferenceActivity extends PreferenceActivity
+    implements AppCompatCallback,
+    GenericInflater.Factory<android.preference.Preference> {
     private static final String TAG = AppCompatPreferenceActivity.class.getSimpleName();
 
     private static final Method METHOD_REQUIRE_PREFERENCE_MANAGER;
@@ -212,7 +216,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity imp
     public void addPreferencesFromIntent(Intent intent) {
         requirePreferenceManager();
 
-        setPreferenceScreen(PreferenceManagerCompat.inflateFromIntent(getPreferenceManager(), this, intent, getPreferenceScreen()));
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromIntent(getPreferenceManager(), this, intent, getPreferenceScreen(), this));
     }
 
     /**
@@ -227,7 +231,12 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity imp
     public void addPreferencesFromResource(int preferencesResId) {
         requirePreferenceManager();
 
-        setPreferenceScreen(PreferenceManagerCompat.inflateFromResource(getPreferenceManager(), this, preferencesResId, getPreferenceScreen()));
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromResource(getPreferenceManager(), this, preferencesResId, getPreferenceScreen(), this));
+    }
+
+    @Override
+    public Preference onCreateItem(String name, Context context, AttributeSet attrs) {
+        return null;
     }
 
     private void requirePreferenceManager() {

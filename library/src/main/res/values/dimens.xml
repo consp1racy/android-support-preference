@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Preference widget area width (to the left of the text) -->
+    <dimen name="preference_widget_width">48dp</dimen>
 </resources>

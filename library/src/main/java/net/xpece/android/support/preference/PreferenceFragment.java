@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
@@ -12,7 +14,8 @@ import android.widget.ListView;
  * Created by Eugen on 13. 5. 2015.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public abstract class PreferenceFragment extends android.preference.PreferenceFragment {
+public abstract class PreferenceFragment extends android.preference.PreferenceFragment
+    implements GenericInflater.Factory<android.preference.Preference> {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -31,10 +34,11 @@ public abstract class PreferenceFragment extends android.preference.PreferenceFr
      *
      * @param intent The {@link Intent} to query activities.
      */
+    @Override
     public void addPreferencesFromIntent(Intent intent) {
         requirePreferenceManager();
 
-        setPreferenceScreen(PreferenceManagerCompat.inflateFromIntent(getPreferenceManager(), getActivity(), intent, getPreferenceScreen()));
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromIntent(getPreferenceManager(), getActivity(), intent, getPreferenceScreen(), this));
     }
 
     /**
@@ -43,10 +47,16 @@ public abstract class PreferenceFragment extends android.preference.PreferenceFr
      *
      * @param preferencesResId The XML resource ID to inflate.
      */
+    @Override
     public void addPreferencesFromResource(int preferencesResId) {
         requirePreferenceManager();
 
-        setPreferenceScreen(PreferenceManagerCompat.inflateFromResource(getPreferenceManager(), getActivity(), preferencesResId, getPreferenceScreen()));
+        setPreferenceScreen(PreferenceManagerCompat.inflateFromResource(getPreferenceManager(), getActivity(), preferencesResId, getPreferenceScreen(), this));
+    }
+
+    @Override
+    public Preference onCreateItem(String name, Context context, AttributeSet attrs) {
+        return null;
     }
 
     private void requirePreferenceManager() {

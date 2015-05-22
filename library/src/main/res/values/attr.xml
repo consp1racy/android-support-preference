@@ -15,6 +15,8 @@
         <!-- Default style for switch preferences. -->
         <attr name="switchPreferenceStyle" format="reference"/>
 
+        <attr name="seekBarPreferenceStyle" format="reference"/>
+
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
     </declare-styleable>
 
@@ -45,6 +47,7 @@
             <enum name="overlay" value="17"/>
         </attr>
         <attr name="asp_tintIcon" format="boolean"/>
+
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
@@ -77,12 +80,21 @@
         <attr name="android:dialogLayout"/>
 
         <attr name="asp_tintDialogIcon" format="boolean"/>
+        <attr name="asp_dialogIconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="RingtonePreference">
         <attr name="android:ringtoneType"/>
         <attr name="android:showDefault"/>
         <attr name="android:showSilent"/>
+    </declare-styleable>
+
+    <declare-styleable name="SeekBarPreference">
+        <attr name="android:layout"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressBar">
+        <attr name="android:max"/>
     </declare-styleable>
 
 </resources>

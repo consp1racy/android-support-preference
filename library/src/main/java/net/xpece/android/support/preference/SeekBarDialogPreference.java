@@ -24,7 +24,6 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +36,7 @@ public class SeekBarDialogPreference extends DialogPreference {
 
     private Drawable mMyIcon;
     private int mProgress;
+    private int mMax = 100;
     private SeekBar mSeekBar;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,6 +65,10 @@ public class SeekBarDialogPreference extends DialogPreference {
         // Steal the XML dialogIcon attribute's value
 //        mMyIcon = getDialogIcon();
 //        setDialogIcon(null);
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressBar, defStyleAttr, defStyleRes);
+        setMax(a.getInt(R.styleable.ProgressBar_android_max, mMax));
+        a.recycle();
     }
 
     // Allow subclasses to override the action buttons
@@ -88,6 +92,7 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         SeekBarCompat.styleSeekBar(mSeekBar);
 
+        mSeekBar.setMax(getMax());
         mSeekBar.setProgress(getProgress());
     }
 
@@ -119,11 +124,25 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public void setProgress(int progress) {
+        setProgress(progress, true);
+    }
+
+    public void setProgress(int progress, boolean notifyChanged) {
         final boolean wasBlocking = shouldDisableDependents();
 
-        mProgress = progress;
-
-        persistInt(progress);
+        if (progress > mMax) {
+            progress = mMax;
+        }
+        if (progress < 0) {
+            progress = 0;
+        }
+        if (progress != mProgress) {
+            mProgress = progress;
+            persistInt(progress);
+            if (notifyChanged) {
+                notifyChanged();
+            }
+        }
 
         final boolean isBlocking = shouldDisableDependents();
         if (isBlocking != wasBlocking) {
@@ -135,6 +154,17 @@ public class SeekBarDialogPreference extends DialogPreference {
         return mProgress;
     }
 
+    public void setMax(int max) {
+        if (max != mMax) {
+            mMax = max;
+            notifyChanged();
+        }
+    }
+
+    public int getMax() {
+        return mMax;
+    }
+
     protected static SeekBar getSeekBar(View dialogView) {
         return (SeekBar) dialogView.findViewById(R.id.seekbar);
     }
@@ -142,16 +172,9 @@ public class SeekBarDialogPreference extends DialogPreference {
     @Override
     public void setDialogIcon(Drawable dialogIcon) {
         // Steal the XML dialogIcon attribute's value
+        super.setDialogIcon(dialogIcon);
+        mMyIcon = super.getDialogIcon();
         super.setDialogIcon(null);
-        mMyIcon = dialogIcon;
-
-        if (getTintDialogIcon()) {
-            if (mMyIcon != null && getTintList() != null && getTintMode() != null) {
-                mMyIcon = DrawableCompat.wrap(mMyIcon).mutate();
-                DrawableCompat.setTintList(mMyIcon, getTintList());
-                DrawableCompat.setTintMode(mMyIcon, getTintMode());
-            }
-        }
     }
 
     @Override

@@ -1,5 +1,4 @@
-<resources
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <!-- Ringtone picker strings -->
     <skip/>
     <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. -->
@@ -8,8 +7,6 @@
     <string name="ringtone_silent">None</string>
     <!-- The title of the ringtone picker dialog. -->
     <string name="ringtone_picker_title">Ringtones</string>
-    <!-- If there is ever a ringtone set for some setting, but that ringtone can no longer be resolved, t his is shown instead.  For example, if the ringtone was on a SD card and it had been removed, this woudl be shown for ringtones on that SD card. -->
-    <string name="ringtone_unknown">Unknown ringtone</string>
 
     <!-- Choice in the notification sound picker.  If chosen, the default notification sound will be
          used. -->
@@ -18,6 +15,9 @@
     <!-- Choice in the alarm sound picker.  If chosen, the default alarm sound will be used. -->
     <string name="alarm_sound_default">Default alarm sound</string>
 
+    <!-- Default text for a button that can be toggled on and off. -->
     <string name="capital_on">ON</string>
+    <!-- Default text for a button that can be toggled on and off. -->
     <string name="capital_off">OFF</string>
+
 </resources>
