@@ -17,8 +17,9 @@ All taken from an API 10 device.
 ![EditTextPreference](./docs/device-2015-05-20-044009.png)&nbsp;
 ![MultiSelectListPreference](./docs/device-2015-05-20-044135.png)&nbsp;
 ![RingtonePreference](./docs/device-2015-05-20-042549.png)&nbsp;
+![ListPreference](./docs/device-2015-05-20-044237.png)&nbsp;
 ![SeekBarDialogPreference](./docs/device-2015-05-20-042608.png)&nbsp;
-![ListPreference](./docs/device-2015-05-20-044237.png)
+![SeekBarPreference](./docs/device-2015-05-22-034859.png)
 
 ## Contents
 
