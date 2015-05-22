@@ -34,27 +34,24 @@ All taken from an API 10 device.
     - Now available from API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
     - Made public, appropriately tinted `SeekBar`
+- `SeekBarPreference`
+    - Made public, appropriately tinted `Seekbar`
+    - According to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - `RingtonePreference`
     - Extracted Ringtone Picker Activity from AOSP
     - Customizable AppCompat theme
-
 - `AppCompatPreferenceActivity`
     - Combines `PreferenceActivity` with appcompat-v7 theme and custom `PreferenceInflater`
 -  `PreferenceFragment`
     - Combines `android.preference.PreferenceFragment` with custom `PreferenceInflater`
-
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
 
 ## How to get the library?
 
 ```groovy
-repositories {
-    maven { url "http://dl.bintray.com/consp1racy/maven" }
-}
-
 dependencies {
-    compile 'net.xpece.android:support-preference:0.3.0'
+    compile 'net.xpece.android:support-preference:0.4.0'
 }
 ```
 
@@ -77,6 +74,7 @@ The theme used by this activity must include the following attributes:
 <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
 <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
 <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
+<item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
 
 <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
 ```
@@ -114,6 +112,13 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
 
 ## Changelog
+
+**0.4.0**
+- *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
+- *FIXED:* tinting/padding in DialogPreference and SeekBarDialogPreference
+- PreferenceInflater is now public for whatever reason
+- AppCompatPreferenceActivity and PreferenceFragment now implement Factory<Preference>
+- *NEW!* app:asp_dialogIconPaddingEnabled attribute
 
 **0.3.0**
 - Removed `MultiCheckPreference` as it was only partially implemented and `MultiSelectListPreference` provides the same function.
