@@ -18,8 +18,8 @@ All taken from an API 10 device.
 ![MultiSelectListPreference](./docs/device-2015-05-20-044135.png)&nbsp;
 ![RingtonePreference](./docs/device-2015-05-20-042549.png)&nbsp;
 ![ListPreference](./docs/device-2015-05-20-044237.png)&nbsp;
-![SeekBarDialogPreference](./docs/device-2015-05-20-042608.png)&nbsp;
-![SeekBarPreference](./docs/device-2015-05-22-034859.png)
+![SeekBarDialogPreference](./docs/device-2015-05-23-152932.png)&nbsp;
+![SeekBarPreference](./docs/device-2015-05-23-152911.png)
 
 ## Contents
 
@@ -52,7 +52,7 @@ All taken from an API 10 device.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.4.0'
+    compile 'net.xpece.android:support-preference:0.4.1'
 }
 ```
 
@@ -113,6 +113,10 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
 
 ## Changelog
+
+**0.4.1**
+- Ringtone picker strings are now taken dynamically from `android` and `com.android.providers.media` packages, falls back to English
+    - These are accessible via `RingtonePickerActivity.get*String(Context)`
 
 **0.4.0**
 - *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs

@@ -18,8 +18,11 @@
 package net.xpece.android.support.app;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -179,7 +182,7 @@ public final class RingtonePickerActivity extends AlertActivity implements
 
         p.mTitle = intent.getCharSequenceExtra(RingtoneManager.EXTRA_RINGTONE_TITLE);
         if (p.mTitle == null) {
-            p.mTitle = getString(R.string.ringtone_picker_title);
+            p.mTitle = getRingtonePickerTitleString(this);
         }
 
         setupAlert();
@@ -223,12 +226,12 @@ public final class RingtonePickerActivity extends AlertActivity implements
      * RingtoneManager.
      *
      * @param listView The ListView to add to.
-     * @param textResId The resource ID of the text for the item.
+     * @param text Text for the item.
      * @return The position of the inserted item.
      */
-    private int addStaticItem(ListView listView, int textResId) {
+    private int addStaticItem(ListView listView, String text) {
         TextView textView = (TextView) getLayoutInflater().inflate(R.layout.select_dialog_singlechoice_material, listView, false);
-        textView.setText(textResId);
+        textView.setText(text);
         listView.addHeaderView(textView);
         mStaticItemCount++;
         return listView.getHeaderViewsCount() - 1;
@@ -236,32 +239,16 @@ public final class RingtonePickerActivity extends AlertActivity implements
 
     private int addDefaultRingtoneItem(ListView listView) {
         if (mType == RingtoneManager.TYPE_NOTIFICATION) {
-            return addStaticItem(listView, getNotificationSoundDefaultStringResourceId());
+            return addStaticItem(listView, getNotificationSoundDefaultString(this));
         } else if (mType == RingtoneManager.TYPE_ALARM) {
-            return addStaticItem(listView, getAlarmSoundDefaultStringResourceId());
+            return addStaticItem(listView, getAlarmSoundDefaultString(this));
         }
 
-        return addStaticItem(listView, getRingtoneDefaultStringResourceId());
+        return addStaticItem(listView, getRingtoneDefaultString(this));
     }
 
     private int addSilentItem(ListView listView) {
-        return addStaticItem(listView, getRingtoneSilentStringResourceId());
-    }
-
-    private int getNotificationSoundDefaultStringResourceId() {
-        return R.string.notification_sound_default;
-    }
-
-    private int getAlarmSoundDefaultStringResourceId() {
-        return R.string.alarm_sound_default;
-    }
-
-    private int getRingtoneDefaultStringResourceId() {
-        return R.string.ringtone_default;
-    }
-
-    private int getRingtoneSilentStringResourceId() {
-        return R.string.ringtone_silent;
+        return addStaticItem(listView, getRingtoneSilentString(this));
     }
 
     /*
@@ -401,6 +388,50 @@ public final class RingtonePickerActivity extends AlertActivity implements
         if (ringtoneManagerPos < 0) return ringtoneManagerPos;
 
         return ringtoneManagerPos + mStaticItemCount;
+    }
+
+    public static String getRingtonePickerTitleString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_picker_title", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_picker_title;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    public static String getNotificationSoundDefaultString(Context context) {
+        try {
+            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            int resId = res.getIdentifier("notification_sound_default", "string", "com.android.providers.media");
+            return res.getString(resId);
+        } catch (PackageManager.NameNotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        }
+    }
+
+    public static String getAlarmSoundDefaultString(Context context) {
+        try {
+            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            int resId = res.getIdentifier("alarm_sound_default", "string", "com.android.providers.media");
+            return res.getString(resId);
+        } catch (PackageManager.NameNotFoundException e) {
+            return context.getApplicationContext().getString(R.string.alarm_sound_default);
+        }
+    }
+
+    public static String getRingtoneDefaultString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_default", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_default;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    public static String getRingtoneSilentString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_silent", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_silent;
+        }
+        return context.getApplicationContext().getString(resId);
     }
 
 }
