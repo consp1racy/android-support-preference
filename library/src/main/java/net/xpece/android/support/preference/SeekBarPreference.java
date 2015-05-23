@@ -60,7 +60,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference2, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.ProgressBar_android_max, mMax));
+        setMax(a.getInt(R.styleable.SeekBarPreference2_android_max, mMax));
         mTintSeekBar = a.getBoolean(R.styleable.SeekBarPreference2_asp_tintSeekBar, mTintSeekBar);
         a.recycle();
 
