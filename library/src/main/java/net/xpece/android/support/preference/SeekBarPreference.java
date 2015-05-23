@@ -36,6 +36,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private int mMax = 100;
     private boolean mTrackingTouch;
 
+    private boolean mTintSeekBar = true;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -57,8 +59,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressBar, defStyleAttr, defStyleRes);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference2, defStyleAttr, defStyleRes);
         setMax(a.getInt(R.styleable.ProgressBar_android_max, mMax));
+        mTintSeekBar = a.getBoolean(R.styleable.SeekBarPreference2_asp_tintSeekBar, mTintSeekBar);
         a.recycle();
 
         a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
@@ -74,7 +77,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         super.onBindView(view);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
 
-        SeekBarCompat.styleSeekBar(seekBar);
+        if (mTintSeekBar) {
+            SeekBarCompat.styleSeekBar(seekBar);
+        }
 
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(mMax);

@@ -39,6 +39,8 @@ public class SeekBarDialogPreference extends DialogPreference {
     private int mMax = 100;
     private SeekBar mSeekBar;
 
+    private boolean mTintSeekBar = true;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -51,7 +53,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.dialogPreferenceStyle);
+        this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
     }
 
     public SeekBarDialogPreference(Context context) {
@@ -59,22 +61,10 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        setDialogLayoutResource(R.layout.seekbar_dialog);
-        createActionButtons();
-
-        // Steal the XML dialogIcon attribute's value
-//        mMyIcon = getDialogIcon();
-//        setDialogIcon(null);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressBar, defStyleAttr, defStyleRes);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference2, defStyleAttr, defStyleRes);
         setMax(a.getInt(R.styleable.ProgressBar_android_max, mMax));
+        mTintSeekBar = a.getBoolean(R.styleable.SeekBarPreference2_asp_tintSeekBar, mTintSeekBar);
         a.recycle();
-    }
-
-    // Allow subclasses to override the action buttons
-    public void createActionButtons() {
-        setPositiveButtonText(android.R.string.ok);
-        setNegativeButtonText(android.R.string.cancel);
     }
 
     @Override
@@ -90,7 +80,9 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         mSeekBar = getSeekBar(view);
 
-        SeekBarCompat.styleSeekBar(mSeekBar);
+        if (mTintSeekBar) {
+            SeekBarCompat.styleSeekBar(mSeekBar);
+        }
 
         mSeekBar.setMax(getMax());
         mSeekBar.setProgress(getProgress());
@@ -172,7 +164,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     @Override
     public void setDialogIcon(Drawable dialogIcon) {
         // Steal the XML dialogIcon attribute's value
-        super.setDialogIcon(dialogIcon);
+        super.setDialogIcon(dialogIcon); // will properly style the icon
         mMyIcon = super.getDialogIcon();
         super.setDialogIcon(null);
     }

@@ -16,6 +16,7 @@
         <attr name="switchPreferenceStyle" format="reference"/>
 
         <attr name="seekBarPreferenceStyle" format="reference"/>
+        <attr name="seekBarDialogPreferenceStyle" format="reference"/>
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
     </declare-styleable>
@@ -93,8 +94,9 @@
         <attr name="android:layout"/>
     </declare-styleable>
 
-    <declare-styleable name="ProgressBar">
+    <declare-styleable name="SeekBarPreference2">
         <attr name="android:max"/>
+        <attr name="asp_tintSeekBar" format="boolean"/>
     </declare-styleable>
 
 </resources>

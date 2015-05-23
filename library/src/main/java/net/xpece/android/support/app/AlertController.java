@@ -58,7 +58,7 @@ import java.lang.ref.WeakReference;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class AlertController {
+class AlertController {
     /**
      * No layout hint.
      */

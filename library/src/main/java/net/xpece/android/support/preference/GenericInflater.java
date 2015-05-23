@@ -42,7 +42,7 @@ import java.util.HashMap;
  * @param <P> The type of parents (that is those items that contain other items).
  * Must implement {@link GenericInflater.Parent}
  */
-public abstract class GenericInflater<T, P> {
+abstract class GenericInflater<T, P> {
 
     private static HashMap<Class, Method> METHODS_ADD_ITEM_FROM_INFLATER = new HashMap<>();
 

@@ -31,7 +31,7 @@ import android.view.accessibility.AccessibilityEvent;
  * @see #mAlertParams
  * @see #setupAlert()
  */
-public abstract class AlertActivity extends AppCompatActivity implements DialogInterface {
+abstract class AlertActivity extends AppCompatActivity implements DialogInterface {
 
     /**
      * The model for the alert.

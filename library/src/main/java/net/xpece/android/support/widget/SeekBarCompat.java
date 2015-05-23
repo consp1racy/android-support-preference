@@ -17,7 +17,6 @@ import android.util.StateSet;
 import android.widget.AbsSeekBar;
 import android.widget.SeekBar;
 
-import net.xpece.android.support.graphics.drawable.FilterableStateListDrawable;
 import net.xpece.android.support.preference.R;
 
 import java.lang.reflect.Field;
@@ -92,7 +91,7 @@ public class SeekBarCompat {
                     ColorFilter colorFilterActivated = new PorterDuffColorFilter(colorControlActivated, PorterDuff.Mode.SRC_ATOP);
 //                    thumbActivated.setColorFilter(colorFilterActivated);
 
-                    FilterableStateListDrawable thumb = new FilterableStateListDrawable();
+                    ColorFilterStateListDrawable thumb = new ColorFilterStateListDrawable();
                     thumb.addState(new int[]{android.R.attr.state_window_focused, android.R.attr.state_pressed}, thumbActivated, colorFilterActivated);
                     thumb.addState(new int[]{android.R.attr.state_window_focused, android.R.attr.state_focused}, thumbActivated, colorFilterActivated);
                     thumb.addState(new int[]{android.R.attr.state_window_focused, android.R.attr.state_selected}, thumbActivated, colorFilterActivated);
