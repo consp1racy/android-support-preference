@@ -11,7 +11,6 @@
     <!-- Choice in the notification sound picker.  If chosen, the default notification sound will be
          used. -->
     <string name="notification_sound_default">Default notification sound</string>
-
     <!-- Choice in the alarm sound picker.  If chosen, the default alarm sound will be used. -->
     <string name="alarm_sound_default">Default alarm sound</string>
 
