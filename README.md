@@ -19,7 +19,7 @@ All taken from an API 10 device.
 ![RingtonePreference](./docs/device-2015-05-20-042549.png)&nbsp;
 ![ListPreference](./docs/device-2015-05-20-044237.png)&nbsp;
 ![SeekBarDialogPreference](./docs/device-2015-05-23-152932.png)&nbsp;
-![SeekBarPreference](./docs/device-2015-05-23-152911.png)
+![SeekBarPreference](./docs/device-2015-05-23-160720.png)
 
 ## Contents
 
@@ -52,7 +52,7 @@ All taken from an API 10 device.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.4.1'
+    compile 'net.xpece.android:support-preference:0.4.2'
 }
 ```
 
@@ -76,6 +76,7 @@ The theme used by this activity must include the following attributes:
 <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
 <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
 <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
+<item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
 
 <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
 ```
@@ -113,6 +114,10 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
 
 ## Changelog
+
+**0.4.2**
+- `SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`
+- Introduced missing `seekBarDialogPreference` style
 
 **0.4.1**
 - Ringtone picker strings are now taken dynamically from `android` and `com.android.providers.media` packages, falls back to English
