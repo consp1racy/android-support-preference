@@ -121,7 +121,6 @@ If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify 
 **0.4.0**
 - *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - *FIXED:* tinting/padding in DialogPreference and SeekBarDialogPreference
-- PreferenceInflater is now public for whatever reason
 - AppCompatPreferenceActivity and PreferenceFragment now implement Factory<Preference>
 - *NEW!* app:asp_dialogIconPaddingEnabled attribute
 
