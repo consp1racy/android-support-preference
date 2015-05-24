@@ -58,30 +58,13 @@ dependencies {
 
 ## How to use the library?
 
-For now: Please read known issues at the bottom of this page and carefully examine the sample project.
+### Automatic custom preference inflation
 
-Your preference activity or preference fragment should extend `AppCompatPreferenceActivity` or custom `PreferenceFragment` respectively.
+Your preference activity or preference fragment should extend `AppCompatPreferenceActivity` or custom `PreferenceFragment` respectively. This will allow use of your current preference XML without alterations. If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
 
-The theme used by this activity must include the following attributes:
+### Preference activity theme
 
-```xml
-<item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
-<item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
-<item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
-
-<item name="preferenceStyle">@style/Preference.Material</item>
-<item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-<item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-<item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
-<item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
-<item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
-<item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
-<item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
-
-<item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
-```
-
-If that's too verbose the theme may extend one of
+The theme used by this activity must extend one of
 
 - `Theme.AppCompat.Preference`
 - `Theme.AppCompat.Light.Preference`
@@ -109,9 +92,9 @@ which you should customize further at least like so:
 </style>
 ```
 
-If you'll be using custom `RingtonePreference` your app needs to request the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest. If for some reason you cannot do this, use `android.preference.RingtonePreference` which will use the system dialog.
+### Ringtone picker setup
 
-If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
+If you'll be using custom `RingtonePreference` your app needs to request the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest. If for some reason you cannot do this, use `android.preference.RingtonePreference` which will use the system dialog.
 
 ## Changelog
 
