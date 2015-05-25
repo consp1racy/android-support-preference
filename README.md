@@ -154,3 +154,7 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 
 If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project, define
 custom `Widget.Something.SeekBar` style and override `android:seekBarStyle` in your theme appropriately.
+
+## Credit
+
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. So kudos to the good guys (and girls) who create and maintain these!
