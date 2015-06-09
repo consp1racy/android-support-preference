@@ -148,9 +148,7 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 - Look into styling multi-pane header preferences
 
 ## Known issues
-
 - Doesn't work well with fragment headers. Use simple preference layout as much as possible.
-- Multilingual strings for Ringtone picker activity are not pulled yet.
 
 If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project, define
 custom `Widget.Something.SeekBar` style and override `android:seekBarStyle` in your theme appropriately.
