@@ -405,6 +405,8 @@ public final class RingtonePickerActivity extends AlertActivity implements
             return res.getString(resId);
         } catch (PackageManager.NameNotFoundException e) {
             return context.getApplicationContext().getString(R.string.notification_sound_default);
+        } catch (Resources.NotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
         }
     }
 
@@ -415,6 +417,8 @@ public final class RingtonePickerActivity extends AlertActivity implements
             return res.getString(resId);
         } catch (PackageManager.NameNotFoundException e) {
             return context.getApplicationContext().getString(R.string.alarm_sound_default);
+        } catch (Resources.NotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
         }
     }
 
