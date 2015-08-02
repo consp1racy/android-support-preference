@@ -6,7 +6,7 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 7. Depends on appcompat-v7-r22.1.1.
+Available from API 7. Depends on appcompat-v7-r22.2.1.
 
 ## Screenshots
 
@@ -52,7 +52,7 @@ All taken from an API 10 device.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.4.2'
+    compile 'net.xpece.android:support-preference:0.4.3'
 }
 ```
 
@@ -97,6 +97,10 @@ which you should customize further at least like so:
 If you'll be using custom `RingtonePreference` your app needs to request the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest. If for some reason you cannot do this, use `android.preference.RingtonePreference` which will use the system dialog.
 
 ## Changelog
+
+**0.4.3**
+- No more `Resources.NotFoundException` in `RingtonePickerActivity`. Falls back to English.
+- Updated appcompat-v7library to 22.2.1.
 
 **0.4.2**
 - `SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`
