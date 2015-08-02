@@ -143,10 +143,13 @@ public class RingtonePreference extends Preference
     @Override
     protected void onClick() {
         // Launch the ringtone picker
-//        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        Intent intent = new Intent(getContext(), RingtonePickerActivity.class);
-        onPrepareRingtonePickerIntent(intent);
+//            Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+            Intent intent = new Intent(getContext(), RingtonePickerActivity.class);
+            onPrepareRingtonePickerIntent(intent);
+            startRingtonePickerActivityForResult(intent);
+    }
 
+    private void startRingtonePickerActivityForResult(Intent intent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             PreferenceManagerCompat.getActivity(getPreferenceManager()).startActivityForResult(intent, mRequestCode);
         } else {

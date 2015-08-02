@@ -174,6 +174,12 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity
         return getDelegate().startSupportActionMode(callback);
     }
 
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
+        return null;
+    }
+
     /**
      * Support library version of {@link android.app.Activity#getActionBar}.
      * <p></p>
