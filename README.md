@@ -6,11 +6,11 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 7. Depends on appcompat-v7-r22.2.1.
+Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
 
 ## Screenshots
 
-All taken from an API 10 device.
+All taken from an API 10 device. (Version 0.4.3.)
 
 ![Overview 1](./docs/device-2015-05-20-041715.png)&nbsp;
 ![Overview 2](./docs/device-2015-05-20-043843.png)&nbsp;
@@ -29,78 +29,151 @@ All taken from an API 10 device.
     - Using `SwitchCompat` available from API 7
 - `DialogPreference`
     - Uses AppCompat Alert Dialog Material theme
-- `EditTextPreference` extends `DialogPreference`
-- `ListPreference` extends `DialogPreference`
-- `MultiSelectListPreference` extends `DialogPreference`
-    - Now available from API 7
+- `EditTextPreference`
+- `ListPreference`
+- `MultiSelectListPreference`
+    - Available since API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
-    - Made public, appropriately tinted `SeekBar`
+    - Made public
 - `SeekBarPreference`
-    - Made public, appropriately tinted `Seekbar`
+    - Made public
     - According to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - `RingtonePreference`
-    - Extracted Ringtone Picker Activity from AOSP
-    - Customizable AppCompat theme
-- `AppCompatPreferenceActivity`
-    - Combines `PreferenceActivity` with appcompat-v7 theme and custom `PreferenceInflater`
--  `PreferenceFragment`
-    - Combines `android.preference.PreferenceFragment` with custom `PreferenceInflater`
+    - Coerced Ringtone Picker Activity from AOSP
+- `XpPreferenceFragment`
+    - Handles proper Preference inflation and DialogPreference dialogs
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
+
+## Features on top of preference-v7
+
+- Material preference item layouts out of the box.
+- Icon and dialog icon tinting and padding.
+- `EditTextPreference` understands `EditText` XML attributes.
+- Several preference widgets not publicly available in preference-v7 or SDK.
+- Dividers.
 
 ## How to get the library?
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.4.3'
+    compile 'net.xpece.android:support-preference:0.5.0'
 }
 ```
 
 ## How to use the library?
 
-### Automatic custom preference inflation
+### Basic setup
 
-Your preference activity or preference fragment should extend `AppCompatPreferenceActivity` or custom `PreferenceFragment` respectively. This will allow use of your current preference XML without alterations. If you won't be extending `AppCompatPreferenceActivity`, you'll need to specify all preferences in XML by their fully qualified class name.
+Your preference fragment needs to extend `XpPreferenceFragment`.
 
-### Preference activity theme
+Setup your preference items in the following method:
 
-The theme used by this activity must extend one of
+```java
+public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
+    // ...
+}
+```
 
-- `Theme.AppCompat.Preference`
-- `Theme.AppCompat.Light.Preference`
-- `Theme.AppCompat.Light.DarkActionBar.Preference`
-
-which you should customize further at least like so:
+Your settings activity theme needs to specify the following values:
 
 ```xml
-<style name="AppTheme.Preference" parent="Theme.AppCompat.Light.DarkActionBar.Preference">
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/primary_dark</item>
-    <item name="colorAccent">@color/accent</item>
-
-    <item name="android:textColorHighlight">@color/text_highlight</item>
-
-    <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
-</style>
-
-<style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/primary_dark</item>
-    <item name="colorAccent">@color/accent</item>
-
-    <item name="android:textColorHighlight">@color/text_highlight</item>
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Used to theme preference list and items. -->
+    <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+    <!-- Default preference icon tint color. -->
+    <item name="preferenceTint">@color/accent_state_list</item>
 </style>
 ```
 
-### Ringtone picker setup
+Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
-If you'll be using custom `RingtonePreference` your app needs to request the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest. If for some reason you cannot do this, use `android.preference.RingtonePreference` which will use the system dialog.
+### Dividers
+
+If you want to use dividers, override `onRecyclerViewCreated(RecyclerView)` in your fragment:
+
+```java
+@Override
+public void onRecyclerViewCreated(RecyclerView list) {
+    list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+}
+```
+
+### Avoiding bugs
+
+In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
+Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
+`super.onCreate(savedInstanceState)` in your Activity.
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Fixes.updateLayoutInflaterFactory(getLayoutInflater());
+    setContentView(R.layout.activity_settings);
+    //...
+}
+```
+
+### Ringtone picker
+
+If you'll be using the `RingtonePreference` your app needs to request
+the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
+<s>If for some reason you cannot do this,
+use `android.preference.RingtonePreference`which will use the system dialog.</s>
+
+### Handling PreferenceScreen icons
+
+As `PreferenceScreen` class is final and hardwired into preference system
+I was unable to automate icon tinting and padding. However you are able to do this yourself:
+
+```java
+Preference subs = findPreference("subs_screen");
+PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
+subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
+subsHelper.setIcon(R.drawable.some_icon);
+subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
+subsHelper.setIconTintEnabled(true);
+```
+
+### Subscreen navigation
+
+Please review the sample project for an example solution.
+
+### XML attributes
+
+- `app:asp_tint`
+- `app:asp_tintMode`
+- `app:asp_tintEnabled`
+- `app:asp_iconPaddingEnabled`
+
+- `app:asp_dialogTint`
+- `app:asp_dialogTintMode`
+- `app:asp_dialogTintEnabled`
+- `app:asp_dialogIconPaddingEnabled`
+
+### Icon padding
+
+Application icons (48dp x 48dp) require no extra padding.
+For smaller icons extra padding of 4dp on each side is needed.
+Achieve this by using `app:asp_iconPaddingEnabled`
+and `app:asp_dialogIconPaddingEnabled` attributes.
 
 ## Changelog
 
+**0.5.0**
+- *NEW!* Based on preference-v7 instead of native preferences.
+- Updated appcompat-v7 library to 23.1.1.
+    - Material SeekBar style across all platforms.
+- `RingtonePreference` is now `DialogFragment` based.
+- Unmanaged preference icons (such as that of `PreferenceScreen`) can be tinted via `PreferenceIconHelper`.
+- Default preference icon tint specified by `preferenceTint` theme attribute.
+- Fixed divider color.
+- Sample contains `PreferenceScreen` subscreen handling.
+
 **0.4.3**
 - No more `Resources.NotFoundException` in `RingtonePickerActivity`. Falls back to English.
-- Updated appcompat-v7library to 22.2.1.
+- Updated appcompat-v7 library to 22.2.1.
 
 **0.4.2**
 - `SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`
@@ -148,15 +221,21 @@ If you'll be using custom `RingtonePreference` your app needs to request the `an
 - Backported `SwitchPreference`
 - Material styled `RingtonePreference` picker dialog/activity
 
-## Work TBD
-- Look into styling multi-pane header preferences
+## Work to be done
+
+- Additional ringtone preference which uses system dialog and requires no permission.
 
 ## Known issues
-- Doesn't work well with fragment headers. Use simple preference layout as much as possible.
 
-If you want Holo seek bar on Gingerbread, copy necessary resources from SDK to your project, define
-custom `Widget.Something.SeekBar` style and override `android:seekBarStyle` in your theme appropriately.
+- SwitchPreference does not animate its SwitchCompat widget when clicked.
+- MultiSelectListPreference items may be incorrectly tinted on Android 2.
+- SeekBarPreference's SeekBar may appear in disabled state until clicked on Android 2.
+
+## Questions
+
+- Why are some of your classes in `android.support.v7` packages?
+    - I'm using their package private features to achieve consistent results.
 
 ## Credit
 
-Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. So kudos to the good guys (and girls) who create and maintain these!
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. So kudos to the good guys (and girls) who create and maintain these!

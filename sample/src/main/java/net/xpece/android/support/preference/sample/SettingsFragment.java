@@ -93,10 +93,6 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
     @Override
     public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
-
-        // In the simplified UI, fragments are not used at all and we instead
-        // use the older PreferenceActivity APIs.
-
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
 
