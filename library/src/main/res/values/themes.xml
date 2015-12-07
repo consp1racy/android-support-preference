@@ -1,59 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.AppCompat.Light.Preference">
-        <!-- These need to be set so the platform's layouts are overridden. -->
-        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
-        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
-        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+    <style name="PreferenceThemeOverlay.Material">
+        <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
+        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
 
-        <!-- These ensure our preferences have proper layouts and widgets. -->
+        <!-- Groups -->
+        <item name="preferenceCategoryStyle">@style/Preference.Material.Category</item>
+        <item name="preferenceInformationStyle">@style/Preference.Material.Information</item>
+        <item name="preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+
+        <!-- Standard Preferences -->
         <item name="preferenceStyle">@style/Preference.Material</item>
         <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
         <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
         <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/Preference.Material.SwitchPreferenceCompat</item>
+
+        <!-- Custom Preferences -->
         <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
-        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
-        <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
-        <item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
-
-        <!-- This will possibly be introduced by appcompat-v7 in the future. -->
-        <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
-    </style>
-
-    <style name="Theme.AppCompat.Preference">
-        <!-- These need to be set so the platform's layouts are overridden. -->
-        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
-        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
-        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
-
-        <!-- These ensure our preferences have proper layouts and widgets. -->
-        <item name="preferenceStyle">@style/Preference.Material</item>
-        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
-        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
-        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
-        <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
-        <item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
-
-        <!-- This will possibly be introduced by appcompat-v7 in the future. -->
-        <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
-    </style>
-
-    <style name="Theme.AppCompat.Light.DarkActionBar.Preference">
-        <!-- These need to be set so the platform's layouts are overridden. -->
-        <item name="android:preferenceCategoryStyle">@style/Preference.Material.Category</item>
-        <item name="android:preferenceInformationStyle">@style/Preference.Material.Information</item>
-        <item name="android:preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
-
-        <!-- These ensure our preferences have proper layouts and widgets. -->
-        <item name="preferenceStyle">@style/Preference.Material</item>
-        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
-        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
-        <item name="switchPreferenceStyle">@style/Preference.Material.SwitchPreference</item>
         <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
         <item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
 

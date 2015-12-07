@@ -19,4 +19,11 @@
     <!-- Default text for a button that can be toggled on and off. -->
     <string name="capital_off">O</string>
 
+    <!--  Strings for possible PreferenceActivity Back/Next buttons -->
+    <string name="back_button_label">"Zpět"</string>
+    <string name="next_button_label">"Další"</string>
+
+    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
+    <string name="skip_button_label">"Přeskočit"</string>
+
 </resources>

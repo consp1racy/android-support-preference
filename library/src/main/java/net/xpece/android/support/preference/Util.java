@@ -24,7 +24,20 @@ import java.lang.reflect.Method;
 /**
  * Created by Eugen on 13. 5. 2015.
  */
-class Util {
+public class Util {
+
+    private static final Method METHOD_CONTEXT_GET_THEME_RES_ID;
+
+    static {
+        Method contextGetThemeResId = null;
+        try {
+            contextGetThemeResId = Context.class.getMethod("getThemeResId");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        METHOD_CONTEXT_GET_THEME_RES_ID = contextGetThemeResId;
+    }
+
     private Util() {}
 
     public static Drawable resolveDrawable(Context context, @AttrRes int attr) {
@@ -138,6 +151,17 @@ class Util {
         }
 
         return null;
+    }
+
+    /** Needed for some internal implementation...  not public because
+     * you can't assume this actually means anything. */
+    public static int getThemeResId(Context context) {
+        try {
+            return (int) METHOD_CONTEXT_GET_THEME_RES_ID.invoke(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

@@ -1,17 +1,5 @@
 <resources>
 
-    <style name="PreferenceFragment.Material" parent="*android:PreferenceFragment">
-        <!--<item name="android:layout">@layout/preference_list_fragment_material</item>-->
-        <item name="android:paddingLeft">0dp</item>
-        <item name="android:paddingRight">0dp</item>
-    </style>
-
-    <style name="PreferenceActivity.Material" parent="*android:PreferenceActivity">
-        <!--<item name="android:layout">@layout/preference_list_content_material</item>-->
-        <!--<item name="headerLayout">@layout/preference_header_item_material</item>-->
-        <!--<item name="headerRemoveIconIfEmpty">true</item>-->
-    </style>
-
     <style name="Preference.Material" parent="">
         <item name="android:layout">@layout/preference_material</item>
         <item name="asp_tint">?colorAccent</item>
@@ -37,7 +25,7 @@
         <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
     </style>
 
-    <style name="Preference.Material.SwitchPreference">
+    <style name="Preference.Material.SwitchPreferenceCompat">
         <item name="android:widgetLayout">@layout/preference_widget_switch</item>
         <item name="android:textOn">@string/capital_on</item>
         <item name="android:textOff">@string/capital_off</item>
@@ -75,6 +63,13 @@
         <item name="android:ringtoneType">ringtone</item>
         <item name="android:showSilent">true</item>
         <item name="android:showDefault">true</item>
+    </style>
+
+    <style name="PreferenceFragmentList.Material" parent="">
+        <item name="paddingStart">0dp</item>
+        <item name="paddingEnd">0dp</item>
+        <!--<item name="android:paddingTop">8dp</item>-->
+        <!--<item name="android:paddingBottom">8dp</item>-->
     </style>
 
 </resources>

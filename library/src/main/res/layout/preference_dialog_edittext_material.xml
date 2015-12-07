@@ -26,11 +26,10 @@
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
-        android:id="@+id/edittext_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="?dialogPreferredPadding">
 
         <TextView
             android:id="@android:id/message"
@@ -41,6 +40,19 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:textColor="?android:textColorSecondary"/>
+
+        <FrameLayout
+            android:id="@+id/edittext_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="-4dp">
+
+            <!--<EditText-->
+            <!--android:id="@android:id/edit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+        </FrameLayout>
 
     </LinearLayout>
 

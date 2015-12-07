@@ -19,84 +19,60 @@
         <attr name="seekBarDialogPreferenceStyle" format="reference"/>
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
+
+        <!-- Default style for PreferenceScreen. -->
+        <attr name="preferenceScreenStyle" format="reference" />
+
+        <!-- Preference fragment list style -->
+        <attr name="preferenceFragmentListStyle" format="reference" />
+
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
-    <declare-styleable name="Preference">
+    <declare-styleable name="XpPreference">
         <!-- The optional icon for the preference -->
         <attr name="android:icon"/>
 
         <attr name="asp_tint" format="color|reference"/>
         <attr name="asp_tintMode" format="enum">
-            <enum name="clear" value="0"/>
-            <enum name="src" value="1"/>
-            <enum name="dst" value="2"/>
             <enum name="src_over" value="3"/>
-            <enum name="dst_over" value="4"/>
             <enum name="src_in" value="5"/>
-            <enum name="dst_in" value="6"/>
-            <enum name="src_out" value="7"/>
-            <enum name="dst_out" value="8"/>
             <enum name="src_atop" value="9"/>
-            <enum name="dst_atop" value="10"/>
-            <enum name="xor" value="11"/>
-            <enum name="darken" value="12"/>
-            <enum name="lighten" value="13"/>
             <enum name="multiply" value="14"/>
             <enum name="screen" value="15"/>
-            <enum name="add" value="16"/>
-            <enum name="overlay" value="17"/>
         </attr>
-        <attr name="asp_tintIcon" format="boolean"/>
-
+        <attr name="asp_tintEnabled" format="boolean"/>
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="CheckBoxPreference">
-        <attr name="android:summaryOn"/>
-        <attr name="android:summaryOff"/>
-        <attr name="android:disableDependentsState"/>
-    </declare-styleable>
-
-    <declare-styleable name="SwitchPreference">
-        <attr name="android:summaryOn"/>
-        <attr name="android:summaryOff"/>
-        <attr name="android:textOn"/>
-        <attr name="android:textOff"/>
-        <attr name="android:disableDependentsState"/>
-    </declare-styleable>
-
-    <declare-styleable name="ListPreference">
-        <attr name="android:entries"/>
-        <attr name="android:entryValues"/>
-    </declare-styleable>
-
-    <!-- Base attributes available to DialogPreference. -->
-    <declare-styleable name="DialogPreference">
-        <attr name="android:dialogTitle"/>
-        <attr name="android:dialogMessage"/>
+    <declare-styleable name="XpDialogPreference">
         <attr name="android:dialogIcon"/>
-        <attr name="android:positiveButtonText"/>
-        <attr name="android:negativeButtonText"/>
-        <attr name="android:dialogLayout"/>
 
-        <attr name="asp_tintDialogIcon" format="boolean"/>
+        <attr name="asp_dialogTint" format="color|reference"/>
+        <attr name="asp_dialogTintMode" format="enum">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+        </attr>
+        <attr name="asp_dialogTintEnabled" format="boolean"/>
         <attr name="asp_dialogIconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="RingtonePreference">
+    <declare-styleable name="XpRingtonePreference">
         <attr name="android:ringtoneType"/>
         <attr name="android:showDefault"/>
         <attr name="android:showSilent"/>
     </declare-styleable>
 
-    <declare-styleable name="SeekBarPreference">
+    <declare-styleable name="XpSeekBarPreference">
         <attr name="android:layout"/>
+        <attr name="android:max"/>
     </declare-styleable>
 
-    <declare-styleable name="SeekBarPreference2">
+    <declare-styleable name="XpSeekBarDialogPreference">
         <attr name="android:max"/>
-        <attr name="asp_tintSeekBar" format="boolean"/>
     </declare-styleable>
 
 </resources>

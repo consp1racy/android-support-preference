@@ -1,6 +1,5 @@
 package net.xpece.android.support.preference;
 
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 
@@ -65,15 +64,6 @@ public class SharedPreferencesCompat {
     private static void putStringSetToJson(SharedPreferences.Editor editor, String key, Set<String> values) {
         JSONArray json = new JSONArray(values);
         editor.putString(key, json.toString());
-    }
-
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    public static void apply(SharedPreferences.Editor editor) {
-        if (Build.VERSION.SDK_INT >= 9) {
-            editor.apply();
-        } else {
-            editor.commit();
-        }
     }
 
     private SharedPreferencesCompat() {}

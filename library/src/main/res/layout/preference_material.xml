@@ -22,6 +22,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
     android:baselineAligned="false"
     android:clipToPadding="false"
     android:gravity="center_vertical"
@@ -29,7 +30,6 @@
     android:paddingLeft="?listPreferredItemPaddingLeft"
     android:paddingRight="?listPreferredItemPaddingRight"
     tools:ignore="RtlHardcoded">
-    <!-- background is supposed to be activated, done that in code -->
 
     <!--<LinearLayout-->
     <!--android:id="@+id/icon_frame"-->
@@ -51,14 +51,14 @@
     <!--android:maxWidth="48dp"/>-->
     <!--</LinearLayout>-->
 
-    <net.xpece.android.support.preference.PreferenceImageView
+    <ImageView
         android:id="@android:id/icon"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
         android:layout_marginLeft="-4dp"
         android:layout_marginRight="12dp"
         android:layout_marginStart="-4dp"
-        android:layout_marginEnd="12dp"
         android:maxHeight="48dp"
         android:maxWidth="48dp"
         android:scaleType="fitStart"
@@ -66,10 +66,10 @@
         tools:visibility="visible"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingTop="16dp">
 
@@ -96,10 +96,10 @@
         android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="end|center_vertical"
-        android:orientation="vertical"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:gravity="end|center_vertical"
+        android:orientation="vertical"
         tools:ignore="RtlSymmetry"/>
 
 </LinearLayout>

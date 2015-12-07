@@ -8,7 +8,7 @@
     <application>
         <activity
             android:theme="@style/Theme.AppCompat.PickerDialog"
-            android:name="net.xpece.android.support.app.RingtonePickerActivity"/>
+            android:name="android.support.v7.app.RingtonePickerActivity"/>
     </application>
 
 </manifest>
