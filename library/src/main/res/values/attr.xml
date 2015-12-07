@@ -26,6 +26,8 @@
         <!-- Preference fragment list style -->
         <attr name="preferenceFragmentListStyle" format="reference" />
 
+        <attr name="preferenceTint" format="color"/>
+
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->

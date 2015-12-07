@@ -24,8 +24,7 @@
 
         <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
-    </style>
 
-    <!-- This theme is used by the ringtone picker activity. Can be overridden. -->
-    <style name="Theme.AppCompat.PickerDialog" parent="Theme.AppCompat.Dialog.Alert"/>
+        <!--<item name="preferenceTint">?colorAccent</item>-->
+    </style>
 </resources>

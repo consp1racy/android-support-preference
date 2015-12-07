@@ -2,7 +2,7 @@
 
     <style name="Preference.Material" parent="">
         <item name="android:layout">@layout/preference_material</item>
-        <item name="asp_tint">?colorAccent</item>
+        <item name="asp_tint">?preferenceTint</item>
     </style>
 
     <style name="Preference.Material.PreferenceScreen"/>

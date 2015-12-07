@@ -13,6 +13,7 @@
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+        <item name="preferenceTint">@color/accent_state_list</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
