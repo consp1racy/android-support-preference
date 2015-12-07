@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Eugen on 13. 5. 2015.
  */
-public class Util {
+class Util {
 
     private static final Method METHOD_CONTEXT_GET_THEME_RES_ID;
 

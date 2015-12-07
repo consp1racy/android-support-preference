@@ -27,11 +27,11 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 
 /**
- * A {@link XpPreference} that provides a two-state toggleable option.
+ * A {@link Preference} that provides a two-state toggleable option.
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
-public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
+public class SwitchPreference extends TwoStatePreference {
     private final Listener mListener = new Listener();
 
     // Switch text for on and off states
@@ -51,7 +51,7 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
      * defStyleAttr is 0 or can not be found in the theme. Can be 0
      * to not look for defaults.
      */
-    public XpSwitchPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -65,7 +65,7 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
      * reference to a style resource that supplies default values for
      * the view. Can be 0 to not look for defaults.
      */
-    public XpSwitchPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_SwitchPreferenceCompat);
     }
 
@@ -75,7 +75,7 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
      * @param context The Context that will style this preference
      * @param attrs Style attributes that differ from the default
      */
-    public XpSwitchPreferenceCompat(Context context, AttributeSet attrs) {
+    public SwitchPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.switchPreferenceCompatStyle);
     }
 
@@ -84,7 +84,7 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
      *
      * @param context The Context that will style this preference
      */
-    public XpSwitchPreferenceCompat(Context context) {
+    public SwitchPreference(Context context) {
         this(context, null);
     }
 
@@ -112,8 +112,8 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
     }
 
     private void syncViewIfAccessibilityEnabled(View view) {
-        AccessibilityManager accessibilityManager = (AccessibilityManager)this.getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if(accessibilityManager.isEnabled()) {
+        AccessibilityManager accessibilityManager = (AccessibilityManager) this.getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (accessibilityManager.isEnabled()) {
             View switchView = view.findViewById(R.id.switchWidget);
             this.syncSwitchView(switchView);
             View summaryView = view.findViewById(android.R.id.summary);
@@ -123,17 +123,21 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
 
     private void syncSwitchView(View view) {
         SwitchCompat switchView;
-        if(view instanceof SwitchCompat) {
-            switchView = (SwitchCompat)view;
+        if (view instanceof SwitchCompat) {
+            switchView = (SwitchCompat) view;
             switchView.setOnCheckedChangeListener(null);
         }
 
-        if(view instanceof Checkable) {
-            ((Checkable)view).setChecked(this.mChecked);
+        if (view instanceof Checkable) {
+            boolean isChecked = ((Checkable) view).isChecked();
+            if (isChecked != mChecked) {
+                ((Checkable) view).toggle();
+            }
+//            ((Checkable) view).setChecked(this.mChecked);
         }
 
-        if(view instanceof SwitchCompat) {
-            switchView = (SwitchCompat)view;
+        if (view instanceof SwitchCompat) {
+            switchView = (SwitchCompat) view;
             switchView.setTextOn(this.mSwitchOn);
             switchView.setTextOff(this.mSwitchOff);
             switchView.setOnCheckedChangeListener(mListener);
@@ -202,7 +206,7 @@ public class XpSwitchPreferenceCompat extends XpTwoStatePreference {
         }
 
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(!callChangeListener(isChecked)) {
+            if (!callChangeListener(isChecked)) {
                 buttonView.setChecked(!isChecked);
             } else {
                 setChecked(isChecked);

@@ -33,7 +33,7 @@ import android.widget.TextView;
  * boolean value in SharedPreferences, and may have dependent preferences that are
  * enabled/disabled based on the current state.
  */
-public abstract class XpTwoStatePreference extends XpPreference {
+public abstract class TwoStatePreference extends Preference {
 
     private CharSequence mSummaryOn;
     private CharSequence mSummaryOff;
@@ -41,19 +41,19 @@ public abstract class XpTwoStatePreference extends XpPreference {
     private boolean mCheckedSet;
     private boolean mDisableDependentsState;
 
-    public XpTwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpTwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TwoStatePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public XpTwoStatePreference(Context context, AttributeSet attrs) {
+    public TwoStatePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public XpTwoStatePreference(Context context) {
+    public TwoStatePreference(Context context) {
         super(context);
     }
 

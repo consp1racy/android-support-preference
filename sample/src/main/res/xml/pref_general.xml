@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <XpCheckBoxPreference
+    <CheckBoxPreference
         android:key="example_checkbox"
         android:title="@string/pref_title_social_recommendations"
         android:summary="@string/pref_description_social_recommendations"
@@ -9,7 +9,7 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <XpEditTextPreference
+    <EditTextPreference
         android:key="example_text"
         android:title="@string/pref_title_display_name"
         android:defaultValue="@string/pref_default_display_name"
@@ -20,7 +20,7 @@
         android:maxLines="1" />
 
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <XpMultiSelectListPreference
+    <MultiSelectListPreference
         android:key="example_list"
         android:title="@string/pref_title_add_friends_to_messages"
         android:entries="@array/pref_example_list_titles"
@@ -33,7 +33,7 @@
         android:title="Subscreen"
         app:asp_tintEnabled="true">
 
-        <XpCheckBoxPreference
+        <CheckBoxPreference
             android:icon="@drawable/ic_ring_volume_black_24dp"
             android:key="example_icon_pref"
             android:title="Icon test"

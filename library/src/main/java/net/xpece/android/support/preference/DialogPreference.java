@@ -22,35 +22,34 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
 
 /**
- * A base class for {@link XpPreference} objects that are
+ * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-public class XpListPreference extends ListPreference
+public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
     implements TintablePreference, TintableDialogPreference,
     CustomIconPreference, CustomDialogIconPreference {
 
     private PreferenceIconHelper mPreferenceIconHelper;
     private DialogPreferenceIconHelper mDialogPreferenceIconHelper;
 
-    public XpListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
     }
 
-    public XpListPreference(Context context, AttributeSet attrs) {
+    public DialogPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
-    public XpListPreference(Context context) {
+    public DialogPreference(Context context) {
         this(context, null);
     }
 

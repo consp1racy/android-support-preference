@@ -30,15 +30,15 @@ public class XpMultiSelectListPreferenceDialogFragment extends PreferenceDialogF
     public XpMultiSelectListPreferenceDialogFragment() {
     }
 
-    public XpMultiSelectListPreference getMultiSelectListPreference() {
-        return (XpMultiSelectListPreference) getPreference();
+    public MultiSelectListPreference getMultiSelectListPreference() {
+        return (MultiSelectListPreference) getPreference();
     }
 
     @Override
     protected void onPrepareDialogBuilder(final AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        XpMultiSelectListPreference preference = this.getMultiSelectListPreference();
+        MultiSelectListPreference preference = this.getMultiSelectListPreference();
 
         final CharSequence[] entries = preference.getEntries();
         final CharSequence[] entryValues = preference.getEntryValues();
@@ -64,13 +64,13 @@ public class XpMultiSelectListPreferenceDialogFragment extends PreferenceDialogF
         setupInitialValues(preference);
     }
 
-    private void setupSelectedItems(final XpMultiSelectListPreference preference) {
+    private void setupSelectedItems(final MultiSelectListPreference preference) {
         if (!mRestoredState) {
             mSelectedItems = preference.getSelectedItems();
         }
     }
 
-    private void setupInitialValues(final XpMultiSelectListPreference preference) {
+    private void setupInitialValues(final MultiSelectListPreference preference) {
         if (!mRestoredState) {
             mNewValues.clear();
             mNewValues.addAll(preference.getValues());
@@ -79,7 +79,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends PreferenceDialogF
 
     @Override
     public void onDialogClosed(final boolean positiveResult) {
-        XpMultiSelectListPreference preference = this.getMultiSelectListPreference();
+        MultiSelectListPreference preference = this.getMultiSelectListPreference();
         if (positiveResult && mPreferenceChanged) {
             final Set<String> values = mNewValues;
             if (preference.callChangeListener(values)) {

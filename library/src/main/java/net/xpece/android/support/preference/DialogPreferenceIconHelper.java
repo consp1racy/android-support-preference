@@ -22,33 +22,33 @@ class DialogPreferenceIconHelper extends PreferenceIconHelper {
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = mPreference.getContext();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpPreference, defStyleAttr, defStyleRes);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.XpPreference_asp_tint) {
+            if (attr == R.styleable.Preference_asp_tint) {
                 ensureTintInfo();
                 mTintInfo.mTintList = a.getColorStateList(attr);
-            } else if (attr == R.styleable.XpPreference_asp_tintMode) {
+            } else if (attr == R.styleable.Preference_asp_tintMode) {
                 ensureTintInfo();
                 mTintInfo.mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
             }
         }
         a.recycle();
 
-        a = context.obtainStyledAttributes(attrs, R.styleable.XpDialogPreference, defStyleAttr, defStyleRes);
+        a = context.obtainStyledAttributes(attrs, R.styleable.DialogPreference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.XpDialogPreference_android_dialogIcon) {
+            if (attr == R.styleable.DialogPreference_android_dialogIcon) {
                 mIconResId = a.getResourceId(attr, 0);
-            } else if (attr == R.styleable.XpDialogPreference_asp_dialogTintEnabled) {
+            } else if (attr == R.styleable.DialogPreference_asp_dialogTintEnabled) {
                 mIconTintEnabled = a.getBoolean(attr, false);
-            } else if (attr == R.styleable.XpDialogPreference_asp_dialogTint) {
+            } else if (attr == R.styleable.DialogPreference_asp_dialogTint) {
                 ensureTintInfo();
                 mTintInfo.mTintList = a.getColorStateList(attr);
-            } else if (attr == R.styleable.XpDialogPreference_asp_dialogTintMode) {
+            } else if (attr == R.styleable.DialogPreference_asp_dialogTintMode) {
                 ensureTintInfo();
                 mTintInfo.mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
-            } else if (attr == R.styleable.XpDialogPreference_asp_dialogIconPaddingEnabled) {
+            } else if (attr == R.styleable.DialogPreference_asp_dialogIconPaddingEnabled) {
                 mIconPaddingEnabled = a.getBoolean(attr, false);
             }
         }

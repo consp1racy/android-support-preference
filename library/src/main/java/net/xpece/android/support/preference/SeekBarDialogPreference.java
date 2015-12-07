@@ -23,30 +23,30 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-public class XpSeekBarDialogPreference extends XpDialogPreference {
+public class SeekBarDialogPreference extends DialogPreference {
     private int mProgress;
     private int mMax = 100;
 
-    public XpSeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpSeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_SeekBarDialogPreference);
     }
 
-    public XpSeekBarDialogPreference(Context context, AttributeSet attrs) {
+    public SeekBarDialogPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
     }
 
-    public XpSeekBarDialogPreference(Context context) {
+    public SeekBarDialogPreference(Context context) {
         this(context, null);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpSeekBarDialogPreference, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.XpSeekBarDialogPreference_android_max, mMax));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarDialogPreference, defStyleAttr, defStyleRes);
+        setMax(a.getInt(R.styleable.SeekBarDialogPreference_android_max, mMax));
         a.recycle();
     }
 

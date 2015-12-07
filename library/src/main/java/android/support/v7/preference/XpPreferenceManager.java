@@ -37,8 +37,9 @@ class XpPreferenceManager extends PreferenceManager {
 
     public PreferenceScreen inflateFromResource(Context context, int resId, PreferenceScreen rootPreferences) {
         this.setNoCommit(true);
-        PreferenceInflater inflater = new PreferenceInflater(context, this);
-        initPreferenceInflater(inflater);
+        XpPreferenceInflater inflater = new XpPreferenceInflater(context, this);
+//        PreferenceInflater inflater = new PreferenceInflater(context, this);
+//        initPreferenceInflater(inflater);
         rootPreferences = (PreferenceScreen) inflater.inflate(resId, rootPreferences);
         rootPreferences.onAttachedToHierarchy(this);
         this.setNoCommit(false);
@@ -51,7 +52,6 @@ class XpPreferenceManager extends PreferenceManager {
         } else {
             inflater.setDefaultPackages(new String[]{"net.xpece.android.support.preference.", "android.support.v7.preference."});
         }
-
     }
 
 }

@@ -25,34 +25,34 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class XpSeekBarPreference extends XpPreference implements OnSeekBarChangeListener {
+public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 
     private int mProgress;
     private int mMax = 100;
     private boolean mTrackingTouch;
 
-    public XpSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_SeekBarPreference);
     }
 
-    public XpSeekBarPreference(Context context, AttributeSet attrs) {
+    public SeekBarPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarPreferenceStyle);
     }
 
-    public XpSeekBarPreference(Context context) {
+    public SeekBarPreference(Context context) {
         this(context, null);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpSeekBarPreference, defStyleAttr, defStyleRes);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 //        final int layoutResId = a.getResourceId(R.styleable.XpSeekBarPreference_layout,R.layout.preference_widget_seekbar);
-        final int layoutResId = a.getResourceId(R.styleable.XpSeekBarPreference_android_layout, R.layout.preference_seekbar_material);
-        setMax(a.getInt(R.styleable.XpSeekBarPreference_android_max, mMax));
+        final int layoutResId = a.getResourceId(R.styleable.SeekBarPreference_android_layout, R.layout.preference_seekbar_material);
+        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
         a.recycle();
 
         setLayoutResource(layoutResId);

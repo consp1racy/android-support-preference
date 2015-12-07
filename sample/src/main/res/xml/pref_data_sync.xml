@@ -3,7 +3,7 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <XpListPreference
+    <ListPreference
         android:key="sync_frequency"
         android:title="@string/pref_title_sync_frequency"
         android:entries="@array/pref_sync_frequency_titles"
@@ -15,9 +15,9 @@
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->
-    <XpPreference
+    <Preference
         android:title="@string/pref_title_system_sync_settings">
         <intent android:action="android.settings.SYNC_SETTINGS" />
-    </XpPreference>
+    </Preference>
 
 </PreferenceScreen>

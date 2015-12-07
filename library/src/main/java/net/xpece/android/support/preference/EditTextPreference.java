@@ -26,30 +26,30 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 /**
- * A base class for {@link XpPreference} objects that are
+ * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-public class XpEditTextPreference extends XpDialogPreference {
+public class EditTextPreference extends DialogPreference {
 
     private EditText mEditText;
 
     private String mText;
 
-    public XpEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_EditTextPreference);
     }
 
-    public XpEditTextPreference(Context context, AttributeSet attrs) {
+    public EditTextPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.editTextPreferenceStyle);
     }
 
-    public XpEditTextPreference(Context context) {
+    public EditTextPreference(Context context) {
         this(context, null);
     }
 
@@ -113,15 +113,15 @@ public class XpEditTextPreference extends XpDialogPreference {
         if(this.isPersistent()) {
             return superState;
         } else {
-            XpEditTextPreference.SavedState myState = new XpEditTextPreference.SavedState(superState);
+            EditTextPreference.SavedState myState = new EditTextPreference.SavedState(superState);
             myState.text = this.getText();
             return myState;
         }
     }
 
     protected void onRestoreInstanceState(Parcelable state) {
-        if(state != null && state.getClass().equals(XpEditTextPreference.SavedState.class)) {
-            XpEditTextPreference.SavedState myState = (XpEditTextPreference.SavedState)state;
+        if(state != null && state.getClass().equals(EditTextPreference.SavedState.class)) {
+            EditTextPreference.SavedState myState = (EditTextPreference.SavedState)state;
             super.onRestoreInstanceState(myState.getSuperState());
             this.setText(myState.text);
         } else {
@@ -131,13 +131,13 @@ public class XpEditTextPreference extends XpDialogPreference {
 
     private static class SavedState extends BaseSavedState {
         String text;
-        public static final Creator<XpEditTextPreference.SavedState> CREATOR = new Creator<XpEditTextPreference.SavedState>() {
-            public XpEditTextPreference.SavedState createFromParcel(Parcel in) {
-                return new XpEditTextPreference.SavedState(in);
+        public static final Creator<EditTextPreference.SavedState> CREATOR = new Creator<EditTextPreference.SavedState>() {
+            public EditTextPreference.SavedState createFromParcel(Parcel in) {
+                return new EditTextPreference.SavedState(in);
             }
 
-            public XpEditTextPreference.SavedState[] newArray(int size) {
-                return new XpEditTextPreference.SavedState[size];
+            public EditTextPreference.SavedState[] newArray(int size) {
+                return new EditTextPreference.SavedState[size];
             }
         };
 

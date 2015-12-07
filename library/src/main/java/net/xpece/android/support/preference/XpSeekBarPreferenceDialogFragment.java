@@ -25,8 +25,8 @@ public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentC
     public XpSeekBarPreferenceDialogFragment() {
     }
 
-    public XpSeekBarDialogPreference getSeekBarDialogPreference() {
-        return (XpSeekBarDialogPreference) getPreference();
+    public SeekBarDialogPreference getSeekBarDialogPreference() {
+        return (SeekBarDialogPreference) getPreference();
     }
 
     protected static SeekBar getSeekBar(View dialogView) {
@@ -37,7 +37,7 @@ public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentC
     protected void onBindDialogView(final View view) {
         super.onBindDialogView(view);
 
-        XpSeekBarDialogPreference preference = getSeekBarDialogPreference();
+        SeekBarDialogPreference preference = getSeekBarDialogPreference();
 
         final ImageView iconView = (ImageView) view.findViewById(android.R.id.icon);
         final Drawable icon = preference.getDialogIcon();
@@ -57,7 +57,7 @@ public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentC
 
     @Override
     public void onDialogClosed(final boolean positiveResult) {
-        XpSeekBarDialogPreference preference = getSeekBarDialogPreference();
+        SeekBarDialogPreference preference = getSeekBarDialogPreference();
         if (positiveResult) {
             int progress = mSeekBar.getProgress();
             if (preference.callChangeListener(progress)) {

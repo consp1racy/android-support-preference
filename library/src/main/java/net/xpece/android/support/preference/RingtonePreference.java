@@ -16,21 +16,19 @@
 
 package net.xpece.android.support.preference;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.Settings.System;
-import android.support.v7.app.RingtonePickerActivity;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
 /**
- * A {@link XpPreference} that allows the user to choose a ringtone from those on the device.
+ * A {@link Preference} that allows the user to choose a ringtone from those on the device.
  * The chosen ringtone's URI will be persisted as a string.
  * <p></p>
  * If the user chooses the "Default" item, the saved string will be one of
@@ -41,7 +39,7 @@ import android.util.AttributeSet;
  * <p/>
  * See https://code.google.com/p/android/issues/detail?id=183255.
  */
-public class XpRingtonePreference extends XpPreference {
+public class RingtonePreference extends DialogPreference {
 
     private static final String TAG = "RingtonePreference";
 
@@ -49,29 +47,28 @@ public class XpRingtonePreference extends XpPreference {
     private boolean mShowDefault;
     private boolean mShowSilent;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public XpRingtonePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RingtonePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpRingtonePreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_RingtonePreference);
+    public RingtonePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_RingtonePreference);
     }
 
-    public XpRingtonePreference(Context context, AttributeSet attrs) {
+    public RingtonePreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.ringtonePreferenceStyle);
     }
 
-    public XpRingtonePreference(Context context) {
+    public RingtonePreference(Context context) {
         this(context, null);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpRingtonePreference, defStyleAttr, defStyleRes);
-        mRingtoneType = a.getInt(R.styleable.XpRingtonePreference_android_ringtoneType, RingtoneManager.TYPE_RINGTONE);
-        mShowDefault = a.getBoolean(R.styleable.XpRingtonePreference_android_showDefault, true);
-        mShowSilent = a.getBoolean(R.styleable.XpRingtonePreference_android_showSilent, true);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RingtonePreference, defStyleAttr, defStyleRes);
+        mRingtoneType = a.getInt(R.styleable.RingtonePreference_android_ringtoneType, RingtoneManager.TYPE_RINGTONE);
+        mShowDefault = a.getBoolean(R.styleable.RingtonePreference_android_showDefault, true);
+        mShowSilent = a.getBoolean(R.styleable.RingtonePreference_android_showSilent, true);
         a.recycle();
     }
 
@@ -134,41 +131,6 @@ public class XpRingtonePreference extends XpPreference {
         mShowSilent = showSilent;
     }
 
-    public void startActivityForResult(PreferenceFragmentCompat fragment, int requestCode, boolean useNative) {
-        // Launch the ringtone picker
-        Intent intent;
-        if (useNative) {
-            intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        } else {
-            intent = new Intent(getContext(), RingtonePickerActivity.class);
-        }
-        onPrepareRingtonePickerIntent(intent);
-        fragment.startActivityForResult(intent, requestCode);
-    }
-
-    /**
-     * Prepares the intent to launch the ringtone picker. This can be modified
-     * to adjust the parameters of the ringtone picker.
-     *
-     * @param ringtonePickerIntent The ringtone picker intent that can be
-     * modified by putting extras.
-     */
-    protected void onPrepareRingtonePickerIntent(Intent ringtonePickerIntent) {
-
-        ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
-            onRestoreRingtone());
-
-        ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, mShowDefault);
-        if (mShowDefault) {
-            ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
-                RingtoneManager.getDefaultUri(getRingtoneType()));
-        }
-
-        ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, mShowSilent);
-        ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, mRingtoneType);
-        ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getTitle());
-    }
-
     /**
      * Called when a ringtone is chosen.
      * <p></p>
@@ -177,7 +139,7 @@ public class XpRingtonePreference extends XpPreference {
      *
      * @param ringtoneUri The chosen ringtone's {@link Uri}. Can be null.
      */
-    protected void onSaveRingtone(Uri ringtoneUri) {
+    public void onSaveRingtone(Uri ringtoneUri) {
         persistString(ringtoneUri != null ? ringtoneUri.toString() : "");
     }
 
@@ -190,7 +152,7 @@ public class XpRingtonePreference extends XpPreference {
      *
      * @return The ringtone to be marked as the current ringtone.
      */
-    protected Uri onRestoreRingtone() {
+    public Uri onRestoreRingtone() {
         final String uriString = getPersistedString(null);
         return !TextUtils.isEmpty(uriString) ? Uri.parse(uriString) : null;
     }
@@ -237,5 +199,45 @@ public class XpRingtonePreference extends XpPreference {
         } else {
             return RingtoneManager.getRingtone(context, uri).getTitle(context);
         }
+    }
+
+    public static String getNotificationSoundDefaultString(Context context) {
+        try {
+            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            int resId = res.getIdentifier("notification_sound_default", "string", "com.android.providers.media");
+            return res.getString(resId);
+        } catch (PackageManager.NameNotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        } catch (Resources.NotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        }
+    }
+
+    public static String getAlarmSoundDefaultString(Context context) {
+        try {
+            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            int resId = res.getIdentifier("alarm_sound_default", "string", "com.android.providers.media");
+            return res.getString(resId);
+        } catch (PackageManager.NameNotFoundException e) {
+            return context.getApplicationContext().getString(R.string.alarm_sound_default);
+        } catch (Resources.NotFoundException e) {
+            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        }
+    }
+
+    public static String getRingtoneDefaultString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_default", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_default;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    public static String getRingtoneSilentString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_silent", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_silent;
+        }
+        return context.getApplicationContext().getString(resId);
     }
 }

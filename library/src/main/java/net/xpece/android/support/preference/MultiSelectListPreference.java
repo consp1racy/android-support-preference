@@ -28,32 +28,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A {@link XpPreference} that displays a list of entries as
+ * A {@link Preference} that displays a list of entries as
  * a dialog.
  * <p></p>
  * This preference will store a set of strings into the SharedPreferences.
  * This set will contain one or more values from the
  * {@link #setEntryValues(CharSequence[])} array.
  */
-public class XpMultiSelectListPreference extends XpDialogPreference {
+public class MultiSelectListPreference extends DialogPreference {
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private Set<String> mValues = new HashSet<>();
 
-    public XpMultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpMultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
     }
 
-    public XpMultiSelectListPreference(Context context, AttributeSet attrs) {
+    public MultiSelectListPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
-    public XpMultiSelectListPreference(Context context) {
+    public MultiSelectListPreference(Context context) {
         this(context, null);
     }
 

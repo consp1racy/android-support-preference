@@ -4,11 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import net.xpece.android.support.preference.XpEditTextPreference;
+import net.xpece.android.support.preference.EditTextPreference;
+import net.xpece.android.support.preference.SeekBarDialogPreference;
 import net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment;
-import net.xpece.android.support.preference.XpMultiSelectListPreference;
+import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
-import net.xpece.android.support.preference.XpSeekBarDialogPreference;
+import net.xpece.android.support.preference.RingtonePreference;
+import net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment;
 import net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment;
 
 import java.lang.reflect.Field;
@@ -76,14 +78,16 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         if (!handled) {
             if (this.getFragmentManager().findFragmentByTag("android.support.v7.preference.PreferenceFragment.DIALOG") == null) {
                 DialogFragment f;
-                if (preference instanceof XpEditTextPreference) {
+                if (preference instanceof EditTextPreference) {
                     f = XpEditTextPreferenceDialogFragment.newInstance(preference.getKey());
 //                } else if (preference instanceof XpListPreference) {
-//                    f = ListPreferenceDialogFragmentCompat.newInstance(preference.getKey());
-                } else if (preference instanceof XpMultiSelectListPreference) {
+//                    f = XpListPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof MultiSelectListPreference) {
                     f = XpMultiSelectListPreferenceDialogFragment.newInstance(preference.getKey());
-                } else if (preference instanceof XpSeekBarDialogPreference) {
+                } else if (preference instanceof SeekBarDialogPreference) {
                     f = XpSeekBarPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof RingtonePreference) {
+                    f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
                 } else {
                     super.onDisplayPreferenceDialog(preference);
                     return;

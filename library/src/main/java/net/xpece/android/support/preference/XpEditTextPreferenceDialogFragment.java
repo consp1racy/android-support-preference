@@ -33,7 +33,7 @@ public class XpEditTextPreferenceDialogFragment extends PreferenceDialogFragment
 
         EditText editText = mEditText;
         if (editText == null) {
-            XpEditTextPreference preference = this.getEditTextPreference();
+            EditTextPreference preference = this.getEditTextPreference();
             editText = preference.getEditText();
         }
         ViewParent oldParent = editText.getParent();
@@ -71,8 +71,8 @@ public class XpEditTextPreferenceDialogFragment extends PreferenceDialogFragment
         }
     }
 
-    private XpEditTextPreference getEditTextPreference() {
-        return (XpEditTextPreference) this.getPreference();
+    private EditTextPreference getEditTextPreference() {
+        return (EditTextPreference) this.getPreference();
     }
 
     protected boolean needInputMethod() {
@@ -82,7 +82,7 @@ public class XpEditTextPreferenceDialogFragment extends PreferenceDialogFragment
     public void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             String value = this.mEditText.getText().toString();
-            XpEditTextPreference preference = getEditTextPreference();
+            EditTextPreference preference = getEditTextPreference();
             if (preference.callChangeListener(value)) {
                 preference.setText(value);
             }

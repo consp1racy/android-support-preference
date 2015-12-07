@@ -33,30 +33,23 @@ public class PreferenceIconHelper {
         mPreference = preference;
     }
 
-    public static PreferenceIconHelper wrap(Preference preference) {
-        PreferenceIconHelper helper = new PreferenceIconHelper(preference);
-        helper.setIconTintEnabled(true);
-        helper.setIcon(preference.getIcon());
-        return helper;
-    }
-
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = mPreference.getContext();
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpPreference, defStyleAttr, defStyleRes);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.XpPreference_android_icon) {
+            if (attr == R.styleable.Preference_android_icon) {
                 mIconResId = a.getResourceId(attr, 0);
-            } else if (attr == R.styleable.XpPreference_asp_tint) {
+            } else if (attr == R.styleable.Preference_asp_tint) {
                 ensureTintInfo();
                 mTintInfo.mTintList = a.getColorStateList(attr);
-            } else if (attr == R.styleable.XpPreference_asp_tintMode) {
+            } else if (attr == R.styleable.Preference_asp_tintMode) {
                 ensureTintInfo();
                 mTintInfo.mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
-            } else if (attr == R.styleable.XpPreference_asp_tintEnabled) {
+            } else if (attr == R.styleable.Preference_asp_tintEnabled) {
                 mIconTintEnabled = a.getBoolean(attr, false);
-            } else if (attr == R.styleable.XpPreference_asp_iconPaddingEnabled) {
+            } else if (attr == R.styleable.Preference_asp_iconPaddingEnabled) {
                 mIconPaddingEnabled = a.getBoolean(attr, false);
             }
         }

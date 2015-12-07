@@ -18,7 +18,7 @@
         <item name="switchPreferenceCompatStyle">@style/Preference.Material.SwitchPreferenceCompat</item>
 
         <!-- Custom Preferences -->
-        <item name="ringtonePreferenceStyle">@style/Preference.Material.RingtonePreference</item>
+        <item name="ringtonePreferenceStyle">@style/Preference.Material.DialogPreference.RingtonePreference</item>
         <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
         <item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
 

@@ -1,6 +1,5 @@
 package net.xpece.android.support.preference.sample;
 
-import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -13,10 +12,10 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 
 import net.xpece.android.support.preference.PreferenceIconHelper;
+import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
-import net.xpece.android.support.preference.XpListPreference;
-import net.xpece.android.support.preference.XpMultiSelectListPreference;
-import net.xpece.android.support.preference.XpRingtonePreference;
+import net.xpece.android.support.preference.ListPreference;
+import net.xpece.android.support.preference.MultiSelectListPreference;
 
 import java.util.HashSet;
 
@@ -33,10 +32,10 @@ public class SettingsFragment extends XpPreferenceFragment {
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
-            if (preference instanceof XpListPreference) {
+            if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
-                XpListPreference listPreference = (XpListPreference) preference;
+                ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
 
                 // Set the summary to reflect the new value.
@@ -44,7 +43,7 @@ public class SettingsFragment extends XpPreferenceFragment {
                     index >= 0
                         ? listPreference.getEntries()[index]
                         : null);
-            } else if (preference instanceof XpRingtonePreference) {
+            } else if (preference instanceof RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
                 // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
@@ -93,10 +92,11 @@ public class SettingsFragment extends XpPreferenceFragment {
 
         // Manually tint PreferenceScreen icon.
         Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = PreferenceIconHelper.wrap(subs);
+        PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
         subsHelper.setIconPaddingEnabled(true);
+        subsHelper.setIcon(R.drawable.abc_ic_menu_selectall_mtrl_alpha);
         subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
-        subs.setIcon(R.drawable.ic_volume_up_black_24dp);
+        subsHelper.setIconTintEnabled(true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
@@ -119,23 +119,6 @@ public class SettingsFragment extends XpPreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(final Preference preference) {
-        if ("notifications_new_message_ringtone".equals(preference.getKey())) {
-            ((XpRingtonePreference)preference).startActivityForResult(this, 555, false);
-            return true;
-        }
-        return super.onPreferenceTreeClick(preference);
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == 555) {
-            ((XpRingtonePreference)findPreference("notifications_new_message_ringtone")).onActivityResult(data);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     /**
      * Binds a preference's summary to its value. More specifically, when the
      * preference's value is changed, its summary (line of text below the
@@ -151,7 +134,7 @@ public class SettingsFragment extends XpPreferenceFragment {
 
         // Trigger the listener immediately with the preference's
         // current value.
-        if (preference instanceof XpMultiSelectListPreference) {
+        if (preference instanceof MultiSelectListPreference) {
             String summary = SharedPreferencesCompat.getStringSet(
                 PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
                 preference.getKey(),

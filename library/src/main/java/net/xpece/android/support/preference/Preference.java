@@ -10,7 +10,6 @@ import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.v7.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
@@ -23,7 +22,7 @@ import android.widget.ListView;
  * store/retrieve the preference data.
  * <p>
  * When specifying a preference hierarchy in XML, each element can point to a
- * subclass of {@link XpPreference}, similar to the view hierarchy and layouts.
+ * subclass of {@link Preference}, similar to the view hierarchy and layouts.
  * <p>
  * This class contains a {@code key} that will be used as the key into the
  * {@link SharedPreferences}. It is up to the subclass to decide how to store
@@ -36,7 +35,7 @@ import android.widget.ListView;
  * guide.</p>
  * </div>
  */
-public class XpPreference extends Preference
+public class Preference extends android.support.v7.preference.Preference
     implements TintablePreference, CustomIconPreference {
 
     private PreferenceIconHelper mPreferenceIconHelper;
@@ -63,10 +62,10 @@ public class XpPreference extends Preference
      * supplies default values for the view, used only if
      * defStyleAttr is 0 or can not be found in the theme. Can be 0
      * to not look for defaults.
-     * @see #XpPreference(Context, AttributeSet)
+     * @see #Preference(Context, AttributeSet)
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public XpPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public Preference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -89,9 +88,9 @@ public class XpPreference extends Preference
      * @param defStyleAttr An attribute in the current theme that contains a
      * reference to a style resource that supplies default values for
      * the view. Can be 0 to not look for defaults.
-     * @see #XpPreference(Context, AttributeSet)
+     * @see #Preference(Context, AttributeSet)
      */
-    public XpPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Preference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material);
     }
 
@@ -107,9 +106,9 @@ public class XpPreference extends Preference
      * etc.
      * @param attrs The attributes of the XML tag that is inflating the
      * preference.
-     * @see #XpPreference(Context, AttributeSet, int)
+     * @see #Preference(Context, AttributeSet, int)
      */
-    public XpPreference(Context context, AttributeSet attrs) {
+    public Preference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.preferenceStyle);
     }
 
@@ -118,7 +117,7 @@ public class XpPreference extends Preference
      *
      * @param context The Context in which to store Preference values.
      */
-    public XpPreference(Context context) {
+    public Preference(Context context) {
         this(context, null);
     }
 

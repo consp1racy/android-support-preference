@@ -29,7 +29,7 @@
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
-    <declare-styleable name="XpPreference">
+    <declare-styleable name="Preference">
         <!-- The optional icon for the preference -->
         <attr name="android:icon"/>
 
@@ -45,7 +45,7 @@
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="XpDialogPreference">
+    <declare-styleable name="DialogPreference">
         <attr name="android:dialogIcon"/>
 
         <attr name="asp_dialogTint" format="color|reference"/>
@@ -60,18 +60,18 @@
         <attr name="asp_dialogIconPaddingEnabled" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="XpRingtonePreference">
+    <declare-styleable name="RingtonePreference">
         <attr name="android:ringtoneType"/>
         <attr name="android:showDefault"/>
         <attr name="android:showSilent"/>
     </declare-styleable>
 
-    <declare-styleable name="XpSeekBarPreference">
+    <declare-styleable name="SeekBarPreference">
         <attr name="android:layout"/>
         <attr name="android:max"/>
     </declare-styleable>
 
-    <declare-styleable name="XpSeekBarDialogPreference">
+    <declare-styleable name="SeekBarDialogPreference">
         <attr name="android:max"/>
     </declare-styleable>
 

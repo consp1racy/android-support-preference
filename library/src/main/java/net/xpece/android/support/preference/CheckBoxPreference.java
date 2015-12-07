@@ -33,14 +33,14 @@ import android.widget.Checkable;
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
-public class XpCheckBoxPreference extends XpTwoStatePreference {
+public class CheckBoxPreference extends TwoStatePreference {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public XpCheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public XpCheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_CheckBoxPreference);
     }
 
@@ -52,7 +52,7 @@ public class XpCheckBoxPreference extends XpTwoStatePreference {
         a.recycle();
     }
 
-    public XpCheckBoxPreference(Context context, AttributeSet attrs) {
+    public CheckBoxPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.checkBoxPreferenceStyle);
     }
 
