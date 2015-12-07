@@ -5,6 +5,9 @@ import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+
+import net.xpece.android.support.preference.Fixes;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -26,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fixes.updateLayoutInflaterFactory(getLayoutInflater());
         setContentView(R.layout.activity_settings);
 
         if (savedInstanceState == null) {
@@ -39,5 +43,17 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
