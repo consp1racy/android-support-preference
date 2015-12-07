@@ -73,8 +73,7 @@ class XpPreferenceInflater {
     }
 
     public Preference inflate(XmlPullParser parser, @Nullable PreferenceGroup root) {
-        Object[] var3 = this.mConstructorArgs;
-        synchronized(this.mConstructorArgs) {
+        synchronized (this.mConstructorArgs) {
             AttributeSet attrs = Xml.asAttributeSet(parser);
             this.mConstructorArgs[0] = this.mContext;
 
@@ -84,14 +83,14 @@ class XpPreferenceInflater {
                 int e;
                 do {
                     e = parser.next();
-                } while(e != 2 && e != 1);
+                } while (e != 2 && e != 1);
 
-                if(e != 2) {
+                if (e != 2) {
                     throw new InflateException(parser.getPositionDescription() + ": No start tag found!");
                 }
 
                 Preference ex1 = this.createItemFromTag(parser.getName(), attrs);
-                result = this.onMergeRoots(root, (PreferenceGroup)ex1);
+                result = this.onMergeRoots(root, (PreferenceGroup) ex1);
                 this.rInflate(parser, result, attrs);
             } catch (InflateException var9) {
                 throw var9;
@@ -111,7 +110,7 @@ class XpPreferenceInflater {
 
     @NonNull
     private PreferenceGroup onMergeRoots(PreferenceGroup givenRoot, @NonNull PreferenceGroup xmlRoot) {
-        if(givenRoot == null) {
+        if (givenRoot == null) {
             xmlRoot.onAttachedToHierarchy(this.mPreferenceManager);
             return xmlRoot;
         } else {
@@ -120,47 +119,46 @@ class XpPreferenceInflater {
     }
 
     private Preference createItem(@NonNull String name, @Nullable String[] prefixes, AttributeSet attrs) throws ClassNotFoundException, InflateException {
-        Constructor constructor = (Constructor)CONSTRUCTOR_MAP.get(name);
+        Constructor constructor = CONSTRUCTOR_MAP.get(name);
 
         try {
-            if(constructor == null) {
+            if (constructor == null) {
                 ClassLoader e = this.mContext.getClassLoader();
-                Class var17 = null;
-                if(prefixes != null && prefixes.length != 0) {
+                Class<?> clazz = null;
+                if (prefixes != null && prefixes.length != 0) {
                     ClassNotFoundException notFoundException = null;
-                    String[] arr$ = prefixes;
                     int len$ = prefixes.length;
 
-                    for(int i$ = 0; i$ < len$; ++i$) {
-                        String prefix = arr$[i$];
+                    for (int i$ = 0; i$ < len$; ++i$) {
+                        String prefix = prefixes[i$];
 
                         try {
-                            var17 = e.loadClass(prefix + name);
-                            break;
+                            clazz = e.loadClass(prefix + name);
+                            break; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS WAS ADDED
                         } catch (ClassNotFoundException var13) {
                             notFoundException = var13;
                         }
                     }
 
-                    if(var17 == null) {
-                        if(notFoundException == null) {
+                    if (clazz == null) {
+                        if (notFoundException == null) {
                             throw new InflateException(attrs.getPositionDescription() + ": Error inflating class " + name);
                         }
 
                         throw notFoundException;
                     }
                 } else {
-                    var17 = e.loadClass(name);
+                    clazz = e.loadClass(name);
                 }
 
-                constructor = var17.getConstructor(CONSTRUCTOR_SIGNATURE);
+                constructor = clazz.getConstructor(CONSTRUCTOR_SIGNATURE);
                 constructor.setAccessible(true);
                 CONSTRUCTOR_MAP.put(name, constructor);
             }
 
             Object[] var16 = this.mConstructorArgs;
             var16[1] = attrs;
-            return (Preference)constructor.newInstance(var16);
+            return (Preference) constructor.newInstance(var16);
         } catch (ClassNotFoundException var14) {
             throw var14;
         } catch (Exception var15) {
@@ -178,10 +176,10 @@ class XpPreferenceInflater {
         InflateException ie;
         try {
             Preference e;
-            if(-1 == name.indexOf(46)) {
+            if (-1 == name.indexOf('.')) {
                 e = this.onCreateItem(name, attrs);
             } else {
-                e = this.createItem(name, (String[])null, attrs);
+                e = this.createItem(name, null, attrs);
             }
 
             return e;
@@ -202,10 +200,10 @@ class XpPreferenceInflater {
         int depth = parser.getDepth();
 
         int type;
-        while(((type = parser.next()) != 3 || parser.getDepth() > depth) && type != 1) {
-            if(type == 2) {
+        while (((type = parser.next()) != 3 || parser.getDepth() > depth) && type != 1) {
+            if (type == 2) {
                 String name = parser.getName();
-                if("intent".equals(name)) {
+                if (INTENT_TAG_NAME.equals(name)) {
                     Intent item;
                     try {
                         item = Intent.parseIntent(this.getContext().getResources(), parser, attrs);
@@ -216,7 +214,7 @@ class XpPreferenceInflater {
                     }
 
                     parent.setIntent(item);
-                } else if("extra".equals(name)) {
+                } else if (EXTRA_TAG_NAME.equals(name)) {
                     this.getContext().getResources().parseBundleExtra("extra", attrs, parent.getExtras());
 
                     try {
@@ -228,7 +226,7 @@ class XpPreferenceInflater {
                     }
                 } else {
                     Preference item1 = this.createItemFromTag(name, attrs);
-                    ((PreferenceGroup)parent).addItemFromInflater(item1);
+                    ((PreferenceGroup) parent).addItemFromInflater(item1);
                     this.rInflate(parser, item1, attrs);
                 }
             }
@@ -242,7 +240,8 @@ class XpPreferenceInflater {
         int type;
         do {
             type = parser.next();
-        } while(type != 1 && (type != 3 || parser.getDepth() > outerDepth));
+        }
+        while (type != XmlPullParser.END_DOCUMENT && (type != XmlPullParser.END_TAG || parser.getDepth() > outerDepth));
 
     }
 }

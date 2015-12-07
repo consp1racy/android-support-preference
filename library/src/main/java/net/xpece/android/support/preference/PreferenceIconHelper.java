@@ -95,7 +95,6 @@ public class PreferenceIconHelper {
         if ((icon == null && mIcon != null) || (icon != null && mIcon != icon)) {
             if (icon != null) {
                 icon.mutate();
-                icon = DrawableCompat.wrap(icon).mutate();
             }
 
             mIconInternal = icon;
@@ -105,6 +104,7 @@ public class PreferenceIconHelper {
             }
 
             mIcon = icon;
+            mIcon = DrawableCompat.wrap(mIcon).mutate();
 
             applySupportIconTint();
 
@@ -167,7 +167,8 @@ public class PreferenceIconHelper {
     private Drawable applyIconPadding(Drawable icon) {
         if (icon != null) {
             int padding = Util.dpToPxOffset(mPreference.getContext(), 4);
-            icon = Util.addDrawablePadding(icon, padding);
+//            icon = Util.addDrawablePadding(icon, padding);
+            icon = new InsetDrawable2(icon, padding);
         }
         return icon;
     }
