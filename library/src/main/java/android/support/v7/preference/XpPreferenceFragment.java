@@ -3,13 +3,16 @@ package android.support.v7.preference;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import net.xpece.android.support.preference.EditTextPreference;
+import net.xpece.android.support.preference.MultiSelectListPreference;
+import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarDialogPreference;
 import net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment;
-import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
-import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment;
 import net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment;
 
@@ -97,5 +100,20 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                 f.show(this.getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
             }
         }
+    }
+
+    @Override
+    public final RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        RecyclerView list = onCreateRecyclerView2(inflater, parent, savedInstanceState);
+        onRecyclerViewCreated(list);
+        return list;
+    }
+
+    public RecyclerView onCreateRecyclerView2(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return super.onCreateRecyclerView(inflater, parent, savedInstanceState);
+    }
+
+    public void onRecyclerViewCreated(RecyclerView list) {
+        //
     }
 }

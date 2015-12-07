@@ -29,6 +29,9 @@ import net.xpece.android.support.preference.R;
  * <p/>
  * <p>This will automatically be used when you use {@link CheckedTextView} in your layouts.
  * You should only need to manually use this class when writing custom views.</p>
+ * <p>Appcompat-v7-r23.1.1 has a bug which prevents compound drawables to be tinted. Use
+ * {@link net.xpece.android.support.preference.Fixes#updateLayoutInflaterFactory(android.view.LayoutInflater)}
+ * to work around this issue.</p>
  */
 public class AppCompatCheckedTextView2 extends CheckedTextView {
 

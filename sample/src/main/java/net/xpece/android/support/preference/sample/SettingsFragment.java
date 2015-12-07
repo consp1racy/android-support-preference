@@ -8,21 +8,31 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
+import android.support.v7.widget.PreferenceDividerDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
+import net.xpece.android.support.preference.ListPreference;
+import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
-import net.xpece.android.support.preference.ListPreference;
-import net.xpece.android.support.preference.MultiSelectListPreference;
 
 import java.util.HashSet;
+import java.util.Stack;
 
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class SettingsFragment extends XpPreferenceFragment {
+public class SettingsFragment extends XpPreferenceFragment implements ICanPressBack {
+    private static final String TAG = SettingsFragment.class.getSimpleName();
+
+    // These are used to navigate back and forth between subscreens.
+    private PreferenceScreen mRootPreferenceScreen;
+    private Stack<String> mPreferenceScreenStack;
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -82,7 +92,7 @@ public class SettingsFragment extends XpPreferenceFragment {
     }
 
     @Override
-    public void onCreatePreferences2(final Bundle bundle, final String s) {
+    public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
 
         // In the simplified UI, fragments are not used at all and we instead
         // use the older PreferenceActivity APIs.
@@ -117,6 +127,36 @@ public class SettingsFragment extends XpPreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("example_list"));
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+
+        mRootPreferenceScreen = getPreferenceScreen();
+        mRootPreferenceScreen.setKey("root"); // Non-null key!
+        mRootPreferenceScreen.setTitle(getActivity().getTitle()); // Store default title.
+
+        if (savedInstanceState == null) {
+            mPreferenceScreenStack = new Stack<>();
+            mPreferenceScreenStack.push(mRootPreferenceScreen.getKey()); // Store root key.
+        } else {
+            //noinspection unchecked
+            mPreferenceScreenStack = (Stack<String>) savedInstanceState.getSerializable(TAG + ".mPreferenceScreenStack");
+            if (mPreferenceScreenStack.size() > 1) {
+                // We're deeper than root preference screen. Load appropriate screen.
+                String key = mPreferenceScreenStack.peek(); // Get screen key.
+                PreferenceScreen preference = (PreferenceScreen) findPreference(key);
+                navigateToPreferenceScreen(preference);
+            }
+        }
+    }
+
+    public void navigateToPreferenceScreen(PreferenceScreen preference) {
+        setPreferenceScreen(preference);
+        getActivity().setTitle(preference.getTitle());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(TAG + ".mPreferenceScreenStack", mPreferenceScreenStack);
     }
 
     /**
@@ -148,5 +188,32 @@ public class SettingsFragment extends XpPreferenceFragment {
                     .getDefaultSharedPreferences(preference.getContext())
                     .getString(preference.getKey(), ""));
         }
+    }
+
+    @Override
+    public void onRecyclerViewCreated(RecyclerView list) {
+        list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference) {
+        if (preference instanceof PreferenceScreen) {
+            mPreferenceScreenStack.push(preference.getKey()); // Store new screen key.
+            navigateToPreferenceScreen((PreferenceScreen) preference);
+            return true;
+        }
+        return super.onPreferenceTreeClick(preference);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (mPreferenceScreenStack.size() > 1) {
+            mPreferenceScreenStack.pop(); // Pop the screen we're leaving.
+            String key = mPreferenceScreenStack.peek(); // Lookup new screen key.
+            PreferenceScreen preference = (PreferenceScreen) mRootPreferenceScreen.findPreference(key);
+            navigateToPreferenceScreen(preference);
+            return true;
+        }
+        return false;
     }
 }

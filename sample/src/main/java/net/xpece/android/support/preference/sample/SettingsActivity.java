@@ -56,4 +56,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mSettingsFragment.onBackPressed()) {
+            return;
+        }
+        super.onBackPressed();
+    }
 }
