@@ -47,6 +47,11 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public final void onCreatePreferences(final Bundle bundle, final String s) {
+        onCreatePreferences1();
+        onCreatePreferences2(bundle, s);
+    }
+
+    void onCreatePreferences1() {
         // Clear the original Preference Manager
         PreferenceManager manager = getPreferenceManager();
         manager.setOnNavigateToScreenListener(null);
@@ -55,11 +60,9 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         manager = new XpPreferenceManager(getStyledContext());
         setPreferenceManager(manager);
         manager.setOnNavigateToScreenListener(this);
-
-        onCreatePreferences2(bundle, s);
     }
 
-    public abstract void onCreatePreferences2(final Bundle bundle, final String s);
+    public abstract void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey);
 
     private Context getStyledContext() {
         return getPreferenceManager().getContext();
