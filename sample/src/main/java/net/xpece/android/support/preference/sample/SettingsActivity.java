@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         if (savedInstanceState == null) {
-            mSettingsFragment = SettingsFragment.newInstance();
+            mSettingsFragment = SettingsFragment.newInstance("root_key");
             getSupportFragmentManager().beginTransaction().add(R.id.content, mSettingsFragment, "Settings").commit();
         } else {
             mSettingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("Settings");

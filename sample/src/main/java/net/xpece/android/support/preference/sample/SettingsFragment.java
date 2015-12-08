@@ -17,21 +17,21 @@ import android.text.TextUtils;
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.PreferenceIconHelper;
+import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
 
 import java.util.HashSet;
-import java.util.Stack;
 
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class SettingsFragment extends XpPreferenceFragment implements ICanPressBack {
+public class SettingsFragment extends XpPreferenceFragment implements ICanPressBack,
+    PreferenceScreenNavigationStrategy.Callbacks {
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
     // These are used to navigate back and forth between subscreens.
-    private PreferenceScreen mRootPreferenceScreen;
-    private Stack<String> mPreferenceScreenStack;
+    private PreferenceScreenNavigationStrategy mPreferenceScreenNavigation;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -84,8 +84,9 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         }
     };
 
-    public static SettingsFragment newInstance() {
+    public static SettingsFragment newInstance(String rootKey) {
         Bundle args = new Bundle();
+        args.putString(SettingsFragment.ARG_PREFERENCE_ROOT, rootKey);
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -124,35 +125,21 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
 
-        mRootPreferenceScreen = getPreferenceScreen();
-        mRootPreferenceScreen.setKey("root"); // Non-null key!
-        mRootPreferenceScreen.setTitle(getActivity().getTitle()); // Store default title.
+        // Setup root preference title.
+        getPreferenceScreen().setTitle(getActivity().getTitle());
 
-        if (savedInstanceState == null) {
-            mPreferenceScreenStack = new Stack<>();
-            mPreferenceScreenStack.push(mRootPreferenceScreen.getKey()); // Store root key.
-        } else {
-            //noinspection unchecked
-            mPreferenceScreenStack = (Stack<String>) savedInstanceState.getSerializable(TAG + ".mPreferenceScreenStack");
-            if (mPreferenceScreenStack.size() > 1) {
-                // We're deeper than root preference screen. Load appropriate screen.
-                String key = mPreferenceScreenStack.peek(); // Get screen key.
-                PreferenceScreen preference = (PreferenceScreen) findPreference(key);
-                navigateToPreferenceScreen(preference);
-            }
-        }
-    }
+        // Setup root preference key from arguments.
+        getPreferenceScreen().setKey(rootKey);
 
-    public void navigateToPreferenceScreen(PreferenceScreen preference) {
-        setPreferenceScreen(preference);
-        getActivity().setTitle(preference.getTitle());
+        mPreferenceScreenNavigation = new PreferenceScreenNavigationStrategy.ReplaceRoot(this, this);
+        mPreferenceScreenNavigation.onCreate(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putSerializable(TAG + ".mPreferenceScreenStack", mPreferenceScreenStack);
+        mPreferenceScreenNavigation.onSaveInstanceState(outState);
     }
 
     /**
@@ -194,8 +181,8 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference instanceof PreferenceScreen) {
-            mPreferenceScreenStack.push(preference.getKey()); // Store new screen key.
-            navigateToPreferenceScreen((PreferenceScreen) preference);
+            PreferenceScreen preferenceScreen = (PreferenceScreen) preference;
+            mPreferenceScreenNavigation.onPreferenceScreenClick(preferenceScreen);
             return true;
         }
         return super.onPreferenceTreeClick(preference);
@@ -203,13 +190,14 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
     @Override
     public boolean onBackPressed() {
-        if (mPreferenceScreenStack.size() > 1) {
-            mPreferenceScreenStack.pop(); // Pop the screen we're leaving.
-            String key = mPreferenceScreenStack.peek(); // Lookup new screen key.
-            PreferenceScreen preference = (PreferenceScreen) mRootPreferenceScreen.findPreference(key);
-            navigateToPreferenceScreen(preference);
+        if (mPreferenceScreenNavigation.onBackPressed()) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onNavigateToPreferenceScreen(PreferenceScreen preferenceScreen) {
+        getActivity().setTitle(preferenceScreen.getTitle());
     }
 }

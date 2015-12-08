@@ -52,12 +52,13 @@ All taken from an API 10 device. (Version 0.4.3.)
 - `EditTextPreference` understands `EditText` XML attributes.
 - Several preference widgets not publicly available in preference-v7 or SDK.
 - Dividers.
+- Subscreen navigation implementation.
 
 ## How to get the library?
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.0'
+    compile 'net.xpece.android:support-preference:0.5.1'
 }
 ```
 
@@ -138,6 +139,7 @@ subsHelper.setIconTintEnabled(true);
 
 ### Subscreen navigation
 
+One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
 Please review the sample project for an example solution.
 
 ### XML attributes
@@ -159,7 +161,16 @@ For smaller icons extra padding of 4dp on each side is needed.
 Achieve this by using `app:asp_iconPaddingEnabled`
 and `app:asp_dialogIconPaddingEnabled` attributes.
 
+### Proguard
+
+Since version 0.5.1 Proguard rules are bundled with the library.
+
 ## Changelog
+
+**0.5.1**
+- *NEW!* `PreferenceScreenNavigationStrategy` class.
+- *FIXED:* Missing Proguard rules are now bundled with the library.
+- *FIXED:* Incorrect icon size on Lollipop.
 
 **0.5.0**
 - *NEW!* Based on preference-v7 instead of native preferences.
