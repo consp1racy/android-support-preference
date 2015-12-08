@@ -121,8 +121,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
 If you'll be using the `RingtonePreference` your app needs to request
 the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
-<s>If for some reason you cannot do this,
-use `android.preference.RingtonePreference`which will use the system dialog.</s>
 
 ### Handling PreferenceScreen icons
 
@@ -149,7 +147,6 @@ Please review the sample project for an example solution.
 - `app:asp_tintMode`
 - `app:asp_tintEnabled`
 - `app:asp_iconPaddingEnabled`
-
 - `app:asp_dialogTint`
 - `app:asp_dialogTintMode`
 - `app:asp_dialogTintEnabled`
@@ -160,7 +157,7 @@ Please review the sample project for an example solution.
 Application icons (48dp x 48dp) require no extra padding.
 For smaller icons extra padding of 4dp on each side is needed.
 Achieve this by using `app:asp_iconPaddingEnabled`
-and `app:asp_dialogIconPaddingEnabled` attributes.
+and `app:asp_dialogIconPaddingEnabled` attributes. Icon padding is enabled by default.
 
 ### Proguard
 
@@ -188,7 +185,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - Updated appcompat-v7 library to 22.2.1.
 
 **0.4.2**
-- `SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`
+- <s>`SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`</s>
 - Introduced missing `seekBarDialogPreference` style
 
 **0.4.1**
@@ -198,7 +195,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 **0.4.0**
 - *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - *FIXED:* tinting/padding in DialogPreference and SeekBarDialogPreference
-- AppCompatPreferenceActivity and PreferenceFragment now implement Factory<Preference>
+- <s>AppCompatPreferenceActivity and PreferenceFragment now implement Factory<Preference></s>
 - *NEW!* app:asp_dialogIconPaddingEnabled attribute
 
 **0.3.0**
@@ -206,21 +203,21 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - `MultiSelectListPreference` is now available since API 7 (formerly API 11). Uses `JSONArray` to persist `Set<String>`.
 - API for persisting and accessing string sets since API 7 is available via `SharedPreferencesCompat`.
 - `Preference`s now support `app:asp_iconPaddingEnabled` attribute which allows to better align non-launcher icons to 16dp keyline.
-- Custom preferences are now recycled which fixed animation issues on Lollipop.
+- <s>Custom preferences are now recycled which fixed animation issues on Lollipop.</s>
 - Custom preferences are now always inflated on all platforms if using `AppCompatPreferenceActivity` and/or custom `PreferenceFragment`.
 - Library no longer includes `android.permission.READ_EXTERNAL_STORAGE` permission (used to read ringtones). You have to do it yourself.
     - This is needed because the custom picker is part of the app and not provided by system.
-    - You are of course free to use `android.preference.RingtonePreference` when necessary.
+    - <s>You are of course free to use `android.preference.RingtonePreference` when necessary.</s>
 
 **0.2.2**
-- optional tinting via `app:asp_tintIcon="true"` and `app:asp_tintDialogIcon="true"` and `asp_tint` and `asp_tintMode`.
+- optional tinting <s>via `app:asp_tintIcon="true"` and `app:asp_tintDialogIcon="true"` and `asp_tint` and `asp_tintMode`</s>.
 
 **0.2.1**
 - No need for `net.xpece.android.support.preference.` prefix in XML files defining preferences, framework will choose automatically:
     - <s>On Lollipop native `Preference`, `CheckBoxPreference`, `SwitchPreference` will be used.</s>
     - <s>Otherwise support version will be used.</s>
     - <s>Force either version by using fully qualified class name.</s>
-    - You need to use `AppCompatPreferenceActivity` or special `PreferenceFragment` both of which are provided.
+    - <s>You need to use `AppCompatPreferenceActivity` or special `PreferenceFragment` both of which are provided.</s>
 - <s>Added `PreferenceCompat#setChecked(Preference, boolean)` helper method.</s>
 
 **0.1.2**
