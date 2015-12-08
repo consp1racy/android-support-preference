@@ -235,6 +235,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 ## Work to be done
 
 - Additional ringtone preference which uses system dialog and requires no permission.
+- Use weaving to keep original method names in PreferenceFragment (no "2" suffix).
 
 ## Known issues
 
@@ -249,4 +250,4 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Credit
 
-Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. So kudos to the good guys (and girls) who create and maintain these!
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. Kudos to the people who create and maintain these!
