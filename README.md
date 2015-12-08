@@ -10,16 +10,17 @@ Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
 
 ## Screenshots
 
-All taken from an API 10 device. (Version 0.4.3.)
+Library version 0.5.1. Android version 4.4.
 
-![Overview 1](./docs/device-2015-05-20-041715.png)&nbsp;
-![Overview 2](./docs/device-2015-05-20-043843.png)&nbsp;
-![EditTextPreference](./docs/device-2015-05-20-044009.png)&nbsp;
-![MultiSelectListPreference](./docs/device-2015-05-20-044135.png)&nbsp;
-![RingtonePreference](./docs/device-2015-05-20-042549.png)&nbsp;
-![ListPreference](./docs/device-2015-05-20-044237.png)&nbsp;
-![SeekBarDialogPreference](./docs/device-2015-05-23-152932.png)&nbsp;
-![SeekBarPreference](./docs/device-2015-05-23-160720.png)
+![Overview 1](./docs/device-2015-12-08-200222.png)&nbsp;
+![EditTextPreference](./docs/device-2015-12-08-200302.png)&nbsp;
+![MultiSelectListPreference](./docs/device-2015-12-08-201133.png)&nbsp;
+![PreferenceScreen](./docs/device-2015-12-08-200351.png)&nbsp;
+![Overview 2](./docs/device-2015-12-08-200423.png)&nbsp;
+![RingtonePreference](./docs/device-2015-12-08-200503.png)&nbsp;
+![SeekBarDialogPreference](./docs/device-2015-12-08-200524.png)&nbsp;
+![ListPreference](./docs/device-2015-12-08-200544.png)&nbsp;
+![Disabled preferences](./docs/device-2015-12-08-200704.png)&nbsp;
 
 ## Contents
 
