@@ -52,6 +52,7 @@ Library version 0.5.1. Android version 4.4.
 - Icon and dialog icon tinting and padding.
 - `EditTextPreference` understands `EditText` XML attributes.
 - Several preference widgets not publicly available in preference-v7 or SDK.
+    - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Dividers.
 - Subscreen navigation implementation.
 
