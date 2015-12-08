@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-class DialogPreferenceIconHelper extends PreferenceIconHelper {
+public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     private final DialogPreference mPreference;
 

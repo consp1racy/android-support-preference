@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
  */
-class HeaderViewListAdapter implements WrapperListAdapter, Filterable {
+class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;
 
@@ -52,9 +52,9 @@ class HeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final boolean mIsFilterable;
 
-    public HeaderViewListAdapter(ArrayList<FixedViewInfo> headerViewInfos,
-                                 ArrayList<FixedViewInfo> footerViewInfos,
-                                 ListAdapter adapter) {
+    public XpHeaderViewListAdapter(ArrayList<FixedViewInfo> headerViewInfos,
+                                   ArrayList<FixedViewInfo> footerViewInfos,
+                                   ListAdapter adapter) {
         mAdapter = adapter;
         mIsFilterable = adapter instanceof Filterable;
 

@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-interface CustomDialogIconPreference {
+public interface CustomDialogIconPreference {
     void setSupportDialogIcon(Drawable icon);
 
     void setSupportDialogIcon(@DrawableRes int icon);

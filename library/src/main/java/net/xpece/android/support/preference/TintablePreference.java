@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-interface TintablePreference {
+public interface TintablePreference {
 
     /**
      * Applies a tint to the icon drawable. Does not modify the current tint

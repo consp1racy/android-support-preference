@@ -27,13 +27,13 @@ import android.widget.TextView;
 
 import net.xpece.android.support.preference.R;
 
-class AppCompatTextHelper2 {
+class XpAppCompatTextHelper {
 
-    static AppCompatTextHelper2 create(TextView textView) {
+    static XpAppCompatTextHelper create(TextView textView) {
         if (Build.VERSION.SDK_INT >= 17) {
-            return new AppCompatTextHelper2V17(textView);
+            return new XpAppCompatTextHelperV17(textView);
         }
-        return new AppCompatTextHelper2(textView);
+        return new XpAppCompatTextHelper(textView);
     }
 
     private static final int[] VIEW_ATTRS = {android.R.attr.textAppearance,
@@ -48,7 +48,7 @@ class AppCompatTextHelper2 {
     private TintInfo mDrawableRightTint;
     private TintInfo mDrawableBottomTint;
 
-    AppCompatTextHelper2(TextView view) {
+    XpAppCompatTextHelper(TextView view) {
         mView = view;
     }
 

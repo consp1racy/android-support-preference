@@ -63,7 +63,7 @@ public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragment
     private Uri mExistingUri;
 
     /** The number of static items in the list. */
-    private final ArrayList<HeaderViewListAdapter.FixedViewInfo> mStaticItems = new ArrayList<>();
+    private final ArrayList<XpHeaderViewListAdapter.FixedViewInfo> mStaticItems = new ArrayList<>();
 
     /** Whether this list has the 'Default' item. */
     private boolean mHasDefaultItem;
@@ -196,7 +196,7 @@ public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragment
         SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(getContext(), singleChoiceItemLayout, mCursor,
             new String[] { MediaStore.Audio.Media.TITLE }, new int[] { android.R.id.text1 });
 
-        HeaderViewListAdapter adapter = new HeaderViewListAdapter(mStaticItems, null, ringtoneAdapter);
+        XpHeaderViewListAdapter adapter = new XpHeaderViewListAdapter(mStaticItems, null, ringtoneAdapter);
 
         // Put a checkmark next to an item.
         builder.setSingleChoiceItems(adapter, mClickedPos, mRingtoneClickListener);
@@ -217,7 +217,7 @@ public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragment
         TextView textView = (TextView) inflater.inflate(layout, null, false);
         textView.setText(text);
 
-        HeaderViewListAdapter.FixedViewInfo item = new HeaderViewListAdapter.FixedViewInfo();
+        XpHeaderViewListAdapter.FixedViewInfo item = new XpHeaderViewListAdapter.FixedViewInfo();
         item.view = textView;
         item.isSelectable = true;
 

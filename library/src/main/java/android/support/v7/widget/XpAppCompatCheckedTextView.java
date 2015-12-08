@@ -33,27 +33,27 @@ import net.xpece.android.support.preference.R;
  * {@link net.xpece.android.support.preference.Fixes#updateLayoutInflaterFactory(android.view.LayoutInflater)}
  * to work around this issue.</p>
  */
-public class AppCompatCheckedTextView2 extends CheckedTextView {
+public class XpAppCompatCheckedTextView extends CheckedTextView {
 
     private static final int[] TINT_ATTRS = {
         android.R.attr.checkMark
     };
 
     private TintManager mTintManager;
-    private AppCompatTextHelper2 mTextHelper;
+    private XpAppCompatTextHelper mTextHelper;
 
-    public AppCompatCheckedTextView2(Context context) {
+    public XpAppCompatCheckedTextView(Context context) {
         this(context, null);
     }
 
-    public AppCompatCheckedTextView2(Context context, AttributeSet attrs) {
+    public XpAppCompatCheckedTextView(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.checkedTextViewStyle);
     }
 
-    public AppCompatCheckedTextView2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public XpAppCompatCheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        mTextHelper = AppCompatTextHelper2.create(this);
+        mTextHelper = XpAppCompatTextHelper.create(this);
         mTextHelper.loadFromAttributes(attrs, defStyleAttr);
         mTextHelper.applyCompoundDrawablesTints();
 

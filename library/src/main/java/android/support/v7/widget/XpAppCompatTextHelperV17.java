@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 @TargetApi(17)
-class AppCompatTextHelper2V17 extends AppCompatTextHelper2 {
+class XpAppCompatTextHelperV17 extends XpAppCompatTextHelper {
 
     private static final int[] VIEW_ATTRS_v17 = {
         android.R.attr.drawableStart, android.R.attr.drawableEnd };
@@ -32,7 +32,7 @@ class AppCompatTextHelper2V17 extends AppCompatTextHelper2 {
     private TintInfo mDrawableStartTint;
     private TintInfo mDrawableEndTint;
 
-    AppCompatTextHelper2V17(TextView view) {
+    XpAppCompatTextHelperV17(TextView view) {
         super(view);
     }
 

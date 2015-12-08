@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-interface CustomIconPreference {
+public interface CustomIconPreference {
     void setSupportIcon(Drawable icon);
 
     void setSupportIcon(@DrawableRes int icon);

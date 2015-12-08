@@ -14,6 +14,7 @@ import android.util.AttributeSet;
  * @author Eugen on 6. 12. 2015.
  */
 public class PreferenceIconHelper {
+    private static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
     private final Preference mPreference;
 
@@ -168,7 +169,7 @@ public class PreferenceIconHelper {
         if (icon != null) {
             int padding = Util.dpToPxOffset(mPreference.getContext(), 4);
 //            icon = Util.addDrawablePadding(icon, padding);
-            icon = new InsetDrawable2(icon, padding);
+            icon = new XpInsetDrawable(icon, padding);
         }
         return icon;
     }
@@ -178,7 +179,7 @@ public class PreferenceIconHelper {
         if (icon != null) {
             if (mIconTintEnabled && mTintInfo != null) {
                 DrawableCompat.setTintList(icon, mTintInfo.mTintList);
-                DrawableCompat.setTintMode(icon, mTintInfo.mTintMode != null ? mTintInfo.mTintMode : PorterDuff.Mode.SRC_IN);
+                DrawableCompat.setTintMode(icon, mTintInfo.mTintMode != null ? mTintInfo.mTintMode : DEFAULT_TINT_MODE);
             } else {
                 DrawableCompat.setTintList(icon, null);
             }
