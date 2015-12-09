@@ -7,10 +7,10 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.preference.PreferenceGroupAdapter;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.PreferenceCategory;
 import android.view.View;
 
 import net.xpece.android.support.preference.R;
@@ -20,10 +20,10 @@ import net.xpece.android.support.preference.R;
  */
 public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
-    private boolean mDrawTop = false; // above first item, takes priority
-    private boolean mDrawBottom = false; // at bottom of last item, takes priority
-    private boolean mDrawBetweenItems = true; // at bottom of each item
-    private boolean mDrawBetweenCategories = true; // above each PreferenceGroup
+    private boolean mDrawTop = false;
+    private boolean mDrawBottom = false;
+    private boolean mDrawBetweenItems = true;
+    private boolean mDrawBetweenCategories = true;
 
     private Drawable mDivider;
     private int mDividerHeight;
@@ -97,6 +97,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * Controls whether to draw divider above each {@link PreferenceGroup} usually {@link PreferenceCategory}.
+     *
      * @param drawBetweenCategories
      * @return
      */
@@ -113,49 +114,46 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         final PreferenceGroupAdapter adapter = (PreferenceGroupAdapter) parent.getAdapter();
         final int adapterCount = adapter.getItemCount();
 
-        boolean drawnPreviousBottom = false;
+        boolean wasLastPreferenceGroup = false;
         for (int i = 0, childCount = parent.getChildCount(); i < childCount; i++) {
             final View child = parent.getChildAt(i);
 
             final int adapterPosition = parent.getChildAdapterPosition(child);
             Preference preference = adapter.getItem(adapterPosition);
-            if (preference instanceof PreferenceScreen) {
-                // Presents itself as item.
-                drawnPreviousBottom = drawItem(c, left, right, adapterCount, child, adapterPosition);
-            } else if (preference instanceof PreferenceGroup) {
-                if (mDrawBetweenCategories && !drawnPreviousBottom && (mDrawTop || adapterPosition != 0)) {
+
+            boolean skipNextAboveDivider = false;
+            if (adapterPosition == 0) {
+                if (mDrawTop) {
                     drawAbove(c, left, right, child);
                 }
+                skipNextAboveDivider = true;
+            }
 
-                // Divider at bottom of last item.
-                if (mDrawBottom && !drawnPreviousBottom && adapterPosition == adapterCount - 1) {
-                    drawBottom(c, left, right, child);
-                    // Last item, don't need to track drawnPreviousBottom.
+            if (preference instanceof PreferenceGroup
+                && !(preference instanceof PreferenceScreen)) {
+                if (mDrawBetweenCategories) {
+                    if (!skipNextAboveDivider) {
+                        drawAbove(c, left, right, child);
+                        skipNextAboveDivider = true;
+                    }
                 }
-
-                drawnPreviousBottom = false;
+                wasLastPreferenceGroup = true;
             } else {
-                drawnPreviousBottom = drawItem(c, left, right, adapterCount, child, adapterPosition);
+                if (mDrawBetweenItems && !wasLastPreferenceGroup) {
+                    if (!skipNextAboveDivider) {
+                        drawAbove(c, left, right, child);
+                        skipNextAboveDivider = true;
+                    }
+                }
+                wasLastPreferenceGroup = false;
+            }
+
+            if (adapterPosition == adapterCount - 1) {
+                if (mDrawBottom) {
+                    drawBottom(c, left, right, child);
+                }
             }
         }
-    }
-
-    public boolean drawItem(Canvas c, int left, int right, int adapterCount, View child, int adapterPosition) {
-        boolean drawnPreviousBottom;
-
-        // Divider above the first item.
-        if (mDrawTop && adapterPosition == 0) {
-            drawAbove(c, left, right, child);
-        }
-
-        if (mDrawBetweenItems && (mDrawBottom || adapterPosition != adapterCount - 1)) {
-            drawBottom(c, left, right, child);
-            drawnPreviousBottom = true;
-        } else {
-            drawnPreviousBottom = false;
-        }
-
-        return drawnPreviousBottom;
     }
 
     private void drawAbove(Canvas c, int left, int right, View child) {
