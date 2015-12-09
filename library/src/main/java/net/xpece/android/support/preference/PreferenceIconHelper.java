@@ -169,7 +169,7 @@ public class PreferenceIconHelper {
         if (icon != null) {
             int padding = Util.dpToPxOffset(mPreference.getContext(), 4);
 //            icon = Util.addDrawablePadding(icon, padding);
-            icon = new XpInsetDrawable(icon, padding);
+            icon = XpInsetDrawable.create(icon, padding);
         }
         return icon;
     }
