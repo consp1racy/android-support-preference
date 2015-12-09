@@ -239,6 +239,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 ## Known issues
 
 - SwitchPreference does not animate its SwitchCompat widget when clicked.
+    - https://code.google.com/p/android/issues/detail?id=196652
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
 - SeekBarPreference's SeekBar may appear in disabled state until clicked on Android 2.
 

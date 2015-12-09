@@ -16,8 +16,10 @@
 
 package net.xpece.android.support.preference;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 /**
  * A {@link Preference} that provides a two-state toggleable option.
@@ -32,6 +35,8 @@ import android.widget.CompoundButton;
  * This preference will store a boolean into the SharedPreferences.
  */
 public class SwitchPreference extends TwoStatePreference {
+    private static final boolean NATIVE_SWITCH_CAPABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
     private final Listener mListener = new Listener();
 
     // Switch text for on and off states
@@ -101,9 +106,8 @@ public class SwitchPreference extends TwoStatePreference {
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        View switchView = holder.findViewById(R.id.switchWidget);
-        this.syncSwitchView(switchView);
         this.syncSummaryView(holder);
+        this.syncSwitchView(holder);
     }
 
     protected void performClick(View view) {
@@ -121,28 +125,40 @@ public class SwitchPreference extends TwoStatePreference {
         }
     }
 
+    private void syncSwitchView(PreferenceViewHolder holder) {
+        View switchView = holder.findViewById(R.id.switchWidget);
+        this.syncSwitchView(switchView);
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void syncSwitchView(View view) {
-        SwitchCompat switchView;
-        if (view instanceof SwitchCompat) {
-            switchView = (SwitchCompat) view;
-            switchView.setOnCheckedChangeListener(null);
-        }
-
         if (view instanceof Checkable) {
-            boolean isChecked = ((Checkable) view).isChecked();
-            if (isChecked != mChecked) {
-                ((Checkable) view).toggle();
+            final Checkable checkable = (Checkable) view;
+            final boolean isChecked = checkable.isChecked();
+            if (isChecked == mChecked) return;
+
+            if (view instanceof SwitchCompat) {
+                SwitchCompat switchView = (SwitchCompat) view;
+                switchView.setTextOn(this.mSwitchOn);
+                switchView.setTextOff(this.mSwitchOff);
+                switchView.setOnCheckedChangeListener(null);
+            } else if (NATIVE_SWITCH_CAPABLE && view instanceof Switch) {
+                Switch switchView = (Switch) view;
+                switchView.setTextOn(this.mSwitchOn);
+                switchView.setTextOff(this.mSwitchOff);
+                switchView.setOnCheckedChangeListener(null);
             }
-//            ((Checkable) view).setChecked(this.mChecked);
-        }
 
-        if (view instanceof SwitchCompat) {
-            switchView = (SwitchCompat) view;
-            switchView.setTextOn(this.mSwitchOn);
-            switchView.setTextOff(this.mSwitchOff);
-            switchView.setOnCheckedChangeListener(mListener);
-        }
+            checkable.toggle();
 
+            if (view instanceof SwitchCompat) {
+                SwitchCompat switchView = (SwitchCompat) view;
+                switchView.setOnCheckedChangeListener(mListener);
+            } else if (NATIVE_SWITCH_CAPABLE && view instanceof Switch) {
+                Switch switchView = (Switch) view;
+                switchView.setOnCheckedChangeListener(mListener);
+            }
+        }
     }
 
     /**
