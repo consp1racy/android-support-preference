@@ -75,4 +75,11 @@
         <!--<item name="android:paddingBottom">8dp</item>-->
     </style>
 
+    <style name="TextAppearance.Material.Preference.Title" parent="TextAppearance.AppCompat.Subhead">
+    </style>
+
+    <style name="TextAppearance.Material.Preference.Summary" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
 </resources>

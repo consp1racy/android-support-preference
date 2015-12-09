@@ -69,10 +69,10 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         seekBar.setEnabled(isEnabled());
     }
 
-    @Override
-    public CharSequence getSummary() {
-        return null;
-    }
+//    @Override
+//    public CharSequence getSummary() {
+//        return null;
+//    }
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {

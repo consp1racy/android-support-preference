@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="PreferenceThemeOverlay.Material">
         <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
@@ -14,16 +14,24 @@
         <item name="preferenceStyle">@style/Preference.Material</item>
         <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
         <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
-        <item name="editTextPreferenceStyle">@style/Preference.Material.DialogPreference.EditTextPreference</item>
-        <item name="switchPreferenceCompatStyle">@style/Preference.Material.SwitchPreferenceCompat</item>
+        <item name="editTextPreferenceStyle">
+            @style/Preference.Material.DialogPreference.EditTextPreference
+        </item>
+        <item name="switchPreferenceCompatStyle">@style/Preference.Material.SwitchPreferenceCompat
+        </item>
 
         <!-- Custom Preferences -->
-        <item name="ringtonePreferenceStyle">@style/Preference.Material.DialogPreference.RingtonePreference</item>
+        <item name="ringtonePreferenceStyle">
+            @style/Preference.Material.DialogPreference.RingtonePreference
+        </item>
         <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
-        <item name="seekBarDialogPreferenceStyle">@style/Preference.Material.DialogPreference.SeekBarDialogPreference</item>
+        <item name="seekBarDialogPreferenceStyle">
+            @style/Preference.Material.DialogPreference.SeekBarDialogPreference
+        </item>
 
         <!-- This will possibly be introduced by appcompat-v7 in the future. -->
-        <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1
+        </item>
 
         <!--<item name="preferenceTint">?colorAccent</item>-->
     </style>

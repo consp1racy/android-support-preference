@@ -65,25 +65,25 @@
         tools:visibility="visible"/>
 
     <LinearLayout
-        android:clipToPadding="false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
         android:layout_marginLeft="-16dp"
         android:layout_marginRight="-16dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
 
         <!--<TextView-->
-            <!--android:id="@android:id/title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="16dp"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:ellipsize="marquee"-->
-            <!--android:singleLine="true"-->
-            <!--android:textAppearance="?textAppearanceListItem"/>-->
+        <!--android:id="@android:id/title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:ellipsize="marquee"-->
+        <!--android:singleLine="true"-->
+        <!--android:textAppearance="?textAppearanceListItem"/>-->
 
         <TextView
             android:id="@android:id/title"
@@ -93,15 +93,14 @@
             android:layout_marginRight="16dp"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textAppearance="?asp_textAppearanceListItemSecondary"
-            android:textColor="?android:textColorSecondary"/>
+            android:textAppearance="?textAppearanceListItem"/>
 
         <TextView
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:id="@android:id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:maxLines="10"
             android:textAppearance="?asp_textAppearanceListItemSecondary"
             android:textColor="?android:textColorSecondary"/>
@@ -110,11 +109,11 @@
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginBottom="-8dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="-8dp"/>
+            android:layout_marginRight="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
     </LinearLayout>
 
     <!-- Preference should place its actual preference widget here. -->
