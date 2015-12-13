@@ -172,6 +172,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - *FIXED:* Incorrect icon size on Lollipop.
 
 **0.5.0** *Deprecated*
+- ***Only supports appcompat-v7 with preference-v7 version 23.1.1 or newer!***
 - *NEW!* Based on preference-v7 instead of native preferences.
 - Updated appcompat-v7 library to 23.1.1.
     - Material SeekBar style across all platforms.
