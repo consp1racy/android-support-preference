@@ -171,7 +171,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - *FIXED:* Missing Proguard rules are now bundled with the library.
 - *FIXED:* Incorrect icon size on Lollipop.
 
-**0.5.0**
+**0.5.0** *Deprecated*
 - *NEW!* Based on preference-v7 instead of native preferences.
 - Updated appcompat-v7 library to 23.1.1.
     - Material SeekBar style across all platforms.
@@ -182,24 +182,25 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - Sample contains `PreferenceScreen` subscreen handling.
 
 **0.4.3**
+- ***Last supported appcompat-v7 version is 23.0.1. After that ringtone picker crashes!***
 - No more `Resources.NotFoundException` in `RingtonePickerActivity`. Falls back to English.
 - Updated appcompat-v7 library to 22.2.1.
 
-**0.4.2**
+**0.4.2** *Deprecated*
 - <s>`SeekBar` tinting can be turned off via `app:asp_tintSeekBar="false"`</s>
 - Introduced missing `seekBarDialogPreference` style
 
-**0.4.1**
+**0.4.1** *Deprecated*
 - Ringtone picker strings are now taken dynamically from `android` and `com.android.providers.media` packages, falls back to English
     - These are accessible via `RingtonePickerActivity.get*String(Context)`
 
-**0.4.0**
+**0.4.0** *Deprecated*
 - *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - *FIXED:* tinting/padding in DialogPreference and SeekBarDialogPreference
 - <s>AppCompatPreferenceActivity and PreferenceFragment now implement Factory<Preference></s>
 - *NEW!* app:asp_dialogIconPaddingEnabled attribute
 
-**0.3.0**
+**0.3.0** *Deprecated*
 - Removed `MultiCheckPreference` as it was only partially implemented and `MultiSelectListPreference` provides the same function.
 - `MultiSelectListPreference` is now available since API 7 (formerly API 11). Uses `JSONArray` to persist `Set<String>`.
 - API for persisting and accessing string sets since API 7 is available via `SharedPreferencesCompat`.
@@ -210,10 +211,10 @@ Since version 0.5.1 Proguard rules are bundled with the library.
     - This is needed because the custom picker is part of the app and not provided by system.
     - <s>You are of course free to use `android.preference.RingtonePreference` when necessary.</s>
 
-**0.2.2**
+**0.2.2** *Deprecated*
 - optional tinting <s>via `app:asp_tintIcon="true"` and `app:asp_tintDialogIcon="true"` and `asp_tint` and `asp_tintMode`</s>.
 
-**0.2.1**
+**0.2.1** *Deprecated*
 - No need for `net.xpece.android.support.preference.` prefix in XML files defining preferences, framework will choose automatically:
     - <s>On Lollipop native `Preference`, `CheckBoxPreference`, `SwitchPreference` will be used.</s>
     - <s>Otherwise support version will be used.</s>
@@ -221,11 +222,11 @@ Since version 0.5.1 Proguard rules are bundled with the library.
     - <s>You need to use `AppCompatPreferenceActivity` or special `PreferenceFragment` both of which are provided.</s>
 - <s>Added `PreferenceCompat#setChecked(Preference, boolean)` helper method.</s>
 
-**0.1.2**
+**0.1.2** *Deprecated*
 - Czech strings
 - `SeekBar` in `SeekBarDialogActivity` uses `ColorFilter` to match theme
 
-**0.1.1**
+**0.1.1** *Deprecated*
 - Initial release
 - Backported material style and icon capability for `Preference` children
 - Backported `SwitchPreference`
@@ -233,8 +234,10 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Work to be done
 
-- Additional ringtone preference which uses system dialog and requires no permission.
-- Use weaving to keep original method names in PreferenceFragment (no "2" suffix).
+- <s>Additional ringtone preference which uses system dialog and requires no permission.</s>
+    - Use plain `Preference` and open `new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)` on click.
+- <s>Use weaving to keep original method names in PreferenceFragment (no "2" suffix).</s>
+    - Would require extra work from library user.
 
 ## Known issues
 
