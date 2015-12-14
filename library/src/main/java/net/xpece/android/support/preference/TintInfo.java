@@ -6,7 +6,7 @@ import android.graphics.PorterDuff;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-class TintInfo {
+final class TintInfo {
     public ColorStateList mTintList;
     public PorterDuff.Mode mTintMode;
 }

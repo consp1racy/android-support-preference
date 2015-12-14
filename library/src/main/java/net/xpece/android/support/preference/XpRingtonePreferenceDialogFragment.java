@@ -121,7 +121,7 @@ public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragment
         mHandler = new Handler();
 
         // Give the Activity so it can do managed queries
-        mRingtoneManager = new RingtoneManager(getContext().getApplicationContext());
+        mRingtoneManager = new RingtoneManagerCompat(getContext().getApplicationContext());
 
         if (savedInstanceState != null) {
             mClickedPos = savedInstanceState.getInt(SAVE_CLICKED_POS, POS_UNKNOWN);

@@ -28,7 +28,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'net.xpece.android'
     PUBLISH_ARTIFACT_ID = 'support-preference'
-    PUBLISH_VERSION = '0.5.2'
+    PUBLISH_VERSION = '0.5.3'
 }
 
 apply from: '../android-release-aar.gradle'

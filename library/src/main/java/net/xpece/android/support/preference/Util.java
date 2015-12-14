@@ -6,7 +6,7 @@ import android.util.TypedValue;
 /**
  * Created by Eugen on 13. 5. 2015.
  */
-class Util {
+final class Util {
 
     private Util() {}
 

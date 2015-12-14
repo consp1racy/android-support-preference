@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
  */
-class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
+final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;
 

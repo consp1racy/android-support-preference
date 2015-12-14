@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class Fixes {
+public final class Fixes {
     private Fixes() {}
 
     public static void updateLayoutInflaterFactory(LayoutInflater layoutInflater) {
