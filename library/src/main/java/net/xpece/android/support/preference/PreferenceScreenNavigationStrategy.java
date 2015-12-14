@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
+import java.util.Collection;
 import java.util.Stack;
 
 /**
@@ -30,7 +31,7 @@ public abstract class PreferenceScreenNavigationStrategy {
         private Callbacks mCallbacks;
 
         private PreferenceScreen mRoot;
-        private Stack<String> mStack;
+        private final Stack<String> mStack = new Stack<>();
 
         public ReplaceRoot(PreferenceFragmentCompat fragment, Callbacks callbacks) {
             mFragment = fragment;
@@ -52,11 +53,15 @@ public abstract class PreferenceScreenNavigationStrategy {
             }
 
             if (savedInstanceState == null) {
-                mStack = new Stack<>();
+                mStack.clear();
                 mStack.push(mRoot.getKey()); // Store root key.
             } else {
                 //noinspection unchecked
-                mStack = (Stack<String>) savedInstanceState.getSerializable(TAG + ".mStack");
+                Collection<String> savedStack = (Collection<String>) savedInstanceState.getSerializable(TAG + ".mStack");
+                mStack.clear();
+                if (savedStack != null) {
+                    mStack.addAll(savedStack);
+                }
                 if (mStack.size() > 1) {
                     // We're deeper than root preference screen. Load appropriate screen.
                     String key = mStack.peek(); // Get screen key.

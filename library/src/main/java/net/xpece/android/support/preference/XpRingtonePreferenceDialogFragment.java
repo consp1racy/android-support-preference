@@ -289,10 +289,14 @@ public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragment
     @Override
     public void onDialogClosed(boolean positiveResult) {
         // Stop playing the previous ringtone
-        mRingtoneManager.stopPreviousRingtone();
+        if (sPlayingRingtone == null) {
+            mRingtoneManager.stopPreviousRingtone();
+        }
 
         // The volume keys will control the default stream
-        getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
+        if (getActivity() != null) {
+            getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
+        }
 
         if (positiveResult) {
             Uri uri;
