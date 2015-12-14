@@ -121,7 +121,12 @@ protected void onCreate(Bundle savedInstanceState) {
 ### Ringtone picker
 
 <s>If you'll be using the `RingtonePreference` your app needs to request
-</s>the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
+the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.</s>
+
+`RingtonePicker` will by default show system ringtones/notification sounds.
+If you want to include sounds from the external storage your app needs to request
+the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
+On API 23 you'll need to request this runtime permission before opening the picker.
 
 ### Handling PreferenceScreen icons
 
