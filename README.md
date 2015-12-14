@@ -120,13 +120,10 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ### Ringtone picker
 
-<s>If you'll be using the `RingtonePreference` your app needs to request
-the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.</s>
-
-`RingtonePicker` will by default show system ringtones/notification sounds.
+`RingtonePicker` will show only system ringtones/notification sounds by default.
 If you want to include sounds from the external storage your app needs to request
 the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
-On API 23 you'll need to request this runtime permission before opening the picker.
+Don't forget to check this runtime permission before opening the picker on API 23.
 
 ### Handling PreferenceScreen icons
 
@@ -171,7 +168,10 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.2**
+**0.5.3**
+- *FIXED:* Ringtone picker does not *need* `READ_EXTERNAL_STORAGE` permission even prior to Android 6.
+
+**0.5.2** *Deprecated*
 - *FIXED:* `PreferenceScreenNavigationStrategy.ReplaceRoot` no longer crashes on screen rotation.
 - *FIXED:* Ringtone picker does not stop playback on screen rotation.
 
@@ -192,7 +192,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - Sample contains `PreferenceScreen` subscreen handling.
 
 **0.4.3**
-- ***Last supported appcompat-v7 version is 23.0.1. After that ringtone picker crashes!***
+- ***Last fully supported appcompat-v7 version is 23.0.1. After that ringtone picker crashes!***
 - No more `Resources.NotFoundException` in `RingtonePickerActivity`. Falls back to English.
 - Updated appcompat-v7 library to 22.2.1.
 
@@ -202,7 +202,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 **0.4.1** *Deprecated*
 - Ringtone picker strings are now taken dynamically from `android` and `com.android.providers.media` packages, falls back to English
-    - These are accessible via `RingtonePickerActivity.get*String(Context)`
+    - <s>These are accessible via `RingtonePickerActivity.get*String(Context)`</s>
 
 **0.4.0** *Deprecated*
 - *NEW!* Implemented SeekBarPreference according to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
@@ -241,13 +241,6 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - Backported material style and icon capability for `Preference` children
 - Backported `SwitchPreference`
 - Material styled `RingtonePreference` picker dialog/activity
-
-## Work to be done
-
-- <s>Additional ringtone preference which uses system dialog and requires no permission.</s>
-    - Use plain `Preference` and open `new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)` on click.
-- <s>Use weaving to keep original method names in PreferenceFragment (no "2" suffix).</s>
-    - Would require extra work from library user.
 
 ## Known issues
 
