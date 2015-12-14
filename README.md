@@ -60,7 +60,7 @@ Library version 0.5.1. Android version 4.4.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.1'
+    compile 'net.xpece.android:support-preference:0.5.2'
 }
 ```
 
@@ -120,8 +120,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ### Ringtone picker
 
-If you'll be using the `RingtonePreference` your app needs to request
-the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
+<s>If you'll be using the `RingtonePreference` your app needs to request
+</s>the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
 
 ### Handling PreferenceScreen icons
 
@@ -166,7 +166,11 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.1**
+**0.5.2**
+- *FIXED:* `PreferenceScreenNavigationStrategy.ReplaceRoot` no longer crashes on screen rotation.
+- *FIXED:* Ringtone picker does not stop playback on screen rotation.
+
+**0.5.1** *Deprecated*
 - *NEW!* `PreferenceScreenNavigationStrategy` class.
 - *FIXED:* Missing Proguard rules are now bundled with the library.
 - *FIXED:* Incorrect icon size on Lollipop.
