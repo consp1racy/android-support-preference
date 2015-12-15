@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.preference.PreferenceCompat;
 import android.util.AttributeSet;
 
@@ -59,8 +58,8 @@ public class MultiSelectListPreference extends DialogPreference {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
-        mEntries = TypedArrayUtils.getTextArray(a, R.styleable.ListPreference_entries, R.styleable.ListPreference_android_entries);
-        mEntryValues = TypedArrayUtils.getTextArray(a, R.styleable.ListPreference_entryValues, R.styleable.ListPreference_android_entryValues);
+        mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
+        mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
         a.recycle();
     }
 
