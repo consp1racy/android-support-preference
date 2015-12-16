@@ -8,6 +8,14 @@ Backporting dat material look *and* functionality.
 
 Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
 
+## How to get the library?
+
+```groovy
+dependencies {
+    compile 'net.xpece.android:support-preference:0.5.3'
+}
+```
+
 ## Screenshots
 
 Library version 0.5.1. Android version 4.4.
@@ -55,14 +63,6 @@ Library version 0.5.1. Android version 4.4.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Dividers.
 - Subscreen navigation implementation.
-
-## How to get the library?
-
-```groovy
-dependencies {
-    compile 'net.xpece.android:support-preference:0.5.2'
-}
-```
 
 ## How to use the library?
 
