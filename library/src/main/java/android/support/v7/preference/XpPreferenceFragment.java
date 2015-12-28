@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import net.xpece.android.support.preference.EditTextPreference;
+import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarDialogPreference;
 import net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment;
+import net.xpece.android.support.preference.XpListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment;
 import net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment;
@@ -86,8 +88,8 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                 DialogFragment f;
                 if (preference instanceof EditTextPreference) {
                     f = XpEditTextPreferenceDialogFragment.newInstance(preference.getKey());
-//                } else if (preference instanceof XpListPreference) {
-//                    f = XpListPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof ListPreference) {
+                    f = XpListPreferenceDialogFragment.newInstance(preference.getKey());
                 } else if (preference instanceof MultiSelectListPreference) {
                     f = XpMultiSelectListPreferenceDialogFragment.newInstance(preference.getKey());
                 } else if (preference instanceof SeekBarDialogPreference) {

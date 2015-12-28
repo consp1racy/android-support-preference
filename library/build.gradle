@@ -18,6 +18,8 @@ android {
             minifyEnabled false
         }
     }
+
+    resourcePrefix 'asp_'
 }
 
 dependencies {
