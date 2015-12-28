@@ -70,8 +70,12 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         return getPreferenceManager().getContext();
     }
 
+    public boolean onDisplayPreferenceDialog2(Preference preference) {
+        return false;
+    }
+
     @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
+    public final void onDisplayPreferenceDialog(Preference preference) {
         boolean handled = false;
 
         // This has to be done first. Doubled call in super :(
@@ -80,6 +84,10 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
         if (!handled && this.getActivity() instanceof PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) {
             handled = ((PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) this.getActivity()).onPreferenceDisplayDialog(this, preference);
+        }
+
+        if (!handled) {
+            handled = onDisplayPreferenceDialog2(preference);
         }
 
         // Handling custom preferences.
