@@ -81,5 +81,4 @@
     <style name="TextAppearance.Material.Preference.Summary" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
-
 </resources>
