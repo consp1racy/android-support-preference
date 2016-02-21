@@ -50,19 +50,29 @@
     <!--android:maxWidth="48dp"/>-->
     <!--</LinearLayout>-->
 
-    <ImageView
-        android:id="@android:id/icon"
-        android:layout_width="48dp"
+    <FrameLayout
+        android:id="@+id/icon_frame"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginLeft="-4dp"
         android:layout_marginRight="12dp"
         android:layout_marginStart="-4dp"
-        android:maxHeight="48dp"
-        android:maxWidth="48dp"
-        android:scaleType="fitStart"
+        android:minWidth="48dp"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="48dp"
+            android:maxWidth="48dp"
+            android:scaleType="fitStart"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:ignore="ContentDescription"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -109,10 +119,10 @@
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="24dp"
             android:layout_marginBottom="-8dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
+            android:minHeight="24dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>
     </LinearLayout>
