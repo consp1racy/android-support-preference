@@ -11,13 +11,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.ListPopupWindow;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 
 public class ListPreference extends DialogPreference {
     private CharSequence[] mEntries;
@@ -25,8 +20,6 @@ public class ListPreference extends DialogPreference {
     private String mValue;
     private String mSummary;
     private boolean mValueSet;
-
-    private boolean mSimple = true;
 
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -49,48 +42,6 @@ public class ListPreference extends DialogPreference {
 
     public ListPreference(Context context) {
         this(context, null);
-    }
-
-    @Override
-    protected void performClick(View view) {
-        if (mSimple) {
-            if (this.isEnabled()) {
-                showAsPopup(view);
-            }
-        } else {
-            super.performClick(view);
-        }
-    }
-
-    private void showAsPopup(View view) {
-        final int layout = R.layout.support_simple_spinner_dropdown_item;
-        final Context context = getContext();
-        final ListAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
-
-        final ListPopupWindow popup = new ListPopupWindow(context, null, R.attr.actionOverflowMenuStyle);
-        popup.setModal(true);
-        popup.setAnchorView(view);
-        popup.setAdapter(adapter);
-
-        popup.setWidth(ListPopupWindow.WRAP_CONTENT);
-//        popup.setHorizontalOffset(ViewCompat.getPaddingStart(view));
-
-        popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListPreference.this.onItemSelected(position);
-                popup.dismiss();
-            }
-        });
-
-        popup.show();
-    }
-
-    private void onItemSelected(int position) {
-        String value = mEntryValues[position].toString();
-        if (callChangeListener(value)) {
-            setValue(value);
-        }
     }
 
     public void setEntries(CharSequence[] entries) {
@@ -208,7 +159,7 @@ public class ListPreference extends DialogPreference {
 
     private static class SavedState extends BaseSavedState {
         String value;
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+        public static final Creator<ListPreference.SavedState> CREATOR = new Creator<ListPreference.SavedState>() {
             public ListPreference.SavedState createFromParcel(Parcel in) {
                 return new ListPreference.SavedState(in);
             }
@@ -230,23 +181,6 @@ public class ListPreference extends DialogPreference {
 
         public SavedState(Parcelable superState) {
             super(superState);
-        }
-    }
-
-    private static class CheckedItemAdapter extends ArrayAdapter<CharSequence> {
-        public CheckedItemAdapter(Context context, int resource, int textViewResourceId,
-                                  CharSequence[] objects) {
-            super(context, resource, textViewResourceId, objects);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
         }
     }
 }

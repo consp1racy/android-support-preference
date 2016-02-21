@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Preference.Material" parent="">
         <item name="android:layout">@layout/preference_material</item>
@@ -80,5 +80,19 @@
 
     <style name="TextAppearance.Material.Preference.Summary" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">16dp</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
+    <style name="Widget.Material.ListView.DropDown" parent="Widget.AppCompat.ListView.DropDown">
+        <!--<item name="android:paddingTop">8dp</item>-->
+        <!--<item name="android:paddingBottom">8dp</item>-->
+        <!--<item name="android:clipToPadding">false</item>-->
     </style>
 </resources>
