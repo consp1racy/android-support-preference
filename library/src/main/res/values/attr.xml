@@ -21,10 +21,10 @@
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
 
         <!-- Default style for PreferenceScreen. -->
-        <attr name="preferenceScreenStyle" format="reference" />
+        <attr name="preferenceScreenStyle" format="reference"/>
 
         <!-- Preference fragment list style -->
-        <attr name="preferenceFragmentListStyle" format="reference" />
+        <attr name="preferenceFragmentListStyle" format="reference"/>
 
         <attr name="preferenceTint" format="color"/>
 
@@ -45,6 +45,10 @@
         </attr>
         <attr name="asp_tintEnabled" format="boolean"/>
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ListPreference">
+        <attr name="asp_simpleMenu" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="DialogPreference">

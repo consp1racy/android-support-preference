@@ -69,6 +69,7 @@
     </style>
 
     <style name="PreferenceFragmentList.Material" parent="">
+        <item name="android:background">?selectableItemBackground</item>
         <item name="paddingStart">0dp</item>
         <item name="paddingEnd">0dp</item>
         <!--<item name="android:paddingTop">8dp</item>-->
@@ -84,15 +85,14 @@
 
     <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">16dp</item>
-        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">?listPreferredItemPaddingLeft</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">?listPreferredItemPaddingLeft</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">?listPreferredItemPaddingRight</item>
+        <item name="android:paddingRight">?listPreferredItemPaddingRight</item>
     </style>
 
     <style name="Widget.Material.ListView.DropDown" parent="Widget.AppCompat.ListView.DropDown">
         <!--<item name="android:paddingTop">8dp</item>-->
         <!--<item name="android:paddingBottom">8dp</item>-->
-        <!--<item name="android:clipToPadding">false</item>-->
     </style>
 </resources>

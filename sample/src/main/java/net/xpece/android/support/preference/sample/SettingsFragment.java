@@ -20,7 +20,6 @@ import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
-import net.xpece.android.support.preference.SimpleMenuPreference;
 
 import java.util.HashSet;
 
@@ -43,10 +42,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
-            if (preference instanceof SimpleMenuPreference) {
+            if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
-                SimpleMenuPreference listPreference = (SimpleMenuPreference) preference;
+                ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
 
                 // Set the summary to reflect the new value.
