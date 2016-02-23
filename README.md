@@ -1,4 +1,4 @@
-# Material Preference
+# Material Preference [ ![Download](https://api.bintray.com/packages/consp1racy/maven/net.xpece.android%3Asupport-preference/images/download.svg) ](https://bintray.com/consp1racy/maven/net.xpece.android%3Asupport-preference/_latestVersion)
 
 <img src="./sample/src/main/res/mipmap-xxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
@@ -12,7 +12,7 @@ Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.3'
+    compile 'net.xpece.android:support-preference:0.5.4'
 }
 ```
 
@@ -167,6 +167,15 @@ and `app:asp_dialogIconPaddingEnabled` attributes. Icon padding is enabled by de
 Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
+
+**0.5.4**
+- *NEW!* Simple menu variant of `ListPreference`.
+  - Via `app:asp_simpleMenu="true"`.
+  - Described here https://www.google.com/design/spec/components/menus.html#menus-simple-menus
+  - Does not have top and bottom padding yet.
+  - Menu position is unpredictable when having more than 3 menu items and the preference is first or last in the list.
+  - To be updated later.
+- *FIXED:* Small icon is properly aligned in RTL configurations.
 
 **0.5.3**
 - *FIXED:* Ringtone picker does not *need* `READ_EXTERNAL_STORAGE` permission even prior to Android 6.
