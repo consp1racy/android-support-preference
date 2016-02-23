@@ -20,6 +20,10 @@ android {
     }
 
     resourcePrefix 'asp_'
+
+    lintOptions {
+        disable 'ResourceName'
+    }
 }
 
 dependencies {
@@ -33,4 +37,11 @@ ext {
     PUBLISH_VERSION = '0.5.3'
 }
 
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
 apply from: '../android-release-aar.gradle'

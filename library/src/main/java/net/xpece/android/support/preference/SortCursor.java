@@ -16,6 +16,7 @@
 
 package net.xpece.android.support.preference;
 
+import android.annotation.TargetApi;
 import android.database.AbstractCursor;
 import android.database.Cursor;
 import android.database.DataSetObserver;
@@ -218,6 +219,7 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
+    @TargetApi(11)
     public int getType(int column) {
         return mCursor.getType(column);
     }
