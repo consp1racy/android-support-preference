@@ -46,6 +46,10 @@
         <attr name="asp_tintEnabled" format="boolean"/>
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
     </declare-styleable>
+    
+    <declare-styleable name="PreferenceCategory">
+        <attr name="titleColor" format="color"/>
+    </declare-styleable>
 
     <declare-styleable name="ListPreference">
         <attr name="asp_simpleMenu" format="boolean"/>
