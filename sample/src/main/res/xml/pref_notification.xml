@@ -2,6 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <net.xpece.android.support.preference.PreferenceCategory
+        android:title="@string/pref_header_notifications"
+        app:titleColor="?attr/colorPrimary"/>
+        
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
     <SwitchPreference
