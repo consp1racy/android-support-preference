@@ -27,14 +27,14 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:preference-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:preference-v7:23.2.0'
 }
 
 ext {
     PUBLISH_GROUP_ID = 'net.xpece.android'
     PUBLISH_ARTIFACT_ID = 'support-preference'
-    PUBLISH_VERSION = '0.5.3'
+    PUBLISH_VERSION = '0.5.5'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {

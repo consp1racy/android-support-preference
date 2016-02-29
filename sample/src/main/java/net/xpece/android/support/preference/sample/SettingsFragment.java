@@ -113,7 +113,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         Preference subs = findPreference("subs_screen");
         PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
         subsHelper.setIconPaddingEnabled(true);
-        subsHelper.setIcon(R.drawable.abc_ic_menu_selectall_mtrl_alpha);
+        subsHelper.setIcon(R.drawable.abc_ic_menu_selectall_material);
         subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
         subsHelper.setIconTintEnabled(true);
 

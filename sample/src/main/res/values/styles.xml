@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_material</item>
+
         <item name="android:windowContentOverlay">@null</item>
 
         <item name="colorPrimary">@color/primary</item>

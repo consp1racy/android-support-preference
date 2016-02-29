@@ -3,28 +3,28 @@
 
     <declare-styleable name="Theme">
         <!-- Default style for Preference. -->
-        <attr name="preferenceStyle" format="reference"/>
+        <attr name="preferenceStyle"/>
         <!-- Default style for CheckBoxPreference. -->
-        <attr name="checkBoxPreferenceStyle" format="reference"/>
+        <attr name="checkBoxPreferenceStyle"/>
         <!-- Default style for DialogPreference. -->
-        <attr name="dialogPreferenceStyle" format="reference"/>
+        <attr name="dialogPreferenceStyle"/>
         <!-- Default style for EditTextPreference. -->
-        <attr name="editTextPreferenceStyle" format="reference"/>
+        <attr name="editTextPreferenceStyle"/>
         <!-- Default style for RingtonePreference. -->
-        <attr name="ringtonePreferenceStyle" format="reference"/>
+        <attr name="ringtonePreferenceStyle"/>
         <!-- Default style for switch preferences. -->
-        <attr name="switchPreferenceStyle" format="reference"/>
+        <attr name="switchPreferenceStyle"/>
 
-        <attr name="seekBarPreferenceStyle" format="reference"/>
+        <attr name="seekBarPreferenceStyle"/>
         <attr name="seekBarDialogPreferenceStyle" format="reference"/>
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
 
         <!-- Default style for PreferenceScreen. -->
-        <attr name="preferenceScreenStyle" format="reference"/>
+        <attr name="preferenceScreenStyle"/>
 
         <!-- Preference fragment list style -->
-        <attr name="preferenceFragmentListStyle" format="reference"/>
+        <attr name="preferenceFragmentListStyle"/>
 
         <attr name="preferenceTint" format="color"/>
 

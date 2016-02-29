@@ -43,7 +43,9 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         mDivider = a.getDrawable(0);
         a.recycle();
 
-        mDividerHeight = mDivider.getIntrinsicHeight();
+        if (mDivider != null) {
+            mDividerHeight = mDivider.getIntrinsicHeight();
+        }
     }
 
     public boolean getDrawTop() {
@@ -108,6 +110,8 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        if (mDivider == null) return;
+
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
