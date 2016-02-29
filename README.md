@@ -12,7 +12,7 @@ Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.4'
+    compile 'net.xpece.android:support-preference:0.5.5'
 }
 ```
 
@@ -118,6 +118,8 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
+This fix is not necessary or available in version 0.5.5.
+
 ### Ringtone picker
 
 `RingtonePicker` will show only system ringtones/notification sounds by default.
@@ -168,6 +170,9 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
+**0.5.5**
+- ***Only supports appcompat-v7 with preference-v7 version 23.2.0!***
+
 **0.5.4**
 - *NEW!* Simple menu variant of `ListPreference`.
   - Via `app:asp_simpleMenu="true"`.
@@ -190,7 +195,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - *FIXED:* Incorrect icon size on Lollipop.
 
 **0.5.0** *Deprecated*
-- ***Only supports appcompat-v7 with preference-v7 version 23.1.1 or newer!***
+- ***Only supports appcompat-v7 with preference-v7 version 23.1.1!***
 - *NEW!* Based on preference-v7 instead of native preferences.
 - Updated appcompat-v7 library to 23.1.1.
     - Material SeekBar style across all platforms.
