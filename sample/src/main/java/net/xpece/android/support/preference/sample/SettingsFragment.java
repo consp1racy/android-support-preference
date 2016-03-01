@@ -4,14 +4,11 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
-import android.support.v7.widget.PreferenceDividerDecoration;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import net.xpece.android.support.preference.ListPreference;
@@ -111,11 +108,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Manually tint PreferenceScreen icon.
         Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
-        subsHelper.setIconPaddingEnabled(true);
-        subsHelper.setIcon(R.drawable.abc_ic_menu_selectall_material);
-        subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
-        subsHelper.setIconTintEnabled(true);
+        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.abc_ic_menu_selectall_material, R.color.accent, true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
@@ -186,10 +179,16 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         }
     }
 
-    @Override
-    public void onRecyclerViewCreated(RecyclerView list) {
-        list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
-    }
+//    @Override
+//    public void onRecyclerViewCreated(RecyclerView list) {
+//        list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+//    }
+//
+//    @Override
+//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        setDivider(null);
+//    }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
