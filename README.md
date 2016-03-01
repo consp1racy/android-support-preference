@@ -102,6 +102,8 @@ public void onRecyclerViewCreated(RecyclerView list) {
 }
 ```
 
+Looks like this is not necessary in 0.5.5 as preference-v7 r23.2.0 provides a default divider. If you want to customize how this divider looks you can call `setDivider(...)` and `setDividerHeight(...)`. Preference-v7 divider will be drawn just between items and at the bottom of the list. It will not be drawn before the end of category. You can disable this default divider with `setDivider(null)` and continue using what I described above.
+
 ### Avoiding bugs
 
 In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
