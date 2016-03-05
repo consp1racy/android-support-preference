@@ -4,15 +4,18 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
+import android.view.View;
 
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
+import net.xpece.android.support.preference.PreferenceDividerDecoration;
 import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
@@ -179,16 +182,12 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         }
     }
 
-//    @Override
-//    public void onRecyclerViewCreated(RecyclerView list) {
-//        list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
-//    }
-//
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        setDivider(null);
-//    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+        setDivider(null);
+    }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {

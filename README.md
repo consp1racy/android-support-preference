@@ -6,13 +6,15 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 7. Depends on appcompat-v7 and preference-v7 r23.1.1.
+Available from API 7. Depends on preference-v7.
 
 ## How to get the library?
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.5'
+    compile 'net.xpece.android:support-preference:0.5.5' // depends on preference-v7 r23.2.0
+    /* or */
+    compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
 ```
 
@@ -37,7 +39,7 @@ Library version 0.5.1. Android version 4.4.
 - `SwitchPreference`
     - Using `SwitchCompat` available from API 7
 - `DialogPreference`
-    - Uses AppCompat Alert Dialog Material theme
+    - Uses AppCompat AlertDialog Material theme
 - `EditTextPreference`
 - `ListPreference`
 - `MultiSelectListPreference`
@@ -61,7 +63,6 @@ Library version 0.5.1. Android version 4.4.
 - `EditTextPreference` understands `EditText` XML attributes.
 - Several preference widgets not publicly available in preference-v7 or SDK.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
-- Dividers.
 - Subscreen navigation implementation.
 
 ## How to use the library?
@@ -91,18 +92,37 @@ Your settings activity theme needs to specify the following values:
 
 Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
+Sample `res/color/accent_state_list.xml`:
+
+```xml
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:color="@color/accent_disabled"
+        android:state_enabled="false"/>
+    <item android:color="@color/accent"/>
+</selector>
+```
+
+Disabled alpha is 38% (#61) according to latest Material design guidelines.
+
 ### Dividers
 
-If you want to use dividers, override `onRecyclerViewCreated(RecyclerView)` in your fragment:
+Preference-v7 r23.2.0 provides a divider implementation out of the box.
+If you want to customize how this divider looks you can call `setDivider(...)` and `setDividerHeight(...)`.
+Preference-v7 divider will be drawn just between items and at the bottom of the list. It will not be drawn before the end of category.
+
+If you want more control over where the dividers are drawn, disable the default implementation and use my own instead:
 
 ```java
 @Override
-public void onRecyclerViewCreated(RecyclerView list) {
-    list.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    getListView().addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+    setDivider(null);
 }
 ```
 
-Looks like this is not necessary in 0.5.5 as preference-v7 r23.2.0 provides a default divider. If you want to customize how this divider looks you can call `setDivider(...)` and `setDividerHeight(...)`. Preference-v7 divider will be drawn just between items and at the bottom of the list. It will not be drawn before the end of category. You can disable this default divider with `setDivider(null)` and continue using what I described above.
+Preference-v7 r23.1.1 does not provide a default divider so you don't need to call `setDivider(null)`.
 
 ### Avoiding bugs
 
@@ -120,14 +140,14 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-This fix is not necessary or available in version 0.5.5.
+This fix is not necessary or available since version 0.5.5.
 
 ### Ringtone picker
 
 `RingtonePicker` will show only system ringtones/notification sounds by default.
 If you want to include sounds from the external storage your app needs to request
-the `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
-Don't forget to check this runtime permission before opening the picker on API 23.
+`android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
+Don't forget to check this runtime permission before opening ringtone picker on API 23.
 
 ### Handling PreferenceScreen icons
 

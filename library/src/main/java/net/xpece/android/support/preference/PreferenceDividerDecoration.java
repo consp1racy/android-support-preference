@@ -1,4 +1,4 @@
-package android.support.v7.widget;
+package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,9 +11,9 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.preference.PreferenceGroupAdapter;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.TintTypedArray;
 import android.view.View;
-
-import net.xpece.android.support.preference.R;
 
 /**
  * Use this class to add dividers between {@link Preference} items.

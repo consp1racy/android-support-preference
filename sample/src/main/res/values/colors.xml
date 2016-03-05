@@ -7,6 +7,6 @@
     <color name="primary">@color/light_green_700</color>
     <color name="primary_dark">@color/light_green_900</color>
     <color name="accent">@color/yellow_900</color>
-    <color name="accent_disabled">#4cf57f17</color>
+    <color name="accent_disabled">#61f57f17</color>
     <color name="text_highlight">#66689F38</color>
 </resources>

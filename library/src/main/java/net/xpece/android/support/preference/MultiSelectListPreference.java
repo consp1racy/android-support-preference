@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.preference.PreferenceCompat;
+import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
 import java.util.HashSet;
@@ -132,7 +132,7 @@ public class MultiSelectListPreference extends DialogPreference {
         mValues.clear();
         mValues.addAll(values);
 
-        PreferenceCompat.persistStringSet(this, values);
+        XpPreferenceCompat.persistStringSet(this, values);
     }
 
     /**
@@ -191,7 +191,7 @@ public class MultiSelectListPreference extends DialogPreference {
     @Override
     @SuppressWarnings("unchecked")
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        setValues(restoreValue ? PreferenceCompat.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
+        setValues(restoreValue ? XpPreferenceCompat.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
     }
 
     @Override

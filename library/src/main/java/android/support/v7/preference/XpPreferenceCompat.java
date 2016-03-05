@@ -18,7 +18,7 @@ import java.util.Set;
  * store/retrieve the preference data.
  * <p>
  * When specifying a preference hierarchy in XML, each element can point to a
- * subclass of {@link PreferenceCompat}, similar to the view hierarchy and layouts.
+ * subclass of {@link XpPreferenceCompat}, similar to the view hierarchy and layouts.
  * <p>
  * This class contains a {@code key} that will be used as the key into the
  * {@link SharedPreferences}. It is up to the subclass to decide how to store
@@ -33,9 +33,9 @@ import java.util.Set;
  *
  * @hide
  */
-public final class PreferenceCompat {
+public final class XpPreferenceCompat {
 
-    public PreferenceCompat() {
+    public XpPreferenceCompat() {
     }
 
     /**

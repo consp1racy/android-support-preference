@@ -3,9 +3,6 @@ package android.support.v7.preference;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
@@ -38,6 +35,8 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
         FIELD_PREFERENCE_MANAGER = preferenceManager;
     }
+
+    private final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private void setPreferenceManager(PreferenceManager manager) {
         try {
@@ -92,7 +91,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
 
         // Handling custom preferences.
         if (!handled) {
-            if (this.getFragmentManager().findFragmentByTag("android.support.v7.preference.PreferenceFragment.DIALOG") == null) {
+            if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
                 DialogFragment f;
                 if (preference instanceof EditTextPreference) {
                     f = XpEditTextPreferenceDialogFragment.newInstance(preference.getKey());
@@ -110,23 +109,8 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                 }
 
                 f.setTargetFragment(this, 0);
-                f.show(this.getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
+                f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
             }
         }
-    }
-
-    @Override
-    public final RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        RecyclerView list = onCreateRecyclerView2(inflater, parent, savedInstanceState);
-        onRecyclerViewCreated(list);
-        return list;
-    }
-
-    public RecyclerView onCreateRecyclerView2(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return super.onCreateRecyclerView(inflater, parent, savedInstanceState);
-    }
-
-    public void onRecyclerViewCreated(RecyclerView list) {
-        //
     }
 }
