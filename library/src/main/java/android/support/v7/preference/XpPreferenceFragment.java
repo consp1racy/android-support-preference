@@ -58,9 +58,13 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         manager.setOnNavigateToScreenListener(null);
 
         // Setup custom Preference Manager
-        manager = new XpPreferenceManager(getStyledContext());
+        manager = new XpPreferenceManager(getStyledContext(), getCustomDefaultPackages());
         setPreferenceManager(manager);
         manager.setOnNavigateToScreenListener(this);
+    }
+
+    public String[] getCustomDefaultPackages() {
+        return null;
     }
 
     public abstract void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey);
