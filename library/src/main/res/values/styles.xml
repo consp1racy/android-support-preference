@@ -92,7 +92,11 @@
     </style>
 
     <style name="Widget.Material.ListView.DropDown" parent="Widget.AppCompat.ListView.DropDown">
-        <!--<item name="android:paddingTop">8dp</item>-->
-        <!--<item name="android:paddingBottom">8dp</item>-->
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
 </resources>

@@ -73,7 +73,7 @@ public class ListPreference extends DialogPreference {
 
         final ListAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
 
-        final ListPopupWindow popup = new ListPopupWindow(context, null);
+        final XpListPopupWindow popup = new XpListPopupWindow(context, null);
         popup.setModal(true);
         popup.setAnchorView(view);
         popup.setAdapter(adapter);
@@ -92,6 +92,43 @@ public class ListPreference extends DialogPreference {
     }
 
     private void repositionPopup(ListPopupWindow popup, View anchor, int position) {
+        final Context context = anchor.getContext();
+
+        // Shadow is emulated below Lollipop, we have to account for that.
+        final Rect backgroundPadding = new Rect();
+        popup.getBackground().getPadding(backgroundPadding);
+        final int backgroundPaddingStart;
+        final int backgroundPaddingEnd;
+        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+            backgroundPaddingStart = backgroundPadding.right;
+            backgroundPaddingEnd = backgroundPadding.left;
+        } else {
+            backgroundPaddingStart = backgroundPadding.left;
+            backgroundPaddingEnd = backgroundPadding.right;
+        }
+        final int backgroundPaddingTop = backgroundPadding.top;
+
+        // Respect anchor view's padding.
+        final int paddingStart = ViewCompat.getPaddingStart(anchor);
+        final int paddingEnd = ViewCompat.getPaddingEnd(anchor);
+        final int width = anchor.getWidth();
+        final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
+        if (preferredWidth < width) {
+            popup.setWidth(preferredWidth);
+            popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
+        }
+
+        // Center selected item over anchor view.
+        if (position < 0) position = 0;
+        final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
+        final int viewHeight = anchor.getHeight();
+        final int dropDownListViewStyle = Util.resolveResourceId(context, R.attr.dropDownListViewStyle, R.style.Widget_Material_ListView_DropDown);
+        final int dropDownListViewPaddingTop = Util.resolveDimensionPixelOffset(context, dropDownListViewStyle, android.R.attr.paddingTop, 0);
+        final int offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+        popup.setVerticalOffset(offset);
+    }
+
+    private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {
         final Context context = anchor.getContext();
 
         // Shadow is emulated below Lollipop, we have to account for that.
