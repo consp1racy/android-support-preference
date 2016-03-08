@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.6' // depends on preference-v7 r23.2.0
+    compile 'net.xpece.android:support-preference:0.5.7' // depends on preference-v7 r23.2.0
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -20,10 +20,11 @@ dependencies {
 
 ## Screenshots
 
-Library version 0.5.6. Android version 5.1.
+Library version 0.5.7. Android version 5.1.
+
 Showcasing Simple Menus and custom title and summary text appearance.
 
-![Simple menus and custom text appearance](./docs/device-2016-03-08-225502.png)&nbsp;
+![Simple menus and custom text appearance](./docs/device-2016-03-08-232622.png)&nbsp;
 
 Library version 0.5.1. Android version 4.4.
 
@@ -197,6 +198,9 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
+**0.5.7**
+- *FIXED:* Simple menu now highlights preselected option.
+
 **0.5.6**
 - *NEW!* Custom title and summary text styles.
   - `app:titleTextAppearance` and `app:titleTextColor` for titles.
@@ -309,4 +313,4 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Credit
 
-Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. Kudos to the people who create and maintain these!
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. Kudos to people who create and maintain these!
