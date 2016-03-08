@@ -11,6 +11,7 @@
 
     <ListPreference
         android:defaultValue="0"
+        android:dependency="notifications_new_message"
         android:entries="@array/pref_notif_content_titles"
         android:entryValues="@array/pref_notif_content_values"
         android:key="notif_content"

@@ -80,16 +80,16 @@ public class XpListPopupWindow {
     static {
         try {
             sClipToWindowEnabledMethod = PopupWindow.class.getDeclaredMethod(
-                    "setClipToScreenEnabled", boolean.class);
+                "setClipToScreenEnabled", boolean.class);
         } catch (NoSuchMethodException e) {
             Log.i(TAG, "Could not find method setClipToScreenEnabled() on PopupWindow. Oh well.");
         }
         try {
             sGetMaxAvailableHeightMethod = PopupWindow.class.getDeclaredMethod(
-                    "getMaxAvailableHeight", View.class, int.class, boolean.class);
+                "getMaxAvailableHeight", View.class, int.class, boolean.class);
         } catch (NoSuchMethodException e) {
             Log.i(TAG, "Could not find method getMaxAvailableHeight(View, int, boolean)"
-                    + " on PopupWindow. Oh well.");
+                + " on PopupWindow. Oh well.");
         }
     }
 
@@ -100,6 +100,7 @@ public class XpListPopupWindow {
 
     private int mDropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownHorizontalOffset;
     private int mDropDownVerticalOffset;
     private int mDropDownWindowLayoutType = WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL;
@@ -168,6 +169,8 @@ public class XpListPopupWindow {
      */
     public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
+    public static final int PREFERRED = -3;
+
     /**
      * Mode for {@link #setInputMethodMode(int)}: the requirements for the
      * input method should be based on the focusability of the popup.  That is
@@ -207,7 +210,7 @@ public class XpListPopupWindow {
      * Backgrounds should be set using {@link #setBackgroundDrawable(Drawable)}.
      *
      * @param context Context used for contained views.
-     * @param attrs   Attributes from inflating parent views used to style the popup.
+     * @param attrs Attributes from inflating parent views used to style the popup.
      */
     public XpListPopupWindow(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.listPopupWindowStyle);
@@ -239,11 +242,11 @@ public class XpListPopupWindow {
         mHandler = new Handler(context.getMainLooper());
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPopupWindow,
-                defStyleAttr, defStyleRes);
+            defStyleAttr, defStyleRes);
         mDropDownHorizontalOffset = a.getDimensionPixelOffset(
-                R.styleable.ListPopupWindow_android_dropDownHorizontalOffset, 0);
+            R.styleable.ListPopupWindow_android_dropDownHorizontalOffset, 0);
         mDropDownVerticalOffset = a.getDimensionPixelOffset(
-                R.styleable.ListPopupWindow_android_dropDownVerticalOffset, 0);
+            R.styleable.ListPopupWindow_android_dropDownVerticalOffset, 0);
         if (mDropDownVerticalOffset != 0) {
             mDropDownVerticalOffsetSet = true;
         }
@@ -284,7 +287,6 @@ public class XpListPopupWindow {
      * {@link #POSITION_PROMPT_ABOVE}.
      *
      * @param position A position constant declaring where the prompt should be displayed.
-     *
      * @see #POSITION_PROMPT_ABOVE
      * @see #POSITION_PROMPT_BELOW
      */
@@ -294,7 +296,6 @@ public class XpListPopupWindow {
 
     /**
      * @return Where the optional prompt view should appear.
-     *
      * @see #POSITION_PROMPT_ABOVE
      * @see #POSITION_PROMPT_BELOW
      */
@@ -304,7 +305,7 @@ public class XpListPopupWindow {
 
     /**
      * Set whether this window should be modal when shown.
-     *
+     * <p/>
      * <p>If a popup window is modal, it will receive all touch and key input.
      * If the user touches outside the popup window's content area the popup window
      * will be dismissed.
@@ -338,13 +339,12 @@ public class XpListPopupWindow {
 
     /**
      * Sets whether the drop-down should remain visible under certain conditions.
-     *
+     * <p/>
      * The drop-down will occupy the entire screen below {@link #getAnchorView} regardless
      * of the size or content of the list.  {@link #getBackground()} will fill any space
      * that is not used by the list.
      *
      * @param dropDownAlwaysVisible Whether to keep the drop-down visible.
-     *
      * @hide Only used by AutoCompleteTextView under special conditions.
      */
     public void setDropDownAlwaysVisible(boolean dropDownAlwaysVisible) {
@@ -353,7 +353,6 @@ public class XpListPopupWindow {
 
     /**
      * @return Whether the drop-down is visible under special conditions.
-     *
      * @hide Only used by AutoCompleteTextView under special conditions.
      */
     public boolean isDropDownAlwaysVisible() {
@@ -364,9 +363,8 @@ public class XpListPopupWindow {
      * Sets the operating mode for the soft input area.
      *
      * @param mode The desired mode, see
-     *        {@link WindowManager.LayoutParams#softInputMode}
-     *        for the full list
-     *
+     * {@link WindowManager.LayoutParams#softInputMode}
+     * for the full list
      * @see WindowManager.LayoutParams#softInputMode
      * @see #getSoftInputMode()
      */
@@ -499,6 +497,10 @@ public class XpListPopupWindow {
         return mDropDownWidth;
     }
 
+    public int getMaxWidth() {
+        return mDropDownMaxWidth;
+    }
+
     /**
      * Sets the width of the popup window in pixels. Can also be {@link #MATCH_PARENT}
      * or {@link #WRAP_CONTENT}.
@@ -507,6 +509,10 @@ public class XpListPopupWindow {
      */
     public void setWidth(int width) {
         mDropDownWidth = width;
+    }
+
+    public void setMaxWidth(int maxWidth) {
+        mDropDownMaxWidth = maxWidth;
     }
 
     /**
@@ -543,11 +549,10 @@ public class XpListPopupWindow {
 
     /**
      * Set the layout type for this popup window.
-     * <p>
+     * <p/>
      * See {@link WindowManager.LayoutParams#type} for possible values.
      *
      * @param layoutType Layout type for this window.
-     *
      * @see WindowManager.LayoutParams#type
      */
     public void setWindowLayoutType(int layoutType) {
@@ -558,7 +563,6 @@ public class XpListPopupWindow {
      * Sets a listener to receive events when a list item is clicked.
      *
      * @param clickListener Listener to register
-     *
      * @see ListView#setOnItemClickListener(AdapterView.OnItemClickListener)
      */
     public void setOnItemClickListener(AdapterView.OnItemClickListener clickListener) {
@@ -569,7 +573,6 @@ public class XpListPopupWindow {
      * Sets a listener to receive events when a list item is selected.
      *
      * @param selectedListener Listener to register.
-     *
      * @see ListView#setOnItemSelectedListener(AdapterView.OnItemSelectedListener)
      */
     public void setOnItemSelectedListener(AdapterView.OnItemSelectedListener selectedListener) {
@@ -611,16 +614,7 @@ public class XpListPopupWindow {
         PopupWindowCompat.setWindowLayoutType(mPopup, mDropDownWindowLayoutType);
 
         if (mPopup.isShowing()) {
-            final int widthSpec;
-            if (mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
-                // The call to PopupWindow's update method below can accept -1 for any
-                // value you do not want to update.
-                widthSpec = -1;
-            } else if (mDropDownWidth == ViewGroup.LayoutParams.WRAP_CONTENT) {
-                widthSpec = getAnchorView().getWidth();
-            } else {
-                widthSpec = mDropDownWidth;
-            }
+            final int widthSpec = getListWidthSpec();
 
             final int heightSpec;
             if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
@@ -629,11 +623,11 @@ public class XpListPopupWindow {
                 heightSpec = noInputMethod ? height : ViewGroup.LayoutParams.MATCH_PARENT;
                 if (noInputMethod) {
                     mPopup.setWidth(mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT ?
-                            ViewGroup.LayoutParams.MATCH_PARENT : 0);
+                        ViewGroup.LayoutParams.MATCH_PARENT : 0);
                     mPopup.setHeight(0);
                 } else {
                     mPopup.setWidth(mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT ?
-                                    ViewGroup.LayoutParams.MATCH_PARENT : 0);
+                        ViewGroup.LayoutParams.MATCH_PARENT : 0);
                     mPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
                 }
             } else if (mDropDownHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
@@ -645,19 +639,10 @@ public class XpListPopupWindow {
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
 
             mPopup.update(getAnchorView(), mDropDownHorizontalOffset,
-                            mDropDownVerticalOffset, (widthSpec < 0)? -1 : widthSpec,
-                            (heightSpec < 0)? -1 : heightSpec);
+                mDropDownVerticalOffset, (widthSpec < 0) ? -1 : widthSpec,
+                (heightSpec < 0) ? -1 : heightSpec);
         } else {
-            final int widthSpec;
-            if (mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
-                widthSpec = ViewGroup.LayoutParams.MATCH_PARENT;
-            } else {
-                if (mDropDownWidth == ViewGroup.LayoutParams.WRAP_CONTENT) {
-                    widthSpec = getAnchorView().getWidth();
-                } else {
-                    widthSpec = mDropDownWidth;
-                }
-            }
+            final int widthSpec = getListWidthSpec();
 
             final int heightSpec;
             if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
@@ -679,7 +664,7 @@ public class XpListPopupWindow {
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
             mPopup.setTouchInterceptor(mTouchInterceptor);
             PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), mDropDownHorizontalOffset,
-                    mDropDownVerticalOffset, mDropDownGravity);
+                mDropDownVerticalOffset, mDropDownGravity);
             mDropDownList.setSelection(ListView.INVALID_POSITION);
 
             if (!mModal || mDropDownList.isInTouchMode()) {
@@ -689,6 +674,41 @@ public class XpListPopupWindow {
                 mHandler.post(mHideSelector);
             }
         }
+    }
+
+    private int getListWidthSpec() {
+        final int widthSpec;
+        if (mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
+            // The call to PopupWindow's update method below can accept -1 for any
+            // value you do not want to update.
+            if (mDropDownMaxWidth == MATCH_PARENT) {
+                widthSpec = MATCH_PARENT;
+            } else if (mDropDownMaxWidth == WRAP_CONTENT) {
+                widthSpec = getAnchorView().getWidth();
+            } else {
+                widthSpec = mDropDownMaxWidth;
+            }
+        } else if (mDropDownWidth == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            if (mDropDownMaxWidth < 0) {
+                widthSpec = getAnchorView().getWidth();
+            } else {
+                widthSpec = mDropDownMaxWidth;
+            }
+        } else if (mDropDownWidth == PREFERRED) {
+            final int contentWidth = mDropDownList.compatMeasureContentWidth();
+            if (contentWidth > mDropDownMaxWidth) {
+                widthSpec = mDropDownMaxWidth;
+            } else {
+                widthSpec = contentWidth;
+            }
+        } else {
+            if (mDropDownWidth > mDropDownMaxWidth) {
+                widthSpec = mDropDownMaxWidth;
+            } else {
+                widthSpec = mDropDownWidth;
+            }
+        }
+        return widthSpec;
     }
 
     /**
@@ -725,7 +745,7 @@ public class XpListPopupWindow {
      * Control how the popup operates with an input method: one of
      * {@link #INPUT_METHOD_FROM_FOCUSABLE}, {@link #INPUT_METHOD_NEEDED},
      * or {@link #INPUT_METHOD_NOT_NEEDED}.
-     *
+     * <p/>
      * <p>If the popup is showing, calling this method will take effect only
      * the next time the popup is shown or through a manual call to the {@link #show()}
      * method.</p>
@@ -800,7 +820,7 @@ public class XpListPopupWindow {
      *
      * @param position Adapter position for performing the click
      * @return true if the click action could be performed, false if not.
-     *         (e.g. if the popup was not showing, this method would return false.)
+     * (e.g. if the popup was not showing, this method would return false.)
      */
     public boolean performItemClick(int position) {
         if (isShowing()) {
@@ -828,7 +848,6 @@ public class XpListPopupWindow {
     /**
      * @return The position of the currently selected item or {@link ListView#INVALID_POSITION}
      * if {@link #isShowing()} == {@code false}.
-     *
      * @see ListView#getSelectedItemPosition()
      */
     public int getSelectedItemPosition() {
@@ -841,7 +860,6 @@ public class XpListPopupWindow {
     /**
      * @return The ID of the currently selected item or {@link ListView#INVALID_ROW_ID}
      * if {@link #isShowing()} == {@code false}.
-     *
      * @see ListView#getSelectedItemId()
      */
     public long getSelectedItemId() {
@@ -854,7 +872,6 @@ public class XpListPopupWindow {
     /**
      * @return The View for the currently selected item or null if
      * {@link #isShowing()} == {@code false}.
-     *
      * @see ListView#getSelectedView()
      */
     public View getSelectedView() {
@@ -889,7 +906,6 @@ public class XpListPopupWindow {
      * @param keyCode keyCode param passed to the host view's onKeyDown
      * @param event event param passed to the host view's onKeyDown
      * @return true if the event was handled, false if it was ignored.
-     *
      * @see #setModal(boolean)
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -901,8 +917,8 @@ public class XpListPopupWindow {
             // let center or enter presses go there since that would cause it
             // to select one of its items
             if (keyCode != KeyEvent.KEYCODE_SPACE
-                    && (mDropDownList.getSelectedItemPosition() >= 0
-                    || !isConfirmKey(keyCode))) {
+                && (mDropDownList.getSelectedItemPosition() >= 0
+                || !isConfirmKey(keyCode))) {
                 int curIndex = mDropDownList.getSelectedItemPosition();
                 boolean consumed;
 
@@ -917,13 +933,13 @@ public class XpListPopupWindow {
                 if (adapter != null) {
                     allEnabled = adapter.areAllItemsEnabled();
                     firstItem = allEnabled ? 0 :
-                            mDropDownList.lookForSelectablePosition(0, true);
+                        mDropDownList.lookForSelectablePosition(0, true);
                     lastItem = allEnabled ? adapter.getCount() - 1 :
-                            mDropDownList.lookForSelectablePosition(adapter.getCount() - 1, false);
+                        mDropDownList.lookForSelectablePosition(adapter.getCount() - 1, false);
                 }
 
                 if ((below && keyCode == KeyEvent.KEYCODE_DPAD_UP && curIndex <= firstItem) ||
-                        (!below && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && curIndex >= lastItem)) {
+                    (!below && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && curIndex >= lastItem)) {
                     // When the selection is at the top, we block the key
                     // event to prevent focus from moving.
                     clearListSelection();
@@ -967,7 +983,7 @@ public class XpListPopupWindow {
                             return true;
                         }
                     } else if (!below && keyCode == KeyEvent.KEYCODE_DPAD_UP &&
-                            curIndex == firstItem) {
+                        curIndex == firstItem) {
                         return true;
                     }
                 }
@@ -984,7 +1000,6 @@ public class XpListPopupWindow {
      * @param keyCode keyCode param passed to the host view's onKeyUp
      * @param event event param passed to the host view's onKeyUp
      * @return true if the event was handled, false if it was ignored.
-     *
      * @see #setModal(boolean)
      */
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -1008,7 +1023,6 @@ public class XpListPopupWindow {
      * @param keyCode keyCode param passed to the host view's onKeyPreIme
      * @param event event param passed to the host view's onKeyPreIme
      * @return true if the event was handled, false if it was ignored.
-     *
      * @see #setModal(boolean)
      */
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
@@ -1040,11 +1054,11 @@ public class XpListPopupWindow {
      * Returns an {@link OnTouchListener} that can be added to the source view
      * to implement drag-to-open behavior. Generally, the source view should be
      * the same view that was passed to {@link #setAnchorView}.
-     * <p>
+     * <p/>
      * When the listener is set on a view, touching that view and dragging
      * outside of its bounds will open the popup window. Lifting will select the
      * currently touched list item.
-     * <p>
+     * <p/>
      * Example usage:
      * <pre>
      * ListPopupWindow myPopup = new ListPopupWindow(context);
@@ -1104,7 +1118,7 @@ public class XpListPopupWindow {
             mDropDownList.setFocusableInTouchMode(true);
             mDropDownList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parent, View view,
-                        int position, long id) {
+                                           int position, long id) {
 
                     if (position != -1) {
                         DropDownListView dropDownList = mDropDownList;
@@ -1134,7 +1148,7 @@ public class XpListPopupWindow {
                 hintContainer.setOrientation(LinearLayout.VERTICAL);
 
                 LinearLayout.LayoutParams hintParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f
                 );
 
                 switch (mPromptPosition) {
@@ -1170,7 +1184,7 @@ public class XpListPopupWindow {
 
                 hintParams = (LinearLayout.LayoutParams) hintView.getLayoutParams();
                 otherHeights = hintView.getMeasuredHeight() + hintParams.topMargin
-                        + hintParams.bottomMargin;
+                    + hintParams.bottomMargin;
 
                 dropDownView = hintContainer;
             }
@@ -1181,9 +1195,9 @@ public class XpListPopupWindow {
             final View view = mPromptView;
             if (view != null) {
                 LinearLayout.LayoutParams hintParams =
-                        (LinearLayout.LayoutParams) view.getLayoutParams();
+                    (LinearLayout.LayoutParams) view.getLayoutParams();
                 otherHeights = view.getMeasuredHeight() + hintParams.topMargin
-                        + hintParams.bottomMargin;
+                    + hintParams.bottomMargin;
             }
         }
 
@@ -1206,9 +1220,9 @@ public class XpListPopupWindow {
 
         // Max height available on the screen for a popup.
         final boolean ignoreBottomDecorations =
-                mPopup.getInputMethodMode() == PopupWindow.INPUT_METHOD_NOT_NEEDED;
+            mPopup.getInputMethodMode() == PopupWindow.INPUT_METHOD_NOT_NEEDED;
         final int maxHeight = getMaxAvailableHeight(getAnchorView(), mDropDownVerticalOffset,
-                ignoreBottomDecorations);
+            ignoreBottomDecorations);
         if (mDropDownAlwaysVisible || mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
             return maxHeight + padding;
         }
@@ -1216,16 +1230,19 @@ public class XpListPopupWindow {
         final int childWidthSpec;
         switch (mDropDownWidth) {
             case ViewGroup.LayoutParams.WRAP_CONTENT:
-                childWidthSpec = MeasureSpec.makeMeasureSpec(
-                        mContext.getResources().getDisplayMetrics().widthPixels -
-                                (mTempRect.left + mTempRect.right),
-                        MeasureSpec.AT_MOST);
-                break;
+//                childWidthSpec = MeasureSpec.makeMeasureSpec(
+//                        mContext.getResources().getDisplayMetrics().widthPixels -
+//                                (mTempRect.left + mTempRect.right),
+//                        MeasureSpec.AT_MOST);
+//                childWidthSpec = MeasureSpec.makeMeasureSpec(
+//                    mDropDownList.compatMeasureContentWidth(),
+//                    MeasureSpec.AT_MOST);
+//                break;
             case ViewGroup.LayoutParams.MATCH_PARENT:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(
-                        mContext.getResources().getDisplayMetrics().widthPixels -
-                                (mTempRect.left + mTempRect.right),
-                        MeasureSpec.EXACTLY);
+                    mContext.getResources().getDisplayMetrics().widthPixels -
+                        (mTempRect.left + mTempRect.right),
+                    MeasureSpec.EXACTLY);
                 break;
             default:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(mDropDownWidth, MeasureSpec.EXACTLY);
@@ -1233,7 +1250,7 @@ public class XpListPopupWindow {
         }
 
         final int listContent = mDropDownList.measureHeightOfChildrenCompat(childWidthSpec,
-                0, DropDownListView.NO_POSITION, maxHeight - otherHeights, -1);
+            0, DropDownListView.NO_POSITION, maxHeight - otherHeights, -1);
         // add padding only if the list has items in it, that way we don't show
         // the popup if it is not needed
         int listPadding = mDropDownList.getPaddingTop() + mDropDownList.getPaddingBottom();
@@ -1290,7 +1307,7 @@ public class XpListPopupWindow {
 
         /**
          * Returns the popup to which this listener is forwarding events.
-         * <p>
+         * <p/>
          * Override this to return the correct popup. If the popup is displayed
          * asynchronously, you may also need to override
          * {@link #onForwardingStopped} to prevent premature cancelation of
@@ -1320,7 +1337,7 @@ public class XpListPopupWindow {
                     // Make sure we cancel any ongoing source event stream.
                     final long now = SystemClock.uptimeMillis();
                     final MotionEvent e = MotionEvent.obtain(now, now, MotionEvent.ACTION_CANCEL,
-                            0.0f, 0.0f, 0);
+                        0.0f, 0.0f, 0);
                     mSrc.onTouchEvent(e);
                     e.recycle();
                 }
@@ -1476,15 +1493,15 @@ public class XpListPopupWindow {
             // Always cancel forwarding when the touch stream ends.
             final int action = MotionEventCompat.getActionMasked(srcEvent);
             final boolean keepForwarding = action != MotionEvent.ACTION_UP
-                    && action != MotionEvent.ACTION_CANCEL;
+                && action != MotionEvent.ACTION_CANCEL;
 
             return handled && keepForwarding;
         }
 
         private static boolean pointInView(View view, float localX, float localY, float slop) {
             return localX >= -slop && localY >= -slop &&
-                    localX < ((view.getRight() - view.getLeft()) + slop) &&
-                    localY < ((view.getBottom() - view.getTop()) + slop);
+                localX < ((view.getRight() - view.getLeft()) + slop) &&
+                localY < ((view.getBottom() - view.getTop()) + slop);
         }
 
         /**
@@ -1532,6 +1549,59 @@ public class XpListPopupWindow {
      * passed to the drop down in this mode; the list only looks focused.</p>
      */
     private static class DropDownListView extends ListViewCompat {
+
+        private static final int MAX_ITEMS_MEASURED = 15;
+
+        private final Rect mTempRect = new Rect();
+
+        public int compatMeasureContentWidth() {
+            ListAdapter adapter = getAdapter();
+            if (adapter == null) {
+                return 0;
+            }
+
+            int width = 0;
+            View itemView = null;
+            int itemType = 0;
+            final int widthMeasureSpec =
+                MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
+            final int heightMeasureSpec =
+                MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
+
+            // Make sure the number of items we'll measure is capped. If it's a huge data set
+            // with wildly varying sizes, oh well.
+            int start = Math.max(0, getSelectedItemPosition());
+            final int end = Math.min(adapter.getCount(), start + MAX_ITEMS_MEASURED);
+            final int count = end - start;
+            start = Math.max(0, start - (MAX_ITEMS_MEASURED - count));
+            for (int i = start; i < end; i++) {
+                final int positionType = adapter.getItemViewType(i);
+                if (positionType != itemType) {
+                    itemType = positionType;
+                    itemView = null;
+                }
+                itemView = adapter.getView(i, itemView, this);
+                if (itemView.getLayoutParams() == null) {
+                    itemView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                }
+                itemView.measure(widthMeasureSpec, heightMeasureSpec);
+                width = Math.max(width, itemView.getMeasuredWidth());
+            }
+
+            // Add background padding to measured width
+            Drawable background = getBackground();
+            if (background != null) {
+                background.getPadding(mTempRect);
+                width += mTempRect.left + mTempRect.right;
+            }
+
+            // Add ListView's own padding to measured width
+            width += getPaddingLeft() + getPaddingRight();
+
+            return width;
+        }
 
         /*
         * WARNING: This is a workaround for a touch mode issue.
@@ -1789,8 +1859,8 @@ public class XpListPopupWindow {
     private class ResizePopupRunnable implements Runnable {
         public void run() {
             if (mDropDownList != null && ViewCompat.isAttachedToWindow(mDropDownList)
-                    && mDropDownList.getCount() > mDropDownList.getChildCount()
-                    && mDropDownList.getChildCount() <= mListItemExpandMaximum) {
+                && mDropDownList.getCount() > mDropDownList.getChildCount()
+                && mDropDownList.getChildCount() <= mListItemExpandMaximum) {
                 mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
                 show();
             }
@@ -1804,8 +1874,8 @@ public class XpListPopupWindow {
             final int y = (int) event.getY();
 
             if (action == MotionEvent.ACTION_DOWN &&
-                    mPopup != null && mPopup.isShowing() &&
-                    (x >= 0 && x < mPopup.getWidth() && y >= 0 && y < mPopup.getHeight())) {
+                mPopup != null && mPopup.isShowing() &&
+                (x >= 0 && x < mPopup.getWidth() && y >= 0 && y < mPopup.getHeight())) {
                 mHandler.postDelayed(mResizePopupRunnable, EXPAND_LIST_TIMEOUT);
             } else if (action == MotionEvent.ACTION_UP) {
                 mHandler.removeCallbacks(mResizePopupRunnable);
@@ -1816,13 +1886,13 @@ public class XpListPopupWindow {
 
     private class PopupScrollListener implements ListView.OnScrollListener {
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                int totalItemCount) {
+                             int totalItemCount) {
 
         }
 
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (scrollState == SCROLL_STATE_TOUCH_SCROLL &&
-                    !isInputMethodNotNeeded() && mPopup.getContentView() != null) {
+                !isInputMethodNotNeeded() && mPopup.getContentView() != null) {
                 mHandler.removeCallbacks(mResizePopupRunnable);
                 mResizePopupRunnable.run();
             }
@@ -1847,10 +1917,10 @@ public class XpListPopupWindow {
         if (sGetMaxAvailableHeightMethod != null) {
             try {
                 return (int) sGetMaxAvailableHeightMethod.invoke(mPopup, anchor, yOffset,
-                        ignoreBottomDecorations);
+                    ignoreBottomDecorations);
             } catch (Exception e) {
                 Log.i(TAG, "Could not call getMaxAvailableHeightMethod(View, int, boolean)"
-                        + " on PopupWindow. Using the public version.");
+                    + " on PopupWindow. Using the public version.");
             }
         }
         return mPopup.getMaxAvailableHeight(anchor, yOffset);

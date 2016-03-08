@@ -13,7 +13,6 @@ import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.ListPopupWindow;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -66,7 +65,7 @@ public class ListPreference extends DialogPreference {
     }
 
     private void showAsPopup(View view) {
-        final int layout = R.layout.support_simple_spinner_dropdown_item;
+        final int layout = R.layout.asp_simple_spinner_dropdown_item;
         final Context context = getContext();
 
         final int position = findIndexOfValue(getValue());
@@ -89,43 +88,6 @@ public class ListPreference extends DialogPreference {
         });
 
         popup.show();
-    }
-
-    private void repositionPopup(ListPopupWindow popup, View anchor, int position) {
-        final Context context = anchor.getContext();
-
-        // Shadow is emulated below Lollipop, we have to account for that.
-        final Rect backgroundPadding = new Rect();
-        popup.getBackground().getPadding(backgroundPadding);
-        final int backgroundPaddingStart;
-        final int backgroundPaddingEnd;
-        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-            backgroundPaddingStart = backgroundPadding.right;
-            backgroundPaddingEnd = backgroundPadding.left;
-        } else {
-            backgroundPaddingStart = backgroundPadding.left;
-            backgroundPaddingEnd = backgroundPadding.right;
-        }
-        final int backgroundPaddingTop = backgroundPadding.top;
-
-        // Respect anchor view's padding.
-        final int paddingStart = ViewCompat.getPaddingStart(anchor);
-        final int paddingEnd = ViewCompat.getPaddingEnd(anchor);
-        final int width = anchor.getWidth();
-        final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
-        if (preferredWidth < width) {
-            popup.setWidth(preferredWidth);
-            popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
-        }
-
-        // Center selected item over anchor view.
-        if (position < 0) position = 0;
-        final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
-        final int viewHeight = anchor.getHeight();
-        final int dropDownListViewStyle = Util.resolveResourceId(context, R.attr.dropDownListViewStyle, R.style.Widget_Material_ListView_DropDown);
-        final int dropDownListViewPaddingTop = Util.resolveDimensionPixelOffset(context, dropDownListViewStyle, android.R.attr.paddingTop, 0);
-        final int offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
-        popup.setVerticalOffset(offset);
     }
 
     private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {
@@ -151,7 +113,8 @@ public class ListPreference extends DialogPreference {
         final int width = anchor.getWidth();
         final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
         if (preferredWidth < width) {
-            popup.setWidth(preferredWidth);
+            popup.setWidth(XpListPopupWindow.PREFERRED);
+            popup.setMaxWidth(preferredWidth);
             popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
         }
 
