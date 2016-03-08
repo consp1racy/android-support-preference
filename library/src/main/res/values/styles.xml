@@ -99,4 +99,10 @@
         <item name="android:scrollbars">vertical</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
+
+    <style name="Animation.Material.Popup" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/abc_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
+    </style>
+
 </resources>

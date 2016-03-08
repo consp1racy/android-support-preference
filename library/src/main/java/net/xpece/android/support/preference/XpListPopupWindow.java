@@ -695,11 +695,11 @@ public class XpListPopupWindow {
                 widthSpec = mDropDownMaxWidth;
             }
         } else if (mDropDownWidth == PREFERRED) {
-            final int contentWidth = mDropDownList.compatMeasureContentWidth();
-            if (contentWidth > mDropDownMaxWidth) {
+            final int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
+            if (preferredWidth > mDropDownMaxWidth) {
                 widthSpec = mDropDownMaxWidth;
             } else {
-                widthSpec = contentWidth;
+                widthSpec = preferredWidth;
             }
         } else {
             if (mDropDownWidth > mDropDownMaxWidth) {
@@ -708,7 +708,17 @@ public class XpListPopupWindow {
                 widthSpec = mDropDownWidth;
             }
         }
+
         return widthSpec;
+    }
+
+    private int getBackgroundHorizontalPadding() {
+        Drawable background = mPopup.getBackground();
+        if (background != null) {
+            background.getPadding(mTempRect);
+            return mTempRect.left + mTempRect.right;
+        }
+        return 0;
     }
 
     /**

@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.7' // depends on preference-v7 r23.2.0
+    compile 'net.xpece.android:support-preference:0.5.8' // depends on preference-v7 r23.2.0
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -20,7 +20,7 @@ dependencies {
 
 ## Screenshots
 
-Library version 0.5.7. Android version 5.1.
+Library version 0.5.8. Android version 5.1.
 
 Showcasing Simple Menus and custom title and summary text appearance.
 
@@ -198,10 +198,14 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.7**
-- *FIXED:* Simple menu now highlights preselected option.
+**0.5.8**
+- *FIXED:* Simple menu.
+  - Preselected option is now highlighted.
+  - Fixed animation on Android 4 - fading in.
+  - Fixed popup width on Android 4.
+  - Two line items now have top and bottom padding.
 
-**0.5.6**
+**0.5.6** *Deprecated*
 - *NEW!* Custom title and summary text styles.
   - `app:titleTextAppearance` and `app:titleTextColor` for titles.
   - `app:subtitleTextAppearance` and `app:subtitleTextColor` for summaries.
@@ -211,7 +215,6 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - Added top and bottom padding to popup window.
   - Items can have up to two lines of text (increased form one).
   - Added persistent scrollbar if all items don't fit on screen.
-  - TODO: Display current selection.
 
 **0.5.5** *Deprecated*
 - ***Only supports appcompat-v7 with preference-v7 version 23.2.0!***

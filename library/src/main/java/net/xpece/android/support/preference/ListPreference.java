@@ -77,6 +77,7 @@ public class ListPreference extends DialogPreference {
         popup.setModal(true);
         popup.setAnchorView(view);
         popup.setAdapter(adapter);
+        popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
         repositionPopup(popup, view, position);
 
@@ -92,9 +93,6 @@ public class ListPreference extends DialogPreference {
     }
 
     private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {
-        // TODO: Fix dialog open animation source on Android 4.
-        // TODO: Fix list width on Android 4.
-
         final Context context = anchor.getContext();
 
         // Shadow is emulated below Lollipop, we have to account for that.
