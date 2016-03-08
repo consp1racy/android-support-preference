@@ -12,13 +12,18 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.5' // depends on preference-v7 r23.2.0
+    compile 'net.xpece.android:support-preference:0.5.6' // depends on preference-v7 r23.2.0
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
 ```
 
 ## Screenshots
+
+Library version 0.5.6. Android version 5.1.
+Showcasing Simple Menus and custom title and summary text appearance.
+
+![Simple menus and custom text appearance](./docs/device-2016-03-08-225502.png)&nbsp;
 
 Library version 0.5.1. Android version 4.4.
 
@@ -192,7 +197,18 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.5**
+**0.5.6**
+- *NEW!* Custom title and summary text styles.
+  - `app:titleTextAppearance` and `app:titleTextColor` for titles.
+  - `app:subtitleTextAppearance` and `app:subtitleTextColor` for summaries.
+  - Analogous methods available in Java.
+- *FIXED:* Simple menu.
+  - Popup window adjusts its width according to its own content.
+  - Added top and bottom padding to popup window.
+  - Items can have up to two lines of text (increased form one).
+  - TODO: Display current selection.
+
+**0.5.5** *Deprecated*
 - ***Only supports appcompat-v7 with preference-v7 version 23.2.0!***
 
 **0.5.4**
@@ -204,7 +220,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - To be updated later.
 - *FIXED:* Small icon is properly aligned in RTL configurations.
 
-**0.5.3**
+**0.5.3** *Deprecated*
 - *FIXED:* Ringtone picker does not *need* `READ_EXTERNAL_STORAGE` permission even prior to Android 6.
 
 **0.5.2** *Deprecated*
