@@ -206,6 +206,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - Popup window adjusts its width according to its own content.
   - Added top and bottom padding to popup window.
   - Items can have up to two lines of text (increased form one).
+  - Added persistent scrollbar if all items don't fit on screen.
   - TODO: Display current selection.
 
 **0.5.5** *Deprecated*
