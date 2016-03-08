@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-class XpPreferenceManager extends PreferenceManager {
+final class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
 

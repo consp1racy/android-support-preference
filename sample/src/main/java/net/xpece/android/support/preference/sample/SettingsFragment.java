@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
@@ -15,6 +14,7 @@ import android.view.View;
 
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
+import net.xpece.android.support.preference.PreferenceCategory;
 import net.xpece.android.support.preference.PreferenceDividerDecoration;
 import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
@@ -122,6 +122,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         // Add 'data and sync' preferences, and a corresponding header.
         fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
         fakeHeader.setTitle(R.string.pref_header_data_sync);
+        fakeHeader.setTitleTextAppearance(R.style.TextAppearance_AppCompat_Button);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_data_sync);
 
@@ -132,7 +133,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("example_list"));
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        bindPreferenceSummaryToValue(findPreference("sync_frequency2"));
+        bindPreferenceSummaryToValue(findPreference("notif_content"));
 
         // Setup root preference title.
         getPreferenceScreen().setTitle(getActivity().getTitle());

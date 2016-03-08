@@ -18,7 +18,6 @@
         <attr name="seekBarPreferenceStyle"/>
         <attr name="seekBarDialogPreferenceStyle" format="reference"/>
 
-        <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
 
         <!-- Default style for PreferenceScreen. -->
         <attr name="preferenceScreenStyle"/>
@@ -26,6 +25,7 @@
         <!-- Preference fragment list style -->
         <attr name="preferenceFragmentListStyle"/>
 
+        <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
         <attr name="preferenceTint" format="color"/>
 
     </declare-styleable>
@@ -45,6 +45,11 @@
         </attr>
         <attr name="asp_tintEnabled" format="boolean"/>
         <attr name="asp_iconPaddingEnabled" format="boolean"/>
+
+        <attr name="titleTextAppearance"/>
+        <attr name="titleTextColor"/>
+        <attr name="subtitleTextAppearance"/>
+        <attr name="subtitleTextColor"/>
     </declare-styleable>
 
     <declare-styleable name="ListPreference">
@@ -80,5 +85,4 @@
     <declare-styleable name="SeekBarDialogPreference">
         <attr name="android:max"/>
     </declare-styleable>
-
 </resources>

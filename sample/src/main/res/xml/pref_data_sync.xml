@@ -2,15 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ListPreference
-        android:defaultValue="180"
-        android:entries="@array/pref_sync_frequency_titles2"
-        android:entryValues="@array/pref_sync_frequency_values2"
-        android:key="sync_frequency2"
-        android:title="@string/pref_title_sync_frequency2"
-        app:asp_iconPaddingEnabled="false"
-        app:asp_simpleMenu="true"/>
-
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -21,6 +12,8 @@
         android:icon="@mipmap/ic_launcher"
         android:key="sync_frequency"
         android:negativeButtonText="@null"
+        app:titleTextColor="@color/primary_dark"
+        app:subtitleTextColor="@color/primary"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_sync_frequency"
         app:asp_iconPaddingEnabled="false"/>

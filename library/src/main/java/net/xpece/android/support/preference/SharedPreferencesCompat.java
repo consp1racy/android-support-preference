@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by Eugen on 20. 5. 2015.
  */
-public class SharedPreferencesCompat {
+public final class SharedPreferencesCompat {
 
     public static void putStringSet(SharedPreferences.Editor editor, String key, Set<String> values) {
             if (Build.VERSION.SDK_INT >= 11) {

@@ -20,8 +20,10 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 
 /**
@@ -31,8 +33,9 @@ import android.util.AttributeSet;
  */
 public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
     implements TintablePreference, TintableDialogPreference,
-    CustomIconPreference, CustomDialogIconPreference {
+    CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference {
 
+    private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
     private DialogPreferenceIconHelper mDialogPreferenceIconHelper;
 
@@ -59,6 +62,9 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
 
         mDialogPreferenceIconHelper = new DialogPreferenceIconHelper(this);
         mDialogPreferenceIconHelper.loadFromAttributes(attrs, defStyleAttr, defStyleRes);
+
+        mPreferenceTextHelper = new PreferenceTextHelper();
+        mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -133,5 +139,47 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     @Override
     public PorterDuff.Mode getSupportDialogIconTintMode() {
         return mDialogPreferenceIconHelper.getTintMode();
+    }
+
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        mPreferenceTextHelper.onBindViewHolder(holder);
+    }
+
+    @Override
+    public void setTitleTextColor(ColorStateList titleTextColor) {
+        mPreferenceTextHelper.setTitleTextColor(titleTextColor);
+        notifyChanged();
+    }
+
+    @Override
+    public void setTitleTextColor(@ColorInt int titleTextColor) {
+        mPreferenceTextHelper.setTitleTextColor(titleTextColor);
+        notifyChanged();
+    }
+
+    @Override
+    public void setTitleTextAppearance(int titleTextAppearance) {
+        mPreferenceTextHelper.setTitleTextAppearance(titleTextAppearance);
+        notifyChanged();
+    }
+
+    @Override
+    public void setSummaryTextColor(ColorStateList summaryTextColor) {
+        mPreferenceTextHelper.setSummaryTextColor(summaryTextColor);
+        notifyChanged();
+    }
+
+    @Override
+    public void setSummaryTextColor(@ColorInt int summaryTextColor) {
+        mPreferenceTextHelper.setSummaryTextColor(summaryTextColor);
+        notifyChanged();
+    }
+
+    @Override
+    public void setSummaryTextAppearance(int summaryTextAppearance) {
+        mPreferenceTextHelper.setSummaryTextAppearance(summaryTextAppearance);
+        notifyChanged();
     }
 }
