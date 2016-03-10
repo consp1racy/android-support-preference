@@ -1,4 +1,4 @@
-# Material Preference [ ![Download](https://api.bintray.com/packages/consp1racy/maven/net.xpece.android%3Asupport-preference/images/download.svg) ](https://bintray.com/consp1racy/maven/net.xpece.android%3Asupport-preference/_latestVersion)
+# Material Preference [ ![Download](https://api.bintray.com/packages/consp1racy/maven/net.xpece.android%3Asupport-preference/images/download.svg) ](https://bintray.com/consp1racy/maven/net.xpece.android%3Asupport-preference/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--support--preference-green.svg?style=true)](https://android-arsenal.com/details/1/3267)
 
 <img src="./sample/src/main/res/mipmap-xxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
