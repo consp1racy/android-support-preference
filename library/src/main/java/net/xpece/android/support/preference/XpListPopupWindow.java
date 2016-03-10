@@ -98,9 +98,11 @@ public class XpListPopupWindow {
     private ListAdapter mAdapter;
     private DropDownListView mDropDownList;
 
+    private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private float mDropDownPreferredWidthUnit = 0;
+
     private int mDropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
-    private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownHorizontalOffset;
     private int mDropDownVerticalOffset;
     private int mDropDownWindowLayoutType = WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL;
@@ -501,6 +503,10 @@ public class XpListPopupWindow {
         return mDropDownMaxWidth;
     }
 
+    public float getPreferredWidthUnit() {
+        return mDropDownPreferredWidthUnit;
+    }
+
     /**
      * Sets the width of the popup window in pixels. Can also be {@link #MATCH_PARENT}
      * or {@link #WRAP_CONTENT}.
@@ -513,6 +519,10 @@ public class XpListPopupWindow {
 
     public void setMaxWidth(int maxWidth) {
         mDropDownMaxWidth = maxWidth;
+    }
+
+    public void setPreferredWidthUnit(float unit) {
+        mDropDownPreferredWidthUnit = unit;
     }
 
     /**
@@ -682,7 +692,7 @@ public class XpListPopupWindow {
             // The call to PopupWindow's update method below can accept -1 for any
             // value you do not want to update.
             if (mDropDownMaxWidth == MATCH_PARENT) {
-                widthSpec = MATCH_PARENT;
+                widthSpec = -1; // MATCH_PARENT;
             } else if (mDropDownMaxWidth == WRAP_CONTENT) {
                 widthSpec = getAnchorView().getWidth();
             } else {
@@ -695,7 +705,11 @@ public class XpListPopupWindow {
                 widthSpec = mDropDownMaxWidth;
             }
         } else if (mDropDownWidth == PREFERRED) {
-            final int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
+            int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
+            if (mDropDownPreferredWidthUnit > 0) {
+                int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
+                preferredWidth = (int) (units * mDropDownPreferredWidthUnit);
+            }
             if (preferredWidth > mDropDownMaxWidth) {
                 widthSpec = mDropDownMaxWidth;
             } else {

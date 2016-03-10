@@ -13,12 +13,15 @@ import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 
 public class ListPreference extends DialogPreference {
     private CharSequence[] mEntries;
@@ -27,7 +30,9 @@ public class ListPreference extends DialogPreference {
     private String mSummary;
     private boolean mValueSet;
 
-    private boolean mSimple = true;
+    private boolean mSimple;
+    private float mSimplePreferredWidthUnit;
+    private boolean mSimpleMenuShowing;
 
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -35,6 +40,7 @@ public class ListPreference extends DialogPreference {
         this.mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
         this.mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
         this.mSimple = a.getBoolean(R.styleable.ListPreference_asp_simpleMenu, false);
+        this.mSimplePreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
         a.recycle();
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
@@ -46,7 +52,7 @@ public class ListPreference extends DialogPreference {
     }
 
     public ListPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.dialogPreferenceStyle);
+        this(context, attrs, R.attr.listPreferenceStyle);
     }
 
     public ListPreference(Context context) {
@@ -65,13 +71,17 @@ public class ListPreference extends DialogPreference {
     }
 
     private void showAsPopup(View view) {
-        final int layout = R.layout.asp_simple_spinner_dropdown_item;
         final Context context = getContext();
 
         final int position = findIndexOfValue(getValue());
 
+        final int layout = R.layout.asp_simple_spinner_dropdown_item;
         final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
         adapter.setSelection(position);
+
+        // TODO: PopupFragment - how to find anchor view?
+        // TODO: Find out if there are multiline items - show simple dialog.
+        // TODO: Modes: Full dialog, Simple dialog, Simple menu, Simple adaptive
 
         final XpListPopupWindow popup = new XpListPopupWindow(context, null);
         popup.setModal(true);
@@ -88,7 +98,14 @@ public class ListPreference extends DialogPreference {
                 popup.dismiss();
             }
         });
+        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mSimpleMenuShowing = false;
+            }
+        });
 
+        mSimpleMenuShowing = true;
         popup.show();
     }
 
@@ -115,7 +132,12 @@ public class ListPreference extends DialogPreference {
         final int width = anchor.getWidth();
         final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
         if (preferredWidth < width) {
-            popup.setWidth(XpListPopupWindow.PREFERRED);
+            if (mSimplePreferredWidthUnit >= 0) {
+                popup.setPreferredWidthUnit(mSimplePreferredWidthUnit);
+                popup.setWidth(XpListPopupWindow.PREFERRED);
+            } else {
+                popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
+            }
             popup.setMaxWidth(preferredWidth);
             popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
         }
@@ -231,45 +253,69 @@ public class ListPreference extends DialogPreference {
 
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-        if (this.isPersistent()) {
-            return superState;
-        } else {
-            ListPreference.SavedState myState = new ListPreference.SavedState(superState);
-            myState.value = this.getValue();
-            return myState;
-        }
+//        if (this.isPersistent()) {
+//            return superState;
+//        } else {
+        ListPreference.SavedState myState = new ListPreference.SavedState(superState);
+        myState.value = this.getValue();
+        myState.simpleMenuShowing = this.mSimpleMenuShowing;
+        return myState;
+//        }
     }
 
     protected void onRestoreInstanceState(Parcelable state) {
         if (state != null && state.getClass().equals(ListPreference.SavedState.class)) {
             ListPreference.SavedState myState = (ListPreference.SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
-            this.setValue(myState.value);
+            if (!isPersistent()) {
+                this.setValue(myState.value);
+            }
+            this.mSimpleMenuShowing = myState.simpleMenuShowing;
         } else {
             super.onRestoreInstanceState(state);
         }
     }
 
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+
+        if (mSimpleMenuShowing) {
+            final View view = holder.itemView;
+            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    view.getViewTreeObserver().removeOnPreDrawListener(this);
+                    showAsPopup(view);
+                    return true;
+                }
+            });
+        }
+    }
+
     private static class SavedState extends BaseSavedState {
+        boolean simpleMenuShowing;
         String value;
-        public static final Creator<SavedState> CREATOR = new Creator<ListPreference.SavedState>() {
-            public ListPreference.SavedState createFromParcel(Parcel in) {
-                return new ListPreference.SavedState(in);
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
             }
 
-            public ListPreference.SavedState[] newArray(int size) {
-                return new ListPreference.SavedState[size];
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
             }
         };
 
         public SavedState(Parcel source) {
             super(source);
             this.value = source.readString();
+            this.simpleMenuShowing = source.readInt() != 0;
         }
 
         public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(this.value);
+            dest.writeInt(this.simpleMenuShowing ? 1 : 0);
         }
 
         public SavedState(Parcelable superState) {

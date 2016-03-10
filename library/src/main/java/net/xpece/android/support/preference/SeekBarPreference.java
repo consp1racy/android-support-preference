@@ -51,7 +51,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 //        final int layoutResId = a.getResourceId(R.styleable.XpSeekBarPreference_layout,R.layout.preference_widget_seekbar);
-        final int layoutResId = a.getResourceId(R.styleable.SeekBarPreference_android_layout, R.layout.preference_seekbar_material);
+        final int layoutResId = a.getResourceId(R.styleable.SeekBarPreference_android_layout, R.layout.asp_preference_seekbar);
         setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
         a.recycle();
 

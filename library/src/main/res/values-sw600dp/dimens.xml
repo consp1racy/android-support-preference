@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="asp_simple_menu_width_unit">56dp</dimen>
+    <dimen name="asp_simple_menu_width_unit">64dp</dimen>
 </resources>

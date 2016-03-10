@@ -11,12 +11,10 @@
         android:entryValues="@array/pref_sync_frequency_values"
         android:icon="@mipmap/ic_launcher"
         android:key="sync_frequency"
-        android:negativeButtonText="@null"
-        app:titleTextColor="@color/primary_dark"
-        app:subtitleTextColor="@color/primary"
-        android:positiveButtonText="@null"
         android:title="@string/pref_title_sync_frequency"
-        app:asp_iconPaddingEnabled="false"/>
+        app:asp_iconPaddingEnabled="false"
+        app:subtitleTextColor="@color/primary"
+        app:titleTextColor="@color/primary_dark"/>
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->

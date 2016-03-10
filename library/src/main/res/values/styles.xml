@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Preference.Material" parent="">
-        <item name="android:layout">@layout/preference_material</item>
+        <item name="android:layout">@layout/asp_preference</item>
         <item name="asp_tint">?preferenceTint</item>
         <item name="asp_iconPaddingEnabled">true</item>
     </style>
@@ -10,13 +10,13 @@
 
     <style name="Preference.Material.Information">
         <!--<item name="android:layout">@layout/preference_information_material</item>-->
-        <item name="android:layout">@layout/preference_material</item>
+        <item name="android:layout">@layout/asp_preference</item>
         <item name="android:enabled">false</item>
         <item name="android:shouldDisableView">false</item>
     </style>
 
     <style name="Preference.Material.Category">
-        <item name="android:layout">@layout/preference_category_material</item>
+        <item name="android:layout">@layout/asp_preference_category</item>
         <!-- The title should not dim if the category is disabled, instead only the preference children should dim. -->
         <item name="android:shouldDisableView">false</item>
         <item name="android:selectable">false</item>
@@ -27,7 +27,7 @@
     </style>
 
     <style name="Preference.Material.SwitchPreferenceCompat">
-        <item name="android:widgetLayout">@layout/preference_widget_switch</item>
+        <item name="android:widgetLayout">@layout/preference_widget_switch_compat</item>
         <item name="android:textOn">@string/capital_on</item>
         <item name="android:textOff">@string/capital_off</item>
         <!--<item name="android:textOn">@null</item>-->
@@ -51,15 +51,28 @@
     </style>
 
     <style name="Preference.Material.DialogPreference.EditTextPreference">
-        <item name="android:dialogLayout">@layout/preference_dialog_edittext_material</item>
+        <item name="android:dialogLayout">@layout/asp_preference_dialog_edittext</item>
     </style>
 
     <style name="Preference.Material.DialogPreference.SeekBarDialogPreference">
-        <item name="android:dialogLayout">@layout/seekbar_dialog</item>
+        <item name="android:dialogLayout">@layout/asp_seekbar_dialog</item>
     </style>
 
     <style name="Preference.Material.SeekBarPreference">
-        <item name="android:layout">@layout/preference_seekbar_material</item>
+        <item name="android:layout">@layout/asp_preference_seekbar</item>
+    </style>
+
+    <style name="Preference.Material.DialogPreference.MultiSelectListPreference">
+    </style>
+
+    <style name="Preference.Material.DialogPreference.ListPreference">
+        <item name="android:positiveButtonText">@null</item>
+        <item name="android:negativeButtonText">@null</item>
+    </style>
+
+    <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu">
+        <item name="asp_simpleMenu">true</item>
+        <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
     </style>
 
     <style name="Preference.Material.DialogPreference.RingtonePreference">
@@ -86,8 +99,12 @@
     <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
         <item name="android:paddingLeft">?listPreferredItemPaddingLeft</item>
-        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">?listPreferredItemPaddingLeft</item>
-        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">?listPreferredItemPaddingRight</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">
+            ?listPreferredItemPaddingLeft
+        </item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">
+            ?listPreferredItemPaddingRight
+        </item>
         <item name="android:paddingRight">?listPreferredItemPaddingRight</item>
     </style>
 

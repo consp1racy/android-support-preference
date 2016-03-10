@@ -29,6 +29,13 @@
             @style/Preference.Material.DialogPreference.SeekBarDialogPreference
         </item>
 
+        <item name="listPreferenceStyle">
+            @style/Preference.Material.DialogPreference.ListPreference
+        </item>
+        <item name="multiSelectListPreferenceStyle">
+            @style/Preference.Material.DialogPreference.MultiSelectListPreference
+        </item>
+
         <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1
         </item>

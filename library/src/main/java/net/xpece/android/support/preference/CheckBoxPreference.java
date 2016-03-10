@@ -24,7 +24,6 @@ import android.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Checkable;
 
 /**
@@ -61,32 +60,37 @@ public class CheckBoxPreference extends TwoStatePreference {
         super.onBindViewHolder(holder);
 
         View checkboxView = holder.findViewById(android.R.id.checkbox);
-        if (checkboxView != null && checkboxView instanceof Checkable) {
+        if (checkboxView == null) {
+            checkboxView = holder.findViewById(R.id.checkbox);
+        }
+        if (checkboxView instanceof Checkable) {
             ((Checkable) checkboxView).setChecked(mChecked);
         }
 
         syncSummaryView(holder);
     }
 
-    /**
-     * @hide
-     */
-    @Override
-    protected void performClick(View view) {
-        super.performClick(view);
-        syncViewIfAccessibilityEnabled(view);
-    }
-    private void syncViewIfAccessibilityEnabled(View view) {
-        AccessibilityManager accessibilityManager = (AccessibilityManager)
-            getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if (!accessibilityManager.isEnabled()) {
-            return;
-        }
-        View checkboxView = view.findViewById(R.id.checkbox);
-        syncCheckboxView(checkboxView);
-        View summaryView = view.findViewById(android.R.id.summary);
-        syncSummaryView(summaryView);
-    }
+//    /**
+//     * @hide
+//     */
+//    @Override
+//    protected void performClick(View view) {
+//        super.performClick(view);
+//        syncViewIfAccessibilityEnabled(view);
+//    }
+//
+//    private void syncViewIfAccessibilityEnabled(View view) {
+//        AccessibilityManager accessibilityManager = (AccessibilityManager)
+//            getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+//        if (!accessibilityManager.isEnabled()) {
+//            return;
+//        }
+//        View checkboxView = view.findViewById(R.id.checkbox);
+//        syncCheckboxView(checkboxView);
+//        View summaryView = view.findViewById(android.R.id.summary);
+//        syncSummaryView(summaryView);
+//    }
+
     private void syncCheckboxView(View view) {
         if (view instanceof Checkable) {
             ((Checkable) view).setChecked(mChecked);

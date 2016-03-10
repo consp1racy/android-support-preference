@@ -16,7 +16,7 @@
         android:entryValues="@array/pref_notif_content_values"
         android:key="notif_content"
         android:title="@string/pref_notif_content"
-        app:asp_simpleMenu="true"/>
+        style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
 
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->

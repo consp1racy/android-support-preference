@@ -24,7 +24,6 @@ import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -110,20 +109,20 @@ public class SwitchPreference extends TwoStatePreference {
         this.syncSwitchView(holder);
     }
 
-    protected void performClick(View view) {
-        super.performClick(view);
-        this.syncViewIfAccessibilityEnabled(view);
-    }
-
-    private void syncViewIfAccessibilityEnabled(View view) {
-        AccessibilityManager accessibilityManager = (AccessibilityManager) this.getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if (accessibilityManager.isEnabled()) {
-            View switchView = view.findViewById(R.id.switchWidget);
-            this.syncSwitchView(switchView);
-            View summaryView = view.findViewById(android.R.id.summary);
-            this.syncSummaryView(summaryView);
-        }
-    }
+//    protected void performClick(View view) {
+//        super.performClick(view);
+//        this.syncViewIfAccessibilityEnabled(view);
+//    }
+//
+//    private void syncViewIfAccessibilityEnabled(View view) {
+//        AccessibilityManager accessibilityManager = (AccessibilityManager) this.getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+//        if (accessibilityManager.isEnabled()) {
+//            View switchView = view.findViewById(R.id.switchWidget);
+//            this.syncSwitchView(switchView);
+//            View summaryView = view.findViewById(android.R.id.summary);
+//            this.syncSummaryView(summaryView);
+//        }
+//    }
 
     private void syncSwitchView(PreferenceViewHolder holder) {
         View switchView = holder.findViewById(R.id.switchWidget);

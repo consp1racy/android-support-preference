@@ -16,8 +16,10 @@
         <attr name="switchPreferenceStyle"/>
 
         <attr name="seekBarPreferenceStyle"/>
-        <attr name="seekBarDialogPreferenceStyle" format="reference"/>
 
+        <attr name="seekBarDialogPreferenceStyle" format="reference"/>
+        <attr name="listPreferenceStyle" format="reference"/>
+        <attr name="multiSelectListPreferenceStyle" format="reference"/>
 
         <!-- Default style for PreferenceScreen. -->
         <attr name="preferenceScreenStyle"/>
@@ -54,6 +56,10 @@
 
     <declare-styleable name="ListPreference">
         <attr name="asp_simpleMenu" format="boolean"/>
+        <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
+            <enum name="match_parent" value="-1"/>
+            <enum name="wrap_content" value="-2"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="DialogPreference">
