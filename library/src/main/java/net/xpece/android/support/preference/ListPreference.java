@@ -5,6 +5,7 @@
 
 package net.xpece.android.support.preference;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -108,13 +109,18 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuShowing = true;
         popup.show();
 
-        if (Build.VERSION.SDK_INT >= 18) {
-            // Avoid leaking PopupWindow on config change.
+        preventPopupWindowLeak(anchor, popup);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    private void preventPopupWindowLeak(final View anchor, final XpListPopupWindow popup) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             anchor.getViewTreeObserver().addOnWindowAttachListener(new ViewTreeObserver.OnWindowAttachListener() {
                 @Override
                 public void onWindowAttached() {}
 
                 @Override
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 public void onWindowDetached() {
                     anchor.getViewTreeObserver().removeOnWindowAttachListener(this);
                     if (popup.isShowing()) {
