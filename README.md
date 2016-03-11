@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.8' // depends on preference-v7 r23.2.0
+    compile 'net.xpece.android:support-preference:0.5.9' // depends on preference-v7 r23.2.1
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -20,11 +20,11 @@ dependencies {
 
 ## Screenshots
 
-Library version 0.5.8. Android version 5.1.
+Library version 0.5.9. Android version 4.4.
 
 Showcasing Simple Menus and custom title and summary text appearance.
 
-![Simple menus and custom text appearance](./docs/device-2016-03-08-232622.png)&nbsp;
+![Simple menus and custom text appearance](./docs/device-2016-03-11-125945.png)&nbsp;
 
 Library version 0.5.1. Android version 4.4.
 
@@ -48,6 +48,7 @@ Library version 0.5.1. Android version 4.4.
     - Uses AppCompat AlertDialog Material theme
 - `EditTextPreference`
 - `ListPreference`
+    - Optionally can display as a simple menu.
 - `MultiSelectListPreference`
     - Available since API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
@@ -70,6 +71,7 @@ Library version 0.5.1. Android version 4.4.
 - Several preference widgets not publicly available in preference-v7 or SDK.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Subscreen navigation implementation.
+- `ListPreference` can optionally show as a Simple Menu in a popup instead of a dialog.
 
 ## How to use the library?
 
@@ -130,24 +132,6 @@ public void onViewCreated(View view, Bundle savedInstanceState) {
 
 Preference-v7 r23.1.1 does not provide a default divider so you don't need to call `setDivider(null)`.
 
-### Avoiding bugs
-
-In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
-Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
-`super.onCreate(savedInstanceState)` in your Activity.
-
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Fixes.updateLayoutInflaterFactory(getLayoutInflater());
-    setContentView(R.layout.activity_settings);
-    //...
-}
-```
-
-This fix is not necessary or available since version 0.5.5.
-
 ### Ringtone picker
 
 `RingtonePicker` will show only system ringtones/notification sounds by default.
@@ -174,6 +158,42 @@ subsHelper.setIconTintEnabled(true);
 One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
 Please review the sample project for an example solution.
 
+### Simple menu
+
+Simple menu is described in [Material Design specs](https://www.google.com/design/spec/components/menus.html#menus-simple-menus).
+
+If you want to show your `ListPreference` in a popup instead of a dialog use this configuration:
+
+```java
+<ListPreference
+    style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
+```
+
+The width of the popup window will try to accommodate all items and be a multiple of 56dp on phones and 64dp on tablets.
+You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavior:
+
+- `match_parent` or `wrap_content`: Same width as underlying `ListPreference` view.
+- `0dp`: Popup wraps its own content (max width being limited by the width of underlying `ListPreference`).
+- `Xdp`: Popup wraps its own content and expands to the nearest multiple of X (being limited by the width of underlying `ListPreference`).
+
+### Avoiding bugs
+
+In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
+Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
+`super.onCreate(savedInstanceState)` in your Activity.
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Fixes.updateLayoutInflaterFactory(getLayoutInflater());
+    setContentView(R.layout.activity_settings);
+    //...
+}
+```
+
+This fix is not necessary or available since version 0.5.5.
+
 ### XML attributes
 
 - `app:asp_tint`
@@ -184,6 +204,9 @@ Please review the sample project for an example solution.
 - `app:asp_dialogTintMode`
 - `app:asp_dialogTintEnabled`
 - `app:asp_dialogIconPaddingEnabled`
+
+- `app:asp_simpleMenu`
+- `app:asp_simpleMenuWidthUnit`
 
 ### Icon padding
 
@@ -198,7 +221,12 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.8**
+**0.5.9**
+- *FIXED:* Simple menu.
+  - Showing simple menu is restored after screen orientation change.
+  - Aligning simple menu width to 56dp/64dp grid on phones/tablets (customizable).
+
+**0.5.8** 
 - *FIXED:* Simple menu.
   - Preselected option is now highlighted.
   - Fixed animation on Android 4 - fading in.

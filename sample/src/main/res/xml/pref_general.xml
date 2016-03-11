@@ -28,13 +28,13 @@
         android:title="@string/pref_title_add_friends_to_messages"/>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_ring_volume_black_24dp"
+        android:icon="@drawable/ic_inbox_black_24dp"
         android:key="subs_screen"
         android:persistent="false"
         android:title="Subscreen">
 
         <CheckBoxPreference
-            android:icon="@drawable/ic_ring_volume_black_24dp"
+            android:icon="@drawable/ic_mail_black_24dp"
             android:key="example_icon_pref"
             android:title="Icon test"
             app:asp_tintEnabled="true"

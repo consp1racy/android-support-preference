@@ -26,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.PopupWindow;
 
 public class ListPreference extends DialogPreference {
+    private static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private String mValue;
@@ -72,6 +74,7 @@ public class ListPreference extends DialogPreference {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void showAsPopup(final View anchor) {
         final Context context = getContext();
 
@@ -99,23 +102,32 @@ public class ListPreference extends DialogPreference {
                 popup.dismiss();
             }
         });
+
+        final Object attachListener = preventPopupWindowLeak(anchor, popup);
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                if (SUPPORTS_ON_WINDOW_ATTACH_LISTENER) {
+                    anchor.getViewTreeObserver().removeOnWindowAttachListener((ViewTreeObserver.OnWindowAttachListener) attachListener);
+                }
+
                 mSimpleMenuShowing = false;
             }
         });
 
-        mSimpleMenuShowing = true;
-        popup.show();
+        if (SUPPORTS_ON_WINDOW_ATTACH_LISTENER) {
+            anchor.getViewTreeObserver().addOnWindowAttachListener((ViewTreeObserver.OnWindowAttachListener) attachListener);
+        }
 
-        preventPopupWindowLeak(anchor, popup);
+        mSimpleMenuShowing = true;
+
+        popup.show();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void preventPopupWindowLeak(final View anchor, final XpListPopupWindow popup) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            anchor.getViewTreeObserver().addOnWindowAttachListener(new ViewTreeObserver.OnWindowAttachListener() {
+    private Object preventPopupWindowLeak(final View anchor, final XpListPopupWindow popup) {
+        if (SUPPORTS_ON_WINDOW_ATTACH_LISTENER) {
+            return new ViewTreeObserver.OnWindowAttachListener() {
                 @Override
                 public void onWindowAttached() {}
 
@@ -128,8 +140,9 @@ public class ListPreference extends DialogPreference {
                         popup.dismiss();
                     }
                 }
-            });
+            };
         }
+        return null;
     }
 
     private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {

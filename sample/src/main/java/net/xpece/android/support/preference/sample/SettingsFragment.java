@@ -5,6 +5,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
@@ -111,7 +112,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Manually tint PreferenceScreen icon.
         Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.abc_ic_menu_selectall_material, R.color.accent, true);
+        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.ic_inbox_black_24dp, R.color.accent_state_list, true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
@@ -123,6 +124,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
         fakeHeader.setTitle(R.string.pref_header_data_sync);
         fakeHeader.setTitleTextAppearance(R.style.TextAppearance_AppCompat_Button);
+        fakeHeader.setTitleTextColor(ContextCompat.getColor(fakeHeader.getContext(), R.color.primary)); // No disabled color state please.
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_data_sync);
 
