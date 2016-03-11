@@ -8,6 +8,7 @@ package net.xpece.android.support.preference;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
@@ -70,7 +71,7 @@ public class ListPreference extends DialogPreference {
         }
     }
 
-    private void showAsPopup(View view) {
+    private void showAsPopup(final View anchor) {
         final Context context = getContext();
 
         final int position = findIndexOfValue(getValue());
@@ -79,17 +80,16 @@ public class ListPreference extends DialogPreference {
         final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
         adapter.setSelection(position);
 
-        // TODO: PopupFragment - how to find anchor view?
         // TODO: Find out if there are multiline items - show simple dialog.
         // TODO: Modes: Full dialog, Simple dialog, Simple menu, Simple adaptive
 
         final XpListPopupWindow popup = new XpListPopupWindow(context, null);
         popup.setModal(true);
-        popup.setAnchorView(view);
+        popup.setAnchorView(anchor);
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
-        repositionPopup(popup, view, position);
+        repositionPopup(popup, anchor, position);
 
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,6 +107,23 @@ public class ListPreference extends DialogPreference {
 
         mSimpleMenuShowing = true;
         popup.show();
+
+        if (Build.VERSION.SDK_INT >= 18) {
+            // Avoid leaking PopupWindow on config change.
+            anchor.getViewTreeObserver().addOnWindowAttachListener(new ViewTreeObserver.OnWindowAttachListener() {
+                @Override
+                public void onWindowAttached() {}
+
+                @Override
+                public void onWindowDetached() {
+                    anchor.getViewTreeObserver().removeOnWindowAttachListener(this);
+                    if (popup.isShowing()) {
+                        popup.setOnDismissListener(null);
+                        popup.dismiss();
+                    }
+                }
+            });
+        }
     }
 
     private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {
