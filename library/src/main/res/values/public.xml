@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public name="seekBarDialogPreferenceStyle" type="attr"/>
+    <public name="listPreferenceStyle" type="attr"/>
+    <public name="multiSelectListPreferenceStyle" type="attr"/>
+
+    <public name="asp_textAppearanceListItemSecondary" type="attr"/>
+    <public name="preferenceTint" type="attr"/>
+
+    <public name="asp_tint" type="attr"/>
+    <public name="asp_tintMode" type="attr"/>
+    <public name="asp_tintEnabled" type="attr"/>
+    <public name="asp_iconPaddingEnabled" type="attr"/>
+
+    <public name="asp_dialogTint" type="attr"/>
+    <public name="asp_dialogTintMode" type="attr"/>
+    <public name="asp_dialogTintEnabled" type="attr"/>
+    <public name="asp_dialogIconPaddingEnabled" type="attr"/>
+
+    <public name="asp_simpleMenu" type="attr"/>
+    <public name="asp_simpleMenuWidthUnit" type="attr"/>
+</resources>
