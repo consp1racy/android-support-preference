@@ -55,7 +55,12 @@
     </declare-styleable>
 
     <declare-styleable name="ListPreference">
-        <attr name="asp_simpleMenu" format="boolean"/>
+        <attr name="asp_menuMode" format="enum">
+            <enum name="dialog" value="0"/>
+            <enum name="simple_dialog" value="1"/>
+            <enum name="simple_menu" value="2"/>
+            <enum name="simple_adaptive" value="3"/>
+        </attr>
         <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
             <enum name="match_parent" value="-1"/>
             <enum name="wrap_content" value="-2"/>
@@ -84,7 +89,6 @@
     </declare-styleable>
 
     <declare-styleable name="SeekBarPreference">
-        <attr name="android:layout"/>
         <attr name="android:max"/>
     </declare-styleable>
 

@@ -71,7 +71,7 @@
     </style>
 
     <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu">
-        <item name="asp_simpleMenu">true</item>
+        <item name="asp_menuMode">simple_adaptive</item>
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
     </style>
 

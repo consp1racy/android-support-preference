@@ -134,7 +134,7 @@ public class XpListPopupWindow {
 
     private final Handler mHandler;
 
-    private Rect mTempRect = new Rect();
+    private final Rect mTempRect = new Rect();
 
     private boolean mModal;
 
@@ -196,6 +196,38 @@ public class XpListPopupWindow {
      * screen as needed, regardless of whether this covers the input method.
      */
     public static final int INPUT_METHOD_NOT_NEEDED = PopupWindow.INPUT_METHOD_NOT_NEEDED;
+
+    boolean hasMultiLineItems() {
+        if (mDropDownList == null) {
+            buildDropDown();
+        }
+        if (mDropDownList != null) {
+            return mDropDownList.hasMultiLineItems();
+        }
+        return false;
+    }
+
+    int measureItemsUpTo(int position) {
+        if (mDropDownList == null) {
+            buildDropDown();
+        }
+        if (mDropDownList != null) {
+            int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
+            return mDropDownList.measureHeightOfChildrenCompat(widthSpec, 0, position, Integer.MAX_VALUE, 1);
+        }
+        return -1;
+    }
+
+    int measureItem(int position) {
+        if (mDropDownList == null) {
+            buildDropDown();
+        }
+        if (mDropDownList != null) {
+            int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
+            return mDropDownList.measureHeightOfChildrenCompat(widthSpec, position, position + 1, Integer.MAX_VALUE, 1);
+        }
+        return -1;
+    }
 
     /**
      * Create a new, empty popup window capable of displaying items from a ListAdapter.
@@ -618,7 +650,7 @@ public class XpListPopupWindow {
      * will recalculate the popup's size and position.
      */
     public void show() {
-        int height = buildDropDown();
+        final int height = buildDropDown();
 
         boolean noInputMethod = isInputMethodNotNeeded();
         PopupWindowCompat.setWindowLayoutType(mPopup, mDropDownWindowLayoutType);
@@ -648,6 +680,12 @@ public class XpListPopupWindow {
 
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
 
+            if (mPopup.isAboveAnchor()) {
+//                mDropDownVerticalOffset = 0;
+                mDropDownVerticalOffset = -mDropDownAnchorView.getHeight();
+//                mDropDownVerticalOffset = - heightSpec - mDropDownAnchorView.getHeight() + mDropDownVerticalOffset;
+            }
+
             mPopup.update(getAnchorView(), mDropDownHorizontalOffset,
                 mDropDownVerticalOffset, (widthSpec < 0) ? -1 : widthSpec,
                 (heightSpec < 0) ? -1 : heightSpec);
@@ -676,6 +714,13 @@ public class XpListPopupWindow {
             PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), mDropDownHorizontalOffset,
                 mDropDownVerticalOffset, mDropDownGravity);
             mDropDownList.setSelection(ListView.INVALID_POSITION);
+
+            if (mPopup.isAboveAnchor()) {
+//                mDropDownVerticalOffset = 0;
+                mDropDownVerticalOffset = -mDropDownAnchorView.getHeight();
+//                mDropDownVerticalOffset = - heightSpec - mDropDownAnchorView.getHeight() + mDropDownVerticalOffset;
+                mPopup.update(mDropDownAnchorView, mDropDownHorizontalOffset, mDropDownVerticalOffset, widthSpec, heightSpec);
+            }
 
             if (!mModal || mDropDownList.isInTouchMode()) {
                 clearListSelection();
@@ -1197,10 +1242,16 @@ public class XpListPopupWindow {
                 final int widthMode;
                 if (mDropDownWidth >= 0) {
                     widthMode = MeasureSpec.AT_MOST;
-                    widthSize = mDropDownWidth;
+                    widthSize = mDropDownWidth > mDropDownMaxWidth ? mDropDownMaxWidth : mDropDownWidth;
+//                    widthSize = mDropDownWidth;
                 } else {
-                    widthMode = MeasureSpec.UNSPECIFIED;
-                    widthSize = 0;
+                    if (mDropDownMaxWidth >= 0) {
+                        widthMode = MeasureSpec.AT_MOST;
+                        widthSize = mDropDownMaxWidth;
+                    } else {
+                        widthMode = MeasureSpec.UNSPECIFIED;
+                        widthSize = 0;
+                    }
                 }
                 final int widthSpec = MeasureSpec.makeMeasureSpec(widthSize, widthMode);
                 final int heightSpec = MeasureSpec.UNSPECIFIED;
@@ -1245,7 +1296,8 @@ public class XpListPopupWindow {
         // Max height available on the screen for a popup.
         final boolean ignoreBottomDecorations =
             mPopup.getInputMethodMode() == PopupWindow.INPUT_METHOD_NOT_NEEDED;
-        final int maxHeight = getMaxAvailableHeight(getAnchorView(), mDropDownVerticalOffset,
+//        final int maxHeight = getMaxAvailableHeight(getAnchorView(), mDropDownVerticalOffset,
+        final int maxHeight = getMaxAvailableHeight(getAnchorView(), 0,
             ignoreBottomDecorations);
         if (mDropDownAlwaysVisible || mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
             return maxHeight + padding;
@@ -1254,19 +1306,30 @@ public class XpListPopupWindow {
         final int childWidthSpec;
         switch (mDropDownWidth) {
             case ViewGroup.LayoutParams.WRAP_CONTENT:
-//                childWidthSpec = MeasureSpec.makeMeasureSpec(
-//                        mContext.getResources().getDisplayMetrics().widthPixels -
-//                                (mTempRect.left + mTempRect.right),
-//                        MeasureSpec.AT_MOST);
-//                childWidthSpec = MeasureSpec.makeMeasureSpec(
-//                    mDropDownList.compatMeasureContentWidth(),
-//                    MeasureSpec.AT_MOST);
-//                break;
+                childWidthSpec = MeasureSpec.makeMeasureSpec(
+                    mContext.getResources().getDisplayMetrics().widthPixels -
+                        (mTempRect.left + mTempRect.right),
+                    MeasureSpec.AT_MOST);
+                break;
             case ViewGroup.LayoutParams.MATCH_PARENT:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(
                     mContext.getResources().getDisplayMetrics().widthPixels -
                         (mTempRect.left + mTempRect.right),
                     MeasureSpec.EXACTLY);
+                break;
+            case PREFERRED:
+                int widthSize;
+                int widthMode;
+                if (mDropDownMaxWidth >= 0) {
+                    widthSize = mDropDownMaxWidth;
+                    widthMode = MeasureSpec.AT_MOST;
+                    childWidthSpec = MeasureSpec.makeMeasureSpec(widthSize, widthMode);
+                } else {
+                    childWidthSpec = MeasureSpec.makeMeasureSpec(
+                        mContext.getResources().getDisplayMetrics().widthPixels -
+                            (mTempRect.left + mTempRect.right),
+                        MeasureSpec.EXACTLY);
+                }
                 break;
             default:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(mDropDownWidth, MeasureSpec.EXACTLY);
@@ -1577,6 +1640,116 @@ public class XpListPopupWindow {
         private static final int MAX_ITEMS_MEASURED = 15;
 
         private final Rect mTempRect = new Rect();
+
+        private boolean mHasMultiLineItems;
+
+        boolean hasMultiLineItems() {
+            return mHasMultiLineItems;
+        }
+
+        @Override
+        public int measureHeightOfChildrenCompat(int widthMeasureSpec, int startPosition,
+                                                 int endPosition, final int maxHeight,
+                                                 int disallowPartialChildPosition) {
+            mHasMultiLineItems = false;
+
+            final int paddingTop = getListPaddingTop();
+            final int paddingBottom = getListPaddingBottom();
+            final int paddingLeft = getListPaddingLeft();
+            final int paddingRight = getListPaddingRight();
+            final int reportedDividerHeight = getDividerHeight();
+            final Drawable divider = getDivider();
+
+            final ListAdapter adapter = getAdapter();
+
+            if (adapter == null) {
+                return paddingTop + paddingBottom;
+            }
+
+            // Include the padding of the list
+            int returnedHeight = paddingTop + paddingBottom;
+            final int dividerHeight = ((reportedDividerHeight > 0) && divider != null)
+                ? reportedDividerHeight : 0;
+
+            // The previous height value that was less than maxHeight and contained
+            // no partial children
+            int prevHeightWithoutPartialChild = 0;
+
+            View child = null;
+            int viewType = 0;
+            final int count = adapter.getCount();
+            int start = startPosition;
+            if (start < 0) {
+                start = 0;
+            }
+            int end = endPosition;
+            if (end < 0 || end > count) {
+                end = count;
+            }
+            for (int i = start; i < end; i++) {
+                int newType = adapter.getItemViewType(i);
+                if (newType != viewType) {
+                    child = null;
+                    viewType = newType;
+                }
+                child = adapter.getView(i, child, this);
+
+                // Compute child height spec
+                int heightMeasureSpec;
+                ViewGroup.LayoutParams childLp = child.getLayoutParams();
+
+                if (childLp == null) {
+                    childLp = generateDefaultLayoutParams();
+                    child.setLayoutParams(childLp);
+                }
+
+                if (childLp.height > 0) {
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(childLp.height,
+                        MeasureSpec.EXACTLY);
+                } else {
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                }
+                child.measure(widthMeasureSpec, heightMeasureSpec);
+
+                // Since this view was measured directly aginst the parent measure
+                // spec, we must measure it again before reuse.
+                child.forceLayout();
+
+                if (i > 0) {
+                    // Count the divider for all but one child
+                    returnedHeight += dividerHeight;
+                }
+
+                returnedHeight += child.getMeasuredHeight();
+
+                if (!mHasMultiLineItems) {
+                    int measuredHeight = child.getMeasuredHeight();
+                    int minimumHeight = ViewCompat.getMinimumHeight(child);
+                    if (measuredHeight > minimumHeight) {
+                        mHasMultiLineItems = true;
+                    }
+                }
+
+                if (returnedHeight >= maxHeight) {
+                    // We went over, figure out which height to return.  If returnedHeight >
+                    // maxHeight, then the i'th position did not fit completely.
+                    return (disallowPartialChildPosition >= 0) // Disallowing is enabled (> -1)
+                        && (i > disallowPartialChildPosition) // We've past the min pos
+                        && (prevHeightWithoutPartialChild > 0) // We have a prev height
+                        && (returnedHeight != maxHeight) // i'th child did not fit completely
+                        ? prevHeightWithoutPartialChild
+                        : maxHeight;
+                }
+
+                if ((disallowPartialChildPosition >= 0) && (i >= disallowPartialChildPosition)) {
+                    prevHeightWithoutPartialChild = returnedHeight;
+                }
+            }
+
+            // At this point, we went through the range of children, and they each
+            // completely fit, so return the returnedHeight
+            return returnedHeight;
+        }
 
         public int compatMeasureContentWidth() {
             ListAdapter adapter = getAdapter();

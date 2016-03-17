@@ -50,12 +50,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
-//        final int layoutResId = a.getResourceId(R.styleable.XpSeekBarPreference_layout,R.layout.preference_widget_seekbar);
-        final int layoutResId = a.getResourceId(R.styleable.SeekBarPreference_android_layout, R.layout.asp_preference_seekbar);
         setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
         a.recycle();
-
-        setLayoutResource(layoutResId);
     }
 
     @Override
@@ -68,11 +64,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         seekBar.setProgress(mProgress);
         seekBar.setEnabled(isEnabled());
     }
-
-//    @Override
-//    public CharSequence getSummary() {
-//        return null;
-//    }
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
@@ -25,6 +26,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupWindow;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class ListPreference extends DialogPreference {
     private static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
@@ -34,8 +38,18 @@ public class ListPreference extends DialogPreference {
     private String mSummary;
     private boolean mValueSet;
 
-    private boolean mSimple;
-    private float mSimplePreferredWidthUnit;
+    @IntDef({MENU_MODE_DIALOG, MENU_MODE_SIMPLE_ADAPTIVE, MENU_MODE_SIMPLE_DIALOG, MENU_MODE_SIMPLE_MENU})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MenuMode {}
+
+    public static final int MENU_MODE_DIALOG = 0;
+    public static final int MENU_MODE_SIMPLE_DIALOG = 1;
+    public static final int MENU_MODE_SIMPLE_MENU = 2;
+    public static final int MENU_MODE_SIMPLE_ADAPTIVE = 3;
+
+    @MenuMode private int mMenuMode;
+    private float mSimpleMenuPreferredWidthUnit;
+
     private boolean mSimpleMenuShowing;
 
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -43,8 +57,9 @@ public class ListPreference extends DialogPreference {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
         this.mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
         this.mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
-        this.mSimple = a.getBoolean(R.styleable.ListPreference_asp_simpleMenu, false);
-        this.mSimplePreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
+        //noinspection WrongConstant
+        this.mMenuMode = a.getInt(R.styleable.ListPreference_asp_menuMode, MENU_MODE_DIALOG);
+        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
         a.recycle();
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
@@ -65,17 +80,26 @@ public class ListPreference extends DialogPreference {
 
     @Override
     protected void performClick(View view) {
-        if (mSimple) {
-            if (this.isEnabled()) {
-                showAsPopup(view);
-            }
-        } else {
-            super.performClick(view);
+        switch (mMenuMode) {
+            case MENU_MODE_SIMPLE_MENU:
+                if (this.isEnabled()) {
+                    showAsPopup(view, true);
+                }
+                break;
+            case MENU_MODE_SIMPLE_ADAPTIVE:
+                if (this.isEnabled()) {
+                    boolean shown = showAsPopup(view, false);
+                    if (shown) break;
+                }
+            case MENU_MODE_DIALOG:
+            case MENU_MODE_SIMPLE_DIALOG:
+                super.performClick(view);
+                break;
         }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void showAsPopup(final View anchor) {
+    private boolean showAsPopup(final View anchor, final boolean force) {
         final Context context = getContext();
 
         final int position = findIndexOfValue(getValue());
@@ -84,17 +108,13 @@ public class ListPreference extends DialogPreference {
         final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
         adapter.setSelection(position);
 
-        // TODO: Find out if there are multiline items - show simple dialog.
-        // TODO: Modes: Full dialog, Simple dialog, Simple menu, Simple adaptive
-
         final XpListPopupWindow popup = new XpListPopupWindow(context, null);
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
-        repositionPopup(popup, anchor, position);
-
+        // Set this before calling hasMultiLineItems() or repositionPopup(...) as it keeps the ListView cached.
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,6 +122,17 @@ public class ListPreference extends DialogPreference {
                 popup.dismiss();
             }
         });
+
+        repositionPopup(popup, anchor, position);
+
+        if (!force) {
+            // If we're not forced to show popup window measure the items...
+            boolean hasMultiLineItems = popup.hasMultiLineItems();
+            if (hasMultiLineItems) {
+                // ...and if any are multiline show a dialog instead.
+                return false;
+            }
+        }
 
         final Object attachListener = preventPopupWindowLeak(anchor, popup);
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -122,6 +153,8 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuShowing = true;
 
         popup.show();
+
+        return true;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -168,8 +201,8 @@ public class ListPreference extends DialogPreference {
         final int width = anchor.getWidth();
         final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
         if (preferredWidth < width) {
-            if (mSimplePreferredWidthUnit >= 0) {
-                popup.setPreferredWidthUnit(mSimplePreferredWidthUnit);
+            if (mSimpleMenuPreferredWidthUnit >= 0) {
+                popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
                 popup.setWidth(XpListPopupWindow.PREFERRED);
             } else {
                 popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
@@ -180,12 +213,19 @@ public class ListPreference extends DialogPreference {
 
         // Center selected item over anchor view.
         if (position < 0) position = 0;
-        final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
         final int viewHeight = anchor.getHeight();
         final int dropDownListViewStyle = Util.resolveResourceId(context, R.attr.dropDownListViewStyle, R.style.Widget_Material_ListView_DropDown);
         final int dropDownListViewPaddingTop = Util.resolveDimensionPixelOffset(context, dropDownListViewStyle, android.R.attr.paddingTop, 0);
-        final int offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
-        popup.setVerticalOffset(offset);
+        final int selectedItemHeight = popup.measureItem(position);
+        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position+1);
+        if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
+            final int offset = -(beforeSelectedItemHeight + (viewHeight - selectedItemHeight) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            popup.setVerticalOffset(offset);
+        } else {
+            final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
+            final int offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            popup.setVerticalOffset(offset);
+        }
     }
 
     private void onItemSelected(int position) {
@@ -317,16 +357,39 @@ public class ListPreference extends DialogPreference {
         super.onBindViewHolder(holder);
 
         if (mSimpleMenuShowing) {
+            mSimpleMenuShowing = false;
+
             final View view = holder.itemView;
             view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
-                    showAsPopup(view);
+                    performClick(view);
+//                    showAsPopup(view);
                     return true;
                 }
             });
         }
+    }
+
+    public int getMenuMode() {
+        return mMenuMode;
+    }
+
+    public void setMenuMode(@MenuMode final int menuMode) {
+        mMenuMode = menuMode;
+    }
+
+    public boolean isSimple() {
+        return mMenuMode != MENU_MODE_DIALOG;
+    }
+
+    public float getSimpleMenuPreferredWidthUnit() {
+        return mSimpleMenuPreferredWidthUnit;
+    }
+
+    public void setSimpleMenuPreferredWidthUnit(final float simplePreferredWidthUnit) {
+        mSimpleMenuPreferredWidthUnit = simplePreferredWidthUnit;
     }
 
     private static class SavedState extends BaseSavedState {
@@ -359,7 +422,7 @@ public class ListPreference extends DialogPreference {
         }
     }
 
-    private static class CheckedItemAdapter extends ArrayAdapter<CharSequence> {
+    static class CheckedItemAdapter extends ArrayAdapter<CharSequence> {
         private int mSelection = -1;
 
         public CheckedItemAdapter(Context context, int resource, int textViewResourceId,
