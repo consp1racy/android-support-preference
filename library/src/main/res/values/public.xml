@@ -17,6 +17,6 @@
     <public name="asp_dialogTintEnabled" type="attr"/>
     <public name="asp_dialogIconPaddingEnabled" type="attr"/>
 
-    <public name="asp_simpleMenu" type="attr"/>
+    <public name="asp_menuMode" type="attr"/>
     <public name="asp_simpleMenuWidthUnit" type="attr"/>
 </resources>
