@@ -12,12 +12,18 @@
     <ListPreference
         android:defaultValue="0"
         android:dependency="notifications_new_message"
-        android:entries="@array/pref_notif_content_titles"
+        android:entries="@array/pref_notif_content_titles_long"
         android:entryValues="@array/pref_notif_content_values"
         android:key="notif_content"
         android:title="@string/pref_notif_content"
         style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
 
+    <!--<ColorPreference-->
+        <!--android:defaultValue="?colorPrimary"-->
+        <!--android:dependency="notifications_new_message"-->
+        <!--android:key="notif_color"-->
+        <!--android:title="@string/pref_notif_color"-->
+        <!--/>-->
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
     <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->

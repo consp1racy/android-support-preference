@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Preference.Material.DialogPreference.ColorPreference">
+        <item name="android:widgetLayout">@layout/asp_preference_widget_image</item>
+    </style>
+
+</resources>

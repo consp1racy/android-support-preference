@@ -5,6 +5,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.PreferenceCategory;
@@ -21,8 +23,10 @@ import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
+import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Eugen on 7. 12. 2015.
@@ -43,7 +47,11 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
-            if (preference instanceof ListPreference) {
+            if (preference instanceof ColorPreference) {
+                int color = (int) value;
+                String colorString = String.format("#%06X", 0xFFFFFF & color);
+                preference.setSummary(colorString);
+            } else if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
@@ -54,18 +62,9 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
                     index >= 0
                         ? listPreference.getEntries()[index]
                         : null);
-            } else
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                    index >= 0
-                        ? listPreference.getEntries()[index]
-                        : null);
+            } else if (preference instanceof MultiSelectListPreference) {
+                String summary = stringValue.trim().substring(1, stringValue.length() - 1); // strip []
+                preference.setSummary(summary);
             } else if (preference instanceof RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
                 // using RingtoneManager.
@@ -136,6 +135,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         bindPreferenceSummaryToValue(findPreference("notif_content"));
+//        bindPreferenceSummaryToValue(findPreference("notif_color"));
 
         // Setup root preference title.
         getPreferenceScreen().setTitle(getActivity().getTitle());
@@ -170,18 +170,19 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         // Trigger the listener immediately with the preference's
         // current value.
         if (preference instanceof MultiSelectListPreference) {
-            String summary = SharedPreferencesCompat.getStringSet(
+            Set<String> summary = SharedPreferencesCompat.getStringSet(
                 PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
                 preference.getKey(),
-                new HashSet<String>())
-                .toString();
-            summary = summary.trim().substring(1, summary.length() - 1); // strip []
+                new HashSet<String>());
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, summary);
+        } else if (preference instanceof ColorPreference) {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((ColorPreference) preference).getColor());
         } else {
+            String value = PreferenceManager
+                .getDefaultSharedPreferences(preference.getContext())
+                .getString(preference.getKey(), "");
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                    .getDefaultSharedPreferences(preference.getContext())
-                    .getString(preference.getKey(), ""));
+                value);
         }
     }
 
@@ -213,5 +214,23 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     @Override
     public void onNavigateToPreferenceScreen(PreferenceScreen preferenceScreen) {
         getActivity().setTitle(preferenceScreen.getTitle());
+    }
+
+    @Override
+    public boolean onDisplayPreferenceDialog2(final Preference preference) {
+        if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
+            DialogFragment f;
+            if (preference instanceof ColorPreference) {
+                f = XpColorPreferenceDialogFragment.newInstance(preference.getKey());
+            } else {
+                return false;
+            }
+
+            f.setTargetFragment(this, 0);
+            f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -46,9 +46,18 @@
         <item>-1</item>
     </string-array>
 
+    <string name="pref_notif_color">Notification color</string>
+
     <string name="pref_notif_content">When device is locked</string>
     <string-array name="pref_notif_content_titles">
         <item>Show all notification content</item>
+        <item>Hide sensitive notification content</item>
+        <item>Hide all notification content</item>
+    </string-array>
+    <string-array name="pref_notif_content_titles_long">
+        <item>Show all notification content including sensitive notification content</item>
+        <!--<item>Show all notification content including sensitive content</item>-->
+        <!--<item>Show all notification content including content</item>-->
         <item>Hide sensitive notification content</item>
         <item>Hide all notification content</item>
     </string-array>

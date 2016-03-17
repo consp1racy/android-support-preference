@@ -11,11 +11,17 @@
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
 
+        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
+
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
         <item name="preferenceTint">@color/accent_state_list</item>
+
+        <item name="colorPreferenceStyle">
+            @style/Preference.Material.DialogPreference.ColorPreference
+        </item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,13 +35,18 @@
         <item name="colorAccent">@color/accent</item>
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
+
+        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
     </style>
 
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
+
         <item name="android:textColorHighlight">@color/text_highlight</item>
+
+        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
     </style>
 
     <style name="Widget.AppTheme.Toolbar" parent="Widget.AppCompat.Toolbar">

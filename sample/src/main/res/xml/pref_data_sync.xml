@@ -15,6 +15,7 @@
         app:asp_iconPaddingEnabled="false"
         app:subtitleTextColor="@color/primary"
         app:titleTextColor="@color/primary_dark"/>
+    <!--app:asp_menuMode="simple_menu"-->
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->
