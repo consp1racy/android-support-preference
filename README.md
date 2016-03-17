@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.9' // depends on preference-v7 r23.2.1
+    compile 'net.xpece.android:support-preference:0.5.10' // depends on preference-v7 r23.2.1
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -20,11 +20,12 @@ dependencies {
 
 ## Screenshots
 
-Library version 0.5.9. Android version 4.4.
+Library version 0.5.10. Android version 4.4.
 
 Showcasing Simple Menus and custom title and summary text appearance.
 
 ![Simple menus and custom text appearance](./docs/device-2016-03-11-125945.png)&nbsp;
+![Simple menus with long items](./docs/device-2016-03-16-172141.png)&nbsp;
 
 Library version 0.5.1. Android version 4.4.
 
@@ -48,7 +49,7 @@ Library version 0.5.1. Android version 4.4.
     - Uses AppCompat AlertDialog Material theme
 - `EditTextPreference`
 - `ListPreference`
-    - Optionally can display as a simple menu.
+    - Optionally can display as a simple menu or simple dialog.
 - `MultiSelectListPreference`
     - Available since API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
@@ -158,7 +159,7 @@ subsHelper.setIconTintEnabled(true);
 One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
 Please review the sample project for an example solution.
 
-### Simple menu
+### Simple menu and Simple dialog
 
 Simple menu is described in [Material Design specs](https://www.google.com/design/spec/components/menus.html#menus-simple-menus).
 
@@ -168,6 +169,21 @@ If you want to show your `ListPreference` in a popup instead of a dialog use thi
 <ListPreference
     style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
 ```
+
+Since v0.5.10: Furthermore you can either force simple menu, force simple dialog or let the system decide.
+In that case simple dialog is picked when any item in the menu wraps to second line.
+
+```java
+<ListPreference
+    app:asp_menuMode="dialog|simple_menu|simple_dialog|simple_adaptive"/>
+```
+
+Menu modes:
+
+- `dialog`: Alert dialog with radio buttons and optional title. Default behavior.
+- `simple_menu`: Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
+- `simple_dialog`: Menu is shown in a dialog with no other controls. Selected option is highlighted.
+- `simple_adaptive`: Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
 
 The width of the popup window will try to accommodate all items and be a multiple of 56dp on phones and 64dp on tablets.
 You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavior:
@@ -196,16 +212,24 @@ This fix is not necessary or available since version 0.5.5.
 
 ### XML attributes
 
+All preferences:
+
 - `app:asp_tint`
 - `app:asp_tintMode`
 - `app:asp_tintEnabled`
 - `app:asp_iconPaddingEnabled`
+
+All dialog preferences:
+
 - `app:asp_dialogTint`
 - `app:asp_dialogTintMode`
 - `app:asp_dialogTintEnabled`
 - `app:asp_dialogIconPaddingEnabled`
 
-- `app:asp_simpleMenu`
+List preferences:
+
+- <s>`app:asp_simpleMenu`</s>
+- `app:asp_menuMode`
 - `app:asp_simpleMenuWidthUnit`
 
 ### Icon padding
@@ -221,12 +245,19 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.9**
+**0.5.10**
+- *NEW!* Simple dialog variant of `ListPreference`. See above for instructions.
+- *FIXED:* Simple menu.
+  - Fixed simple menu height when using multiline items.
+  - Centering multiline item over anchor view when using simple menu.
+- *FIXED:* Recycling items with custom text appearance or text color.
+
+**0.5.9** *Deprecated*
 - *FIXED:* Simple menu.
   - Showing simple menu is restored after screen orientation change.
   - Aligning simple menu width to 56dp/64dp grid on phones/tablets (customizable).
 
-**0.5.8** 
+**0.5.8** *Deprecated*
 - *FIXED:* Simple menu.
   - Preselected option is now highlighted.
   - Fixed animation on Android 4 - fading in.
@@ -245,9 +276,10 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - Added persistent scrollbar if all items don't fit on screen.
 
 **0.5.5** *Deprecated*
-- ***Only supports appcompat-v7 with preference-v7 version 23.2.0!***
+- ***Only supports appcompat-v7 with preference-v7 version 23.2.x!***
 
-**0.5.4**
+**0.5.4** *Deprecated*
+- ***Last version that supports appcompat-v7 with preference-v7 version 23.1.1!***
 - *NEW!* Simple menu variant of `ListPreference`.
   - Via `app:asp_simpleMenu="true"`.
   - Described here https://www.google.com/design/spec/components/menus.html#menus-simple-menus
