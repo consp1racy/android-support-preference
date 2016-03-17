@@ -95,4 +95,20 @@ public class PreferenceTextHelper {
         mSubtitleTextAppearance = summaryTextAppearance;
         mHasSubtitleTextAppearance = true;
     }
+
+    public boolean hasTitleTextColor() {
+        return mHasTitleTextColor;
+    }
+
+    public boolean hasSummaryTextColor() {
+        return mHasSubtitleTextColor;
+    }
+
+    public boolean hasTitleTextAppearance() {
+        return mHasTitleTextAppearance;
+    }
+
+    public boolean hasSummaryTextAppearance() {
+        return mHasSubtitleTextAppearance;
+    }
 }

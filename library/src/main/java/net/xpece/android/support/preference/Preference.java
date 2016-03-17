@@ -211,4 +211,24 @@ public class Preference extends android.support.v7.preference.Preference
         mPreferenceTextHelper.setSummaryTextAppearance(summaryTextAppearance);
         notifyChanged();
     }
+
+    @Override
+    public boolean hasTitleTextColor() {
+        return mPreferenceTextHelper.hasTitleTextColor();
+    }
+
+    @Override
+    public boolean hasSummaryTextColor() {
+        return mPreferenceTextHelper.hasSummaryTextColor();
+    }
+
+    @Override
+    public boolean hasTitleTextAppearance() {
+        return mPreferenceTextHelper.hasTitleTextAppearance();
+    }
+
+    @Override
+    public boolean hasSummaryTextAppearance() {
+        return mPreferenceTextHelper.hasSummaryTextAppearance();
+    }
 }

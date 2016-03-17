@@ -18,4 +18,12 @@ public interface ColorableTextPreference {
     void setSummaryTextColor(@ColorInt int summaryTextColor);
 
     void setSummaryTextAppearance(int summaryTextAppearance);
+
+    boolean hasTitleTextColor();
+
+    boolean hasSummaryTextColor();
+
+    boolean hasTitleTextAppearance();
+
+    boolean hasSummaryTextAppearance();
 }

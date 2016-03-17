@@ -3,6 +3,7 @@ package android.support.v7.preference;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.RecyclerView;
 
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
@@ -36,7 +37,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         FIELD_PREFERENCE_MANAGER = preferenceManager;
     }
 
-    private final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
+    protected final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private void setPreferenceManager(PreferenceManager manager) {
         try {
@@ -116,5 +117,10 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                 f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
             }
         }
+    }
+
+    @Override
+    protected RecyclerView.Adapter onCreateAdapter(final PreferenceScreen preferenceScreen) {
+        return new XpPreferenceGroupAdapter(preferenceScreen);
     }
 }

@@ -10,7 +10,7 @@ import android.util.AttributeSet;
  * Created by Eugen on 08.03.2016.
  */
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
-implements ColorableTextPreference {
+    implements ColorableTextPreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
 
@@ -76,5 +76,25 @@ implements ColorableTextPreference {
     public void setSummaryTextAppearance(int summaryTextAppearance) {
         mPreferenceTextHelper.setSummaryTextAppearance(summaryTextAppearance);
         notifyChanged();
+    }
+
+    @Override
+    public boolean hasTitleTextColor() {
+        return mPreferenceTextHelper.hasTitleTextColor();
+    }
+
+    @Override
+    public boolean hasSummaryTextColor() {
+        return mPreferenceTextHelper.hasSummaryTextColor();
+    }
+
+    @Override
+    public boolean hasTitleTextAppearance() {
+        return mPreferenceTextHelper.hasTitleTextAppearance();
+    }
+
+    @Override
+    public boolean hasSummaryTextAppearance() {
+        return mPreferenceTextHelper.hasSummaryTextAppearance();
     }
 }
