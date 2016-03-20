@@ -15,13 +15,11 @@
 -->
 
 <!-- Layout used as the dialog's content View for EditTextPreference. -->
-<ScrollView
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="48dp"
-    android:layout_marginTop="48dp"
     android:overScrollMode="ifContentScrolls"
     tools:ignore="UnusedAttribute">
 
@@ -36,9 +34,7 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
+            android:layout_marginBottom="?dialogPreferredPadding"
             android:textColor="?android:textColorSecondary"/>
 
         <FrameLayout
@@ -56,4 +52,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
