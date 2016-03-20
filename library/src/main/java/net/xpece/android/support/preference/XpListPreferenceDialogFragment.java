@@ -48,7 +48,7 @@ public class XpListPreferenceDialogFragment extends PreferenceDialogFragmentComp
                 final int layout = R.layout.asp_select_dialog_item;
                 final ListPreference.CheckedItemAdapter adapter = new ListPreference.CheckedItemAdapter(context, layout, android.R.id.text1, preference.getEntries());
                 adapter.setSelection(this.mClickedDialogEntryIndex);
-                builder.setAdapter(adapter, onClickListener);
+                builder.setSingleChoiceItems(adapter, this.mClickedDialogEntryIndex, onClickListener);
 
                 builder.setPositiveButton(null, null);
                 builder.setNegativeButton(null, null);
