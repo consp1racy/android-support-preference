@@ -66,8 +66,7 @@ public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentC
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) {
             final int step = mKeyProgressIncrement;
-//            || keyCode == KeyEvent.KEYCODE_EQUALS
-            if (keyCode == KeyEvent.KEYCODE_PLUS) {
+            if (keyCode == KeyEvent.KEYCODE_PLUS || keyCode == KeyEvent.KEYCODE_EQUALS) {
                 mSeekBar.setProgress(mSeekBar.getProgress() + step);
                 return true;
             }
