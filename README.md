@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.10' // depends on preference-v7 r23.2.1
+    compile 'net.xpece.android:support-preference:0.5.11' // depends on preference-v7 r23.2.1
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -245,7 +245,15 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.10**
+**0.5.11**
+- *FIXED:* Focused `SeekBarPreference` can now be controlled by `+` and `-` keys.
+- *FIXED:* Simple menu.
+  - Popup will now display correctly for various item counts in various positions.
+  - Popup is clipped to parent recycler view with a 16dp margin as suggested by MD.
+  - Limit: Simple menu is now disabled before Android 4. Falls back to simple dialog.
+  - Limit: Displaying popup will not make parent recycler view scroll.
+
+**0.5.10** *Deprecated*
 - *NEW!* Simple dialog variant of `ListPreference`. See above for instructions.
 - *FIXED:* Simple menu.
   - Fixed simple menu height when using multiline items.
