@@ -22,10 +22,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
+public class SeekBarPreference extends Preference implements OnSeekBarChangeListener,
+    View.OnKeyListener {
 
     private int mProgress;
     private int mMax = 100;
@@ -58,11 +61,35 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     public void onBindViewHolder(final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
+        holder.itemView.setClickable(false);
+
         SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(mMax);
         seekBar.setProgress(mProgress);
         seekBar.setEnabled(isEnabled());
+
+        mKeyProgressIncrement = seekBar.getKeyProgressIncrement();
+        holder.itemView.setOnKeyListener(this);
+    }
+
+    private int mKeyProgressIncrement;
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_UP) {
+            final int step = mKeyProgressIncrement;
+//            || keyCode == KeyEvent.KEYCODE_EQUALS
+            if (keyCode == KeyEvent.KEYCODE_PLUS) {
+                setProgress(getProgress() + step);
+                return true;
+            }
+            if (keyCode == KeyEvent.KEYCODE_MINUS) {
+                setProgress(getProgress() - step);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

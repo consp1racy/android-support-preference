@@ -3,6 +3,7 @@ package net.xpece.android.support.preference;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -10,7 +11,8 @@ import android.widget.SeekBar;
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
+public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCompat
+    implements View.OnKeyListener {
 
     private SeekBar mSeekBar;
 
@@ -53,6 +55,34 @@ public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentC
 
         mSeekBar.setMax(preference.getMax());
         mSeekBar.setProgress(preference.getProgress());
+
+        mKeyProgressIncrement = mSeekBar.getKeyProgressIncrement();
+        mSeekBar.setOnKeyListener(this);
+    }
+
+    private int mKeyProgressIncrement;
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_UP) {
+            final int step = mKeyProgressIncrement;
+//            || keyCode == KeyEvent.KEYCODE_EQUALS
+            if (keyCode == KeyEvent.KEYCODE_PLUS) {
+                mSeekBar.setProgress(mSeekBar.getProgress() + step);
+                return true;
+            }
+            if (keyCode == KeyEvent.KEYCODE_MINUS) {
+                mSeekBar.setProgress(mSeekBar.getProgress() - step);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        mSeekBar.setOnKeyListener(null);
+        super.onDestroyView();
     }
 
     @Override

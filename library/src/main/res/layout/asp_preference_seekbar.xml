@@ -24,6 +24,7 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:clipToPadding="false"
+    android:background="?selectableItemBackground"
     android:gravity="center_vertical"
     android:minHeight="?listPreferredItemHeightSmall"
     android:paddingLeft="?listPreferredItemPaddingLeft"
@@ -82,8 +83,8 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp">
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
 
         <!--<TextView-->
         <!--android:id="@android:id/title"-->
@@ -119,7 +120,7 @@
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-8dp"
+            android:layout_marginBottom="-12dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:minHeight="24dp"

@@ -61,6 +61,13 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     }
 
     @Override
+    public void onViewDetachedFromWindow(PreferenceViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        holder.itemView.setOnKeyListener(null);
+    }
+
+    @Override
     public PreferenceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         viewType %= OFFSET;
 
