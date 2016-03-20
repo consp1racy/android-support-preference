@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -77,15 +78,26 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_UP) {
-            final int step = mKeyProgressIncrement;
-            if (keyCode == KeyEvent.KEYCODE_PLUS || keyCode == KeyEvent.KEYCODE_EQUALS) {
-                setProgress(getProgress() + step);
-                return true;
-            }
-            if (keyCode == KeyEvent.KEYCODE_MINUS) {
-                setProgress(getProgress() - step);
-                return true;
+        if (isEnabled()) {
+            if (event.getAction() != KeyEvent.ACTION_UP) {
+                int increment = mKeyProgressIncrement;
+
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_PLUS:
+                    case KeyEvent.KEYCODE_EQUALS:
+                        setProgress(getProgress() + increment);
+                        return true;
+                    case KeyEvent.KEYCODE_MINUS:
+                        setProgress(getProgress() - increment);
+                        return true;
+                    case KeyEvent.KEYCODE_DPAD_LEFT:
+                        increment = -increment;
+                        // fallthrough
+                    case KeyEvent.KEYCODE_DPAD_RIGHT:
+                        increment = ViewCompat.getLayoutDirection(v) == ViewCompat.LAYOUT_DIRECTION_RTL ? -increment : increment;
+                        setProgress(getProgress() + increment);
+                        return true;
+                }
             }
         }
         return false;
