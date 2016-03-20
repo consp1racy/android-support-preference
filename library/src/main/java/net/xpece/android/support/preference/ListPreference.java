@@ -29,6 +29,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class ListPreference extends DialogPreference {
+
+    private static boolean sSimpleMenuPreIcsEnabled = false;
+
+    /**
+     * Simple menu variant of {@link ListPreference} is broken on Android 2 so it's disabled by default in favor of simple dialog variant.
+     * It can be enabled if you're feeling lucky.
+     * @param enabled
+     */
+    public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
+        sSimpleMenuPreIcsEnabled = enabled;
+    }
+
+    private static boolean isSimpleMenuEnabled() {
+        return Build.VERSION.SDK_INT >= 14 || sSimpleMenuPreIcsEnabled;
+    }
+
     private static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
     private CharSequence[] mEntries;
@@ -80,16 +96,26 @@ public class ListPreference extends DialogPreference {
     @Override
     protected void performClick(View view) {
         switch (mMenuMode) {
-            case MENU_MODE_SIMPLE_MENU:
-                if (this.isEnabled()) {
-                    showAsPopup(view, true);
+            case MENU_MODE_SIMPLE_ADAPTIVE:
+                boolean shown = false;
+                if (isSimpleMenuEnabled()) {
+                    if (this.isEnabled()) {
+                        shown = showAsPopup(view, false);
+                    }
+                }
+                if (!shown) {
+                    super.performClick(view);
                 }
                 break;
-            case MENU_MODE_SIMPLE_ADAPTIVE:
-                if (this.isEnabled()) {
-                    boolean shown = showAsPopup(view, false);
-                    if (shown) break;
+            case MENU_MODE_SIMPLE_MENU:
+                if (isSimpleMenuEnabled()) {
+                    if (this.isEnabled()) {
+                        showAsPopup(view, true);
+                    }
+                } else {
+                    super.performClick(view);
                 }
+                break;
             case MENU_MODE_DIALOG:
             case MENU_MODE_SIMPLE_DIALOG:
                 super.performClick(view);
@@ -113,7 +139,7 @@ public class ListPreference extends DialogPreference {
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
-//        popup.setBoundsView((View) anchor.getParent());
+        popup.setBoundsView((View) anchor.getParent());
         int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
         popup.setMarginBottom(marginV);
         popup.setMarginTop(marginV);
@@ -199,26 +225,7 @@ public class ListPreference extends DialogPreference {
         // Shadow is emulated below Lollipop, we have to account for that.
         final Rect backgroundPadding = new Rect();
         popup.getBackground().getPadding(backgroundPadding);
-//        final int backgroundPaddingStart;
-//        final int backgroundPaddingEnd;
-//        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-//            backgroundPaddingStart = backgroundPadding.right;
-//            backgroundPaddingEnd = backgroundPadding.left;
-//        } else {
-//            backgroundPaddingStart = backgroundPadding.left;
-//            backgroundPaddingEnd = backgroundPadding.right;
-//        }
         final int backgroundPaddingTop = backgroundPadding.top;
-
-        // Respect anchor view's padding.
-//        final int paddingStart = ViewCompat.getPaddingStart(anchor);
-//        final int paddingEnd = ViewCompat.getPaddingEnd(anchor);
-//        final int width = anchor.getWidth();
-//        final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
-//        if (preferredWidth < width) {
-//            popup.setMaxWidth(preferredWidth);
-//            popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
-//        }
 
         // Center selected item over anchor view.
         if (position < 0) position = 0;
@@ -226,7 +233,7 @@ public class ListPreference extends DialogPreference {
         final int dropDownListViewStyle = Util.resolveResourceId(context, R.attr.dropDownListViewStyle, R.style.Widget_Material_ListView_DropDown);
         final int dropDownListViewPaddingTop = Util.resolveDimensionPixelOffset(context, dropDownListViewStyle, android.R.attr.paddingTop, 0);
         final int selectedItemHeight = popup.measureItem(position);
-        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position+1);
+        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
         if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
             final int offset = -(beforeSelectedItemHeight + (viewHeight - selectedItemHeight) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
             popup.setVerticalOffset(offset);

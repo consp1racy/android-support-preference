@@ -771,63 +771,19 @@ public class XpListPopupWindow {
 
                 heightSpec = availableHeight + getBackgroundVerticalPadding() * 2;
                 verticalOffset = -mMargins.top;
+                getBounds(mTempRect);
+                verticalOffset -= mTempRect.top / 2;
                 if (Build.VERSION.SDK_INT >= 21) verticalOffset -= Util.dpToPxOffset(mContext, 4);
             } else if (mPopup.isAboveAnchor()) {
                 Log.d(TAG, "Above anchor.");
 
-                getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                final int anchorTop = mTempLocation[1];
-                final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                final int windowTop = mTempRect.top;
-                final int windowBottom = mTempRect.bottom;
-
-                final int popupBottom = anchorTop + verticalOffset;
-                final int popupTop = popupBottom - height;
-
-                final int backgroundBottom = getBackgroundBottomPadding();
-                final int backgroundTop = getBackgroundTopPadding();
-
-                final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-//                    int delta = screenBottom - popupBottom;
-//                    verticalOffset -= delta;
-                verticalOffset = -(screenBottom - anchorTop);
+                verticalOffset = computeVerticalOffsetAboveAnchor(height, noInputMethod, verticalOffset);
 
                 wasAbove = true;
             } else {
                 Log.d(TAG, "Below anchor.");
 
-                getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                final int anchorTop = mTempLocation[1];
-                final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                final int windowTop = mTempRect.top;
-                final int windowBottom = mTempRect.bottom;
-
-                final int popupTop = anchorBottom + verticalOffset;
-                final int popupBottom = popupTop + height;
-
-                final int backgroundBottom = getBackgroundBottomPadding();
-                final int backgroundTop = getBackgroundTopPadding();
-
-                final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-                if (popupBottom > screenBottom) {
-                    verticalOffset -= (popupBottom - screenBottom);
-                } else if (popupTop < screenTop) {
-                    verticalOffset += (screenTop - popupTop);
-                }
+                verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, false);
             }
 
             mPopup.update(getAnchorView(), horizontalOffset,
@@ -837,29 +793,7 @@ public class XpListPopupWindow {
             if (wasAbove && !mPopup.isAboveAnchor()) {
                 Log.w(TAG, "Below anchor after update.");
 
-                {
-                    getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                    final int anchorTop = mTempLocation[1];
-                    final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                    getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                    final int windowTop = mTempRect.top;
-                    final int windowBottom = mTempRect.bottom;
-
-                    final int popupTop = anchorBottom + verticalOffset;
-                    final int popupBottom = popupTop + height;
-
-                    final int backgroundBottom = getBackgroundBottomPadding();
-                    final int backgroundTop = getBackgroundTopPadding();
-
-                    final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                    final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                    Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                    Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-                    verticalOffset -= (popupBottom - screenBottom);
-                }
+                verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, true);
 
                 mPopup.update(getAnchorView(), horizontalOffset,
                     verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
@@ -884,6 +818,8 @@ public class XpListPopupWindow {
             if (height >= availableHeight) {
                 heightSpec = availableHeight + getBackgroundVerticalPadding() * 2;
                 verticalOffset = -mMargins.top;
+                getBounds(mTempRect);
+                verticalOffset -= mTempRect.top / 2;
                 if (Build.VERSION.SDK_INT >= 21) verticalOffset -= Util.dpToPxOffset(mContext, 4);
             }
 
@@ -905,31 +841,7 @@ public class XpListPopupWindow {
             } else if (mPopup.isAboveAnchor()) {
                 Log.d(TAG, "Above anchor.");
 
-                {
-                    getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                    final int anchorTop = mTempLocation[1];
-                    final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                    getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                    final int windowTop = mTempRect.top;
-                    final int windowBottom = mTempRect.bottom;
-
-                    final int popupBottom = anchorTop + verticalOffset;
-                    final int popupTop = popupBottom - height;
-
-                    final int backgroundBottom = getBackgroundBottomPadding();
-                    final int backgroundTop = getBackgroundTopPadding();
-
-                    final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                    final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                    Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                    Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-//                    int delta = screenBottom - popupBottom;
-//                    verticalOffset -= delta;
-                    verticalOffset = -(screenBottom - anchorTop);
-                }
+                verticalOffset = computeVerticalOffsetAboveAnchor(height, noInputMethod, verticalOffset);
 
                 mPopup.update(getAnchorView(), horizontalOffset,
                     verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
@@ -938,29 +850,7 @@ public class XpListPopupWindow {
                 if (!mPopup.isAboveAnchor()) {
                     Log.w(TAG, "Below anchor after update.");
 
-                    {
-                        getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                        final int anchorTop = mTempLocation[1];
-                        final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                        getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                        final int windowTop = mTempRect.top;
-                        final int windowBottom = mTempRect.bottom;
-
-                        final int popupTop = anchorBottom + verticalOffset;
-                        final int popupBottom = popupTop + height;
-
-                        final int backgroundBottom = getBackgroundBottomPadding();
-                        final int backgroundTop = getBackgroundTopPadding();
-
-                        final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                        final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                        Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                        Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-                        verticalOffset -= (popupBottom - screenBottom);
-                    }
+                    verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, true);
 
                     mPopup.update(getAnchorView(), horizontalOffset,
                         verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
@@ -969,31 +859,7 @@ public class XpListPopupWindow {
             } else {
                 Log.d(TAG, "Below anchor.");
 
-                getLocationInBounds(mDropDownAnchorView, mTempLocation);
-                final int anchorTop = mTempLocation[1];
-                final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
-
-                getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
-                final int windowTop = mTempRect.top;
-                final int windowBottom = mTempRect.bottom;
-
-                final int popupTop = anchorBottom + verticalOffset;
-                final int popupBottom = popupTop + height;
-
-                final int backgroundBottom = getBackgroundBottomPadding();
-                final int backgroundTop = getBackgroundTopPadding();
-
-                final int screenBottom = windowBottom - (mMargins.bottom - backgroundBottom);
-                final int screenTop = windowTop + (mMargins.top - backgroundTop);
-
-                Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-                Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
-
-                if (popupBottom > screenBottom) {
-                    verticalOffset -= (popupBottom - screenBottom);
-                } else if (popupTop < screenTop) {
-                    verticalOffset += (screenTop - popupTop);
-                }
+                verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, false);
 
                 mPopup.update(getAnchorView(), horizontalOffset,
                     verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
@@ -1012,6 +878,81 @@ public class XpListPopupWindow {
                 mHandler.post(mHideSelector);
             }
         }
+    }
+
+    private int computeVerticalOffsetBelowAnchor(final int height, final boolean noInputMethod, int verticalOffset, boolean forceAlignToBottom) {
+        getLocationInBounds(mDropDownAnchorView, mTempLocation);
+        final int anchorTop = mTempLocation[1];
+        final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
+
+        getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
+        final int windowTop = mTempRect.top;
+        final int windowBottom = mTempRect.bottom;
+
+        final int popupTop = anchorBottom + verticalOffset;
+        final int popupBottom = popupTop + height;
+
+        getBackgroundPadding(mTempRect);
+        final int backgroundBottom = mTempRect.bottom;
+        final int backgroundTop = mTempRect.top;
+
+        final int marginsBottom = mMargins.bottom;
+        final int marginsTop = mMargins.bottom;
+
+        int screenBottom = windowBottom - (marginsBottom - backgroundBottom);
+        int screenTop = windowTop + (marginsTop - backgroundTop);
+
+        getBounds(mTempRect);
+        final int boundsTop = mTempRect.top;
+        final int boundsBottom = mTempRect.bottom;
+
+        screenTop += boundsTop;
+        screenBottom -= boundsBottom;
+
+        Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
+        Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
+
+        if (popupBottom > screenBottom || forceAlignToBottom) {
+            verticalOffset -= (popupBottom - screenBottom);
+        } else if (popupTop < screenTop) {
+            verticalOffset += (screenTop - popupTop);
+        }
+        return verticalOffset;
+    }
+
+    private int computeVerticalOffsetAboveAnchor(final int height, final boolean noInputMethod, int verticalOffset) {
+        getLocationInBounds(mDropDownAnchorView, mTempLocation);
+        final int anchorTop = mTempLocation[1];
+        final int anchorBottom = anchorTop + mDropDownAnchorView.getHeight();
+
+        getEdges(mDropDownAnchorView, noInputMethod, mTempRect);
+        final int windowTop = mTempRect.top;
+        final int windowBottom = mTempRect.bottom;
+
+        final int popupBottom = anchorTop + verticalOffset;
+        final int popupTop = popupBottom - height;
+
+        getBackgroundPadding(mTempRect);
+        final int backgroundBottom = mTempRect.bottom;
+        final int backgroundTop = mTempRect.top;
+
+        getBounds(mTempRect);
+        final int boundsTop = mTempRect.top;
+        final int boundsBottom = mTempRect.bottom;
+
+        final int marginsBottom = mMargins.bottom;
+        final int marginsTop = mMargins.bottom;
+
+        Log.d(TAG, "popupBottom = " + popupBottom +
+            ", windowBottom=" + windowBottom + ", marginBottom=" + marginsBottom + ", boundsBottom=" + boundsBottom + ", backgroundBottom=" + backgroundBottom);
+        Log.d(TAG, "popupTop = " + popupTop +
+            ", anchorTop=" + anchorTop);
+
+        // We don't use composite screenBottom or screenTop because we define absolute offset.
+        verticalOffset = (marginsBottom - backgroundBottom) - (windowBottom + anchorTop) + boundsBottom;
+
+        Log.d(TAG, "verticalOffset=" + verticalOffset);
+        return verticalOffset;
     }
 
     private int getListWidthSpec() {
@@ -1197,6 +1138,12 @@ public class XpListPopupWindow {
         if (isShowing() && list != null) {
             list.mListSelectionHidden = false;
             list.setSelection(position);
+
+            if (position >= 0 && position != list.getCount() - 1) {
+                if (Build.VERSION.SDK_INT >= 14 && list.canScrollVertically(-1)) {
+                    list.scrollBy(0, -list.getPaddingTop());
+                }
+            }
 
             if (Build.VERSION.SDK_INT >= 11) {
                 if (list.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
@@ -2487,9 +2434,11 @@ public class XpListPopupWindow {
     }
 
     private int getMaxAvailableHeight(View anchor, int yOffset, boolean ignoreBottomDecorations) {
-//        if (mDropDownBoundsView != null) {
-//            return mDropDownBoundsView.getHeight();
-//        }
+        if (mDropDownBoundsView != null) {
+            int returnedHeight = mDropDownBoundsView.getHeight();
+            returnedHeight -= getBackgroundVerticalPadding();
+            return returnedHeight;
+        }
 
         getEdges(anchor, ignoreBottomDecorations, mTempRect);
         int returnedHeight = mTempRect.height();
@@ -2536,4 +2485,28 @@ public class XpListPopupWindow {
         anchor.getLocationInWindow(out);
     }
 
+    private void getBounds(Rect out) {
+        if (mDropDownBoundsView != null) {
+            mDropDownBoundsView.getWindowVisibleDisplayFrame(mTempRect);
+            final int windowTop = mTempRect.top;
+            final int windowRight = mTempRect.right;
+            final int windowLeft = mTempRect.left;
+            final int windowBottom = mTempRect.bottom;
+
+            mDropDownBoundsView.getLocationInWindow(mTempLocation);
+            final int boundsTop = mTempLocation[1];
+            final int boundsLeft = mTempLocation[0];
+
+            final int boundsHeight = mDropDownBoundsView.getHeight();
+            final int boundsWidth = mDropDownBoundsView.getWidth();
+
+            out.top = boundsTop - windowTop;
+            out.left = boundsLeft - windowLeft;
+            out.bottom = windowBottom - (boundsTop + boundsHeight);
+            out.right = windowRight - (boundsLeft + boundsWidth);
+            return;
+        }
+
+        out.set(0, 0, 0, 0);
+    }
 }

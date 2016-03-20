@@ -34,8 +34,8 @@
         <item>30 minutes</item>
         <item>1 hour</item>
         <item>3 hours</item>
-        <!--<item>6 hours</item>-->
-        <!--<item>Never</item>-->
+        <item>6 hours</item>
+        <item>Never</item>
         <!--<item>15 minutes</item>-->
         <!--<item>30 minutes</item>-->
         <!--<item>1 hour</item>-->
@@ -48,8 +48,8 @@
         <item>30</item>
         <item>60</item>
         <item>180</item>
-        <!--<item>360</item>-->
-        <!--<item>-1</item>-->
+        <item>360</item>
+        <item>-1</item>
         <!--<item>15</item>-->
         <!--<item>30</item>-->
         <!--<item>60</item>-->
@@ -67,8 +67,8 @@
         <item>Hide all notification content</item>
     </string-array>
     <string-array name="pref_notif_content_titles_long">
-        <item>Show all notification content including sensitive notification content</item>
-        <!--<item>Show all notification content including sensitive content</item>-->
+        <!--<item>Show all notification content including sensitive notification content</item>-->
+        <item>Show all notification content including sensitive content</item>
         <!--<item>Show all notification content including content</item>-->
         <item>Hide sensitive notification content</item>
         <item>Hide all notification content</item>
