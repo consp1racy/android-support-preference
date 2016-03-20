@@ -15,7 +15,6 @@ import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -114,6 +113,13 @@ public class ListPreference extends DialogPreference {
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
+//        popup.setBoundsView((View) anchor.getParent());
+        int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
+        popup.setMarginBottom(marginV);
+        popup.setMarginTop(marginV);
+        popup.setMarginLeft(anchor.getPaddingLeft());
+        popup.setMarginRight(anchor.getPaddingRight());
+
         // Set this before calling hasMultiLineItems() or repositionPopup(...) as it keeps the ListView cached.
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,6 +128,14 @@ public class ListPreference extends DialogPreference {
                 popup.dismiss();
             }
         });
+
+        if (mSimpleMenuPreferredWidthUnit >= 0) {
+            popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
+            popup.setWidth(XpListPopupWindow.PREFERRED);
+        } else {
+            popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
+        }
+        popup.setMaxWidth(XpListPopupWindow.WRAP_CONTENT);
 
         repositionPopup(popup, anchor, position);
 
@@ -153,6 +167,7 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuShowing = true;
 
         popup.show();
+        popup.setSelection(position);
 
         return true;
     }
@@ -184,32 +199,26 @@ public class ListPreference extends DialogPreference {
         // Shadow is emulated below Lollipop, we have to account for that.
         final Rect backgroundPadding = new Rect();
         popup.getBackground().getPadding(backgroundPadding);
-        final int backgroundPaddingStart;
-        final int backgroundPaddingEnd;
-        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-            backgroundPaddingStart = backgroundPadding.right;
-            backgroundPaddingEnd = backgroundPadding.left;
-        } else {
-            backgroundPaddingStart = backgroundPadding.left;
-            backgroundPaddingEnd = backgroundPadding.right;
-        }
+//        final int backgroundPaddingStart;
+//        final int backgroundPaddingEnd;
+//        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+//            backgroundPaddingStart = backgroundPadding.right;
+//            backgroundPaddingEnd = backgroundPadding.left;
+//        } else {
+//            backgroundPaddingStart = backgroundPadding.left;
+//            backgroundPaddingEnd = backgroundPadding.right;
+//        }
         final int backgroundPaddingTop = backgroundPadding.top;
 
         // Respect anchor view's padding.
-        final int paddingStart = ViewCompat.getPaddingStart(anchor);
-        final int paddingEnd = ViewCompat.getPaddingEnd(anchor);
-        final int width = anchor.getWidth();
-        final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
-        if (preferredWidth < width) {
-            if (mSimpleMenuPreferredWidthUnit >= 0) {
-                popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
-                popup.setWidth(XpListPopupWindow.PREFERRED);
-            } else {
-                popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
-            }
-            popup.setMaxWidth(preferredWidth);
-            popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
-        }
+//        final int paddingStart = ViewCompat.getPaddingStart(anchor);
+//        final int paddingEnd = ViewCompat.getPaddingEnd(anchor);
+//        final int width = anchor.getWidth();
+//        final int preferredWidth = width - paddingEnd - paddingStart + backgroundPaddingEnd + backgroundPaddingStart;
+//        if (preferredWidth < width) {
+//            popup.setMaxWidth(preferredWidth);
+//            popup.setHorizontalOffset(paddingStart - backgroundPaddingStart);
+//        }
 
         // Center selected item over anchor view.
         if (position < 0) position = 0;

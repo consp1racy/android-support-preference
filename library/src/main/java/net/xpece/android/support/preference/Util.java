@@ -105,4 +105,9 @@ final class Util {
         }
     }
 
+    public static int pxToDp(Context context, int px) {
+        float dp = context.getResources().getDisplayMetrics().density;
+        return (int) (px / dp);
+    }
+
 }
