@@ -22,8 +22,8 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="?dialogPreferredPadding"
-    android:paddingRight="?dialogPreferredPadding">
+    android:paddingLeft="?listPreferredItemPaddingLeft"
+    android:paddingRight="?listPreferredItemPaddingRight">
 
     <!--<ImageView-->
         <!--android:id="@android:id/icon"-->
