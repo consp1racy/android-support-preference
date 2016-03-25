@@ -12,20 +12,33 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.5.11' // depends on preference-v7 r23.2.1
+    compile 'net.xpece.android:support-preference:0.6.0' // depends on preference-v7 r23.2.1
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
 ```
 
+## ***NEW!*** How to get color picker preference too?
+
+```groovy
+dependencies {
+    compile 'net.xpece.android:support-preference-color:0.6.0' 
+}
+repositories {
+    maven { url 'https://dl.bintray.com/consp1racy/maven' }
+}
+```
+
+
 ## Screenshots
 
-Library version 0.5.10. Android version 4.4.
+Library version 0.6.0. Android version 4.4.
 
-Showcasing Simple Menus and custom title and summary text appearance.
+Showcasing simple menu/dialog, custom title and summary text appearance and color picker.
 
-![Simple menus and custom text appearance](./docs/device-2016-03-11-125945.png)&nbsp;
-![Simple menus with long items](./docs/device-2016-03-16-172141.png)&nbsp;
+![Simple menu](./docs/device-2016-03-25-220208.png)&nbsp;
+![Simple dialog with long items](./docs/device-2016-03-25-220317.png)&nbsp;
+![ColorPreference and custom text color](./docs/device-2016-03-25-220005.png)&nbsp;
 
 Library version 0.5.1. Android version 4.4.
 
@@ -59,6 +72,8 @@ Library version 0.5.1. Android version 4.4.
     - According to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - `RingtonePreference`
     - Coerced Ringtone Picker Activity from AOSP
+- `ColorPreference`
+    - Pillaged http://www.materialdoc.com/color-picker/
 - `XpPreferenceFragment`
     - Handles proper Preference inflation and DialogPreference dialogs
 - `SharedPreferencesCompat`
@@ -72,7 +87,8 @@ Library version 0.5.1. Android version 4.4.
 - Several preference widgets not publicly available in preference-v7 or SDK.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Subscreen navigation implementation.
-- `ListPreference` can optionally show as a Simple Menu in a popup instead of a dialog.
+- `ListPreference` can optionally show as a simple menu in a popup instead of a dialog.
+- `ColorPreference`
 
 ## How to use the library?
 
@@ -140,25 +156,6 @@ If you want to include sounds from the external storage your app needs to reques
 `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
 Don't forget to check this runtime permission before opening ringtone picker on API 23.
 
-### Handling PreferenceScreen icons
-
-As `PreferenceScreen` class is final and hardwired into preference system
-I was unable to automate icon tinting and padding. However you are able to do this yourself:
-
-```java
-Preference subs = findPreference("subs_screen");
-PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
-subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
-subsHelper.setIcon(R.drawable.some_icon);
-subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
-subsHelper.setIconTintEnabled(true);
-```
-
-### Subscreen navigation
-
-One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
-Please review the sample project for an example solution.
-
 ### Simple menu and Simple dialog
 
 Simple menu is described in [Material Design specs](https://www.google.com/design/spec/components/menus.html#menus-simple-menus).
@@ -192,7 +189,60 @@ You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavio
 - `0dp`: Popup wraps its own content (max width being limited by the width of underlying `ListPreference`).
 - `Xdp`: Popup wraps its own content and expands to the nearest multiple of X (being limited by the width of underlying `ListPreference`).
 
-### Avoiding bugs
+### Color preference
+
+Version 0.6.0 introduced color preference as a separate module. An example would look like this:
+
+```xml
+<ColorPreference
+    android:defaultValue="?colorPrimary"
+    android:entries="@array/colors_material_names"
+    android:entryValues="@array/colors_material"
+    android:key="notif_color"
+    android:title="Notification color"/>
+    
+<array name="colors_material">
+     <item>@color/material_red_500</item>
+     <item>@color/material_light_blue_500</item>
+     <item>@color/material_light_green_500</item>
+     <item>@color/material_orange_500</item>
+</array>
+
+<string-array name="colors_material_names">
+    <item>Red</item>
+    <item>Light Blue</item>
+    <item>Light Green</item>
+    <item>Orange</item>
+</string-array>
+```
+
+Additional attributes include:
+
+- `app:asp_columnCount`: Specify the number of columns in the color picker. Use an integer resource which will allow you to specify greater number on tablets. Default is 4.
+- `app:asp_swatchSize`: Size of individual swatches in the color picker.
+  - `small`: 48dp, default.
+  - `large`: 64dp.
+
+The color is stored internally as a 32-bit integer.
+
+If you need to change the default style either use `style` attribute or override it in your theme:
+
+```xml
+<item name="colorPreferenceStyle">@style/Preference.Material.DialogPreference.ColorPreference</item>
+```
+
+### Subscreen navigation
+
+One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
+This class will help you replace root preference in your preference fragment.
+
+Another solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceFragment` class.
+This class will help you replace the whole preference fragment with a new instance with specified root preference.
+Unlike the first solution this one is using fragment transactions and back stack allowing for transition animations.
+
+Please review the sample project and javadoc of both solutions.
+
+### Avoiding bugs *Obsolete*
 
 In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
 Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
@@ -210,27 +260,19 @@ protected void onCreate(Bundle savedInstanceState) {
 
 This fix is not necessary or available since version 0.5.5.
 
-### XML attributes
+### Icon tinting
 
 All preferences:
 
 - `app:asp_tint`
 - `app:asp_tintMode`
 - `app:asp_tintEnabled`
-- `app:asp_iconPaddingEnabled`
 
 All dialog preferences:
 
 - `app:asp_dialogTint`
 - `app:asp_dialogTintMode`
 - `app:asp_dialogTintEnabled`
-- `app:asp_dialogIconPaddingEnabled`
-
-List preferences:
-
-- <s>`app:asp_simpleMenu`</s>
-- `app:asp_menuMode`
-- `app:asp_simpleMenuWidthUnit`
 
 ### Icon padding
 
@@ -239,13 +281,32 @@ For smaller icons extra padding of 4dp on each side is needed.
 Achieve this by using `app:asp_iconPaddingEnabled`
 and `app:asp_dialogIconPaddingEnabled` attributes. Icon padding is enabled by default.
 
+### Handling PreferenceScreen icons
+
+As `PreferenceScreen` class is final and hardwired into preference system
+I was unable to automate icon tinting and padding. However you are able to do this yourself:
+
+```java
+Preference subs = findPreference("subs_screen");
+PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
+subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
+subsHelper.setIcon(R.drawable.some_icon);
+subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
+subsHelper.setIconTintEnabled(true);
+```
+
 ### Proguard
 
 Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.5.11**
+**0.6.0**
+- *NEW!* `ColorPreference` available as a separate module!
+- *NEW!* `ReplaceFragment` subscreen navigation strategy allowing for fragment transition animations.
+- Minor fixes.
+
+**0.5.11** *Legacy*
 - *FIXED:* Focused `SeekBarPreference` can now be controlled by `+` and `-` keys.
 - *FIXED:* Simple menu.
   - Popup will now display correctly for various item counts in various positions.
@@ -286,7 +347,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 **0.5.5** *Deprecated*
 - ***Only supports appcompat-v7 with preference-v7 version 23.2.x!***
 
-**0.5.4** *Deprecated*
+**0.5.4** *Legacy*
 - ***Last version that supports appcompat-v7 with preference-v7 version 23.1.1!***
 - *NEW!* Simple menu variant of `ListPreference`.
   - Via `app:asp_simpleMenu="true"`.
@@ -319,7 +380,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - Fixed divider color.
 - Sample contains `PreferenceScreen` subscreen handling.
 
-**0.4.3**
+**0.4.3** *Legacy*
 - ***Last fully supported appcompat-v7 version is 23.0.1. After that ringtone picker crashes!***
 - No more `Resources.NotFoundException` in `RingtonePickerActivity`. Falls back to English.
 - Updated appcompat-v7 library to 22.2.1.

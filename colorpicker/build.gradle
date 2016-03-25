@@ -21,3 +21,18 @@ android {
     }
 
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'net.xpece.android'
+    PUBLISH_ARTIFACT_ID = 'support-preference-color'
+    PUBLISH_VERSION = '0.6.0'
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+apply from: '../android-release-aar.gradle'

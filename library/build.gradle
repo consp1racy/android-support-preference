@@ -32,7 +32,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'net.xpece.android'
     PUBLISH_ARTIFACT_ID = 'support-preference'
-    PUBLISH_VERSION = '0.5.11'
+    PUBLISH_VERSION = '0.6.0'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
