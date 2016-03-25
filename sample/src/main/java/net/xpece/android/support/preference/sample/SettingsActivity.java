@@ -32,14 +32,14 @@ public class SettingsActivity extends AppCompatActivity implements
 
     private SettingsFragment mSettingsFragment;
 
-//    private PreferenceScreenNavigationStrategy.ReplaceFragment mReplaceFragmentStrategy;
+    private PreferenceScreenNavigationStrategy.ReplaceFragment mReplaceFragmentStrategy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-//        mReplaceFragmentStrategy = new PreferenceScreenNavigationStrategy.ReplaceFragment(this, R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out);
+        mReplaceFragmentStrategy = new PreferenceScreenNavigationStrategy.ReplaceFragment(this, R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out);
 
         if (savedInstanceState == null) {
             mSettingsFragment = SettingsFragment.newInstance(null);
@@ -70,9 +70,9 @@ public class SettingsActivity extends AppCompatActivity implements
 
     @Override
     public boolean onPreferenceStartScreen(final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
-//        mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
-//        return true;
-        return false; // Turn off to try ReplaceRoot strategy.
+        mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
+        return true;
+//        return false; // Turn off to try ReplaceRoot strategy.
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         // Use with ReplaceRoot strategy.
-        if (mSettingsFragment.onBackPressed()) return;
+//        if (mSettingsFragment.onBackPressed()) return;
 
         super.onBackPressed();
     }

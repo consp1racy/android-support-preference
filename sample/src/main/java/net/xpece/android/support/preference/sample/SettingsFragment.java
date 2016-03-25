@@ -36,8 +36,8 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks {
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
-    // These are used to navigate back and forth between subscreens.
-    private PreferenceScreenNavigationStrategy.ReplaceRoot mPreferenceScreenNavigation;
+    // These are used to navigate back and forth between subscreens. Use with ReplaceRoot strategy.
+//    private PreferenceScreenNavigationStrategy.ReplaceRoot mPreferenceScreenNavigation;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -152,18 +152,18 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         // Setup root preference.
 
         // Use with ReplaceRoot strategy.
-        mPreferenceScreenNavigation = new PreferenceScreenNavigationStrategy.ReplaceRoot(this, this);
-        mPreferenceScreenNavigation.onCreatePreferences(savedInstanceState);
+//        mPreferenceScreenNavigation = new PreferenceScreenNavigationStrategy.ReplaceRoot(this, this);
+//        mPreferenceScreenNavigation.onCreatePreferences(savedInstanceState);
 
         // Use with ReplaceFragment strategy.
-//        PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
+        PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        mPreferenceScreenNavigation.onSaveInstanceState(outState);
+//        mPreferenceScreenNavigation.onSaveInstanceState(outState);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         super.onStart();
 
         // Change activity title to preference title. Used with ReplaceFragment strategy.
-//        getActivity().setTitle(getPreferenceScreen().getTitle());
+        getActivity().setTitle(getPreferenceScreen().getTitle());
     }
 
     /**
@@ -241,19 +241,19 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference instanceof PreferenceScreen) {
-            PreferenceScreen preferenceScreen = (PreferenceScreen) preference;
-            mPreferenceScreenNavigation.onPreferenceScreenClick(preferenceScreen);
-            return true;
-        }
+//        if (preference instanceof PreferenceScreen) {
+//            PreferenceScreen preferenceScreen = (PreferenceScreen) preference;
+//            mPreferenceScreenNavigation.onPreferenceScreenClick(preferenceScreen);
+//            return true;
+//        }
         return super.onPreferenceTreeClick(preference);
     }
 
     @Override
     public boolean onBackPressed() {
-        if (mPreferenceScreenNavigation.onBackPressed()) {
-            return true;
-        }
+//        if (mPreferenceScreenNavigation.onBackPressed()) {
+//            return true;
+//        }
         return false;
     }
 
