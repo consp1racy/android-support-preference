@@ -11,6 +11,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -32,11 +33,11 @@ import java.util.Set;
  * @author Eugen on 7. 12. 2015.
  */
 public class SettingsFragment extends XpPreferenceFragment implements ICanPressBack,
-    PreferenceScreenNavigationStrategy.Callbacks {
+    PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks {
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
     // These are used to navigate back and forth between subscreens.
-    private PreferenceScreenNavigationStrategy mPreferenceScreenNavigation;
+    private PreferenceScreenNavigationStrategy.ReplaceRoot mPreferenceScreenNavigation;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -146,13 +147,16 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notif_color"));
 
         // Setup root preference title.
-        getPreferenceScreen().setTitle(getActivity().getTitle());
+        getPreferenceScreen().setTitle(R.string.app_name);
 
-        // Setup root preference key from arguments.
-        getPreferenceScreen().setKey(rootKey);
+        // Setup root preference.
 
+        // Use with ReplaceRoot strategy.
         mPreferenceScreenNavigation = new PreferenceScreenNavigationStrategy.ReplaceRoot(this, this);
-        mPreferenceScreenNavigation.onCreate(savedInstanceState);
+        mPreferenceScreenNavigation.onCreatePreferences(savedInstanceState);
+
+        // Use with ReplaceFragment strategy.
+//        PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
     }
 
     @Override
@@ -160,6 +164,14 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         super.onSaveInstanceState(outState);
 
         mPreferenceScreenNavigation.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Change activity title to preference title. Used with ReplaceFragment strategy.
+//        getActivity().setTitle(getPreferenceScreen().getTitle());
     }
 
     /**
@@ -197,9 +209,35 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListView().addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+        final RecyclerView listView = getListView();
+
+        // We're using alternative divider.
+        listView.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
         setDivider(null);
+
+        // We don't want this. The children are still focusable.
+        listView.setFocusable(false);
     }
+
+    @Override
+    public boolean onDisplayPreferenceDialog2(final Preference preference) {
+        if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
+            DialogFragment f;
+            if (preference instanceof ColorPreference) {
+                f = XpColorPreferenceDialogFragment.newInstance(preference.getKey());
+            } else {
+                return false;
+            }
+
+            f.setTargetFragment(this, 0);
+            f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Here follows ReplaceRoot strategy stuff. ====================================================
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
@@ -224,21 +262,4 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         getActivity().setTitle(preferenceScreen.getTitle());
     }
 
-    @Override
-    public boolean onDisplayPreferenceDialog2(final Preference preference) {
-        if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
-            DialogFragment f;
-            if (preference instanceof ColorPreference) {
-                f = XpColorPreferenceDialogFragment.newInstance(preference.getKey());
-            } else {
-                return false;
-            }
-
-            f.setTargetFragment(this, 0);
-            f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
