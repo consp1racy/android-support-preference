@@ -24,6 +24,8 @@ import java.lang.reflect.Field;
 public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     private static final String TAG = XpPreferenceFragment.class.getSimpleName();
 
+    protected final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
+
     private static final Field FIELD_PREFERENCE_MANAGER;
 
     static {
@@ -36,8 +38,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
         FIELD_PREFERENCE_MANAGER = preferenceManager;
     }
-
-    protected final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private void setPreferenceManager(PreferenceManager manager) {
         try {
