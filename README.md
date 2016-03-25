@@ -223,13 +223,17 @@ Additional attributes include:
   - `small`: 48dp, default.
   - `large`: 64dp.
 
-The color is stored internally as a 32-bit integer.
+Finally you need to make your preference fragment fire up the color picker dialog
+when the preference is clicked and optionally update summary when a color is chosen.
+Please review [sample `SettingsFragment.java`](sample\src\main\java\net\xpece\android\support\preference\sample\SettingsFragment.java).
 
 If you need to change the default style either use `style` attribute or override it in your theme:
 
 ```xml
 <item name="colorPreferenceStyle">@style/Preference.Material.DialogPreference.ColorPreference</item>
 ```
+
+The color is stored internally as a 32-bit integer.
 
 ### Subscreen navigation
 
@@ -293,7 +297,12 @@ subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
 subsHelper.setIcon(R.drawable.some_icon);
 subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
 subsHelper.setIconTintEnabled(true);
+/* or */
+PreferenceIconHelper.setup(subs /* preference */, R.drawable.some_icon /* icon */, R.color.accent /* tint */, true /* padding */);
 ```
+
+You can use this class even on preference classes from preference-v7 package in case you're not using
+`XpPreferenceFragment`.
 
 ### Proguard
 
