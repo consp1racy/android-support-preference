@@ -120,6 +120,8 @@
     <style name="Animation.Material.Popup" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/abc_popup_enter</item>
         <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
+        <!--<item name="android:windowEnterAnimation">@*android:anim/grow_fade_in_center</item>-->
+        <!--<item name="android:windowExitAnimation">@*android:anim/shrink_fade_out_center</item>-->
     </style>
 
 </resources>

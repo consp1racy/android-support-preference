@@ -193,7 +193,7 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuShowing = true;
 
         popup.show();
-        popup.setSelection(position);
+        popup.setSelectionInitial(position);
 
         return true;
     }

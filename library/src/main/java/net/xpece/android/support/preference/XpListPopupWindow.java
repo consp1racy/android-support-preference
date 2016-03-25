@@ -1153,6 +1153,11 @@ public class XpListPopupWindow {
         }
     }
 
+    void setSelectionInitial(int position) {
+        if (position <= 0) return;
+        setSelection(position);
+    }
+
     /**
      * Clear any current list selection.
      * Only valid when {@link #isShowing()} == {@code true}.
