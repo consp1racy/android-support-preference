@@ -48,9 +48,17 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             String stringValue = value.toString();
 
             if (preference instanceof ColorPreference) {
+                ColorPreference colorPreference = (ColorPreference) preference;
                 int color = (int) value;
-                String colorString = String.format("#%06X", 0xFFFFFF & color);
-                preference.setSummary(colorString);
+//                String colorString = String.format("#%06X", 0xFFFFFF & color);
+//                preference.setSummary(colorString);
+                int index = colorPreference.findIndexOfValue(color);
+                if (index < 0)  {
+                    preference.setSummary(null);
+                } else {
+                    final CharSequence name = colorPreference.getColorNames()[index];
+                    preference.setSummary(name);
+                }
             } else if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
@@ -135,7 +143,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         bindPreferenceSummaryToValue(findPreference("notif_content"));
-//        bindPreferenceSummaryToValue(findPreference("notif_color"));
+        bindPreferenceSummaryToValue(findPreference("notif_color"));
 
         // Setup root preference title.
         getPreferenceScreen().setTitle(getActivity().getTitle());

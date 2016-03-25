@@ -18,6 +18,7 @@ package com.android.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,21 @@ import android.widget.TableRow;
 
 import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * A color picker custom view which creates an grid of color squares.  The number of squares per
  * row (and the padding between the squares) is determined by the user.
  */
 public class ColorPickerPalette extends TableLayout {
+
+    @IntDef({SIZE_LARGE, SIZE_SMALL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SwatchSize {}
+
+    public static final int SIZE_LARGE = 1;
+    public static final int SIZE_SMALL = 2;
 
     public OnColorSelectedListener mOnColorSelectedListener;
 
@@ -54,10 +65,10 @@ public class ColorPickerPalette extends TableLayout {
      * Initialize the size, columns, and listener.  Size should be a pre-defined size (SIZE_LARGE
      * or SIZE_SMALL) from ColorPickerDialogFragment.
      */
-    public void init(int size, int columns, OnColorSelectedListener listener) {
+    public void init(@SwatchSize int size, int columns, OnColorSelectedListener listener) {
         mNumColumns = columns;
         Resources res = getResources();
-        if (size == ColorPickerDialog.SIZE_LARGE) {
+        if (size == SIZE_LARGE) {
             mSwatchLength = res.getDimensionPixelSize(R.dimen.color_swatch_large);
             mMarginSize = res.getDimensionPixelSize(R.dimen.color_swatch_margins_large);
         } else {
@@ -72,8 +83,8 @@ public class ColorPickerPalette extends TableLayout {
 
     private TableRow createTableRow() {
         TableRow row = new TableRow(getContext());
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT);
         row.setLayoutParams(params);
         return row;
     }
@@ -88,7 +99,7 @@ public class ColorPickerPalette extends TableLayout {
     /**
      * Adds swatches to table in a serpentine format.
      */
-    public void drawPalette(int[] colors, int selectedColor, String[] colorContentDescriptions) {
+    public void drawPalette(int[] colors, int selectedColor, CharSequence[] colorContentDescriptions) {
         if (colors == null) {
             return;
         }
@@ -103,7 +114,7 @@ public class ColorPickerPalette extends TableLayout {
         for (int color : colors) {
             View colorSwatch = createColorSwatch(color, selectedColor);
             setSwatchDescription(rowNumber, tableElements, rowElements, color == selectedColor,
-                    colorSwatch, colorContentDescriptions);
+                colorSwatch, colorContentDescriptions);
             addSwatchToRow(row, colorSwatch, rowNumber);
 
             tableElements++;
@@ -145,8 +156,8 @@ public class ColorPickerPalette extends TableLayout {
      * will arrange them for accessibility purposes.
      */
     private void setSwatchDescription(int rowNumber, int index, int rowElements, boolean selected,
-            View swatch, String[] contentDescriptions) {
-        String description;
+                                      View swatch, CharSequence[] contentDescriptions) {
+        CharSequence description;
         if (contentDescriptions != null && contentDescriptions.length > index) {
             description = contentDescriptions[index];
         } else {
@@ -185,7 +196,7 @@ public class ColorPickerPalette extends TableLayout {
      */
     private ColorPickerSwatch createColorSwatch(int color, int selectedColor) {
         ColorPickerSwatch view = new ColorPickerSwatch(getContext(), color,
-                color == selectedColor, mOnColorSelectedListener);
+            color == selectedColor, mOnColorSelectedListener);
         TableRow.LayoutParams params = new TableRow.LayoutParams(mSwatchLength, mSwatchLength);
         params.setMargins(mMarginSize, mMarginSize, mMarginSize, mMarginSize);
         view.setLayoutParams(params);

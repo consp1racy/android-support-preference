@@ -17,8 +17,9 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,25 +36,18 @@ import com.android.colorpicker.R;
 public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCompat
     implements OnColorSelectedListener {
 
-    public static final int SIZE_LARGE = 1;
-    public static final int SIZE_SMALL = 2;
-
-    protected static final String KEY_COLORS = "colors";
-    protected static final String KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
+//    protected static final String KEY_COLORS = "colors";
+//    protected static final String KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
     protected static final String KEY_SELECTED_COLOR = "selected_color";
-    protected static final String KEY_COLUMNS = "columns";
-    protected static final String KEY_SIZE = "size";
 
-    protected int[] mColors = null;
-    protected String[] mColorContentDescriptions = null;
+//    protected int[] mColors = null;
+//    protected String[] mColorContentDescriptions = null;
     protected int mSelectedColor;
-    protected int mColumns;
-    protected int mSize;
+//    protected int mColumns;
+//    protected int mSize;
 
     private ColorPickerPalette mPalette;
     private ProgressBar mProgress;
-
-    protected OnColorSelectedListener mListener;
 
     public static XpColorPreferenceDialogFragment newInstance(String key) {
         XpColorPreferenceDialogFragment fragment = new XpColorPreferenceDialogFragment();
@@ -67,55 +61,38 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         // Empty constructor required for dialog fragments.
     }
 
-    public void initialize(int[] colors, int selectedColor, int columns, int size) {
-        setArguments(columns, size);
-        setColors(colors, selectedColor);
-    }
-
-    public void setArguments(int columns, int size) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(KEY_COLUMNS, columns);
-        bundle.putInt(KEY_SIZE, size);
-        setArguments(bundle);
-    }
-
-    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
-        mListener = listener;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mColumns = getArguments().getInt(KEY_COLUMNS);
-            mSize = getArguments().getInt(KEY_SIZE);
-        }
-
         if (savedInstanceState != null) {
-            mColors = savedInstanceState.getIntArray(KEY_COLORS);
-            mSelectedColor = (Integer) savedInstanceState.getSerializable(KEY_SELECTED_COLOR);
-            mColorContentDescriptions = savedInstanceState.getStringArray(
-                KEY_COLOR_CONTENT_DESCRIPTIONS);
+//            mColors = savedInstanceState.getIntArray(KEY_COLORS);
+            mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
+//            mColorContentDescriptions = savedInstanceState.getTextArray(KEY_COLOR_CONTENT_DESCRIPTIONS);
+        } else {
+            ColorPreference pref = getColorPreference();
+            mSelectedColor = pref.getColor();
         }
     }
 
     @Override
-    protected void onPrepareDialogBuilder(final AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
-
-        final Context context = builder.getContext();
+    protected View onCreateDialogView(final Context context) {
+        final ColorPreference colorPreference = getColorPreference();
 
         View view = LayoutInflater.from(context).inflate(R.layout.color_picker_dialog, null);
         mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
         mPalette = (ColorPickerPalette) view.findViewById(R.id.color_picker);
-        mPalette.init(mSize, mColumns, this);
 
-        if (mColors != null) {
+        int size = colorPreference.getSwatchSize();
+        int columns = colorPreference.getColumnCount();
+        mPalette.init(size, columns, this);
+
+        int[] colors = colorPreference.getColorValues();
+        if (colors != null) {
             showPaletteView();
         }
 
-        builder.setView(view);
+        return view;
     }
 
     @Override
@@ -132,34 +109,36 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
-//    @Override
-//    public void onClick(final DialogInterface dialog, final int which) {
-//        super.onClick(dialog, which);
-//        if (which == DialogInterface.BUTTON_POSITIVE) {
-//            save();
-//        }
-//    }
+    public ColorPreference getColorPreference()  {
+        return (ColorPreference) getPreference();
+    }
+
+    @Override
+    protected void onBindDialogView(final View view) {
+        super.onBindDialogView(view);
+    }
 
     @Override
     public void onColorSelected(int color) {
-        if (mListener != null) {
-            mListener.onColorSelected(color);
-        }
-
         if (getTargetFragment() instanceof OnColorSelectedListener) {
             final OnColorSelectedListener listener =
                 (OnColorSelectedListener) getTargetFragment();
             listener.onColorSelected(color);
         }
 
+        boolean redraw = false;
+
         if (color != mSelectedColor) {
             mSelectedColor = color;
-            // Redraw palette to show checkmark on newly selected color before dismissing.
-            mPalette.drawPalette(mColors, mSelectedColor);
+            redraw = true;
         }
 
         if (getPreference().getPositiveButtonText() == null) {
+            onClick(getDialog(), DialogInterface.BUTTON_POSITIVE);
             dismiss();
+        } else if (redraw) {
+            // Redraw palette to show checkmark on newly selected color before dismissing.
+            mPalette.drawPalette(getColorPreference().getColorValues(), mSelectedColor);
         }
     }
 
@@ -178,43 +157,13 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
-    public void setColors(int[] colors, int selectedColor) {
-        if (mColors != colors || mSelectedColor != selectedColor) {
-            mColors = colors;
-            mSelectedColor = selectedColor;
-            refreshPalette();
-        }
-    }
-
-    public void setColors(int[] colors) {
-        if (mColors != colors) {
-            mColors = colors;
-            refreshPalette();
-        }
-    }
-
-    public void setSelectedColor(int color) {
-        if (mSelectedColor != color) {
-            mSelectedColor = color;
-            refreshPalette();
-        }
-    }
-
-    public void setColorContentDescriptions(String[] colorContentDescriptions) {
-        if (mColorContentDescriptions != colorContentDescriptions) {
-            mColorContentDescriptions = colorContentDescriptions;
-            refreshPalette();
-        }
-    }
-
     private void refreshPalette() {
-        if (mPalette != null && mColors != null) {
-            mPalette.drawPalette(mColors, mSelectedColor, mColorContentDescriptions);
+        ColorPreference pref = getColorPreference();
+        int[] colors = pref.getColorValues();
+        CharSequence[] names = pref.getColorNames();
+        if (mPalette != null && colors != null) {
+            mPalette.drawPalette(colors, mSelectedColor, names);
         }
-    }
-
-    public int[] getColors() {
-        return mColors;
     }
 
     public int getSelectedColor() {
@@ -222,10 +171,10 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putIntArray(KEY_COLORS, mColors);
-        outState.putSerializable(KEY_SELECTED_COLOR, mSelectedColor);
-        outState.putStringArray(KEY_COLOR_CONTENT_DESCRIPTIONS, mColorContentDescriptions);
+//        outState.putIntArray(KEY_COLORS, mColors);
+        outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);
+//        outState.putTextArray(KEY_COLOR_CONTENT_DESCRIPTIONS, mColorContentDescriptions);
     }
 }

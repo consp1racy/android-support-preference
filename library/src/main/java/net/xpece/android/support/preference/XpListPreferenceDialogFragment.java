@@ -35,7 +35,7 @@ public class XpListPreferenceDialogFragment extends PreferenceDialogFragmentComp
             final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     XpListPreferenceDialogFragment.this.mClickedDialogEntryIndex = which;
-                    XpListPreferenceDialogFragment.this.onClick(dialog, -1);
+                    XpListPreferenceDialogFragment.this.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
 
                     if (preference.isSimple() || preference.getPositiveButtonText() == null) {
                         // If there's no OK button, dismiss dialog after making a choice.

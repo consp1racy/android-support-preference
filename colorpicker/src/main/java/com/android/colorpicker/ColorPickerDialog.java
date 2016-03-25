@@ -33,9 +33,6 @@ import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
  */
 public class ColorPickerDialog extends DialogFragment implements OnColorSelectedListener {
 
-    public static final int SIZE_LARGE = 1;
-    public static final int SIZE_SMALL = 2;
-
     protected AlertDialog mAlertDialog;
 
     protected static final String KEY_TITLE_ID = "title_id";
@@ -50,7 +47,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
     protected String[] mColorContentDescriptions = null;
     protected int mSelectedColor;
     protected int mColumns;
-    protected int mSize;
+    @ColorPickerPalette.SwatchSize protected int mSize;
 
     private ColorPickerPalette mPalette;
     private ProgressBar mProgress;
@@ -62,18 +59,18 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
     }
 
     public static ColorPickerDialog newInstance(int titleResId, int[] colors, int selectedColor,
-                                                int columns, int size) {
+                                                int columns, @ColorPickerPalette.SwatchSize int size) {
         ColorPickerDialog ret = new ColorPickerDialog();
         ret.initialize(titleResId, colors, selectedColor, columns, size);
         return ret;
     }
 
-    public void initialize(int titleResId, int[] colors, int selectedColor, int columns, int size) {
+    public void initialize(int titleResId, int[] colors, int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
         setArguments(titleResId, columns, size);
         setColors(colors, selectedColor);
     }
 
-    public void setArguments(int titleResId, int columns, int size) {
+    public void setArguments(int titleResId, int columns, @ColorPickerPalette.SwatchSize int size) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_TITLE_ID, titleResId);
         bundle.putInt(KEY_COLUMNS, columns);
@@ -92,6 +89,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         if (getArguments() != null) {
             mTitleResId = getArguments().getInt(KEY_TITLE_ID);
             mColumns = getArguments().getInt(KEY_COLUMNS);
+            //noinspection WrongConstant
             mSize = getArguments().getInt(KEY_SIZE);
         }
 

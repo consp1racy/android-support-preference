@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:padding="28dp" >
+        android:padding="?dialogPreferredPadding" >
 
         <ProgressBar
             android:id="@android:id/progress"
@@ -36,7 +36,7 @@
 
         <com.android.colorpicker.ColorPickerPalette
             android:id="@+id/color_picker"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"

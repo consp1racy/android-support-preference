@@ -23,6 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/ic_colorpicker_swatch_selected"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:visibility="gone" />
 </merge>

@@ -3,6 +3,8 @@
 
     <style name="Preference.Material.DialogPreference.ColorPreference">
         <item name="android:widgetLayout">@layout/asp_preference_widget_image</item>
+        <item name="android:positiveButtonText">@null</item>
+        <item name="android:negativeButtonText">@null</item>
     </style>
 
 </resources>

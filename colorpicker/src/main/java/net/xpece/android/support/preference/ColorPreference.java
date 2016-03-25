@@ -1,18 +1,23 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.ImageView;
+
+import com.android.colorpicker.ColorPickerPalette;
 import com.android.colorpicker.R;
 
 /**
@@ -20,6 +25,13 @@ import com.android.colorpicker.R;
  */
 public class ColorPreference extends DialogPreference {
     @ColorInt private final static int DEFAULT_COLOR = Color.BLACK;
+    @ColorPickerPalette.SwatchSize private static final int DEFAULT_SWATCH_SIZE = ColorPickerPalette.SIZE_SMALL;
+    private static final int DEFAULT_COLUMN_COUNT = 4;
+
+    private int[] mColorValues;
+    private CharSequence[] mColorNames;
+    @ColorPickerPalette.SwatchSize private int mSwatchSize;
+    private int mColumnCount;
 
     @ColorInt private int mColor;
 
@@ -45,6 +57,14 @@ public class ColorPreference extends DialogPreference {
         }
     }
 
+    public int findIndexOfValue(@ColorInt int color) {
+        final int size = mColorValues.length;
+        for (int i = 0; i < size; i++) {
+            if (mColorValues[i] == color) return i;
+        }
+        return -1;
+    }
+
     public ColorPreference(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
@@ -63,6 +83,79 @@ public class ColorPreference extends DialogPreference {
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorPreference, defStyleAttr, defStyleRes);
+        int colorValuesRes = a.getResourceId(R.styleable.ColorPreference_android_entryValues, 0);
+        if (colorValuesRes != 0) {
+            mColorValues = arrayResToColors(context, colorValuesRes);
+        }
+        mColorNames = a.getTextArray(R.styleable.ColorPreference_android_entries);
+        //noinspection WrongConstant
+        mSwatchSize = a.getInteger(R.styleable.ColorPreference_asp_swatchSize, DEFAULT_SWATCH_SIZE);
+        mColumnCount = a.getInteger(R.styleable.ColorPreference_asp_columnCount, DEFAULT_COLUMN_COUNT);
+        a.recycle();
+    }
+
+    private int[] arrayResToColors(final Context context, final int colorValuesRes) {
+        Resources.Theme theme = context.getTheme();
+        TypedArray b = context.getResources().obtainTypedArray(colorValuesRes);
+        int size = b.length();
+        int[] colorValues = new int[size];
+        for (int i = 0; i < size; i++) {
+            colorValues[i] = resolveColor(b, i, theme);
+        }
+        b.recycle();
+        return colorValues;
+    }
+
+    public void setColorValues(@ArrayRes int arrayRes) {
+        mColorValues = arrayResToColors(getContext(), arrayRes);
+    }
+
+    public void setColorValues(int[] array) {
+        mColorValues = array;
+    }
+
+    public int[] getColorValues() {
+        return mColorValues;
+    }
+
+    public CharSequence[] getColorNames() {
+        return mColorNames;
+    }
+
+    public void setColorNames(@ArrayRes int arrayRes) {
+        mColorNames = getContext().getResources().getTextArray(arrayRes);
+    }
+
+    public void setColorNames(CharSequence[] array) {
+        mColorNames = array;
+    }
+
+    private static int resolveColor(TypedArray ca, int i, Resources.Theme theme) {
+        if (ca.peekValue(i).type == TypedValue.TYPE_ATTRIBUTE) {
+            TypedValue typedValue = new TypedValue();
+            theme.resolveAttribute(ca.peekValue(i).data, typedValue, true);
+            return typedValue.data;
+        } else {
+            return ca.getColor(i, 0);
+        }
+    }
+
+    @ColorPickerPalette.SwatchSize
+    public int getSwatchSize() {
+        return mSwatchSize;
+    }
+
+    public int getColumnCount() {
+        return mColumnCount;
+    }
+
+    public void setSwatchSize(@ColorPickerPalette.SwatchSize final int swatchSize) {
+        mSwatchSize = swatchSize;
+    }
+
+    public void setColumnCount(final int columnCount) {
+        mColumnCount = columnCount;
     }
 
     @Override
@@ -86,7 +179,7 @@ public class ColorPreference extends DialogPreference {
         active.setSize(size, size);
 
         int stroke = Util.dpToPxSize(context, 1);
-        int dark = ColorUtils.blendARGB(color, Color.BLACK, 0.25f);
+        int dark = ColorUtils.blendARGB(color, Color.BLACK, 0.12f);
         active.setStroke(stroke, dark);
 
         int disabledAlpha = (int) (Util.resolveFloat(context, android.R.attr.disabledAlpha, 0.5f) * 255);

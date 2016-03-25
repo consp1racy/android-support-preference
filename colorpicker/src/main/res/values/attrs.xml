@@ -5,4 +5,14 @@
         <attr name="colorPreferenceStyle" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ColorPreference">
+        <attr name="android:entries"/>
+        <attr name="android:entryValues"/>
+        <attr name="asp_swatchSize" format="enum">
+            <enum name="large" value="1"/>
+            <enum name="small" value="2"/>
+        </attr>
+        <attr name="asp_columnCount" format="integer"/>
+    </declare-styleable>
+
 </resources>
