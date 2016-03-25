@@ -225,7 +225,7 @@ Additional attributes include:
 
 Finally you need to make your preference fragment fire up the color picker dialog
 when the preference is clicked and optionally update summary when a color is chosen.
-Please review [sample `SettingsFragment.java`](sample\src\main\java\net\xpece\android\support\preference\sample\SettingsFragment.java).
+Please review [sample `SettingsFragment.java`](sample/src/main/java/net/xpece/android/support/preference/sample/SettingsFragment.java).
 
 If you need to change the default style either use `style` attribute or override it in your theme:
 
