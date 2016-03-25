@@ -32,6 +32,8 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     private ImageView mCheckmarkImage;
     private OnColorSelectedListener mOnColorSelectedListener;
 
+    private int mPressedColor;
+
     /**
      * Interface for a callback when a color square is selected.
      */
@@ -49,6 +51,8 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
         mColor = color;
         mOnColorSelectedListener = listener;
 
+        mPressedColor = Util.resolveColor(context, R.attr.colorControlHighlight, 0);
+
         LayoutInflater.from(context).inflate(R.layout.color_picker_swatch, this);
         mSwatchImage = (ImageView) findViewById(R.id.color_picker_swatch);
         mCheckmarkImage = (ImageView) findViewById(R.id.color_picker_checkmark);
@@ -60,7 +64,7 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     protected void setColor(int color) {
         Drawable[] colorDrawable = new Drawable[]
                 {getContext().getResources().getDrawable(R.drawable.color_picker_swatch)};
-        mSwatchImage.setImageDrawable(new ColorStateDrawable(colorDrawable, color));
+        mSwatchImage.setImageDrawable(ColorStateDrawable.create(colorDrawable, color, mPressedColor));
     }
 
     private void setChecked(boolean checked) {

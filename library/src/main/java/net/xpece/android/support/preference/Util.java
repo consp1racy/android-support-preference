@@ -1,7 +1,6 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
 import android.support.annotation.StyleRes;
@@ -90,16 +89,6 @@ final class Util {
         TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
         try {
             return ta.getFloat(0, fallback);
-        } finally {
-            ta.recycle();
-        }
-    }
-
-    public static ColorStateList resolveColorStateList(Context context, @AttrRes int attr) {
-        TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
-        try {
-            return ta.getColorStateList(0);
         } finally {
             ta.recycle();
         }

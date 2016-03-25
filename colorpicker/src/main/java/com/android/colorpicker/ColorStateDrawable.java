@@ -16,10 +16,13 @@
 
 package com.android.colorpicker;
 
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
+import android.support.v4.graphics.ColorUtils;
 
 /**
  * A drawable which sets its color filter to a color specified by the user, and changes to a
@@ -27,13 +30,26 @@ import android.graphics.drawable.LayerDrawable;
  */
 public class ColorStateDrawable extends LayerDrawable {
 
-    private static final float PRESSED_STATE_MULTIPLIER = 0.70f;
+//    private static final float PRESSED_STATE_MULTIPLIER = 0.70f;
 
     private int mColor;
+    private int mPressed;
 
-    public ColorStateDrawable(Drawable[] layers, int color) {
+    public static Drawable create(Drawable[] layers, int color, int pressed) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            LayerDrawable ld = new LayerDrawable(layers);
+            ld.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            RippleDrawable rd = new RippleDrawable(ColorStateList.valueOf(pressed), ld, null);
+            return rd;
+        } else {
+            return new ColorStateDrawable(layers, color, pressed);
+        }
+    }
+
+    public ColorStateDrawable(Drawable[] layers, int color, int pressed) {
         super(layers);
         mColor = color;
+        mPressed = pressed;
     }
 
     @Override
@@ -47,23 +63,28 @@ public class ColorStateDrawable extends LayerDrawable {
         }
 
         if (pressedOrFocused) {
-            super.setColorFilter(getPressedColor(mColor), PorterDuff.Mode.SRC_ATOP);
+//            super.setColorFilter(getPressedColor(mColor), PorterDuff.Mode.SRC_IN);
+            super.setColorFilter(getPressedColor(), PorterDuff.Mode.SRC_IN);
         } else {
-            super.setColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
+            super.setColorFilter(mColor, PorterDuff.Mode.SRC_IN);
         }
 
         return super.onStateChange(states);
     }
 
-    /**
-     * Given a particular color, adjusts its value by a multiplier.
-     */
-    private static int getPressedColor(int color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(color, hsv);
-        hsv[2] = hsv[2] * PRESSED_STATE_MULTIPLIER;
-        return Color.HSVToColor(hsv);
+    private int getPressedColor() {
+        return ColorUtils.compositeColors(mPressed, mColor);
     }
+
+//    /**
+//     * Given a particular color, adjusts its value by a multiplier.
+//     */
+//    private static int getPressedColor(int color) {
+//        float[] hsv = new float[3];
+//        Color.colorToHSV(color, hsv);
+//        hsv[2] = hsv[2] * PRESSED_STATE_MULTIPLIER;
+//        return Color.HSVToColor(hsv);
+//    }
 
     @Override
     public boolean isStateful() {

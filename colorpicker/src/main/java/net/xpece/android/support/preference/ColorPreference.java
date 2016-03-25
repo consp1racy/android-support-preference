@@ -82,7 +82,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     public ColorPreference(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_ColorPreference);
     }
 
     public ColorPreference(final Context context, final AttributeSet attrs) {
