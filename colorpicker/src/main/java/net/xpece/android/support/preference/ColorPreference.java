@@ -33,7 +33,7 @@ public class ColorPreference extends DialogPreference {
     @ColorPickerPalette.SwatchSize private int mSwatchSize;
     private int mColumnCount;
 
-    @ColorInt private int mColor;
+    @ColorInt private int mColor = DEFAULT_COLOR;
 
     private Drawable mDrawable;
 
@@ -58,11 +58,22 @@ public class ColorPreference extends DialogPreference {
     }
 
     public int findIndexOfValue(@ColorInt int color) {
-        final int size = mColorValues.length;
-        for (int i = 0; i < size; i++) {
-            if (mColorValues[i] == color) return i;
+        if (mColorValues != null) {
+            final int size = mColorValues.length;
+            for (int i = 0; i < size; i++) {
+                if (mColorValues[i] == color) return i;
+            }
         }
         return -1;
+    }
+
+    public CharSequence getNameForColor(@ColorInt int color) {
+        CharSequence[] names = getColorNames();
+        if (names != null) {
+            int index = findIndexOfValue(color);
+            return names[index];
+        }
+        return null;
     }
 
     public ColorPreference(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
@@ -209,5 +220,4 @@ public class ColorPreference extends DialogPreference {
         //noinspection ResourceAsColor
         setColor(restoreValue ? getPersistedInt(mColor) : (int) defaultValue);
     }
-
 }

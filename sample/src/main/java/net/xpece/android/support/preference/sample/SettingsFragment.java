@@ -56,7 +56,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
                 if (index < 0)  {
                     preference.setSummary(null);
                 } else {
-                    final CharSequence name = colorPreference.getColorNames()[index];
+                    final CharSequence name = colorPreference.getNameForColor(color);
                     preference.setSummary(name);
                 }
             } else if (preference instanceof ListPreference) {
