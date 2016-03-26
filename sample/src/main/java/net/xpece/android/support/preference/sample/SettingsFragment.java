@@ -118,7 +118,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Manually tint PreferenceScreen icon.
         Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.ic_inbox_black_24dp, R.color.accent_state_list, true);
+        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.ic_inbox_black_24dp, R.color.accent, true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
