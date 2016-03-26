@@ -12,7 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.6.0' // depends on preference-v7 r23.2.1
+    compile 'net.xpece.android:support-preference:0.6.1' // depends on preference-v7 r23.2.1
     /* or */
     compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
 }
@@ -29,6 +29,7 @@ repositories {
 }
 ```
 
+Version of color preference artifact does not necessarily correspond to version of main library.
 
 ## Screenshots
 
@@ -111,24 +112,14 @@ Your settings activity theme needs to specify the following values:
     <!-- Used to theme preference list and items. -->
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
     <!-- Default preference icon tint color. -->
-    <item name="preferenceTint">@color/accent_state_list</item>
+    <item name="preferenceTint">?colorAccent</item>
 </style>
 ```
 
 Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
-Sample `res/color/accent_state_list.xml`:
-
-```xml
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:color="@color/accent_disabled"
-        android:state_enabled="false"/>
-    <item android:color="@color/accent"/>
-</selector>
-```
-
-Disabled alpha is 38% (#61) according to latest Material design guidelines.
+Since v0.6.1 disabled color for `preferenceTint` is computed automatically. Prior to this you'd have
+to use custom `ColorStateList` XML resource with disabled state.
 
 ### Dividers
 
@@ -247,7 +238,7 @@ Unlike the first solution this one is using fragment transactions and back stack
 
 Please review the sample project and javadoc of both solutions.
 
-### Avoiding bugs *Obsolete*
+### Avoiding bugs
 
 In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
 Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
@@ -299,7 +290,10 @@ subsHelper.setIcon(R.drawable.some_icon);
 subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
 subsHelper.setIconTintEnabled(true);
 /* or */
-PreferenceIconHelper.setup(subs /* preference */, R.drawable.some_icon /* icon */, R.color.accent /* tint */, true /* padding */);
+PreferenceIconHelper.setup(subs /* preference */,
+    R.drawable.some_icon /* icon */,
+    R.color.accent /* tint */,
+    true /* padding */);
 ```
 
 You can use this class even on preference classes from preference-v7 package in case you're not using
@@ -311,7 +305,11 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.6.0**
+**0.6.1**
+- *FIXED:* Dialog preferences respect `alertDialogTheme` when inflating icons and layouts.
+- *FIXED:* When using simple color for `preferenceTint` disabled state is computed automatically.
+
+**0.6.0** *Deprecated*
 - *NEW!* `ColorPreference` available as a separate module!
 - *NEW!* `ReplaceFragment` subscreen navigation strategy allowing for fragment transition animations.
 - Minor fixes.
