@@ -17,7 +17,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by Eugen on 07.12.2015.
  */
-public class XpRingtonePreferenceDialogFragment extends PreferenceDialogFragmentCompat
+public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragment
     implements Runnable, AdapterView.OnItemSelectedListener {
 
     private static final int POS_UNKNOWN = -1;

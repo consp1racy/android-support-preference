@@ -3,7 +3,6 @@ package net.xpece.android.support.preference;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +10,7 @@ import java.util.Set;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-public class XpMultiSelectListPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
+public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private static final String TAG = XpMultiSelectListPreferenceDialogFragment.class.getSimpleName();
 
     private boolean mPreferenceChanged;

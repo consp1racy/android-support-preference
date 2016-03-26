@@ -7,13 +7,12 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.EditText;
 
-public class XpEditTextPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
+public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private EditText mEditText;
 
     public XpEditTextPreferenceDialogFragment() {
@@ -28,13 +27,14 @@ public class XpEditTextPreferenceDialogFragment extends PreferenceDialogFragment
     }
 
     @Override
-    protected View onCreateDialogView(final Context context) {
+    protected View onCreateDialogView(Context context) {
         View view = super.onCreateDialogView(context);
+        context = view.getContext();
 
         EditText editText = mEditText;
         if (editText == null) {
             EditTextPreference preference = this.getEditTextPreference();
-            editText = preference.getEditText();
+            editText = preference.createEditText(context);
         }
         ViewParent oldParent = editText.getParent();
         if (oldParent != view) {

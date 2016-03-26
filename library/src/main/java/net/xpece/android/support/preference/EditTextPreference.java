@@ -32,9 +32,9 @@ import android.widget.EditText;
  */
 public class EditTextPreference extends DialogPreference {
 
-    private EditText mEditText;
-
     private String mText;
+
+    private AttributeSet mAttrs;
 
     public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -54,14 +54,20 @@ public class EditTextPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        createEditText(context, attrs);
+//        createEditText(context, attrs);
+        mAttrs = attrs;
     }
 
-    private void createEditText(Context context, AttributeSet attrs) {
-        mEditText = new AppCompatEditText(context, attrs);
+    /**
+     * Will use supplied context and stored attribute set to create a new edit text widget.
+     * @param context
+     * @return
+     */
+    public EditText createEditText(Context context) {
+        EditText editText = new AppCompatEditText(context, mAttrs);
 
         // Give it an ID so it can be saved/restored
-        mEditText.setId(android.R.id.edit);
+        editText.setId(android.R.id.edit);
 
         /*
          * The preference framework and view framework both have an 'enabled'
@@ -69,16 +75,9 @@ public class EditTextPreference extends DialogPreference {
          * the preference framework, but it was also given to the view framework.
          * We reset the enabled state.
          */
-        mEditText.setEnabled(true);
-    }
+        editText.setEnabled(true);
 
-    /**
-     * Returns the {@link EditText} widget that will be shown in the dialog.
-     *
-     * @return The {@link EditText} widget that will be shown in the dialog.
-     */
-    public EditText getEditText() {
-        return mEditText;
+        return editText;
     }
 
     public void setText(String text) {
@@ -86,7 +85,7 @@ public class EditTextPreference extends DialogPreference {
         this.mText = text;
         this.persistString(text);
         boolean isBlocking = this.shouldDisableDependents();
-        if(isBlocking != wasBlocking) {
+        if (isBlocking != wasBlocking) {
             this.notifyDependencyChange(isBlocking);
         }
 
@@ -110,7 +109,7 @@ public class EditTextPreference extends DialogPreference {
 
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-        if(this.isPersistent()) {
+        if (this.isPersistent()) {
             return superState;
         } else {
             EditTextPreference.SavedState myState = new EditTextPreference.SavedState(superState);
@@ -120,8 +119,8 @@ public class EditTextPreference extends DialogPreference {
     }
 
     protected void onRestoreInstanceState(Parcelable state) {
-        if(state != null && state.getClass().equals(EditTextPreference.SavedState.class)) {
-            EditTextPreference.SavedState myState = (EditTextPreference.SavedState)state;
+        if (state != null && state.getClass().equals(EditTextPreference.SavedState.class)) {
+            EditTextPreference.SavedState myState = (EditTextPreference.SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
             this.setText(myState.text);
         } else {

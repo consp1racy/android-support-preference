@@ -6,9 +6,11 @@
 
     <color name="primary">@color/light_green_700</color>
     <color name="primary_dark">@color/light_green_900</color>
+
     <color name="accent">@color/yellow_900</color>
-    <color name="accent_disabled">#61f57f17</color>
     <color name="text_highlight">#66689F38</color>
+
+    <color name="accent_alt">@color/material_light_blue_500</color>
 
     <color name="material_red_500">#F44336</color>
     <color name="material_pink_500">#E91E63</color>

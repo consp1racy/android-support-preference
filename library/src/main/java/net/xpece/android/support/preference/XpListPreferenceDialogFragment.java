@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 
 /**
  * @author Eugen on 28. 12. 2015.
  */
-public class XpListPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
+public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private int mClickedDialogEntryIndex;
 
     public XpListPreferenceDialogFragment() {

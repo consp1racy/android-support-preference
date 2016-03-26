@@ -48,7 +48,7 @@ public class PreferenceIconHelper {
     }
 
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        Context context = mPreference.getContext();
+        Context context = getContext();
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
@@ -57,7 +57,7 @@ public class PreferenceIconHelper {
                 mIconResId = a.getResourceId(attr, 0);
             } else if (attr == R.styleable.Preference_asp_tint) {
                 ensureTintInfo();
-                mTintInfo.mTintList = a.getColorStateList(attr);
+                mTintInfo.mTintList = getTintList(a, attr, context);
             } else if (attr == R.styleable.Preference_asp_tintMode) {
                 ensureTintInfo();
                 mTintInfo.mTintMode = PorterDuff.Mode.values()[a.getInt(attr, 0)];
@@ -72,6 +72,21 @@ public class PreferenceIconHelper {
         if (mIconResId != 0) {
             setIcon(mIconResId);
         }
+    }
+
+    protected static ColorStateList getTintList(TypedArray a, int attr, Context context) {
+        ColorStateList csl = a.getColorStateList(attr);
+        csl = withDisabled(csl, context);
+        return csl;
+    }
+
+    protected static ColorStateList withDisabled(ColorStateList csl, Context context) {
+        if (csl != null && !csl.isStateful()) {
+            int color = csl.getDefaultColor();
+            int disabledAplha = (int) (Util.resolveFloat(context, android.R.attr.disabledAlpha, 0.5f) * 255);
+            csl = Util.withDisabled(color, disabledAplha);
+        }
+        return csl;
     }
 
     public PorterDuff.Mode getTintMode() {
@@ -90,9 +105,11 @@ public class PreferenceIconHelper {
 
     public void setTintList(ColorStateList tintList) {
         ensureTintInfo();
-        mTintInfo.mTintList = tintList;
+        mTintInfo.mTintList = withDisabled(tintList, getContext());
         applySupportIconTint();
     }
+
+    public Context getContext() {return mPreference.getContext();}
 
     protected void ensureTintInfo() {
         if (mTintInfo == null) {
@@ -137,7 +154,7 @@ public class PreferenceIconHelper {
      * @see #setIcon(Drawable)
      */
     public void setIcon(int iconResId) {
-        Context context = mPreference.getContext();
+        Context context = getContext();
         setIcon(ContextCompat.getDrawable(context, iconResId));
         mIconResId = iconResId;
     }
@@ -180,7 +197,7 @@ public class PreferenceIconHelper {
 
     private Drawable applyIconPadding(Drawable icon) {
         if (icon != null) {
-            int padding = Util.dpToPxOffset(mPreference.getContext(), 4);
+            int padding = Util.dpToPxOffset(getContext(), 4);
 //            icon = Util.addDrawablePadding(icon, padding);
             icon = XpInsetDrawable.create(icon, padding);
         }

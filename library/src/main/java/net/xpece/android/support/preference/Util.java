@@ -1,9 +1,11 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
 import android.support.annotation.StyleRes;
+import android.support.v4.graphics.ColorUtils;
 import android.util.TypedValue;
 
 /**
@@ -99,4 +101,8 @@ final class Util {
         return (int) (px / dp);
     }
 
+    public static ColorStateList withDisabled(int color, int disabledAlpha) {
+        int disabledColor = ColorUtils.setAlphaComponent(color, disabledAlpha);
+        return new ColorStateList(DISABLED_STATE_LIST, new int[]{disabledColor, color});
+    }
 }

@@ -2,7 +2,6 @@ package net.xpece.android.support.preference;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +10,7 @@ import android.widget.SeekBar;
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class XpSeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCompat
+public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragment
     implements View.OnKeyListener {
 
     private SeekBar mSeekBar;

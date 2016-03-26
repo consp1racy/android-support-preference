@@ -17,7 +17,7 @@
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
-        <item name="preferenceTint">@color/accent_state_list</item>
+        <item name="preferenceTint">?colorAccent</item>
 
         <!--<item name="colorPreferenceStyle">-->
             <!--@style/Preference.Material.DialogPreference.ColorPreference-->
@@ -32,7 +32,7 @@
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/accent_alt</item>
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
 
@@ -42,7 +42,7 @@
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/accent_alt</item>
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
 
