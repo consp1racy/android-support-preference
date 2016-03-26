@@ -22,7 +22,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.6.0' 
+    compile 'net.xpece.android:support-preference-color:0.6.0'
 }
 repositories {
     maven { url 'https://dl.bintray.com/consp1racy/maven' }
@@ -200,7 +200,7 @@ Version 0.6.0 introduced color preference as a separate module. An example would
     android:entryValues="@array/colors_material"
     android:key="notif_color"
     android:title="Notification color"/>
-    
+
 <array name="colors_material">
      <item>@color/material_red_500</item>
      <item>@color/material_light_blue_500</item>
@@ -225,7 +225,8 @@ Additional attributes include:
 
 Finally you need to make your preference fragment fire up the color picker dialog
 when the preference is clicked and optionally update summary when a color is chosen.
-Please review [sample `SettingsFragment.java`](sample/src/main/java/net/xpece/android/support/preference/sample/SettingsFragment.java).
+Please review sample [`SettingsActivity.java`](sample/src/main/java/net/xpece/android/support/preference/sample/SettingsActivity.java)
+and [`SettingsFragment.java`](sample/src/main/java/net/xpece/android/support/preference/sample/SettingsFragment.java) respectively.
 
 If you need to change the default style either use `style` attribute or override it in your theme:
 

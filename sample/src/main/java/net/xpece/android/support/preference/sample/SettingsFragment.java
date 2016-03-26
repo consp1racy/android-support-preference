@@ -5,7 +5,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
@@ -24,7 +23,6 @@ import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
-import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -217,24 +215,6 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // We don't want this. The children are still focusable.
         listView.setFocusable(false);
-    }
-
-    @Override
-    public boolean onDisplayPreferenceDialog2(final Preference preference) {
-        if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
-            DialogFragment f;
-            if (preference instanceof ColorPreference) {
-                f = XpColorPreferenceDialogFragment.newInstance(preference.getKey());
-            } else {
-                return false;
-            }
-
-            f.setTargetFragment(this, 0);
-            f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // Here follows ReplaceRoot strategy stuff. ====================================================

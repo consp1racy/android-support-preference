@@ -74,6 +74,13 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         return getPreferenceManager().getContext();
     }
 
+    /**
+     * Use {@link PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback} on your activity
+     * or calling fragment instead.
+     * @param preference Preference requesting showing a dialog.
+     * @return Whether a dialog has been shown.
+     */
+    @Deprecated
     public boolean onDisplayPreferenceDialog2(Preference preference) {
         return false;
     }
@@ -91,6 +98,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
 
         if (!handled) {
+            //noinspection deprecation
             handled = onDisplayPreferenceDialog2(preference);
         }
 
