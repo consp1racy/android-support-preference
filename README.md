@@ -24,9 +24,6 @@ dependencies {
 dependencies {
     compile 'net.xpece.android:support-preference-color:0.6.0'
 }
-repositories {
-    maven { url 'https://dl.bintray.com/consp1racy/maven' }
-}
 ```
 
 Version of color preference artifact does not necessarily correspond to version of main library.
