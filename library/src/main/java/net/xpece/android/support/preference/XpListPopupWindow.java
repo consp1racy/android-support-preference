@@ -767,7 +767,7 @@ public class XpListPopupWindow {
             int verticalOffset = mDropDownVerticalOffset;
             final int availableHeight = getMaxAvailableHeight(mDropDownAnchorView, 0, noInputMethod) - mMargins.top - mMargins.bottom;
             if (availableHeight <= height) {
-                Log.d(TAG, "Doesn't fit screen.");
+//                Log.d(TAG, "Doesn't fit screen.");
 
                 heightSpec = availableHeight + getBackgroundVerticalPadding() * 2;
                 verticalOffset = -mMargins.top;
@@ -775,13 +775,13 @@ public class XpListPopupWindow {
                 verticalOffset -= mTempRect.top / 2;
                 if (Build.VERSION.SDK_INT >= 21) verticalOffset -= Util.dpToPxOffset(mContext, 4);
             } else if (mPopup.isAboveAnchor()) {
-                Log.d(TAG, "Above anchor.");
+//                Log.d(TAG, "Above anchor.");
 
                 verticalOffset = computeVerticalOffsetAboveAnchor(height, noInputMethod, verticalOffset);
 
                 wasAbove = true;
             } else {
-                Log.d(TAG, "Below anchor.");
+//                Log.d(TAG, "Below anchor.");
 
                 verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, false);
             }
@@ -791,7 +791,7 @@ public class XpListPopupWindow {
                 (heightSpec < 0) ? -1 : heightSpec);
 
             if (wasAbove && !mPopup.isAboveAnchor()) {
-                Log.w(TAG, "Below anchor after update.");
+//                Log.w(TAG, "Below anchor after update.");
 
                 verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, true);
 
@@ -837,9 +837,9 @@ public class XpListPopupWindow {
 
             if (height >= availableHeight) {
                 // Handled.
-                Log.d(TAG, "Doesn't fit screen.");
+//                Log.d(TAG, "Doesn't fit screen.");
             } else if (mPopup.isAboveAnchor()) {
-                Log.d(TAG, "Above anchor.");
+//                Log.d(TAG, "Above anchor.");
 
                 verticalOffset = computeVerticalOffsetAboveAnchor(height, noInputMethod, verticalOffset);
 
@@ -848,7 +848,7 @@ public class XpListPopupWindow {
                     (heightSpec < 0) ? -1 : heightSpec);
 
                 if (!mPopup.isAboveAnchor()) {
-                    Log.w(TAG, "Below anchor after update.");
+//                    Log.w(TAG, "Below anchor after update.");
 
                     verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, true);
 
@@ -857,7 +857,7 @@ public class XpListPopupWindow {
                         (heightSpec < 0) ? -1 : heightSpec);
                 }
             } else {
-                Log.d(TAG, "Below anchor.");
+//                Log.d(TAG, "Below anchor.");
 
                 verticalOffset = computeVerticalOffsetBelowAnchor(height, noInputMethod, verticalOffset, false);
 
@@ -865,10 +865,10 @@ public class XpListPopupWindow {
                     verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
                     (heightSpec < 0) ? -1 : heightSpec);
 
-                if (mPopup.isAboveAnchor()) {
-                    Log.w(TAG, "Above anchor after update.");
-                    Log.e(TAG, "This should never happen.");
-                }
+//                if (mPopup.isAboveAnchor()) {
+//                    Log.w(TAG, "Above anchor after update.");
+//                    Log.e(TAG, "This should never happen.");
+//                }
             }
 
             if (!mModal || mDropDownList.isInTouchMode()) {
@@ -909,8 +909,8 @@ public class XpListPopupWindow {
         screenTop += boundsTop;
         screenBottom -= boundsBottom;
 
-        Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
-        Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
+//        Log.d(TAG, "popupBottom = " + popupBottom + ", screenBottom = " + screenBottom);
+//        Log.d(TAG, "popupTop = " + popupTop + ", screenTop = " + screenTop);
 
         if (popupBottom > screenBottom || forceAlignToBottom) {
             verticalOffset -= (popupBottom - screenBottom);
@@ -943,15 +943,15 @@ public class XpListPopupWindow {
         final int marginsBottom = mMargins.bottom;
         final int marginsTop = mMargins.bottom;
 
-        Log.d(TAG, "popupBottom = " + popupBottom +
-            ", windowBottom=" + windowBottom + ", marginBottom=" + marginsBottom + ", boundsBottom=" + boundsBottom + ", backgroundBottom=" + backgroundBottom);
-        Log.d(TAG, "popupTop = " + popupTop +
-            ", anchorTop=" + anchorTop);
+//        Log.d(TAG, "popupBottom = " + popupBottom +
+//            ", windowBottom=" + windowBottom + ", marginBottom=" + marginsBottom + ", boundsBottom=" + boundsBottom + ", backgroundBottom=" + backgroundBottom);
+//        Log.d(TAG, "popupTop = " + popupTop +
+//            ", anchorTop=" + anchorTop);
 
         // We don't use composite screenBottom or screenTop because we define absolute offset.
         verticalOffset = (marginsBottom - backgroundBottom) - (windowBottom + anchorTop) + boundsBottom;
 
-        Log.d(TAG, "verticalOffset=" + verticalOffset);
+//        Log.d(TAG, "verticalOffset=" + verticalOffset);
         return verticalOffset;
     }
 
