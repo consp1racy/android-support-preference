@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="drawable" name="abc_dialog_material_background_light">@drawable/abc_popup_background_mtrl_mult</item>
+</resources>
