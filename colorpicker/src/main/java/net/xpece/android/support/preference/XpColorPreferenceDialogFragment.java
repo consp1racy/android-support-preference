@@ -20,7 +20,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -36,11 +38,11 @@ import com.android.colorpicker.R;
 public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCompat
     implements OnColorSelectedListener {
 
-//    protected static final String KEY_COLORS = "colors";
+    //    protected static final String KEY_COLORS = "colors";
 //    protected static final String KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
     protected static final String KEY_SELECTED_COLOR = "selected_color";
 
-//    protected int[] mColors = null;
+    //    protected int[] mColors = null;
 //    protected String[] mColorContentDescriptions = null;
     protected int mSelectedColor;
 //    protected int mColumns;
@@ -48,6 +50,17 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
 
     private ColorPickerPalette mPalette;
     private ProgressBar mProgress;
+
+    public static boolean onPreferenceDisplayDialog(PreferenceFragmentCompat preferenceFragment, android.support.v7.preference.Preference preference) {
+        if (preference instanceof ColorPreference) {
+            final String key = preference.getKey();
+            DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);
+            f.setTargetFragment(preferenceFragment, 0);
+            f.show(preferenceFragment.getFragmentManager(), key);
+            return true;
+        }
+        return false;
+    }
 
     public static XpColorPreferenceDialogFragment newInstance(String key) {
         XpColorPreferenceDialogFragment fragment = new XpColorPreferenceDialogFragment();
@@ -102,14 +115,15 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
-    private void save() {ColorPreference preference = (ColorPreference) getPreference();
+    private void save() {
+        ColorPreference preference = (ColorPreference) getPreference();
         int color = getSelectedColor();
         if (preference.callChangeListener(color)) {
             preference.setColor(color);
         }
     }
 
-    public ColorPreference getColorPreference()  {
+    public ColorPreference getColorPreference() {
         return (ColorPreference) getPreference();
     }
 
