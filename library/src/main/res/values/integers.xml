@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The duration (in milliseconds) of the activity open/close and fragment open/close animations. -->
+    <integer name="asp_config_activityShortDur">150</integer>
+    <integer name="asp_config_activityDefaultDur">220</integer>
+</resources>

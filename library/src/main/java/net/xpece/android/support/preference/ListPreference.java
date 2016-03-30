@@ -136,7 +136,7 @@ public class ListPreference extends DialogPreference {
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setAdapter(adapter);
-        popup.setAnimationStyle(R.style.Animation_Material_Popup);
+        popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
         popup.setBoundsView((View) anchor.getParent());
 
