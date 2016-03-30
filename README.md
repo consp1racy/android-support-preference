@@ -302,7 +302,13 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.6.1**
+**0.6.2**
+- *FIXED:* Finally fixed simple menu position - no more arbitrary numbers + more effective.
+- *FIXED:* Simple menu animation looks closer to platform default on Android 4.
+  - Override `Animation.Asp.Popup` to change this behavior.
+- *FIXED:* Better `SeekBarPreference` layout height on Android 6.
+
+**0.6.1** *Deprecated*
 - *FIXED:* Dialog preferences respect `alertDialogTheme` when inflating icons and layouts.
 - *FIXED:* When using simple color for `preferenceTint` disabled state is computed automatically.
 
@@ -311,7 +317,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - *NEW!* `ReplaceFragment` subscreen navigation strategy allowing for fragment transition animations.
 - Minor fixes.
 
-**0.5.11** *Legacy*
+**0.5.11** *Deprecated*
 - *FIXED:* Focused `SeekBarPreference` can now be controlled by `+` and `-` keys.
 - *FIXED:* Simple menu.
   - Popup will now display correctly for various item counts in various positions.
