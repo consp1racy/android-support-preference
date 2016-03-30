@@ -12,9 +12,7 @@ Available from API 7. Depends on preference-v7.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.6.1' // depends on preference-v7 r23.2.1
-    /* or */
-    compile 'net.xpece.android:support-preference:0.5.4' // depends on preference-v7 r23.1.1
+    compile 'net.xpece.android:support-preference:0.6.2' // depends on preference-v7 r23.2.1
 }
 ```
 
