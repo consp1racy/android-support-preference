@@ -8,7 +8,6 @@ package net.xpece.android.support.preference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -140,20 +139,12 @@ public class ListPreference extends DialogPreference {
         popup.setAnimationStyle(R.style.Animation_Material_Popup);
 
         popup.setBoundsView((View) anchor.getParent());
+
         int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
         popup.setMarginBottom(marginV);
         popup.setMarginTop(marginV);
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
-
-        // Set this before calling hasMultiLineItems() or repositionPopup(...) as it keeps the ListView cached.
-        popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListPreference.this.onItemSelected(position);
-                popup.dismiss();
-            }
-        });
 
         if (mSimpleMenuPreferredWidthUnit >= 0) {
             popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
@@ -163,7 +154,7 @@ public class ListPreference extends DialogPreference {
         }
         popup.setMaxWidth(XpListPopupWindow.WRAP_CONTENT);
 
-        repositionPopup(popup, anchor, position);
+        popup.setupVerticalOffsetAndHeight(position);
 
         if (!force) {
             // If we're not forced to show popup window measure the items...
@@ -173,6 +164,14 @@ public class ListPreference extends DialogPreference {
                 return false;
             }
         }
+
+        popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListPreference.this.onItemSelected(position);
+                popup.dismiss();
+            }
+        });
 
         final Object attachListener = preventPopupWindowLeak(anchor, popup);
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -217,31 +216,6 @@ public class ListPreference extends DialogPreference {
             };
         }
         return null;
-    }
-
-    private void repositionPopup(XpListPopupWindow popup, View anchor, int position) {
-        final Context context = anchor.getContext();
-
-        // Shadow is emulated below Lollipop, we have to account for that.
-        final Rect backgroundPadding = new Rect();
-        popup.getBackground().getPadding(backgroundPadding);
-        final int backgroundPaddingTop = backgroundPadding.top;
-
-        // Center selected item over anchor view.
-        if (position < 0) position = 0;
-        final int viewHeight = anchor.getHeight();
-        final int dropDownListViewStyle = Util.resolveResourceId(context, R.attr.dropDownListViewStyle, R.style.Widget_Material_ListView_DropDown);
-        final int dropDownListViewPaddingTop = Util.resolveDimensionPixelOffset(context, dropDownListViewStyle, android.R.attr.paddingTop, 0);
-        final int selectedItemHeight = popup.measureItem(position);
-        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
-        if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
-            final int offset = -(beforeSelectedItemHeight + (viewHeight - selectedItemHeight) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
-            popup.setVerticalOffset(offset);
-        } else {
-            final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
-            final int offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
-            popup.setVerticalOffset(offset);
-        }
     }
 
     private void onItemSelected(int position) {
