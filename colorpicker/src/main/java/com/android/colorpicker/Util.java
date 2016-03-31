@@ -9,7 +9,8 @@ import android.support.annotation.ColorInt;
 /**
  * @author Eugen on 25. 3. 2016.
  */
-class Util {
+@Deprecated
+final class Util {
     private static final int[] TEMP_ARRAY = new int[1];
 
     private Util() {}

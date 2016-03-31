@@ -24,16 +24,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupWindow;
 
+import net.xpece.android.support.widget.XpListPopupWindow;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class ListPreference extends DialogPreference {
 
-    private static boolean sSimpleMenuPreIcsEnabled = false;
+    private static boolean sSimpleMenuPreIcsEnabled = true;
 
     /**
      * Simple menu variant of {@link ListPreference} is broken on Android 2 so it's disabled by default in favor of simple dialog variant.
      * It can be enabled if you're feeling lucky.
+     *
      * @param enabled
      */
     public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
@@ -138,13 +141,12 @@ public class ListPreference extends DialogPreference {
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-        popup.setBoundsView((View) anchor.getParent());
-
         int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
         popup.setMarginBottom(marginV);
         popup.setMarginTop(marginV);
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
+        popup.setBoundsView((View) anchor.getParent());
 
         if (mSimpleMenuPreferredWidthUnit >= 0) {
             popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
@@ -154,7 +156,16 @@ public class ListPreference extends DialogPreference {
         }
         popup.setMaxWidth(XpListPopupWindow.WRAP_CONTENT);
 
-        popup.setupVerticalOffsetAndHeight(position);
+        int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
+        popup.setVerticalOffset(preferredVerticalOffset);
+
+        // Testing.
+//        popup.setDropDownGravity(Gravity.LEFT);
+//        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
+//        popup.setWidth(1347);
+//        marginV = Util.dpToPxOffset(context, 0);
+//        popup.setMarginBottom(marginV);
+//        popup.setMarginTop(marginV);
 
         if (!force) {
             // If we're not forced to show popup window measure the items...

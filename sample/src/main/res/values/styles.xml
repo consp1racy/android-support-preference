@@ -22,6 +22,7 @@
         <!--<item name="colorPreferenceStyle">-->
             <!--@style/Preference.Material.DialogPreference.ColorPreference-->
         <!--</item>-->
+        <!--<item name="listPopupWindowStyle">@style/Popup</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -57,5 +58,9 @@
     <style name="Widget.AppTheme.Toolbar.Solid">
         <item name="android:background">?colorPrimary</item>
         <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+    </style>
+
+    <style name="Popup" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/popup</item>
     </style>
 </resources>

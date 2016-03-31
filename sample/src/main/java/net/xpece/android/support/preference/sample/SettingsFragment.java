@@ -241,5 +241,4 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     public void onNavigateToPreferenceScreen(PreferenceScreen preferenceScreen) {
         getActivity().setTitle(preferenceScreen.getTitle());
     }
-
 }

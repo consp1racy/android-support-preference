@@ -4,14 +4,16 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.StyleRes;
 import android.support.v4.graphics.ColorUtils;
 import android.util.TypedValue;
 
 /**
  * Created by Eugen on 13. 5. 2015.
+ * @hide
  */
-final class Util {
+public final class Util {
     public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     public static final int[] EMPTY_STATE_SET = new int[0];
 
@@ -99,6 +101,27 @@ final class Util {
     public static int pxToDp(Context context, int px) {
         float dp = context.getResources().getDisplayMetrics().density;
         return (int) (px / dp);
+    }
+
+    public static ColorStateList resolveColorStateList(Context context, @AttrRes int attr) {
+        TEMP_ARRAY[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+        try {
+            return ta.getColorStateList(0);
+        } finally {
+            ta.recycle();
+        }
+    }
+
+    @ColorInt
+    public static int resolveColor(Context context, @AttrRes int attr, @ColorInt int fallback) {
+        TEMP_ARRAY[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+        try {
+            return ta.getColor(0, fallback);
+        } finally {
+            ta.recycle();
+        }
     }
 
     public static ColorStateList withDisabled(int color, int disabledAlpha) {
