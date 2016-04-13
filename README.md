@@ -6,7 +6,7 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 7. Depends on preference-v7.
+Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ## How to get the library?
 
@@ -233,7 +233,7 @@ Unlike the first solution this one is using fragment transactions and back stack
 
 Please review the sample project and javadoc of both solutions.
 
-### Avoiding bugs
+### Known issues with support library
 
 In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
 Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
@@ -250,6 +250,19 @@ protected void onCreate(Bundle savedInstanceState) {
 ```
 
 This fix is not necessary or available since version 0.5.5.
+
+---
+
+You may have experienced unexpected background color which manifests as holo blue on Android 4 and grey on Android 5. This is caused by `PreferenceFragment`'s `RecyclerView` grabbing focus on fragment start. We can disable this behavior while still being able to navigate between individual preferences with a D-pad.
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final RecyclerView listView = getListView();
+
+        // We don't want this. The children are still focusable.
+        listView.setFocusable(false);
+    }
 
 ### Icon tinting
 
