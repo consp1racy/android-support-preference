@@ -313,6 +313,21 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
+**Coming soon**
+- `SeekBar*Preference` support `app:asp_min` attribute.
+  - Preference stores a value between `app:asp_min` and `android:max`.
+- `SeekBarPreference` supports `app:asp_info` attribute for a short arbitrary text such as numeric value.
+- `SeekBarPreference` supports custom `OnSeekBarChangeListener`.
+- UI tweaks:
+  - Better aligned `CheckBox` and `Switch` widgets to 16dp right keyline.
+  - Using native `Switch` on API >= 21.
+    - Supports animation on toggle.
+    - *May change back any time!*
+  - Better aligned SeekBar in `SeekBar*Preference`.
+- *FIXED:* `SeekBarDialogPreference` dialog now never shows icon in title region.
+- *FIXED:* `SeekBarDialogPreference` dialog now supports `android:dialogMessage`.
+- *FIXED:* `SeekBarPreference`'s `SeekBar` now shows up in proper state on Android 2.
+
 **0.6.2**
 - *FIXED:* Finally fixed simple menu position - no more arbitrary numbers + more effective.
 - *FIXED:* Simple menu animation looks closer to platform default on Android 4.
