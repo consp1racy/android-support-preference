@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <public name="seekBarPreferenceStyle" type="attr"/>
     <public name="seekBarDialogPreferenceStyle" type="attr"/>
     <public name="listPreferenceStyle" type="attr"/>
     <public name="multiSelectListPreferenceStyle" type="attr"/>
 
     <public name="asp_textAppearanceListItemSecondary" type="attr"/>
+    <public name="asp_textAppearanceListItemTertiary" type="attr"/>
     <public name="preferenceTint" type="attr"/>
 
     <public name="asp_tint" type="attr"/>
@@ -19,4 +21,22 @@
 
     <public name="asp_menuMode" type="attr"/>
     <public name="asp_simpleMenuWidthUnit" type="attr"/>
+
+    <public name="PreferenceThemeOverlay.Material" type="style"/>
+    <public name="Preference.Material" type="style"/>
+    <public name="Preference.Material.PreferenceScreen" type="style"/>
+    <public name="Preference.Material.Information" type="style"/>
+    <public name="Preference.Material.Category" type="style"/>
+    <public name="Preference.Material.CheckBoxPreference" type="style"/>
+    <public name="Preference.Material.SwitchPreferenceCompat" type="style"/>
+    <public name="Preference.Material.DialogPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.YesNoPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.EditTextPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.SeekBarDialogPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.MultiSelectListPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.ListPreference" type="style"/>
+    <public name="Preference.Material.DialogPreference.ListPreference.SimpleMenu" type="style"/>
+    <public name="Preference.Material.DialogPreference.RingtonePreference" type="style"/>
+    <public name="Preference.Material.SeekBarPreference" type="style"/>
+    <public name="PreferenceFragmentList.Material" type="style"/>
 </resources>
