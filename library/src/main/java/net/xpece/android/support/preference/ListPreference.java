@@ -32,12 +32,6 @@ public class ListPreference extends DialogPreference {
 
     private static boolean sSimpleMenuPreIcsEnabled = true;
 
-    /**
-     * Simple menu variant of {@link ListPreference} is broken on Android 2 so it's disabled by default in favor of simple dialog variant.
-     * It can be enabled if you're feeling lucky.
-     *
-     * @param enabled
-     */
     public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
         sSimpleMenuPreIcsEnabled = enabled;
     }

@@ -39,6 +39,8 @@
         <!-- This will possibly be introduced by appcompat-v7 in the future. -->
         <item name="asp_textAppearanceListItemSecondary">@style/TextAppearance.AppCompat.Body1
         </item>
+        <item name="asp_textAppearanceListItemTertiary">@style/TextAppearance.AppCompat.Caption
+        </item>
 
         <!--<item name="preferenceTint">?colorAccent</item>-->
         <item name="spinnerDropDownItemStyle">@style/Widget.Material.DropDownItem.Spinner</item>

@@ -22,9 +22,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
     android:baselineAligned="false"
     android:clipToPadding="false"
-    android:background="?selectableItemBackground"
     android:gravity="center_vertical"
     android:minHeight="?listPreferredItemHeightSmall"
     android:paddingLeft="?listPreferredItemPaddingLeft"
@@ -71,8 +71,8 @@
             android:maxWidth="48dp"
             android:scaleType="fitStart"
             android:visibility="gone"
-            tools:visibility="visible"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription"
+            tools:visibility="visible"/>
     </FrameLayout>
 
     <LinearLayout
@@ -86,33 +86,55 @@
         android:paddingBottom="16dp"
         android:paddingTop="16dp">
 
-        <TextView
-            android:id="@android:id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:textAppearance="?textAppearanceListItem"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@android:id/summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:maxLines="10"
-            android:textAppearance="?asp_textAppearanceListItemSecondary"
-            android:textColor="?android:textColorSecondary"/>
+            <TextView
+                android:id="@android:id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAppearance="?textAppearanceListItem"/>
+
+            <TextView
+                android:id="@android:id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@android:id/title"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/asp_info"
+                android:maxLines="10"
+                android:textAppearance="?asp_textAppearanceListItemSecondary"
+                android:textColor="?android:textColorSecondary"/>
+
+            <TextView
+                android:id="@+id/asp_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@android:id/summary"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:textAppearance="?asp_textAppearanceListItemTertiary"
+                android:textColor="?android:textColorSecondary"/>
+        </RelativeLayout>
 
         <SeekBar
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
             android:focusable="false"
             android:minHeight="32dp"
             android:paddingLeft="16dp"

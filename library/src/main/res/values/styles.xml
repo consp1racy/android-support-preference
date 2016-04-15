@@ -23,11 +23,11 @@
     </style>
 
     <style name="Preference.Material.CheckBoxPreference">
-        <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
+        <item name="android:widgetLayout">@layout/asp_preference_widget_checkbox</item>
     </style>
 
     <style name="Preference.Material.SwitchPreferenceCompat">
-        <item name="android:widgetLayout">@layout/preference_widget_switch_compat</item>
+        <item name="android:widgetLayout">@layout/asp_preference_widget_switch</item>
         <item name="android:textOn">@string/capital_on</item>
         <item name="android:textOff">@string/capital_off</item>
         <!--<item name="android:textOn">@null</item>-->

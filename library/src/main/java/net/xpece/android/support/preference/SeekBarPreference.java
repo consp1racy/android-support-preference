@@ -18,22 +18,36 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener,
     View.OnKeyListener {
 
     private int mProgress;
-    private int mMax = 100;
+    private int mPreferredMin = 0;
+    private int mPreferredMax = 100;
     private boolean mTrackingTouch;
+    private CharSequence mInfo;
+    private OnSeekBarChangeListener mOnSeekBarChangeListener;
+
+    // A filthy hack so we can update info text while dragging seek bar thumb.
+    private static final WeakHashMap<TextView, SeekBarPreference> mInfoViews = new WeakHashMap<>();
 
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -54,7 +68,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mPreferredMax));
+        setMin(a.getInt(R.styleable.SeekBarPreference_asp_min, mPreferredMin));
+        setInfo(a.getText(R.styleable.SeekBarPreference_asp_info));
         a.recycle();
     }
 
@@ -66,12 +82,72 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
         SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(this);
-        seekBar.setMax(mMax);
-        seekBar.setProgress(mProgress);
+        seekBar.setMax(mPreferredMax - mPreferredMin);
+        seekBar.setProgress(mProgress - mPreferredMin);
         seekBar.setEnabled(isEnabled());
+
+        if (Build.VERSION.SDK_INT < 14) {
+            final int[] state = seekBar.getDrawableState();
+            Drawable d;
+            d = SeekBarCompat.getThumb(seekBar);
+            if (d != null) d.setState(state);
+            d = seekBar.getProgressDrawable();
+            if (d != null) d.setState(state);
+            d= seekBar.getIndeterminateDrawable();
+            if (d != null) d.setState(state);
+            d = seekBar.getBackground();
+            if (d != null) d.setState(state);
+        }
 
         mKeyProgressIncrement = seekBar.getKeyProgressIncrement();
         holder.itemView.setOnKeyListener(this);
+
+        TextView info = (TextView) holder.findViewById(R.id.asp_info);
+        if (info != null) {
+            mInfoViews.put(info, this);
+            bindInfo(info);
+        }
+    }
+
+    private void bindInfo(@NonNull TextView info) {
+        if (TextUtils.isEmpty(mInfo)) {
+            info.setVisibility(View.GONE);
+            info.setText(null);
+        } else {
+            info.setText(mInfo);
+            info.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public CharSequence getInfo() {
+        return mInfo;
+    }
+
+    public void setInfo(CharSequence info) {
+        if (info == null && this.mInfo != null || info != null && !info.equals(this.mInfo)) {
+            mInfo = info;
+            onInfoChanged();
+        }
+    }
+
+    public void onInfoChanged() {
+        // DO NOT call notifyChanged()!
+        for (Map.Entry<TextView, SeekBarPreference> entry : mInfoViews.entrySet()) {
+            TextView tv = entry.getKey();
+            SeekBarPreference pref = entry.getValue();
+            if (pref == this) {
+                bindInfo(tv);
+            }
+        }
+    }
+
+    public OnSeekBarChangeListener getOnSeekBarChangeListener() {
+        return mOnSeekBarChangeListener;
+    }
+
+    public void setOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
+        mOnSeekBarChangeListener = listener;
+        onInfoChanged();
     }
 
     private int mKeyProgressIncrement;
@@ -115,26 +191,42 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     public void setMax(int max) {
-        if (max != mMax) {
-            mMax = max;
+        if (max != mPreferredMax) {
+            mPreferredMax = max;
             notifyChanged();
         }
+    }
+
+    public void setMin(int min) {
+        if (min != mPreferredMin) {
+            mPreferredMin = min;
+            notifyChanged();
+        }
+    }
+
+    public int getMin() {
+        return mPreferredMin;
+    }
+
+    public int getMax() {
+        return mPreferredMax;
     }
 
     public void setProgress(int progress) {
         setProgress(progress, true);
     }
 
-    private void setProgress(int progress, boolean notifyChanged) {
-        if (progress > mMax) {
-            progress = mMax;
+    private void setProgress(int preferredProgress, boolean notifyChanged) {
+        if (preferredProgress > mPreferredMax) {
+            preferredProgress = mPreferredMax;
         }
-        if (progress < 0) {
-            progress = 0;
+        if (preferredProgress < mPreferredMin) {
+            preferredProgress = mPreferredMin;
         }
-        if (progress != mProgress) {
-            mProgress = progress;
-            persistInt(progress);
+        if (preferredProgress != mProgress) {
+            mProgress = preferredProgress;
+            persistInt(preferredProgress);
+//            Log.d("SBP", "preferredProgress=" + preferredProgress);
             if (notifyChanged) {
                 notifyChanged();
             }
@@ -151,11 +243,11 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
      */
     void syncProgress(SeekBar seekBar) {
         int progress = seekBar.getProgress();
-        if (progress != mProgress) {
+        if (progress != mProgress - mPreferredMin) {
             if (callChangeListener(progress)) {
-                setProgress(progress, false);
+                setProgress(progress + mPreferredMin, false);
             } else {
-                seekBar.setProgress(mProgress);
+                seekBar.setProgress(mProgress - mPreferredMin);
             }
         }
     }
@@ -166,11 +258,17 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         if (fromUser && !mTrackingTouch) {
             syncProgress(seekBar);
         }
+        if (mOnSeekBarChangeListener != null) {
+            mOnSeekBarChangeListener.onProgressChanged(seekBar, progress + mPreferredMin, fromUser);
+        }
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         mTrackingTouch = true;
+        if (mOnSeekBarChangeListener != null) {
+            mOnSeekBarChangeListener.onStartTrackingTouch(seekBar);
+        }
     }
 
     @Override
@@ -178,6 +276,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         mTrackingTouch = false;
         if (seekBar.getProgress() != mProgress) {
             syncProgress(seekBar);
+        }
+        if (mOnSeekBarChangeListener != null) {
+            mOnSeekBarChangeListener.onStopTrackingTouch(seekBar);
         }
     }
 
@@ -198,7 +299,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         // Save the instance state
         final SavedState myState = new SavedState(superState);
         myState.progress = mProgress;
-        myState.max = mMax;
+        myState.max = mPreferredMax;
+        myState.min = mPreferredMin;
         return myState;
     }
 
@@ -213,9 +315,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         // Restore the instance state
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-        mProgress = myState.progress;
-        mMax = myState.max;
-        notifyChanged();
+        mPreferredMax = myState.max;
+        mPreferredMin = myState.min;
+        setProgress(myState.progress, true);
     }
 
     /**
@@ -227,6 +329,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private static class SavedState extends BaseSavedState {
         int progress;
         int max;
+        int min;
 
         public SavedState(Parcel source) {
             super(source);
@@ -234,6 +337,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             // Restore the click counter
             progress = source.readInt();
             max = source.readInt();
+            min = source.readInt();
         }
 
         @Override
@@ -243,6 +347,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             // Save the click counter
             dest.writeInt(progress);
             dest.writeInt(max);
+            dest.writeInt(min);
         }
 
         public SavedState(Parcelable superState) {

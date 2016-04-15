@@ -13,6 +13,7 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.SeekBar;
 
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.ListPreference;
@@ -22,6 +23,7 @@ import net.xpece.android.support.preference.PreferenceDividerDecoration;
 import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
+import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
 
 import java.util.HashSet;
@@ -46,6 +48,11 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
+            if (preference instanceof SeekBarPreference) {
+                SeekBarPreference pref = (SeekBarPreference) preference;
+                int progress = (int) value;
+                pref.setInfo(progress + "%");
+            } else
             if (preference instanceof ColorPreference) {
                 ColorPreference colorPreference = (ColorPreference) preference;
                 int color = (int) value;
@@ -144,6 +151,27 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notif_content"));
         bindPreferenceSummaryToValue(findPreference("notif_color"));
 
+        final SeekBarPreference volume2 = (SeekBarPreference) findPreference("notifications_new_message_volume2");
+//        bindPreferenceSummaryToValue(volume2);
+        volume2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                if (fromUser) {
+                    volume2.setInfo(progress + "%");
+//                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         // Setup root preference title.
         getPreferenceScreen().setTitle(R.string.app_name);
 
@@ -187,20 +215,22 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Trigger the listener immediately with the preference's
         // current value.
+        final String key = preference.getKey();
         if (preference instanceof MultiSelectListPreference) {
             Set<String> summary = SharedPreferencesCompat.getStringSet(
                 PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
-                preference.getKey(),
+                key,
                 new HashSet<String>());
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, summary);
         } else if (preference instanceof ColorPreference) {
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((ColorPreference) preference).getColor());
+        } else if (preference instanceof SeekBarPreference) {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((SeekBarPreference) preference).getProgress());
         } else {
             String value = PreferenceManager
                 .getDefaultSharedPreferences(preference.getContext())
-                .getString(preference.getKey(), "");
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                value);
+                .getString(key, "");
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, value);
         }
     }
 

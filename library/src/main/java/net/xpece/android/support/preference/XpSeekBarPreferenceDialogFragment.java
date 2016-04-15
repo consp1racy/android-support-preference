@@ -59,8 +59,8 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         mSeekBar = getSeekBar(view);
 
-        mSeekBar.setMax(preference.getMax());
-        mSeekBar.setProgress(preference.getProgress());
+        mSeekBar.setMax(preference.getMax() - preference.getMin());
+        mSeekBar.setProgress(preference.getProgress() - preference.getMin());
 
         mKeyProgressIncrement = mSeekBar.getKeyProgressIncrement();
         mSeekBar.setOnKeyListener(this);
@@ -94,7 +94,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     public void onDialogClosed(final boolean positiveResult) {
         SeekBarDialogPreference preference = getSeekBarDialogPreference();
         if (positiveResult) {
-            int progress = mSeekBar.getProgress();
+            int progress = mSeekBar.getProgress() + preference.getMin();
             if (preference.callChangeListener(progress)) {
                 preference.setProgress(progress);
             }

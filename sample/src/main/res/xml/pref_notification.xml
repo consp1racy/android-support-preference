@@ -50,13 +50,16 @@
         android:dependency="notifications_new_message"
         android:icon="@drawable/ic_volume_up_black_24dp"
         android:key="notifications_new_message_volume2"
-        android:max="500"
+        app:asp_min="20"
+        android:max="100"
         android:summary="@string/pref_title_volume2"
         app:asp_dialogTintEnabled="true"
         app:asp_tintEnabled="true"/>
 
     <SeekBarDialogPreference
-        android:defaultValue="50"
+        app:asp_min="256"
+        android:defaultValue="768"
+        android:max="1024"
         android:dependency="notifications_new_message"
         android:dialogIcon="@drawable/ic_ring_volume_black_24dp"
         android:dialogTitle="@null"

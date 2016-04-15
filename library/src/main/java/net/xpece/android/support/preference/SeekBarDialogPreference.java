@@ -25,7 +25,8 @@ import android.util.AttributeSet;
 
 public class SeekBarDialogPreference extends DialogPreference {
     private int mProgress;
-    private int mMax = 100;
+    private int mPreferredMax = 100;
+    private int mPreferredMin = 0;
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -46,7 +47,8 @@ public class SeekBarDialogPreference extends DialogPreference {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarDialogPreference, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.SeekBarDialogPreference_android_max, mMax));
+        setMax(a.getInt(R.styleable.SeekBarDialogPreference_android_max, mPreferredMax));
+        setMin(a.getInt(R.styleable.SeekBarDialogPreference_asp_min, mPreferredMin));
         a.recycle();
     }
 
@@ -69,18 +71,19 @@ public class SeekBarDialogPreference extends DialogPreference {
         setProgress(progress, true);
     }
 
-    public void setProgress(int progress, boolean notifyChanged) {
+    public void setProgress(int preferredProgress, boolean notifyChanged) {
         final boolean wasBlocking = shouldDisableDependents();
 
-        if (progress > mMax) {
-            progress = mMax;
+        if (preferredProgress > mPreferredMax) {
+            preferredProgress = mPreferredMax;
         }
-        if (progress < 0) {
-            progress = 0;
+        if (preferredProgress < mPreferredMin) {
+            preferredProgress = mPreferredMin;
         }
-        if (progress != mProgress) {
-            mProgress = progress;
-            persistInt(progress);
+        if (preferredProgress != mProgress) {
+            mProgress = preferredProgress;
+            persistInt(preferredProgress);
+//            Log.d("SBDP", "preferredProgress=" + preferredProgress);
             if (notifyChanged) {
                 notifyChanged();
             }
@@ -97,14 +100,25 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public void setMax(int max) {
-        if (max != mMax) {
-            mMax = max;
+        if (max != mPreferredMax) {
+            mPreferredMax = max;
+            notifyChanged();
+        }
+    }
+
+    public void setMin(int min) {
+        if (min != mPreferredMin) {
+            mPreferredMin = min;
             notifyChanged();
         }
     }
 
     public int getMax() {
-        return mMax;
+        return mPreferredMax;
+    }
+
+    public int getMin() {
+        return mPreferredMin;
     }
 
     @Override
@@ -116,7 +130,9 @@ public class SeekBarDialogPreference extends DialogPreference {
         }
 
         final SavedState myState = new SavedState(superState);
-        myState.progress = getProgress();
+        myState.progress = mProgress;
+        myState.max = mPreferredMax;
+        myState.min = mPreferredMin;
         return myState;
     }
 
@@ -130,21 +146,29 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-        setProgress(myState.progress);
+        mPreferredMax = myState.max;
+        mPreferredMin = myState.min;
+        setProgress(myState.progress, true);
     }
 
     private static class SavedState extends BaseSavedState {
         int progress;
+        int max;
+        int min;
 
         public SavedState(Parcel source) {
             super(source);
             progress = source.readInt();
+            max = source.readInt();
+            min = source.readInt();
         }
 
         @Override
         public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(progress);
+            dest.writeInt(max);
+            dest.writeInt(min);
         }
 
         public SavedState(Parcelable superState) {

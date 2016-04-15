@@ -28,6 +28,7 @@
         <attr name="preferenceFragmentListStyle"/>
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
+        <attr name="asp_textAppearanceListItemTertiary" format="reference"/>
         <attr name="preferenceTint" format="color"/>
 
     </declare-styleable>
@@ -37,7 +38,7 @@
         <!-- The optional icon for the preference -->
         <attr name="android:icon"/>
 
-        <attr name="asp_tint" format="color|reference"/>
+        <attr name="asp_tint" format="color"/>
         <attr name="asp_tintMode" format="enum">
             <enum name="src_over" value="3"/>
             <enum name="src_in" value="5"/>
@@ -70,7 +71,7 @@
     <declare-styleable name="DialogPreference">
         <attr name="android:dialogIcon"/>
 
-        <attr name="asp_dialogTint" format="color|reference"/>
+        <attr name="asp_dialogTint" format="color"/>
         <attr name="asp_dialogTintMode" format="enum">
             <enum name="src_over" value="3"/>
             <enum name="src_in" value="5"/>
@@ -89,10 +90,13 @@
     </declare-styleable>
 
     <declare-styleable name="SeekBarPreference">
+        <attr name="asp_min" format="integer"/>
         <attr name="android:max"/>
+        <attr name="asp_info" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="SeekBarDialogPreference">
+        <attr name="asp_min"/>
         <attr name="android:max"/>
     </declare-styleable>
 
@@ -103,11 +107,5 @@
         <attr name="android:layout_marginEnd"/>
         <attr name="android:layout_marginTop"/>
         <attr name="android:layout_marginBottom"/>
-    </declare-styleable>
-
-    <declare-styleable name="XpSpinner">
-        <attr name="asp_menuMode"/>
-        <attr name="asp_simpleMenuWidthUnit"/>
-        <attr name="popupTheme"/>
     </declare-styleable>
 </resources>
