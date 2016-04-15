@@ -104,4 +104,10 @@
         <attr name="android:layout_marginTop"/>
         <attr name="android:layout_marginBottom"/>
     </declare-styleable>
+
+    <declare-styleable name="XpSpinner">
+        <attr name="asp_menuMode"/>
+        <attr name="asp_simpleMenuWidthUnit"/>
+        <attr name="popupTheme"/>
+    </declare-styleable>
 </resources>

@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,12 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
     protected static SeekBar getSeekBar(View dialogView) {
         return (SeekBar) dialogView.findViewById(R.id.seekbar);
+    }
+
+    @Override
+    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+        super.onPrepareDialogBuilder(builder);
+        builder.setIcon(null);
     }
 
     @Override

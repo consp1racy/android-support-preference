@@ -1,61 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clipToPadding="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="?dialogPreferredPadding"
-    android:paddingRight="?dialogPreferredPadding">
+    android:overScrollMode="ifContentScrolls"
+    tools:ignore="UnusedAttribute">
 
-    <!--<ImageView-->
-        <!--android:id="@android:id/icon"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginRight="0dp"-->
-        <!--android:layout_marginEnd="0dp"-->
-        <!--tools:ignore="ContentDescription"/>-->
-
-    <ImageView
-        android:id="@android:id/icon"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginStart="-4dp"
-        android:layout_marginEnd="12dp"
-        android:maxHeight="48dp"
-        android:maxWidth="48dp"
-        android:scaleType="fitStart"/>
-
-    <SeekBar
-        android:id="@+id/seekbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="-16dp"
-        android:layout_marginEnd="-16dp"
-        android:layout_marginLeft="-20dp"
-        android:layout_marginStart="-20dp"
-        android:padding="20dip"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:id="@android:id/message"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="?dialogPreferredPadding"
+            android:layout_marginRight="?dialogPreferredPadding"
+            android:layout_marginTop="?dialogPreferredPadding"
+            android:textColor="?android:textColorSecondary"/>
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="?dialogPreferredPadding"
+            android:paddingRight="?dialogPreferredPadding">
+
+            <!--<ImageView-->
+            <!--android:id="@android:id/icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginRight="0dp"-->
+            <!--android:layout_marginEnd="0dp"-->
+            <!--tools:ignore="ContentDescription"/>-->
+
+            <ImageView
+                android:id="@android:id/icon"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginLeft="-4dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginStart="-4dp"
+                android:maxHeight="48dp"
+                android:maxWidth="48dp"
+                android:scaleType="fitStart"/>
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-16dp"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-16dp"
+                android:layout_marginStart="-20dp"
+                android:paddingBottom="?dialogPreferredPadding"
+                android:paddingEnd="?dialogPreferredPadding"
+                android:paddingLeft="20dp"
+                android:paddingRight="?dialogPreferredPadding"
+                android:paddingStart="20dp"
+                android:paddingTop="?dialogPreferredPadding"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
