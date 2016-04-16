@@ -25,6 +25,7 @@ import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
+import net.xpece.android.support.preference.Util;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -125,7 +126,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Manually tint PreferenceScreen icon.
         Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs, R.drawable.ic_inbox_black_24dp, R.color.accent, true);
+        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs,
+            R.drawable.ic_inbox_black_24dp,
+            Util.resolveResourceId(subs.getContext(), R.attr.colorAccent, R.color.accent),
+            true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());

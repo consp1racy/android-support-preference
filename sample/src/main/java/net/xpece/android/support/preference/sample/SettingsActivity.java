@@ -1,5 +1,7 @@
 package net.xpece.android.support.preference.sample;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.DialogFragment;
@@ -85,6 +87,11 @@ public class SettingsActivity extends AppCompatActivity implements
         });
         mTitleSwitcher.setCurrentText(mTitle);
 
+        ab.setCustomView(mTitleSwitcher);
+        ab.setDisplayShowCustomEnabled(true);
+        ab.setDisplayShowTitleEnabled(false);
+
+        // Add to hierarchy before accessing layout params.
         int margin = Util.dpToPxOffset(this, 16);
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) mTitleSwitcher.getLayoutParams();
         lp.leftMargin = margin;
@@ -92,10 +99,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
         mTitleSwitcher.setInAnimation(this, R.anim.abc_fade_in);
         mTitleSwitcher.setOutAnimation(this, R.anim.abc_fade_out);
-
-        ab.setCustomView(mTitleSwitcher);
-        ab.setDisplayShowCustomEnabled(true);
-        ab.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -160,5 +163,15 @@ public class SettingsActivity extends AppCompatActivity implements
         f.setTargetFragment(preferenceFragmentCompat, 0);
         f.show(this.getSupportFragmentManager(), key);
         return true;
+    }
+
+    @Override
+    protected void onApplyThemeResource(Resources.Theme theme, int resid, boolean first) {
+        super.onApplyThemeResource(theme, resid, first);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
     }
 }
