@@ -152,13 +152,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notif_color"));
 
         final SeekBarPreference volume2 = (SeekBarPreference) findPreference("notifications_new_message_volume2");
-//        bindPreferenceSummaryToValue(volume2);
         volume2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if (fromUser) {
                     volume2.setInfo(progress + "%");
-//                }
             }
 
             @Override

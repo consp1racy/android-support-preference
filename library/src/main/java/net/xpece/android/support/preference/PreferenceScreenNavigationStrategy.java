@@ -3,9 +3,12 @@ package net.xpece.android.support.preference;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.preference.*;
+import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -23,6 +26,9 @@ public abstract class PreferenceScreenNavigationStrategy {
      * Supports transition animations.
      * <p/>
      * Create this inside your activity or calling fragment and call appropriate methods.
+     * <p/>
+     * This class uses fragment framework so it does support transition animations and
+     * saved states.
      */
     public static class ReplaceFragment extends PreferenceScreenNavigationStrategy {
 
@@ -72,6 +78,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         /**
          * Call this inside {@link android.support.v7.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallback#onPreferenceStartScreen(PreferenceFragmentCompat, PreferenceScreen)}.
+         *
          * @param fragmentManager Fragment manager form activity or calling fragment
          * @param preferenceFragmentCompat The old preference fragment about to be replaced.
          * @param preferenceScreen The new root of preference hierarchy.
@@ -97,7 +104,10 @@ public abstract class PreferenceScreenNavigationStrategy {
      * This will replace just the preference hierarchy within a fragment while keeping track of navigated preference screens.
      * <p/>
      * Create this inside your preference fragment and call appropriate methods.
+     * <p/>
+     * This class does not support transition animations and remembers scroll position in a limited fashion.
      */
+    @Deprecated
     public static class ReplaceRoot extends PreferenceScreenNavigationStrategy {
         private final PreferenceFragmentCompat mFragment;
 
@@ -105,6 +115,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         private PreferenceScreen mRoot;
         private final Stack<String> mStack = new Stack<>();
+        private final HashMap<String, Integer> mScrollPositions = new HashMap<>();
 
         public ReplaceRoot(PreferenceFragmentCompat fragment, Callbacks callbacks) {
             mFragment = fragment;
@@ -117,6 +128,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         /**
          * Set callbacks invoked when navigation to preference screen occurs.
+         *
          * @param callbacks
          */
         public void setCallbacks(Callbacks callbacks) {
@@ -125,6 +137,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         /**
          * Call this in {@link android.support.v4.app.Fragment#onCreate(Bundle)}.
+         *
          * @param savedInstanceState
          */
         public void onCreatePreferences(Bundle savedInstanceState) {
@@ -143,6 +156,11 @@ public abstract class PreferenceScreenNavigationStrategy {
                 if (savedStack != null) {
                     mStack.addAll(savedStack);
                 }
+                //noinspection unchecked
+                HashMap<String, Integer> savedScrollPositions = (HashMap<String, Integer>) savedInstanceState.getSerializable(TAG + ".mScrollPositions");
+                if (savedScrollPositions != null) {
+                    mScrollPositions.putAll(savedScrollPositions);
+                }
                 if (mStack.size() > 1) {
                     // We're deeper than root preference screen. Load appropriate screen.
                     String key = mStack.peek(); // Get screen key.
@@ -154,10 +172,38 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         /**
          * Call this in {@link android.support.v4.app.Fragment#onSaveInstanceState(Bundle)}.
+         *
          * @param outState
          */
         public void onSaveInstanceState(Bundle outState) {
             outState.putSerializable(TAG + ".mStack", mStack);
+            outState.putSerializable(TAG + ".mScrollPositions", mScrollPositions);
+        }
+
+        private void navigateToPreferenceScreen(PreferenceScreen preference, boolean forward) {
+            if (preference.getKey() == null) {
+                throw new IllegalArgumentException("PreferenceScreen needs a non-null key.");
+            }
+
+            if (forward) {
+                String key = mFragment.getPreferenceScreen().getKey();
+                RecyclerView list = mFragment.getListView();
+                int position = list.getChildAdapterPosition(list.getChildAt(0));
+                mScrollPositions.put(key, position);
+            }
+
+            mFragment.setPreferenceScreen(preference);
+
+            if (!forward) {
+                String key = preference.getKey();
+                int position = mScrollPositions.get(key);
+                RecyclerView list = mFragment.getListView();
+                list.scrollToPosition(position);
+            }
+
+            if (mCallbacks != null) {
+                mCallbacks.onNavigateToPreferenceScreen(preference);
+            }
         }
 
         private void navigateToPreferenceScreen(PreferenceScreen preference) {
@@ -166,6 +212,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             }
 
             mFragment.setPreferenceScreen(preference);
+
             if (mCallbacks != null) {
                 mCallbacks.onNavigateToPreferenceScreen(preference);
             }
@@ -174,15 +221,17 @@ public abstract class PreferenceScreenNavigationStrategy {
         /**
          * Call this when the preference screen representative item has been clicked
          * (perhaps in {@link PreferenceFragmentCompat#onPreferenceTreeClick(android.support.v7.preference.Preference)}.
+         *
          * @param preference
          */
         public void onPreferenceScreenClick(PreferenceScreen preference) {
             mStack.push(preference.getKey()); // Store new screen key.
-            navigateToPreferenceScreen(preference);
+            navigateToPreferenceScreen(preference, true);
         }
 
         /**
          * Provide a mechanism for preference fragment to react to back button presses and call this.
+         *
          * @return Whether the event has been consumed.
          */
         public boolean onBackPressed() {
@@ -190,7 +239,7 @@ public abstract class PreferenceScreenNavigationStrategy {
                 mStack.pop(); // Pop the screen we're leaving.
                 String key = mStack.peek(); // Lookup new screen key.
                 PreferenceScreen preference = (PreferenceScreen) mRoot.findPreference(key);
-                navigateToPreferenceScreen(preference);
+                navigateToPreferenceScreen(preference, false);
                 return true;
             }
             return false;
