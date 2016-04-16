@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         private PreferenceScreen mRoot;
         private final Stack<String> mStack = new Stack<>();
-        private final HashMap<String, Integer> mScrollPositions = new HashMap<>();
+        private final HashMap<String, Tuple<Integer>> mScrollPositions = new HashMap<>();
 
         public ReplaceRoot(PreferenceFragmentCompat fragment, Callbacks callbacks) {
             mFragment = fragment;
@@ -157,7 +158,7 @@ public abstract class PreferenceScreenNavigationStrategy {
                     mStack.addAll(savedStack);
                 }
                 //noinspection unchecked
-                HashMap<String, Integer> savedScrollPositions = (HashMap<String, Integer>) savedInstanceState.getSerializable(TAG + ".mScrollPositions");
+                HashMap<String, Tuple<Integer>> savedScrollPositions = (HashMap<String, Tuple<Integer>>) savedInstanceState.getSerializable(TAG + ".mScrollPositions");
                 if (savedScrollPositions != null) {
                     mScrollPositions.putAll(savedScrollPositions);
                 }
@@ -188,17 +189,24 @@ public abstract class PreferenceScreenNavigationStrategy {
             if (forward) {
                 String key = mFragment.getPreferenceScreen().getKey();
                 RecyclerView list = mFragment.getListView();
-                int position = list.getChildAdapterPosition(list.getChildAt(0));
-                mScrollPositions.put(key, position);
+                final View firstChild = list.getChildAt(0);
+                int position = list.getChildAdapterPosition(firstChild);
+                int offset = firstChild.getTop();
+                mScrollPositions.put(key, new Tuple<>(position, offset));
             }
 
             mFragment.setPreferenceScreen(preference);
 
             if (!forward) {
                 String key = preference.getKey();
-                int position = mScrollPositions.get(key);
-                RecyclerView list = mFragment.getListView();
-                list.scrollToPosition(position);
+                if (mScrollPositions.containsKey(key)) {
+                    Tuple<Integer> scroll = mScrollPositions.get(key);
+                    final int position = scroll.first;
+                    final int offset = scroll.second;
+                    final RecyclerView list = mFragment.getListView();
+                    list.scrollToPosition(position);
+                    list.scrollBy(0, offset); // Is not working, whatever...
+                }
             }
 
             if (mCallbacks != null) {
