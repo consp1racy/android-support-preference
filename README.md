@@ -224,12 +224,12 @@ The color is stored internally as a 32-bit integer.
 
 ### Subscreen navigation
 
-One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
-This class will help you replace root preference in your preference fragment.
+<s>One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
+This class will help you replace root preference in your preference fragment.</s>
 
 Another solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceFragment` class.
 This class will help you replace the whole preference fragment with a new instance with specified root preference.
-Unlike the first solution this one is using fragment transactions and back stack allowing for transition animations.
+Unlike the first solution this one is using fragment transactions and back stack allowing for transition animations and saved states.
 
 Please review the sample project and javadoc of both solutions.
 
@@ -327,6 +327,9 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - *FIXED:* `SeekBarDialogPreference` dialog now never shows icon in title region.
 - *FIXED:* `SeekBarDialogPreference` dialog now supports `android:dialogMessage`.
 - *FIXED:* `SeekBarPreference`'s `SeekBar` now shows up in proper state on Android 2.
+- `ReplaceRoot` subscreen navigation strategy:
+  - Remembers first visible child upon re-entering previous screen.
+  - Is now deprecated. Please use `ReplaceFragment` instead.
 
 **0.6.2**
 - *FIXED:* Finally fixed simple menu position - no more arbitrary numbers + more effective.
