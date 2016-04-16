@@ -17,8 +17,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.android.colorpicker.ColorPickerPalette;
-import com.android.colorpicker.R;
+import net.xpece.android.colorpicker.ColorPickerPalette;
+import net.xpece.android.support.preference.color.R;
 
 /**
  * @author Eugen on 12. 3. 2016.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.colorpicker;
+package net.xpece.android.colorpicker;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import net.xpece.android.support.preference.color.R;
 
 /**
  * Creates a circular swatch of a specified color.  Adds a checkmark if marked as checked.

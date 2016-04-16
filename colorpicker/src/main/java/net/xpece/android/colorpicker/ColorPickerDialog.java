@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.colorpicker;
+package net.xpece.android.colorpicker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,12 +25,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import net.xpece.android.support.preference.color.R;
 
 /**
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to
  * select a specific color swatch, which invokes a listener.
  */
+@Deprecated
 public class ColorPickerDialog extends DialogFragment implements OnColorSelectedListener {
 
     protected AlertDialog mAlertDialog;

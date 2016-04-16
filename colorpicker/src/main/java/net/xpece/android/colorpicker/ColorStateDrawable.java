@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.colorpicker;
+package net.xpece.android.colorpicker;
 
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;

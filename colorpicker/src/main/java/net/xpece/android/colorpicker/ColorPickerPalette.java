@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.colorpicker;
+package net.xpece.android.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -26,7 +26,8 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import net.xpece.android.support.preference.color.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

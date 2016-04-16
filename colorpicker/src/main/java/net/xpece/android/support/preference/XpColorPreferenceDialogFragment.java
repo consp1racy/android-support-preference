@@ -27,9 +27,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.android.colorpicker.ColorPickerPalette;
-import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
-import com.android.colorpicker.R;
+import net.xpece.android.colorpicker.ColorPickerPalette;
+import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import net.xpece.android.support.preference.color.R;
 
 /**
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to

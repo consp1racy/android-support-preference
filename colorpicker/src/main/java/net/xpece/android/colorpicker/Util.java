@@ -1,4 +1,4 @@
-package com.android.colorpicker;
+package net.xpece.android.colorpicker;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

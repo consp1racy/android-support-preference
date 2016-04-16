@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.colorpicker"
+    package="net.xpece.android.support.preference.color"
     android:versionCode="1"
     android:versionName="1.0" >
     <application/>
