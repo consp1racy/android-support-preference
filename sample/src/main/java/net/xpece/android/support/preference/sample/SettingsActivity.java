@@ -4,16 +4,24 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
+import net.xpece.android.support.preference.Util;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
 /**
@@ -34,6 +42,9 @@ public class SettingsActivity extends AppCompatActivity implements
     PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
 
     Toolbar mToolbar;
+    TextSwitcher mTitleSwitcher;
+
+    private CharSequence mTitle;
 
     private SettingsFragment mSettingsFragment;
 
@@ -59,6 +70,44 @@ public class SettingsActivity extends AppCompatActivity implements
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        // Cross-fading title setup.
+        mTitle = getTitle();
+
+        mTitleSwitcher = new TextSwitcher(mToolbar.getContext());
+        mTitleSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView tv = new AppCompatTextView(mToolbar.getContext());
+                TextViewCompat.setTextAppearance(tv, R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+                return tv;
+            }
+        });
+        mTitleSwitcher.setCurrentText(mTitle);
+
+        int margin = Util.dpToPxOffset(this, 16);
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) mTitleSwitcher.getLayoutParams();
+        lp.leftMargin = margin;
+        lp.rightMargin = margin;
+
+        mTitleSwitcher.setInAnimation(this, R.anim.abc_fade_in);
+        mTitleSwitcher.setOutAnimation(this, R.anim.abc_fade_out);
+
+        ab.setCustomView(mTitleSwitcher);
+        ab.setDisplayShowCustomEnabled(true);
+        ab.setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+
+        if (!mTitle.equals(title)) {
+            mTitle = title;
+
+            // Only switch if the title differs. Used for the first hook.
+            mTitleSwitcher.setText(title);
+        }
     }
 
     @Override
@@ -75,9 +124,9 @@ public class SettingsActivity extends AppCompatActivity implements
 
     @Override
     public boolean onPreferenceStartScreen(final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
-//        mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
-//        return true;
-        return false; // Turn off to try ReplaceRoot strategy.
+        mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
+        return true;
+//        return false; // Turn off to try ReplaceRoot strategy.
     }
 
     @Override
@@ -93,7 +142,7 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         // Use with ReplaceRoot strategy.
-        if (mSettingsFragment.onBackPressed()) return;
+//        if (mSettingsFragment.onBackPressed()) return;
 
         super.onBackPressed();
     }
