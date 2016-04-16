@@ -37,6 +37,7 @@ import java.lang.annotation.RetentionPolicy;
  * row (and the padding between the squares) is determined by the user.
  */
 public class ColorPickerPalette extends TableLayout {
+    private static final String TAG = ColorPickerPalette.class.getSimpleName();
 
     @IntDef({SIZE_LARGE, SIZE_SMALL})
     @Retention(RetentionPolicy.SOURCE)
@@ -52,7 +53,14 @@ public class ColorPickerPalette extends TableLayout {
 
     private int mSwatchLength;
     private int mMarginSize;
-    private int mNumColumns;
+    private int mPreferredNumColumns;
+
+    private int mComputedNumColumns;
+    private boolean mRedrawPalette;
+
+    private int[] mColors;
+    private int mSelectedColor;
+    private CharSequence[] mColorContentDescriptions;
 
     public ColorPickerPalette(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,7 +75,7 @@ public class ColorPickerPalette extends TableLayout {
      * or SIZE_SMALL) from ColorPickerDialogFragment.
      */
     public void init(@SwatchSize int size, int columns, OnColorSelectedListener listener) {
-        mNumColumns = columns;
+        mPreferredNumColumns = columns;
         Resources res = getResources();
         if (size == SIZE_LARGE) {
             mSwatchLength = res.getDimensionPixelSize(R.dimen.color_swatch_large);
@@ -82,12 +90,61 @@ public class ColorPickerPalette extends TableLayout {
         mDescriptionSelected = res.getString(R.string.color_swatch_description_selected);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mPreferredNumColumns < 0) {
+            int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+            int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+            int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+            int width, height;
+
+            if (widthMode == MeasureSpec.EXACTLY) {
+                width = widthSize;
+            } else if (widthMode == MeasureSpec.AT_MOST) {
+                width = widthSize;
+            } else {
+                width = -1;
+            }
+
+            int computedNumColumns;
+            if (width < 0) {
+                computedNumColumns = Integer.MAX_VALUE;
+            } else {
+                int columnSize = mSwatchLength + 2 * mMarginSize;
+                width -= getPaddingLeft() + getPaddingRight();
+                computedNumColumns = width / columnSize;
+            }
+            if (mComputedNumColumns != computedNumColumns) {
+                mComputedNumColumns = computedNumColumns;
+                mRedrawPalette = true;
+            }
+        }
+
+        if (mRedrawPalette) {
+            mRedrawPalette = false;
+            drawPalette();
+        }
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+    }
+
     private TableRow createTableRow() {
         TableRow row = new TableRow(getContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT);
         row.setLayoutParams(params);
         return row;
+    }
+
+    private void drawPalette() {
+        drawPalette(mColors, mSelectedColor, mColorContentDescriptions);
     }
 
     /**
@@ -105,6 +162,18 @@ public class ColorPickerPalette extends TableLayout {
             return;
         }
 
+        mColors = colors;
+        mSelectedColor = selectedColor;
+        mColorContentDescriptions = colorContentDescriptions;
+
+        final int effectiveNumColumns;
+        try {
+            effectiveNumColumns = getEffectiveNumColumns();
+        } catch (Exception ex) {
+            mRedrawPalette = true;
+            return;
+        }
+
         this.removeAllViews();
         int tableElements = 0;
         int rowElements = 0;
@@ -115,12 +184,12 @@ public class ColorPickerPalette extends TableLayout {
         for (int color : colors) {
             View colorSwatch = createColorSwatch(color, selectedColor);
             setSwatchDescription(rowNumber, tableElements, rowElements, color == selectedColor,
-                colorSwatch, colorContentDescriptions);
+                colorSwatch, colorContentDescriptions, effectiveNumColumns);
             addSwatchToRow(row, colorSwatch, rowNumber);
 
             tableElements++;
             rowElements++;
-            if (rowElements == mNumColumns) {
+            if (rowElements == effectiveNumColumns) {
                 addView(row);
                 row = createTableRow();
                 rowElements = 0;
@@ -130,12 +199,22 @@ public class ColorPickerPalette extends TableLayout {
 
         // Create blank views to fill the row if the last row has not been filled.
         if (rowElements > 0) {
-            while (rowElements != mNumColumns) {
+            while (rowElements != effectiveNumColumns) {
                 addSwatchToRow(row, createBlankSpace(), rowNumber);
                 rowElements++;
             }
             addView(row);
         }
+    }
+
+    public int getEffectiveNumColumns() {
+        if (mPreferredNumColumns > 0) {
+            return mPreferredNumColumns;
+        }
+        if (mComputedNumColumns > 0) {
+            return mComputedNumColumns;
+        }
+        throw new IllegalStateException("Cannot have zero columns.");
     }
 
     /**
@@ -157,7 +236,7 @@ public class ColorPickerPalette extends TableLayout {
      * will arrange them for accessibility purposes.
      */
     private void setSwatchDescription(int rowNumber, int index, int rowElements, boolean selected,
-                                      View swatch, CharSequence[] contentDescriptions) {
+                                      View swatch, CharSequence[] contentDescriptions, int numColumns) {
         CharSequence description;
         if (contentDescriptions != null && contentDescriptions.length > index) {
             description = contentDescriptions[index];
@@ -168,7 +247,7 @@ public class ColorPickerPalette extends TableLayout {
                 accessibilityIndex = index + 1;
             } else {
                 // We're in a backwards-ordered row.
-                int rowMax = ((rowNumber + 1) * mNumColumns);
+                int rowMax = ((rowNumber + 1) * numColumns);
                 accessibilityIndex = rowMax - rowElements;
             }
 

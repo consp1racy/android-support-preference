@@ -330,6 +330,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - `ReplaceRoot` subscreen navigation strategy:
   - Remembers first visible child upon re-entering previous screen.
   - Is now deprecated. Please use `ReplaceFragment` instead.
+- `ColorPreference` dialog will automatically calculate column count if `app:asp_columnCount="-1"`.
 
 **0.6.2**
 - *FIXED:* Finally fixed simple menu position - no more arbitrary numbers + more effective.

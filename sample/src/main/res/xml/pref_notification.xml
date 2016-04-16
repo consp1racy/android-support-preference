@@ -23,6 +23,7 @@
         android:dependency="notifications_new_message"
         android:entries="@array/colors_material_names"
         android:entryValues="@array/colors_material"
+        app:asp_columnCount="-1"
         android:key="notif_color"
         android:title="@string/pref_notif_color"
         />
