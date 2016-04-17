@@ -12,7 +12,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.6.2' // depends on preference-v7 r23.2.1
+    compile 'net.xpece.android:support-preference:0.7.0' // depends on preference-v7 r23.3.0
 }
 ```
 
@@ -20,11 +20,11 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.6.0@aar'
+    compile 'net.xpece.android:support-preference-color:0.7.0'
 }
 ```
 
-Version of color preference artifact does not necessarily correspond to version of main library.
+Version of color preference artifact does not necessarily correspond to version of main library. Version 0.7.x is not compatible with 0.6.x.
 
 ## Screenshots
 
@@ -313,7 +313,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**Coming soon**
+**0.7.0**
 - `SeekBar*Preference` support `app:asp_min` attribute.
   - Preference stores a value between `app:asp_min` and `android:max`.
 - `SeekBarPreference` supports `app:asp_info` attribute for a short arbitrary text such as numeric value.
@@ -323,7 +323,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - Using native `Switch` on API >= 21.
     - Supports animation on toggle.
     - *May change back any time!*
-  - Better aligned SeekBar in `SeekBar*Preference`.
+  - Better aligned `SeekBar` in `SeekBar*Preference`.
 - *FIXED:* `SeekBarDialogPreference` dialog now never shows icon in title region.
 - *FIXED:* `SeekBarDialogPreference` dialog now supports `android:dialogMessage`.
 - *FIXED:* `SeekBarPreference`'s `SeekBar` now shows up in proper state on Android 2.
@@ -332,7 +332,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
   - Is now deprecated. Please use `ReplaceFragment` instead.
 - `ColorPreference` dialog will automatically calculate column count if `app:asp_columnCount="-1"`.
 
-**0.6.2**
+**0.6.2** *Legacy*
 - *FIXED:* Finally fixed simple menu position - no more arbitrary numbers + more effective.
 - *FIXED:* Simple menu animation looks closer to platform default on Android 4.
   - Override `Animation.Asp.Popup` to change this behavior.
@@ -476,11 +476,11 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 - SwitchPreference does not animate its SwitchCompat widget when clicked.
   - https://code.google.com/p/android/issues/detail?id=196652
-  - This will be hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.
+  - This is hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
 - SeekBarPreference's SeekBar may appear in disabled state until clicked on Android 2.
-  - This will be hotfixed in v0.7.0 by manually refreshing each of `SeekBar` drawables upon entering screen. This will not affect seek bars outside `SeekBarPreference`.
+  - This is hotfixed in v0.7.0 by manually refreshing each of `SeekBar` drawables upon entering screen. This does not affect seek bars outside `SeekBarPreference`.
 
 ## Questions
 
