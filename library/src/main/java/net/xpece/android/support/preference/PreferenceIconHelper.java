@@ -74,7 +74,7 @@ public class PreferenceIconHelper {
         }
     }
 
-    protected static ColorStateList getTintList(TypedArray a, int attr, Context context) {
+    protected ColorStateList getTintList(TypedArray a, int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);
         csl = withDisabled(csl, context);
         return csl;

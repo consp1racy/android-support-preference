@@ -40,10 +40,8 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        if (!hasDialogTitle()) {
-            // If we don't have dialog title, show the icon next to seek bar.
-            builder.setIcon(null);
-        }
+        // Show the icon next to seek bar.
+        builder.setIcon(null);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         SeekBarDialogPreference preference = getSeekBarDialogPreference();
 
-        boolean hasTitle = hasDialogTitle();
+        boolean hasTitle = false; //hasDialogTitle();
 
         final ImageView iconView = (ImageView) view.findViewById(android.R.id.icon);
         final Drawable icon = preference.getDialogIcon();

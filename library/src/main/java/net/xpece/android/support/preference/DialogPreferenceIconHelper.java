@@ -1,6 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.support.v7.preference.DialogPreference;
@@ -69,6 +70,13 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         if (mIconResId != 0) {
             setIcon(mIconResId);
         }
+    }
+
+    @Override
+    protected ColorStateList getTintList(TypedArray a, int attr, Context context) {
+        ColorStateList csl = a.getColorStateList(attr);
+//        csl = withDisabled(csl, context);
+        return csl;
     }
 
     @Override
