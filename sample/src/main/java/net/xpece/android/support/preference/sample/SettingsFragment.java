@@ -174,7 +174,8 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         });
 
         // Setup root preference title.
-        getPreferenceScreen().setTitle(R.string.app_name);
+//        getPreferenceScreen().setTitle(R.string.app_name);
+        getPreferenceScreen().setTitle(getActivity().getTitle());
 
         // Setup root preference.
 

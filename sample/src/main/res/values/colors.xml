@@ -6,14 +6,17 @@
     <color name="yellow_a700">#FFD600</color>
     <color name="light_blue_500">#03A9F4</color>
     <color name="light_blue_a200">#40C4FF</color>
+    <color name="light_blue_a400">#00B0FF</color>
+    <color name="amber_a700">#FFAB00</color>
+    <color name="amber_a200">#FFD740</color>
 
     <color name="primary">@color/light_green_700</color>
     <color name="primary_dark">@color/light_green_900</color>
 
-    <color name="accent">@color/yellow_900</color>
-    <color name="text_highlight">@color/yellow_a700</color>
+    <color name="accent">@color/amber_a700</color>
+    <color name="text_highlight">@color/amber_a200</color>
 
-    <color name="accent_alt">@color/light_blue_500</color>
+    <color name="accent_alt">@color/light_blue_a400</color>
     <color name="text_highlight_alt">@color/light_blue_a200</color>
 
     <color name="material_red_500">#F44336</color>
