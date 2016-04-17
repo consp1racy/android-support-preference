@@ -3,6 +3,7 @@ package net.xpece.android.support.preference;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,7 +39,11 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
-        builder.setIcon(null);
+
+//        if (!hasDialogTitle()) {
+            // If we don't have dialog title, show the icon next to seek bar.
+            builder.setIcon(null);
+//        }
     }
 
     @Override
@@ -47,9 +52,11 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         SeekBarDialogPreference preference = getSeekBarDialogPreference();
 
+        boolean hasTitle = false; //hasDialogTitle();
+
         final ImageView iconView = (ImageView) view.findViewById(android.R.id.icon);
         final Drawable icon = preference.getDialogIcon();
-        if (icon != null) {
+        if (icon != null && !hasTitle) {
             iconView.setImageDrawable(icon);
             iconView.setVisibility(View.VISIBLE);
         } else {
@@ -64,6 +71,13 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         mKeyProgressIncrement = mSeekBar.getKeyProgressIncrement();
         mSeekBar.setOnKeyListener(this);
+    }
+
+    private boolean hasDialogTitle() {
+        android.support.v7.preference.DialogPreference preference = getPreference();
+        CharSequence dialogTitle = preference.getDialogTitle();
+        if (dialogTitle == null) dialogTitle = preference.getTitle();
+        return !TextUtils.isEmpty(dialogTitle);
     }
 
     private int mKeyProgressIncrement;
