@@ -56,6 +56,14 @@
 
     <style name="Preference.Material.DialogPreference.SeekBarDialogPreference">
         <item name="android:dialogLayout">@layout/asp_seekbar_dialog</item>
+
+        <item name="asp_dialogIconPaddingEnabled">false</item>
+    </style>
+
+    <style name="Preference.Material.DialogPreference.SeekBarDialogPreference.NoTitle">
+        <item name="android:dialogTitle">""</item>
+
+        <item name="asp_dialogIconPaddingEnabled">true</item>
     </style>
 
     <style name="Preference.Material.SeekBarPreference">
@@ -93,7 +101,7 @@
     <!--</style>-->
 
     <!--<style name="TextAppearance.Material.Preference.Summary" parent="TextAppearance.AppCompat.Body1">-->
-        <!--<item name="android:textColor">?android:textColorSecondary</item>-->
+    <!--<item name="android:textColor">?android:textColorSecondary</item>-->
     <!--</style>-->
 
     <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
