@@ -56,14 +56,6 @@
 
     <style name="Preference.Material.DialogPreference.SeekBarDialogPreference">
         <item name="android:dialogLayout">@layout/asp_seekbar_dialog</item>
-
-        <item name="asp_dialogIconPaddingEnabled">false</item>
-    </style>
-
-    <style name="Preference.Material.DialogPreference.SeekBarDialogPreference.NoTitle">
-        <item name="android:dialogTitle">""</item>
-
-        <item name="asp_dialogIconPaddingEnabled">true</item>
     </style>
 
     <style name="Preference.Material.SeekBarPreference">

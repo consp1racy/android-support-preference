@@ -241,7 +241,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         final RecyclerView listView = getListView();
 
         // We're using alternative divider.
-        listView.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+        listView.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true).drawBetweenCategories(false));
         setDivider(null);
 
         // We don't want this. The children are still focusable.

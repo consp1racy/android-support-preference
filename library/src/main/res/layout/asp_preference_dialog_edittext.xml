@@ -27,14 +27,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="?dialogPreferredPadding">
+        android:paddingTop="@dimen/abc_dialog_padding_top_material"
+        android:paddingBottom="@dimen/abc_dialog_padding_top_material"
+        android:paddingRight="?dialogPreferredPadding"
+        android:paddingLeft="?dialogPreferredPadding">
 
         <TextView
             android:id="@android:id/message"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="?dialogPreferredPadding"
+            android:layout_marginBottom="@dimen/abc_dialog_padding_top_material"
             android:textColor="?android:textColorSecondary"/>
 
         <FrameLayout
