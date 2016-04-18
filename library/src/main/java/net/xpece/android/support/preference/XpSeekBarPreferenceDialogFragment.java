@@ -1,11 +1,15 @@
 package net.xpece.android.support.preference;
 
+import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -64,11 +68,36 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         mSeekBar = getSeekBar(view);
 
-        mSeekBar.setMax(preference.getMax() - preference.getMin());
-        mSeekBar.setProgress(preference.getProgress() - preference.getMin());
+        final int max = preference.getMax();
+        final int min = preference.getMin();
+        final int progress = preference.getProgress();
+
+        mSeekBar.setMax(max - min);
+        mSeekBar.setProgress(progress - min);
 
         mKeyProgressIncrement = mSeekBar.getKeyProgressIncrement();
         mSeekBar.setOnKeyListener(this);
+
+        setupAccessibilityDelegate(progress, max, min);
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setupAccessibilityDelegate(final int progress, final int max, final int min) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            mSeekBar.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+                @Override
+                public void onInitializeAccessibilityEvent(final View host, final AccessibilityEvent event) {
+                    super.onInitializeAccessibilityEvent(host, event);
+                    event.setContentDescription(progress + "");
+                }
+
+                @Override
+                public void onInitializeAccessibilityNodeInfo(final View host, final AccessibilityNodeInfo info) {
+                    super.onInitializeAccessibilityNodeInfo(host, info);
+//                    info.setText(progress + "");
+                }
+            });
+        }
     }
 
     private boolean hasDialogTitle() {
