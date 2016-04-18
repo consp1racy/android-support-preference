@@ -70,31 +70,39 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
 
         final int max = preference.getMax();
         final int min = preference.getMin();
-        final int progress = preference.getProgress();
 
         mSeekBar.setMax(max - min);
-        mSeekBar.setProgress(progress - min);
+        mSeekBar.setProgress(preference.getProgress() - min);
 
         mKeyProgressIncrement = mSeekBar.getKeyProgressIncrement();
         mSeekBar.setOnKeyListener(this);
 
-        setupAccessibilityDelegate(progress, max, min);
+        setupAccessibilityDelegate(max, min);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void setupAccessibilityDelegate(final int progress, final int max, final int min) {
+    private void setupAccessibilityDelegate(final int max, final int min) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             mSeekBar.setAccessibilityDelegate(new View.AccessibilityDelegate() {
                 @Override
                 public void onInitializeAccessibilityEvent(final View host, final AccessibilityEvent event) {
                     super.onInitializeAccessibilityEvent(host, event);
+
+                    final int progress = mSeekBar.getProgress() + min;
                     event.setContentDescription(progress + "");
+
+//                    event.setItemCount(max - min);
+//                    event.setFromIndex(min);
+//                    event.setToIndex(max);
+//                    event.setCurrentItemIndex(progress);
                 }
 
                 @Override
                 public void onInitializeAccessibilityNodeInfo(final View host, final AccessibilityNodeInfo info) {
                     super.onInitializeAccessibilityNodeInfo(host, info);
-//                    info.setText(progress + "");
+
+                    int progress = mSeekBar.getProgress() + min;
+                    info.setContentDescription(progress + "");
                 }
             });
         }
