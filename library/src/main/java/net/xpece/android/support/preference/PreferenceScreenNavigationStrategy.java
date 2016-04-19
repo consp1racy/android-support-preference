@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -204,8 +205,13 @@ public abstract class PreferenceScreenNavigationStrategy {
                     final int position = scroll.first;
                     final int offset = scroll.second;
                     final RecyclerView list = mFragment.getListView();
-                    list.scrollToPosition(position);
-                    list.scrollBy(0, offset); // Is not working, whatever...
+                    if (list.getLayoutManager() instanceof LinearLayoutManager) {
+                        LinearLayoutManager layout = (LinearLayoutManager) list.getLayoutManager();
+                        layout.scrollToPositionWithOffset(position, offset);
+                    } else {
+                        list.scrollToPosition(position);
+                        list.scrollBy(0, offset); // Is not working, whatever...
+                    }
                 }
             }
 
