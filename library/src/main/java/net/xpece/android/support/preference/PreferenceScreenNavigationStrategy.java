@@ -204,19 +204,23 @@ public abstract class PreferenceScreenNavigationStrategy {
                     Tuple<Integer> scroll = mScrollPositions.get(key);
                     final int position = scroll.first;
                     final int offset = scroll.second;
-                    final RecyclerView list = mFragment.getListView();
-                    if (list.getLayoutManager() instanceof LinearLayoutManager) {
-                        LinearLayoutManager layout = (LinearLayoutManager) list.getLayoutManager();
-                        layout.scrollToPositionWithOffset(position, offset);
-                    } else {
-                        list.scrollToPosition(position);
-                        list.scrollBy(0, offset); // Is not working, whatever...
-                    }
+                    onRestoreScrollPosition(position, offset);
                 }
             }
 
             if (mCallbacks != null) {
                 mCallbacks.onNavigateToPreferenceScreen(preference);
+            }
+        }
+
+        protected void onRestoreScrollPosition(final int position, final int offset) {
+            final RecyclerView list = mFragment.getListView();
+            if (list.getLayoutManager() instanceof LinearLayoutManager) {
+                LinearLayoutManager layout = (LinearLayoutManager) list.getLayoutManager();
+                layout.scrollToPositionWithOffset(position, offset);
+            } else {
+                list.scrollToPosition(position);
+                list.scrollBy(0, offset); // Is not working, whatever...
             }
         }
 

@@ -1,6 +1,5 @@
 package net.xpece.android.support.preference.sample;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -184,10 +183,5 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     protected void onApplyThemeResource(Resources.Theme theme, int resid, boolean first) {
         super.onApplyThemeResource(theme, resid, first);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
     }
 }
