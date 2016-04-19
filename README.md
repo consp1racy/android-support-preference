@@ -20,7 +20,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.7.0'
+    compile 'net.xpece.android:support-preference-color:0.7.0@aar'
 }
 ```
 
