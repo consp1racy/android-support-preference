@@ -1,7 +1,6 @@
 package net.xpece.android.support.preference.sample;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -178,10 +177,5 @@ public class SettingsActivity extends AppCompatActivity implements
         f.setTargetFragment(preferenceFragmentCompat, 0);
         f.show(this.getSupportFragmentManager(), key);
         return true;
-    }
-
-    @Override
-    protected void onApplyThemeResource(Resources.Theme theme, int resid, boolean first) {
-        super.onApplyThemeResource(theme, resid, first);
     }
 }
