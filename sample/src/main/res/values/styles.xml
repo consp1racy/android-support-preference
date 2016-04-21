@@ -24,7 +24,6 @@
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
-        <item name="preferenceTint">?colorAccent</item>
 
         <!--<item name="colorPreferenceStyle">-->
         <!--@style/Preference.Material.DialogPreference.ColorPreference-->

@@ -2,7 +2,7 @@
 
     <style name="Preference.Material" parent="">
         <item name="android:layout">@layout/asp_preference</item>
-        <item name="asp_tint">?preferenceTint</item>
+        <item name="asp_tint">?colorAccent</item>
         <item name="asp_iconPaddingEnabled">true</item>
     </style>
 

@@ -29,8 +29,6 @@
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
         <attr name="asp_textAppearanceListItemTertiary" format="reference"/>
-        <attr name="preferenceTint" format="color"/>
-
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
