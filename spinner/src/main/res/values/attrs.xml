@@ -8,5 +8,6 @@
         <attr name="android:layout_marginEnd"/>
         <attr name="android:layout_marginTop"/>
         <attr name="android:layout_marginBottom"/>
+        <attr name="android:layout_margin"/>
     </declare-styleable>
 </resources>

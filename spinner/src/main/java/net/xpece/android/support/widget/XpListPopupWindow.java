@@ -411,28 +411,36 @@ public class XpListPopupWindow {
 
         int defaultMargin = Util.dpToPxOffset(context, 8);
         final TypedArray b = context.obtainStyledAttributes(attrs, R.styleable.XpListPopupWindow, defStyleAttr, defStyleRes);
-        if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
-            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginEnd, defaultMargin);
-            if (mLayoutDirection == LayoutDirection.RTL) {
-                mMargins.left = margin;
-            } else {
-                mMargins.right = margin;
-            }
+        if (b.hasValue(R.styleable.XpListPopupWindow_android_layout_margin)) {
+            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_margin, defaultMargin);
+            mMargins.bottom = margin;
+            mMargins.top = margin;
+            mMargins.left = margin;
+            mMargins.right = margin;
         } else {
-            mMargins.right = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginRight, defaultMargin);
-        }
-        if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
-            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginStart, defaultMargin);
-            if (mLayoutDirection == LayoutDirection.RTL) {
-                mMargins.right = margin;
+            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
+                int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginEnd, 0);
+                if (mLayoutDirection == LayoutDirection.RTL) {
+                    mMargins.left = margin;
+                } else {
+                    mMargins.right = margin;
+                }
             } else {
-                mMargins.left = margin;
+                mMargins.right = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginRight, defaultMargin);
             }
-        } else {
-            mMargins.left = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginLeft, defaultMargin);
+            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
+                int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginStart, 0);
+                if (mLayoutDirection == LayoutDirection.RTL) {
+                    mMargins.right = margin;
+                } else {
+                    mMargins.left = margin;
+                }
+            } else {
+                mMargins.left = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginLeft, defaultMargin);
+            }
+            mMargins.top = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginTop, defaultMargin);
+            mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         }
-        mMargins.top = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginTop, defaultMargin);
-        mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         b.recycle();
 
         mPopup = new AppCompatPopupWindow(context, attrs, defStyleAttr);
