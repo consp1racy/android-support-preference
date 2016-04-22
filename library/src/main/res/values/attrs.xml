@@ -64,6 +64,7 @@
             <enum name="match_parent" value="-1"/>
             <enum name="wrap_content" value="-2"/>
         </attr>
+        <attr name="android:adjustViewBounds"/>
     </declare-styleable>
 
     <declare-styleable name="DialogPreference">
@@ -98,12 +99,4 @@
         <attr name="android:max"/>
     </declare-styleable>
 
-    <declare-styleable name="XpListPopupWindow">
-        <attr name="android:layout_marginLeft"/>
-        <attr name="android:layout_marginRight"/>
-        <attr name="android:layout_marginStart"/>
-        <attr name="android:layout_marginEnd"/>
-        <attr name="android:layout_marginTop"/>
-        <attr name="android:layout_marginBottom"/>
-    </declare-styleable>
 </resources>

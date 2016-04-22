@@ -50,8 +50,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import net.xpece.android.support.preference.R;
-import net.xpece.android.support.preference.Util;
+import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Method;
 import java.util.Locale;

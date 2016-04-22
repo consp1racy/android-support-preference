@@ -5,8 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import net.xpece.android.support.preference.R;
-import net.xpece.android.support.preference.Util;
+import net.xpece.android.support.widget.spinner.R;
 
 /**
  * Created by Eugen on 07.04.2016.

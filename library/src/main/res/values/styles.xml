@@ -68,6 +68,7 @@
     <style name="Preference.Material.DialogPreference.ListPreference">
         <item name="android:positiveButtonText">@null</item>
         <item name="android:negativeButtonText">@null</item>
+        <item name="android:adjustViewBounds">true</item>
     </style>
 
     <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu">

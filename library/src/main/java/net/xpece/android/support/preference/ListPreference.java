@@ -62,6 +62,8 @@ public class ListPreference extends DialogPreference {
 
     private boolean mSimpleMenuShowing;
 
+    private boolean mAdjustViewBounds;
+
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
@@ -70,6 +72,7 @@ public class ListPreference extends DialogPreference {
         //noinspection WrongConstant
         this.mMenuMode = a.getInt(R.styleable.ListPreference_asp_menuMode, MENU_MODE_DIALOG);
         this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
+        this.mAdjustViewBounds = a.getBoolean(R.styleable.ListPreference_android_adjustViewBounds, false);
         a.recycle();
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
@@ -134,12 +137,16 @@ public class ListPreference extends DialogPreference {
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-        int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
+        int marginV = Util.dpToPxOffset(context, 8); // TODO outsource
         popup.setMarginBottom(marginV);
         popup.setMarginTop(marginV);
+
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
-        popup.setBoundsView((View) anchor.getParent());
+
+        if (mAdjustViewBounds) {
+            popup.setBoundsView((View) anchor.getParent());
+        }
 
         if (mSimpleMenuPreferredWidthUnit >= 0) {
             popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
