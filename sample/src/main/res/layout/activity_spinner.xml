@@ -5,18 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.AppTheme.Toolbar.Solid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="?actionBarTheme">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/Widget.AppTheme.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"/>
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="?actionBarSize"
+        android:theme="?actionBarTheme"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -144,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
                     android:layout_marginRight="-4dp"
-                    android:entries="@array/pref_notif_content_titles"
+                    android:entries="@array/pref_sync_frequency_titles"
                     android:theme="@style/ThemeOverlay.Material.Spinner"/>
             </LinearLayout>
         </LinearLayout>
