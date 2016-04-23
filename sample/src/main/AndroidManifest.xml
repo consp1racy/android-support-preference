@@ -25,7 +25,10 @@
         <activity
             android:name=".SpinnerActivity"
             android:label="@string/spinner_sample"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:parentActivityName=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

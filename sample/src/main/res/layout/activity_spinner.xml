@@ -12,6 +12,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/Widget.AppTheme.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"/>
 
@@ -44,6 +45,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="-4dp"
+                android:layout_marginRight="-4dp"
                 android:hint="Name">
 
                 <android.support.design.widget.TextInputEditText
@@ -74,6 +77,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="-4dp"
+                android:layout_marginRight="-4dp"
                 android:hint="Name">
 
                 <android.support.design.widget.TextInputEditText
@@ -87,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:paddingLeft="?listPreferredItemPaddingLeft"
@@ -97,6 +103,8 @@
                 style="@style/Widget.Material.Spinner.Underlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="-4dp"
+                android:layout_marginRight="-4dp"
                 android:entries="@array/pref_notif_content_titles_long"/>
             <!--android:entries="@array/colors_material_names"-->
             <!--android:entries="@array/pref_notif_content_titles_long"-->
