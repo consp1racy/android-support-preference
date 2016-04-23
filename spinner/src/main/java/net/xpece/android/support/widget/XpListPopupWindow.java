@@ -887,11 +887,13 @@ public class XpListPopupWindow {
         final int screenWidth = screenRight - screenLeft;
 
         if (!rightAligned && windowWidth < anchorLeft + horizontalOffset + widthSpec) {
-            horizontalOffset = mDropDownHorizontalOffset;
+            // When right aligned due to insufficient space ignore negative horizontal offset.
+            horizontalOffset = mDropDownHorizontalOffset < 0 ? 0 : mDropDownHorizontalOffset;
             horizontalOffset -= widthSpec - (windowWidth - anchorLeft);
             horizontalOffset -= marginsRight - backgroundRight;
         } else if (rightAligned && 0 > anchorLeft + horizontalOffset) {
-            horizontalOffset = mDropDownHorizontalOffset;
+            // When left aligned due to insufficient space ignore positive horizontal offset.
+            horizontalOffset = mDropDownHorizontalOffset > 0 ? 0 : mDropDownHorizontalOffset;
             horizontalOffset -= anchorLeft;
             horizontalOffset += marginsLeft - backgroundLeft;
         }

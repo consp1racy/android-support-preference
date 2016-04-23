@@ -51,18 +51,6 @@ public class CheckedItemAdapter extends ArrayAdapter<CharSequence> implements Th
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
-//        if (position == mSelection) {
-//            int bgId = Util.resolveResourceId(view.getContext(), R.attr.colorControlHighlight, 0);
-//            view.setBackgroundResource(bgId);
-//        } else {
-//            view.setBackgroundResource(0);
-//        }
-        return view;
-    }
-
-    @Override
     public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
         LayoutInflater inflater = mDropDownHelper.getDropDownViewInflater();
         View view = createViewFromResource(inflater, position, convertView, parent, mDropDownResource);

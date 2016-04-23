@@ -62,6 +62,7 @@
         </attr>
         <attr name="asp_simpleMenuWidthUnit"/>
         <attr name="android:adjustViewBounds"/>
+        <attr name="popupTheme"/>
     </declare-styleable>
 
     <declare-styleable name="DialogPreference">

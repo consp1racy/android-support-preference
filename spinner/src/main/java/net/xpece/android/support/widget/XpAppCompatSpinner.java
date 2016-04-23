@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
@@ -20,11 +21,23 @@ import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.spinner.R;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * @author Eugen on 22. 4. 2016.
  */
 public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
+    @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SpinnerMode {}
+
+    public static final int SPINNER_MODE_ADAPTIVE = 0;
+    public static final int SPINNER_MODE_DIALOG = 1;
+    public static final int SPINNER_MODE_DROPDOWN = 2;
+
+    @SpinnerMode private int mSpinnerMode;
     private float mSimpleMenuPreferredWidthUnit;
 
     private XpListPopupWindow mPopup;
@@ -46,13 +59,23 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
         this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
+        //noinspection WrongConstant
+        this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
         a.recycle();
+    }
+
+    public int getSpinnerMode() {
+        return mSpinnerMode;
+    }
+
+    public void setSpinnerMode(final int spinnerMode) {
+        mSpinnerMode = spinnerMode;
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     @Override
     public boolean performClick() {
-        if (ViewCompat.hasOnClickListeners(this)) {
+        if (ViewCompat.hasOnClickListeners(this)) { // TODO Support onClickListener pre API 15.
             playSoundEffect(SoundEffectConstants.CLICK);
             if (callOnClick()) {
                 return true;
@@ -60,8 +83,21 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
 
-        if (!showAsPopup(false)) {
-            showAsDialog();
+        switch (mSpinnerMode) {
+            case SPINNER_MODE_ADAPTIVE: {
+                if (!showAsPopup(false)) {
+                    showAsDialog();
+                }
+                break;
+            }
+            case SPINNER_MODE_DIALOG: {
+                showAsDialog();
+                break;
+            }
+            case SPINNER_MODE_DROPDOWN: {
+                showAsPopup(true);
+                break;
+            }
         }
         return true;
     }
@@ -127,15 +163,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         popup.setAdapter((ListAdapter) adapter);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-        View v = adapter.getView(0, null, this);
-        int offsetLeft;
-        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
-            offsetLeft = -(v.getPaddingLeft() + getPaddingLeft());
-        } else {
-            offsetLeft = v.getPaddingRight() + getPaddingRight();
-        }
-        popup.setHorizontalOffset(offsetLeft);
-
 //        if (mAdjustViewBounds) {
 //            popup.setBoundsView((View) anchor.getParent());
 //        }
@@ -150,6 +177,15 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
+
+        View v = adapter.getView(0, null, this);
+        int preferredHorizontalOffset;
+        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
+            preferredHorizontalOffset = -(v.getPaddingLeft() + getPaddingLeft());
+        } else {
+            preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
+        }
+        popup.setHorizontalOffset(preferredHorizontalOffset);
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);

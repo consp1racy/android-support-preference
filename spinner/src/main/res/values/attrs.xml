@@ -12,6 +12,11 @@
     </declare-styleable>
 
     <declare-styleable name="XpAppCompatSpinner">
+        <attr name="asp_spinnerMode" format="enum">
+            <enum name="adaptive" value="0"/>
+            <enum name="dialog" value="1"/>
+            <enum name="dropdown" value="2"/>
+        </attr>
         <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
             <enum name="match_parent" value="-1"/>
             <enum name="wrap_content" value="-2"/>
