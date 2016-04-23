@@ -313,11 +313,6 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**Coming [soon™](http://wowwiki.wikia.com/wiki/Soon)**
-- Dropping `preferenceTint` attribute. `colorAccent` will be used for icons by default.
-- `ReplaceRoot` subscreen navigation strategy now remembers precise scroll position.
-- UI tweaks.
-
 **0.7.0**
 - `SeekBar*Preference` support `app:asp_min` attribute.
   - Preference stores a value between `app:asp_min` and `android:max`.
