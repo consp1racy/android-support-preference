@@ -135,6 +135,10 @@ public class SettingsActivity extends AppCompatActivity implements
                 startActivity(i);
                 return true;
             }
+            case R.id.spinner: {
+                Intent i = new Intent(this, SpinnerActivity.class);
+                startActivity(i);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

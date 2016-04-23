@@ -10,4 +10,11 @@
         <attr name="android:layout_marginBottom"/>
         <attr name="android:layout_margin"/>
     </declare-styleable>
+
+    <declare-styleable name="XpAppCompatSpinner">
+        <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
+            <enum name="match_parent" value="-1"/>
+            <enum name="wrap_content" value="-2"/>
+        </attr>
+    </declare-styleable>
 </resources>

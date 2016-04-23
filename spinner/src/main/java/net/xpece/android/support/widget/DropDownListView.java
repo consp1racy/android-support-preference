@@ -24,7 +24,8 @@ import net.xpece.android.support.widget.spinner.R;
  */
 class DropDownListView extends ListViewCompat {
 
-    private static final int MAX_ITEMS_MEASURED = 15;
+//    private static final int MAX_ITEMS_MEASURED = 15;
+    private static final int MAX_ITEMS_MEASURED = 30;
 
     private final Rect mTempRect = new Rect();
 

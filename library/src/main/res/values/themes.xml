@@ -42,7 +42,6 @@
         <item name="asp_textAppearanceListItemTertiary">@style/TextAppearance.AppCompat.Caption
         </item>
 
-        <!--<item name="preferenceTint">?colorAccent</item>-->
         <item name="spinnerDropDownItemStyle">@style/Widget.Material.DropDownItem.Spinner</item>
         <item name="dropDownListViewStyle">@style/Widget.Material.ListView.DropDown</item>
     </style>

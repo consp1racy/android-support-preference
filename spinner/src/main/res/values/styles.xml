@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Animation.Material.Popup" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/abc_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
+    </style>
+
+    <style name="Animation.Popup" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/asp_grow_fade_in_center</item>
+        <item name="android:windowExitAnimation">@anim/asp_shrink_fade_out_center</item>
+    </style>
+
+    <style name="Animation.Asp.Popup" parent="Animation.Popup"/>
+
+    <style name="Widget.Material.TextView.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">0dp</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+    </style>
+
+    <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:paddingLeft">?listPreferredItemPaddingLeft</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">
+            ?listPreferredItemPaddingLeft
+        </item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">
+            ?listPreferredItemPaddingRight
+        </item>
+        <item name="android:paddingRight">?listPreferredItemPaddingRight</item>
+    </style>
+
+    <style name="Widget.Material.ListView.DropDown" parent="Widget.AppCompat.ListView.DropDown">
+        <!--<item name="android:cacheColorHint">#0000</item>-->
+        <!--<item name="android:colorBackgroundCacheHint">#0000</item>-->
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+    </style>
+
+    <style name="Widget.Material.Spinner" parent="@style/Widget.AppCompat.Spinner">
+        <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
+    </style>
+
+    <style name="Widget.Material.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
+        <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
+    </style>
+</resources>
