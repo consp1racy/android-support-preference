@@ -560,6 +560,14 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 - Why are some of your classes in `android.support.v7` packages?
     - I'm using their package private features to achieve consistent results.
+    
+## TODO
+
+- Compute simple menu preferred position with prompt enabled.
+- Simple menu with INPUT_METHOD_NOT_NEEDED.
+- ListPreference scroll to viewport before renewing popup/dialog.
+- ColorPicker XML attributes.
+- Use ForwardingListener.
 
 ## Credit
 
