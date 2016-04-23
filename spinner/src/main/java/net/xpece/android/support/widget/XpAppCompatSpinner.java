@@ -127,13 +127,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         popup.setAdapter((ListAdapter) adapter);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-//        int marginV = Util.dpToPxOffset(context, 8); // TODO outsource
-//        popup.setMarginBottom(marginV);
-//        popup.setMarginTop(marginV);
-
-//        popup.setMarginLeft(anchor.getPaddingLeft());
-//        popup.setMarginRight(anchor.getPaddingRight());
-
         View v = adapter.getView(0, null, this);
         int offsetLeft;
         if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
@@ -193,5 +186,4 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         return true;
     }
-
 }

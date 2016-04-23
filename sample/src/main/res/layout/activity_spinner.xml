@@ -100,12 +100,13 @@
             android:paddingTop="12dp">
 
             <net.xpece.android.support.widget.XpAppCompatSpinner
+                android:theme="@style/ThemeOverlay.Material.Spinner"
                 style="@style/Widget.Material.Spinner.Underlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:entries="@array/pref_notif_content_titles_long"/>
+                android:entries="@array/colors_material_names"/>
             <!--android:entries="@array/colors_material_names"-->
             <!--android:entries="@array/pref_notif_content_titles_long"-->
         </LinearLayout>

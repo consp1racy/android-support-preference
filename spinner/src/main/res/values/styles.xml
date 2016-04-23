@@ -40,6 +40,7 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbars">vertical</item>
+        <!--<item name="android:scrollbarStyle">outsideInset</item>-->
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
 
@@ -53,5 +54,12 @@
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
         <item name="android:paddingRight">28dp</item>
+    </style>
+
+    <style name="ThemeOverlay.Material.Spinner" parent="">
+        <!--<item name="listPopupWindowStyle">@style/Popup</item>-->
+        <item name="android:spinnerItemStyle">@style/Widget.Material.TextView.SpinnerItem</item>
+        <item name="spinnerDropDownItemStyle">@style/Widget.Material.DropDownItem.Spinner</item>
+        <item name="dropDownListViewStyle">@style/Widget.Material.ListView.DropDown</item>
     </style>
 </resources>

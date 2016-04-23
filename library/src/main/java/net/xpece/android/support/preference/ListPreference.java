@@ -137,10 +137,6 @@ public class ListPreference extends DialogPreference {
         popup.setAdapter(adapter);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-//        int marginV = Util.dpToPxOffset(context, 8); // TODO outsource
-//        popup.setMarginBottom(marginV);
-//        popup.setMarginTop(marginV);
-
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
 

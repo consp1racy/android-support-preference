@@ -33,11 +33,6 @@
             @style/TextAppearance.AppCompat.Subhead.Inverse
         </item>
 
-        <!--<item name="listPopupWindowStyle">@style/Popup</item>-->
-        <item name="spinnerStyle">@style/Widget.Material.Spinner.Underlined</item>
-        <item name="android:spinnerItemStyle">@style/Widget.Material.TextView.SpinnerItem</item>
-        <item name="spinnerDropDownItemStyle">@style/Widget.Material.DropDownItem.Spinner</item>
-        <item name="dropDownListViewStyle">@style/Widget.Material.ListView.DropDown</item>
 
     </style>
 

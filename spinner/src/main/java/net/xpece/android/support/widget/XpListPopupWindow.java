@@ -17,7 +17,6 @@
 package net.xpece.android.support.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
@@ -868,7 +867,7 @@ public class XpListPopupWindow {
             horizontalOffset += (marginsLeft - backgroundLeft);
         }
 
-        getWindowFrame(mDropDownAnchorView, noInputMethod, mTempRect);
+        final int bottomDecorations = getWindowFrame(mDropDownAnchorView, noInputMethod, mTempRect);
         final int windowLeft = mTempRect.left;
         final int windowRight = mTempRect.right;
         final int windowTop = mTempRect.top;
@@ -979,6 +978,9 @@ public class XpListPopupWindow {
                 verticalOffset += diff;
             }
         }
+
+//        verticalOffset -= bottomDecorations;
+//        verticalOffset += Util.dpToPxOffset(mContext, 8);
 
         if (mPopup.isShowing()) {
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
@@ -1879,14 +1881,16 @@ public class XpListPopupWindow {
         }
     }
 
-    private void getWindowFrame(final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
+    private int getWindowFrame(final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
+        int bottomDecorations = 0;
         anchor.getWindowVisibleDisplayFrame(out);
-        int bottomEdge = out.bottom;
-        if (ignoreBottomDecorations) {
-            Resources res = anchor.getContext().getResources();
-            bottomEdge = res.getDisplayMetrics().heightPixels;
-        }
-        out.bottom = bottomEdge;
+//        if (ignoreBottomDecorations) {
+//            Resources res = anchor.getContext().getResources();
+//            int bottomEdge = res.getDisplayMetrics().heightPixels;
+//            bottomDecorations = bottomEdge - out.bottom;
+//            out.bottom = bottomEdge;
+//        }
+        return bottomDecorations;
     }
 
     private void getLocationInWindow(View anchor, @Size(2) int[] out) {
