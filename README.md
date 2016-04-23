@@ -58,6 +58,8 @@ Library version 0.5.1. Android version 4.4.
 
 ## Contents
 
+### Support preference
+
 - `Preference`
 - `CheckBoxPreference`
 - `SwitchPreference`
@@ -76,15 +78,24 @@ Library version 0.5.1. Android version 4.4.
     - According to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - `RingtonePreference`
     - Coerced Ringtone Picker Activity from AOSP
-- `ColorPreference`
-    - Pillaged http://www.materialdoc.com/color-picker/
 - `XpPreferenceFragment`
     - Handles proper Preference inflation and DialogPreference dialogs
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
 
+### Support color preference
+
+- `ColorPreference`
+    - Pillaged http://www.materialdoc.com/color-picker/
+    
+### Support spinner
+
+- `XpAppCompatSpinner`
+    - https://www.google.com/design/spec/components/menus.html#menus-behavior
+
 ## Features on top of preference-v7
 
+- Using appcompat-v7 features.
 - Material preference item layouts out of the box.
 - Icon and dialog icon tinting and padding.
 - `EditTextPreference` understands `EditText` XML attributes.
