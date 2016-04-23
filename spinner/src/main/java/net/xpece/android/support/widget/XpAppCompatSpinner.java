@@ -27,6 +27,9 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     private float mSimpleMenuPreferredWidthUnit;
 
+    private XpListPopupWindow mPopup;
+    private AlertDialog.Builder mDialogBuilder;
+
     public XpAppCompatSpinner(final Context context) {
         this(context, null);
     }
@@ -81,9 +84,17 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder;
+        if (mDialogBuilder != null) {
+            builder = mDialogBuilder;
+        } else {
+            builder = new AlertDialog.Builder(getContext());
+        }
         builder.setTitle(getPrompt());
         builder.setSingleChoiceItems((ListAdapter) adapter, getSelectedItemPosition(), listener);
+
+        mDialogBuilder = builder;
+
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -104,7 +115,12 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             adapter = new DropDownAdapter(adapter, context.getTheme());
         }
 
-        final XpListPopupWindow popup = new XpListPopupWindow(context, null);
+        final XpListPopupWindow popup;
+        if (mPopup != null) {
+            popup = mPopup;
+        } else {
+            popup = new XpListPopupWindow(context, null);
+        }
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setPromptPosition(XpListPopupWindow.POSITION_PROMPT_ABOVE);
@@ -120,7 +136,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         View v = adapter.getView(0, null, this);
         int offsetLeft;
-        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & Gravity.HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
+        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
             offsetLeft = -(v.getPaddingLeft() + getPaddingLeft());
         } else {
             offsetLeft = v.getPaddingRight() + getPaddingRight();
@@ -172,6 +188,8 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         popup.show();
         popup.setSelectionInitial(position);
+
+        mPopup = popup;
 
         return true;
     }

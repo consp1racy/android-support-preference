@@ -861,7 +861,7 @@ public class XpListPopupWindow {
         final int anchorTop = mTempLocation[1];
         final int anchorBottom = anchorTop + anchorHeight;
 
-        final boolean rightAligned = GravityCompat.getAbsoluteGravity(mDropDownGravity, mLayoutDirection) == Gravity.RIGHT;
+        final boolean rightAligned = GravityCompat.getAbsoluteGravity(getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, mLayoutDirection) == Gravity.RIGHT;
         if (rightAligned) {
             horizontalOffset += anchorWidth - widthSpec - (marginsRight - backgroundRight);
         } else {
@@ -996,6 +996,7 @@ public class XpListPopupWindow {
             // only set this if the dropdown is not always visible
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
             mPopup.setTouchInterceptor(mTouchInterceptor);
+            // We handle gravity manually. Just as everything else.
             PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
             mDropDownList.setSelection(ListView.INVALID_POSITION);
 
