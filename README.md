@@ -366,7 +366,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 **Coming [soon™](http://wowwiki.wikia.com/wiki/Soon)**
 - Ditto.
 
-**0.8.0
+**0.8.0**
 - *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone library.
 - *FIXED:* Simple menu:
   - Correct vertical position when using asymmetric top and bottom padding on anchor.
