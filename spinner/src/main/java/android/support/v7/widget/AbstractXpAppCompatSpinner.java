@@ -29,6 +29,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.TintableBackgroundView;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -37,6 +38,8 @@ import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.CheckedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
+
+import java.lang.reflect.Field;
 
 /**
  * A {@link Spinner} which supports compatible features on older version of the platform,
@@ -56,7 +59,23 @@ import net.xpece.android.support.widget.spinner.R;
  */
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
+    static final boolean IS_AT_LEAST_K = Build.VERSION.SDK_INT >= 19;
     static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
+
+    private static final Field FIELD_FORWARDING_LISTENER;
+
+    static {
+        Field f = null;
+        if (IS_AT_LEAST_K) {
+            try {
+                f = Spinner.class.getDeclaredField("mForwardingListener");
+                f.setAccessible(true);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        FIELD_FORWARDING_LISTENER = f;
+    }
 
     private AppCompatDrawableManager mDrawableManager;
 
@@ -194,6 +213,15 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         mPrompt = a.getText(R.styleable.Spinner_android_prompt);
 
         a.recycle();
+
+        if (IS_AT_LEAST_K) {
+            // Disable native forwarding listener.
+            try {
+                FIELD_FORWARDING_LISTENER.set(this, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -285,6 +313,11 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         if (mBackgroundTintHelper != null) {
             mBackgroundTintHelper.applySupportBackgroundTint();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
