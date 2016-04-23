@@ -114,8 +114,6 @@ Your settings activity theme needs to specify the following values:
 <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Used to theme preference list and items. -->
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
-    <!-- Default preference icon tint color. -->
-    <item name="preferenceTint">?colorAccent</item>
 </style>
 ```
 
