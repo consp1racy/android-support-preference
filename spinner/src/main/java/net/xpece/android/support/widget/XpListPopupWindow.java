@@ -691,6 +691,13 @@ public class XpListPopupWindow {
         mDropDownGravity = gravity;
     }
 
+    public int getDropDownGravity() {
+        if (mDropDownGravity == Gravity.NO_GRAVITY) {
+            return Gravity.TOP | GravityCompat.START;
+        }
+        return mDropDownGravity;
+    }
+
     /**
      * @return The width of the popup window in pixels.
      */
@@ -1037,7 +1044,7 @@ public class XpListPopupWindow {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
                 if (preferredWidth > anchorWidthTemp) {
                     if (mDropDownMaxWidth == MATCH_PARENT) {
-                        widthSpec = displayWidth - mps;//-1;
+                        widthSpec = Math.min(preferredWidth, displayWidth - mps);//-1;
                     } else { // WRAP_CONTENT
                         widthSpec = anchorWidthTemp;
                     }
@@ -1243,12 +1250,14 @@ public class XpListPopupWindow {
         final int selectedItemHeight = popup.measureItem(position);
         final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
 
+        final int viewHeightAdjustedHalf = (viewHeight - anchor.getPaddingTop() - anchor.getPaddingBottom()) / 2 + anchor.getPaddingBottom();
+
         final int offset;
         if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
-            offset = -(beforeSelectedItemHeight + (viewHeight - selectedItemHeight) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            offset = -(beforeSelectedItemHeight + (viewHeightAdjustedHalf - selectedItemHeight / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         } else {
             final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
-            offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            offset = -(height * (position + 1) + (viewHeightAdjustedHalf - height / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         }
         return offset;
     }
