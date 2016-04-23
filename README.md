@@ -191,6 +191,8 @@ You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavio
 
 ### Material Spinner
 
+<img src="./docs/device-2016-04-23-203500.gif" align="right" style="margin-left: 1em;"/>
+
 New `XpAppCompatSpinner` widget is built according to
 [Material Design specs](https://www.google.com/design/spec/components/menus.html#menus-behavior).
 
@@ -376,7 +378,7 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 - `ReplaceRoot` subscreen navigation strategy now remembers precise scroll position.
 - UI tweaks.
 
-**0.7.0**
+**0.7.0** *Legacy*
 - `SeekBar*Preference` support `app:asp_min` attribute.
   - Preference stores a value between `app:asp_min` and `android:max`.
 - `SeekBarPreference` supports `app:asp_info` attribute for a short arbitrary text such as numeric value.
