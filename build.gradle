@@ -18,3 +18,14 @@ allprojects {
         jcenter()
     }
 }
+
+ext {
+    compileSdkVersion = 23
+    buildToolsVersion = "23.0.3"
+    supportLibVersion = "23.3.0"
+    minSdkVersion = 7
+    targetSdkVersion = 23
+
+    publishGroupId = "net.xpece.android"
+    publishVersion = "0.8.0"
+}

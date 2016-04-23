@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
-import net.xpece.android.support.preference.R;
+import net.xpece.android.support.widget.spinner.R;
 
 /**
  * <p>Wrapper class for a ListView. This wrapper can hijack the focus to
@@ -24,7 +24,8 @@ import net.xpece.android.support.preference.R;
  */
 class DropDownListView extends ListViewCompat {
 
-    private static final int MAX_ITEMS_MEASURED = 15;
+//    private static final int MAX_ITEMS_MEASURED = 15;
+    private static final int MAX_ITEMS_MEASURED = 30;
 
     private final Rect mTempRect = new Rect();
 

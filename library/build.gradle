@@ -2,17 +2,19 @@ apply plugin: 'com.android.library'
 //apply plugin: 'com.uphyca.android-aspectj'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
         consumerProguardFiles 'proguard-consumer-rules.pro'
-        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+
     buildTypes {
         release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
     }
@@ -25,14 +27,15 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:preference-v7:23.3.0'
+    compile "com.android.support:appcompat-v7:$supportLibVersion"
+    compile "com.android.support:preference-v7:$supportLibVersion"
+    compile project(':spinner')
 }
 
 ext {
-    PUBLISH_GROUP_ID = 'net.xpece.android'
+    PUBLISH_GROUP_ID = publishGroupId
     PUBLISH_ARTIFACT_ID = 'support-preference'
-    PUBLISH_VERSION = '0.7.0'
+    PUBLISH_VERSION = publishVersion
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -42,4 +45,5 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
 apply from: '../android-release-aar.gradle'

@@ -17,7 +17,6 @@
 package net.xpece.android.support.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
@@ -50,8 +49,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import net.xpece.android.support.preference.R;
-import net.xpece.android.support.preference.Util;
+import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -410,29 +408,38 @@ public class XpListPopupWindow {
         }
         a.recycle();
 
+        int defaultMargin = Util.dpToPxOffset(context, 8);
         final TypedArray b = context.obtainStyledAttributes(attrs, R.styleable.XpListPopupWindow, defStyleAttr, defStyleRes);
-        if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
-            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginEnd, 0);
-            if (mLayoutDirection == LayoutDirection.RTL) {
-                mMargins.left = margin;
-            } else {
-                mMargins.right = margin;
-            }
+        if (b.hasValue(R.styleable.XpListPopupWindow_android_layout_margin)) {
+            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_margin, defaultMargin);
+            mMargins.bottom = margin;
+            mMargins.top = margin;
+            mMargins.left = margin;
+            mMargins.right = margin;
         } else {
-            mMargins.right = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginRight, 0);
-        }
-        if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
-            int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginStart, 0);
-            if (mLayoutDirection == LayoutDirection.RTL) {
-                mMargins.right = margin;
+            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
+                int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginEnd, 0);
+                if (mLayoutDirection == LayoutDirection.RTL) {
+                    mMargins.left = margin;
+                } else {
+                    mMargins.right = margin;
+                }
             } else {
-                mMargins.left = margin;
+                mMargins.right = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginRight, defaultMargin);
             }
-        } else {
-            mMargins.left = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginLeft, 0);
+            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
+                int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginStart, 0);
+                if (mLayoutDirection == LayoutDirection.RTL) {
+                    mMargins.right = margin;
+                } else {
+                    mMargins.left = margin;
+                }
+            } else {
+                mMargins.left = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginLeft, defaultMargin);
+            }
+            mMargins.top = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginTop, defaultMargin);
+            mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         }
-        mMargins.top = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginTop, 0);
-        mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, 0);
         b.recycle();
 
         mPopup = new AppCompatPopupWindow(context, attrs, defStyleAttr);
@@ -683,6 +690,13 @@ public class XpListPopupWindow {
         mDropDownGravity = gravity;
     }
 
+    public int getDropDownGravity() {
+        if (mDropDownGravity == Gravity.NO_GRAVITY) {
+            return Gravity.TOP | GravityCompat.START;
+        }
+        return mDropDownGravity;
+    }
+
     /**
      * @return The width of the popup window in pixels.
      */
@@ -846,14 +860,14 @@ public class XpListPopupWindow {
         final int anchorTop = mTempLocation[1];
         final int anchorBottom = anchorTop + anchorHeight;
 
-        final boolean rightAligned = GravityCompat.getAbsoluteGravity(mDropDownGravity, mLayoutDirection) == Gravity.RIGHT;
+        final boolean rightAligned = GravityCompat.getAbsoluteGravity(getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, mLayoutDirection) == Gravity.RIGHT;
         if (rightAligned) {
             horizontalOffset += anchorWidth - widthSpec - (marginsRight - backgroundRight);
         } else {
             horizontalOffset += (marginsLeft - backgroundLeft);
         }
 
-        getWindowFrame(mDropDownAnchorView, noInputMethod, mTempRect);
+        final int bottomDecorations = getWindowFrame(mDropDownAnchorView, noInputMethod, mTempRect);
         final int windowLeft = mTempRect.left;
         final int windowRight = mTempRect.right;
         final int windowTop = mTempRect.top;
@@ -873,11 +887,13 @@ public class XpListPopupWindow {
         final int screenWidth = screenRight - screenLeft;
 
         if (!rightAligned && windowWidth < anchorLeft + horizontalOffset + widthSpec) {
-            horizontalOffset = mDropDownHorizontalOffset;
+            // When right aligned due to insufficient space ignore negative horizontal offset.
+            horizontalOffset = mDropDownHorizontalOffset < 0 ? 0 : mDropDownHorizontalOffset;
             horizontalOffset -= widthSpec - (windowWidth - anchorLeft);
             horizontalOffset -= marginsRight - backgroundRight;
         } else if (rightAligned && 0 > anchorLeft + horizontalOffset) {
-            horizontalOffset = mDropDownHorizontalOffset;
+            // When left aligned due to insufficient space ignore positive horizontal offset.
+            horizontalOffset = mDropDownHorizontalOffset > 0 ? 0 : mDropDownHorizontalOffset;
             horizontalOffset -= anchorLeft;
             horizontalOffset += marginsLeft - backgroundLeft;
         }
@@ -965,6 +981,9 @@ public class XpListPopupWindow {
             }
         }
 
+//        verticalOffset -= bottomDecorations;
+//        verticalOffset += Util.dpToPxOffset(mContext, 8);
+
         if (mPopup.isShowing()) {
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
 
@@ -981,6 +1000,7 @@ public class XpListPopupWindow {
             // only set this if the dropdown is not always visible
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
             mPopup.setTouchInterceptor(mTouchInterceptor);
+            // We handle gravity manually. Just as everything else.
             PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
             mDropDownList.setSelection(ListView.INVALID_POSITION);
 
@@ -1029,7 +1049,7 @@ public class XpListPopupWindow {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
                 if (preferredWidth > anchorWidthTemp) {
                     if (mDropDownMaxWidth == MATCH_PARENT) {
-                        widthSpec = displayWidth - mps;//-1;
+                        widthSpec = Math.min(preferredWidth, displayWidth - mps);//-1;
                     } else { // WRAP_CONTENT
                         widthSpec = anchorWidthTemp;
                     }
@@ -1235,12 +1255,14 @@ public class XpListPopupWindow {
         final int selectedItemHeight = popup.measureItem(position);
         final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
 
+        final int viewHeightAdjustedHalf = (viewHeight - anchor.getPaddingTop() - anchor.getPaddingBottom()) / 2 + anchor.getPaddingBottom();
+
         final int offset;
         if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
-            offset = -(beforeSelectedItemHeight + (viewHeight - selectedItemHeight) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            offset = -(beforeSelectedItemHeight + (viewHeightAdjustedHalf - selectedItemHeight / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         } else {
             final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
-            offset = -(height * (position + 1) + (viewHeight - height) / 2 + dropDownListViewPaddingTop + backgroundPaddingTop);
+            offset = -(height * (position + 1) + (viewHeightAdjustedHalf - height / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         }
         return offset;
     }
@@ -1861,14 +1883,16 @@ public class XpListPopupWindow {
         }
     }
 
-    private void getWindowFrame(final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
+    private int getWindowFrame(final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
+        int bottomDecorations = 0;
         anchor.getWindowVisibleDisplayFrame(out);
-        int bottomEdge = out.bottom;
-        if (ignoreBottomDecorations) {
-            Resources res = anchor.getContext().getResources();
-            bottomEdge = res.getDisplayMetrics().heightPixels;
-        }
-        out.bottom = bottomEdge;
+//        if (ignoreBottomDecorations) {
+//            Resources res = anchor.getContext().getResources();
+//            int bottomEdge = res.getDisplayMetrics().heightPixels;
+//            bottomDecorations = bottomEdge - out.bottom;
+//            out.bottom = bottomEdge;
+//        }
+        return bottomDecorations;
     }
 
     private void getLocationInWindow(View anchor, @Size(2) int[] out) {

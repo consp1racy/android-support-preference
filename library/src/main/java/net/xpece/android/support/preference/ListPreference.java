@@ -15,6 +15,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.PopupWindow;
 
 import net.xpece.android.support.widget.CheckedItemAdapter;
+import net.xpece.android.support.widget.DropDownAdapter;
 import net.xpece.android.support.widget.XpListPopupWindow;
 
 import java.lang.annotation.Retention;
@@ -62,6 +64,10 @@ public class ListPreference extends DialogPreference {
 
     private boolean mSimpleMenuShowing;
 
+    private boolean mAdjustViewBounds;
+
+    private Context mPopupContext;
+
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
@@ -70,10 +76,18 @@ public class ListPreference extends DialogPreference {
         //noinspection WrongConstant
         this.mMenuMode = a.getInt(R.styleable.ListPreference_asp_menuMode, MENU_MODE_DIALOG);
         this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
+        this.mAdjustViewBounds = a.getBoolean(R.styleable.ListPreference_android_adjustViewBounds, false);
+        final int popupThemeResId = a.getResourceId(R.styleable.ListPreference_popupTheme, 0);
         a.recycle();
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
         a.recycle();
+
+        if (popupThemeResId != 0) {
+            mPopupContext = new ContextThemeWrapper(context, popupThemeResId);
+        } else {
+            mPopupContext = context;
+        }
     }
 
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -118,9 +132,13 @@ public class ListPreference extends DialogPreference {
         }
     }
 
+    public Context getPopupContext() {
+        return mPopupContext;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private boolean showAsPopup(final View anchor, final boolean force) {
-        final Context context = getContext();
+        final Context context = getPopupContext();
 
         final int position = findIndexOfValue(getValue());
 
@@ -128,18 +146,21 @@ public class ListPreference extends DialogPreference {
         final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
         adapter.setSelection(position);
 
+        // Convert getDropDownView to getView.
+        final DropDownAdapter adapter2 = new DropDownAdapter(adapter, context.getTheme());
+
         final XpListPopupWindow popup = new XpListPopupWindow(context, null);
         popup.setModal(true);
         popup.setAnchorView(anchor);
-        popup.setAdapter(adapter);
+        popup.setAdapter(adapter2);
         popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
-        int marginV = Util.dpToPxOffset(context, 16); // TODO outsource
-        popup.setMarginBottom(marginV);
-        popup.setMarginTop(marginV);
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
-        popup.setBoundsView((View) anchor.getParent());
+
+        if (mAdjustViewBounds) {
+            popup.setBoundsView((View) anchor.getParent());
+        }
 
         if (mSimpleMenuPreferredWidthUnit >= 0) {
             popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);

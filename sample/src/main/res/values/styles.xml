@@ -18,8 +18,6 @@
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
 
-        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
-
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
@@ -28,7 +26,14 @@
         <!--<item name="colorPreferenceStyle">-->
         <!--@style/Preference.Material.DialogPreference.ColorPreference-->
         <!--</item>-->
-        <!--<item name="listPopupWindowStyle">@style/Popup</item>-->
+
+        <!--<item name="android:textAppearanceMedium">?textAppearanceListItem</item>-->
+        <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textAppearanceMediumInverse">
+            @style/TextAppearance.AppCompat.Subhead.Inverse
+        </item>
+
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -43,7 +48,11 @@
 
         <item name="android:textColorHighlight">@color/text_highlight_alt</item>
 
-        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
+        <!--<item name="android:textAppearanceMedium">?textAppearanceListItem</item>-->
+        <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textAppearanceMediumInverse">
+            @style/TextAppearance.AppCompat.Subhead.Inverse
+        </item>
     </style>
 
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -53,7 +62,11 @@
 
         <item name="android:textColorHighlight">@color/text_highlight_alt</item>
 
-        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
+        <!--<item name="android:textAppearanceMedium">?textAppearanceListItem</item>-->
+        <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textAppearanceMediumInverse">
+            @style/TextAppearance.AppCompat.Subhead.Inverse
+        </item>
     </style>
 
     <style name="Widget.AppTheme.Toolbar" parent="Widget.AppCompat.Toolbar">

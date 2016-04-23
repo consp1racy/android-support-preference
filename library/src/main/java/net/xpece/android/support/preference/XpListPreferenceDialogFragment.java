@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import net.xpece.android.support.widget.CheckedItemAdapter;
+import net.xpece.android.support.widget.DropDownAdapter;
 
 /**
  * @author Eugen on 28. 12. 2015.
@@ -48,8 +49,12 @@ public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
                 final Context context = builder.getContext();
                 final int layout = R.layout.asp_select_dialog_item;
                 final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, preference.getEntries());
+
+                // Convert getDropDownView to getView.
+                final DropDownAdapter adapter2 = new DropDownAdapter(adapter, context.getTheme());
+
                 adapter.setSelection(this.mClickedDialogEntryIndex);
-                builder.setSingleChoiceItems(adapter, this.mClickedDialogEntryIndex, onClickListener);
+                builder.setSingleChoiceItems(adapter2, this.mClickedDialogEntryIndex, onClickListener);
 
                 builder.setPositiveButton(null, null);
                 builder.setNegativeButton(null, null);

@@ -12,7 +12,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.7.0' // depends on preference-v7 r23.3.0
+    compile 'net.xpece.android:support-preference:0.8.0'
 }
 ```
 
@@ -20,11 +20,19 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.7.0@aar'
+    compile 'net.xpece.android:support-preference-color:0.8.0'
 }
 ```
 
 Version of color preference artifact does not necessarily correspond to version of main library. Version 0.7.x is not compatible with 0.6.x.
+
+## ***NEW!*** How to get just custom Material popup menu and spinner?
+
+```groovy
+dependencies {
+    compile 'net.xpece.android:support-spinner:0.8.0'
+}
+```
 
 ## Screenshots
 
@@ -50,6 +58,8 @@ Library version 0.5.1. Android version 4.4.
 
 ## Contents
 
+### Support preference
+
 - `Preference`
 - `CheckBoxPreference`
 - `SwitchPreference`
@@ -68,15 +78,24 @@ Library version 0.5.1. Android version 4.4.
     - According to http://www.google.com/design/spec/components/dialogs.html#dialogs-confirmation-dialogs
 - `RingtonePreference`
     - Coerced Ringtone Picker Activity from AOSP
-- `ColorPreference`
-    - Pillaged http://www.materialdoc.com/color-picker/
 - `XpPreferenceFragment`
     - Handles proper Preference inflation and DialogPreference dialogs
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
 
+### Support color preference
+
+- `ColorPreference`
+    - Pillaged http://www.materialdoc.com/color-picker/
+    
+### Support spinner
+
+- `XpAppCompatSpinner`
+    - https://www.google.com/design/spec/components/menus.html#menus-behavior
+
 ## Features on top of preference-v7
 
+- Using appcompat-v7 features.
 - Material preference item layouts out of the box.
 - Icon and dialog icon tinting and padding.
 - `EditTextPreference` understands `EditText` XML attributes.
@@ -106,15 +125,19 @@ Your settings activity theme needs to specify the following values:
 <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Used to theme preference list and items. -->
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
-    <!-- Default preference icon tint color. -->
-    <item name="preferenceTint">?colorAccent</item>
 </style>
 ```
 
-Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
+Until version 0.8.0 you also needed to define `preferenceTint` attribute:
+```xml
+<!-- Default preference icon tint color. -->
+<item name="preferenceTint">?colorAccent</item>
+```
 
-Since v0.6.1 disabled color for `preferenceTint` is computed automatically. Prior to this you'd have
-to use custom `ColorStateList` XML resource with disabled state.
+<s>Since v0.6.1 disabled color for `preferenceTint` is computed automatically. Prior to this you'd have
+to use custom `ColorStateList` XML resource with disabled state.</s>
+
+Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
 ### Dividers
 
@@ -148,7 +171,7 @@ Simple menu is described in [Material Design specs](https://www.google.com/desig
 
 If you want to show your `ListPreference` in a popup instead of a dialog use this configuration:
 
-```java
+```xml
 <ListPreference
     style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
 ```
@@ -156,7 +179,7 @@ If you want to show your `ListPreference` in a popup instead of a dialog use thi
 Since v0.5.10: Furthermore you can either force simple menu, force simple dialog or let the system decide.
 In that case simple dialog is picked when any item in the menu wraps to second line.
 
-```java
+```xml
 <ListPreference
     app:asp_menuMode="dialog|simple_menu|simple_dialog|simple_adaptive"/>
 ```
@@ -174,6 +197,44 @@ You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavio
 - `match_parent` or `wrap_content`: Same width as underlying `ListPreference` view.
 - `0dp`: Popup wraps its own content (max width being limited by the width of underlying `ListPreference`).
 - `Xdp`: Popup wraps its own content and expands to the nearest multiple of X (being limited by the width of underlying `ListPreference`).
+
+### Material Spinner
+
+<img src="./docs/device-2016-04-23-203500.gif" align="right" style="margin-left: 1em;"/>
+
+New `XpAppCompatSpinner` widget is built according to
+[Material Design specs](https://www.google.com/design/spec/components/menus.html#menus-behavior).
+
+> Menus are positioned over their emitting elements such that the currently selected menu item appears on top of the emitting element.
+
+Example setup:
+
+```xml
+<net.xpece.android.support.widget.XpAppCompatSpinner
+    style="@style/Widget.Material.Spinner.Underlined"
+    android:theme="ThemeOverlay.Material.Spinner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:entries="@array/my_entries"
+    app:asp_spinnerMode="dialog|dropdown|adaptive"/>
+```
+
+The above setup will ensure the following:
+
+- Popup `ListView` will have top and bottom padding.
+  - Theme overlay applied via `android:theme` directly limits its effects on this widget.
+  - Is not supported by AppCompat or platform popup windows.
+- `Spinner` will have proper space around its caret before API 23.
+  - If using `style="@style/Widget.Material.Spinner.Underlined"` or `style="@style/Widget.Material.Spinner.Underlined"`.
+  
+If you need to alter entries programmatically create by `CheckedItemAdapter.newInstance(Context, CharSequence[], int)`
+or supply your own adapter (responsible for its own styling) to `XpAppCompatSpinner.setAdapter(SpinnerAdapter)`.
+
+Spinner modes:
+
+- `dropdown`: Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
+- `dialog`: Menu is shown in a dialog with no other controls. Selected option is highlighted.
+- `adaptive`: Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
 
 ### Color preference
 
@@ -313,7 +374,20 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**0.7.0**
+**Coming [soon™](http://wowwiki.wikia.com/wiki/Soon)**
+- Ditto.
+
+**0.8.0**
+- *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone library.
+- *FIXED:* Simple menu:
+  - Correct vertical position when using asymmetric top and bottom padding on anchor.
+  - Correct horizontal size when using `setDropDownMaxWidth(MATCH_PARENT)`.
+  - Correct gravity in RTL configurations.
+- Dropping `preferenceTint` attribute. `colorAccent` will be used for icons by default.
+- `ReplaceRoot` subscreen navigation strategy now remembers precise scroll position.
+- UI tweaks.
+
+**0.7.0** *Legacy*
 - `SeekBar*Preference` support `app:asp_min` attribute.
   - Preference stores a value between `app:asp_min` and `android:max`.
 - `SeekBarPreference` supports `app:asp_info` attribute for a short arbitrary text such as numeric value.

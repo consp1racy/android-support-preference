@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="XpListPopupWindow">
+        <attr name="android:layout_marginLeft"/>
+        <attr name="android:layout_marginRight"/>
+        <attr name="android:layout_marginStart"/>
+        <attr name="android:layout_marginEnd"/>
+        <attr name="android:layout_marginTop"/>
+        <attr name="android:layout_marginBottom"/>
+        <attr name="android:layout_margin"/>
+    </declare-styleable>
+
+    <declare-styleable name="XpAppCompatSpinner">
+        <attr name="asp_spinnerMode" format="enum">
+            <enum name="adaptive" value="0"/>
+            <enum name="dialog" value="1"/>
+            <enum name="dropdown" value="2"/>
+        </attr>
+        <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
+            <enum name="match_parent" value="-1"/>
+            <enum name="wrap_content" value="-2"/>
+        </attr>
+    </declare-styleable>
+</resources>

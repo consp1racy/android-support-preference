@@ -12,18 +12,18 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile project(':library')
+    compile "com.android.support:appcompat-v7:$supportLibVersion"
 }
 
 ext {
     PUBLISH_GROUP_ID = publishGroupId
-    PUBLISH_ARTIFACT_ID = 'support-preference-color'
+    PUBLISH_ARTIFACT_ID = 'support-spinner'
     PUBLISH_VERSION = publishVersion
 }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="net.xpece.android.support.preference.sample"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Reading Ringtones on API 11 or 14 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -21,6 +22,15 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SpinnerActivity"
+            android:label="@string/spinner_sample"
+            android:parentActivityName=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.xpece.android.support.preference.sample.SettingsActivity"/>
         </activity>
     </application>
 
