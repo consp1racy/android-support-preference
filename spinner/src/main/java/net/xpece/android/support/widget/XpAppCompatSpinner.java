@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AbstractXpAppCompatSpinner;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -68,8 +70,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             adapter = new DropDownAdapter(adapter, context.getTheme());
         }
 
-        final ListAdapter listAdapter = (ListAdapter) adapter;
-
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int which) {
@@ -115,8 +115,17 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 //        popup.setMarginBottom(marginV);
 //        popup.setMarginTop(marginV);
 
-        popup.setMarginLeft(anchor.getPaddingLeft());
-        popup.setMarginRight(anchor.getPaddingRight());
+//        popup.setMarginLeft(anchor.getPaddingLeft());
+//        popup.setMarginRight(anchor.getPaddingRight());
+
+        View v = adapter.getView(0, null, this);
+        int offsetLeft;
+        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & Gravity.HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
+            offsetLeft = -(v.getPaddingLeft() + getPaddingLeft());
+        } else {
+            offsetLeft = v.getPaddingRight() + getPaddingRight();
+        }
+        popup.setHorizontalOffset(offsetLeft);
 
 //        if (mAdjustViewBounds) {
 //            popup.setBoundsView((View) anchor.getParent());
@@ -128,8 +137,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         } else {
             popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
         }
-//        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
-        popup.setMaxWidth(Integer.MAX_VALUE);
+        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
 
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);

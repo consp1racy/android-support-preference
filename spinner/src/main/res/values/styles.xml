@@ -45,9 +45,13 @@
 
     <style name="Widget.Material.Spinner" parent="@style/Widget.AppCompat.Spinner">
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
+        <item name="android:paddingRight">28dp</item>
     </style>
 
     <style name="Widget.Material.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
+        <item name="android:paddingRight">28dp</item>
     </style>
 </resources>

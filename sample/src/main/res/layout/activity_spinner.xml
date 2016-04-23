@@ -90,13 +90,16 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:paddingLeft="?listPreferredItemPaddingLeft"
-            android:paddingRight="?listPreferredItemPaddingRight">
+            android:paddingRight="?listPreferredItemPaddingRight"
+            android:paddingTop="12dp">
 
             <net.xpece.android.support.widget.XpAppCompatSpinner
-                style="@style/Widget.AppCompat.Spinner.Underlined"
+                style="@style/Widget.Material.Spinner.Underlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/colors_material_names"/>
+                android:entries="@array/pref_notif_content_titles_long"/>
+            <!--android:entries="@array/colors_material_names"-->
+            <!--android:entries="@array/pref_notif_content_titles_long"-->
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -18,7 +18,7 @@
 
         <item name="android:textColorHighlight">@color/text_highlight</item>
 
-        <item name="android:textAppearanceMedium">?textAppearanceListItem</item>
+        <!--<item name="android:textAppearanceMedium">?textAppearanceListItem</item>-->
 
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
@@ -34,6 +34,9 @@
         <item name="android:spinnerItemStyle">@style/Widget.Material.TextView.SpinnerItem</item>
         <item name="spinnerDropDownItemStyle">@style/Widget.Material.DropDownItem.Spinner</item>
         <item name="dropDownListViewStyle">@style/Widget.Material.ListView.DropDown</item>
+
+        <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.AppCompat.Subhead.Inverse</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
