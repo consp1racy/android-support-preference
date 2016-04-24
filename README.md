@@ -90,8 +90,18 @@ Library version 0.5.1. Android version 4.4.
     
 ### Support spinner
 
+Spinner, popup menu and adapters behaving according to Material Design specs. 
+Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
+
 - `XpAppCompatSpinner`
-    - https://www.google.com/design/spec/components/menus.html#menus-behavior
+  - `Spinner` variant that uses simple menu or simple dialog.
+- `XpListPopupWindow`
+  - Popup window that supports minimum distance from edges,
+  multiple size measuring modes, `ListView` padding etc.
+- `CheckedItemAdapter`
+  - `ListAdapter` that highlights one item.
+- `DropDownAdapter`
+  - `ListAdapter` that inflates `SpinnerAdapter.getDropDownView`.
 
 ## Features on top of preference-v7
 
