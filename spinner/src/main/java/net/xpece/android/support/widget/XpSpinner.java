@@ -27,7 +27,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * @author Eugen on 22. 4. 2016.
  */
-public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
+public class XpSpinner extends AbstractXpAppCompatSpinner {
 
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
     @Retention(RetentionPolicy.SOURCE)
@@ -43,24 +43,24 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     private XpListPopupWindow mPopup;
     private AlertDialog.Builder mDialogBuilder;
 
-    public XpAppCompatSpinner(final Context context) {
+    public XpSpinner(final Context context) {
         this(context, null);
     }
 
-    public XpAppCompatSpinner(final Context context, final AttributeSet attrs) {
+    public XpSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public XpAppCompatSpinner(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public XpSpinner(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, 0);
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
-        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpSpinner, defStyleAttr, defStyleRes);
+        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpSpinner_asp_simpleMenuWidthUnit, 0f);
         //noinspection WrongConstant
-        this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
+        this.mSpinnerMode = a.getInt(R.styleable.XpSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
         a.recycle();
     }
 
@@ -82,6 +82,11 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             }
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+
+        final SpinnerAdapter adapter = getAdapter();
+        if (adapter == null || adapter.isEmpty()) {
+            return true;
+        }
 
         switch (mSpinnerMode) {
             case SPINNER_MODE_ADAPTIVE: {
@@ -179,13 +184,15 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         popup.setVerticalOffset(preferredVerticalOffset);
 
         View v = adapter.getView(0, null, this);
-        int preferredHorizontalOffset;
-        if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
-            preferredHorizontalOffset = -(v.getPaddingLeft() + getPaddingLeft());
-        } else {
-            preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
+        if (v != null) {
+            int preferredHorizontalOffset;
+            if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
+                preferredHorizontalOffset = -(v.getPaddingLeft() + getPaddingLeft());
+            } else {
+                preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
+            }
+            popup.setHorizontalOffset(preferredHorizontalOffset);
         }
-        popup.setHorizontalOffset(preferredHorizontalOffset);
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);

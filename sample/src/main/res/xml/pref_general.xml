@@ -39,6 +39,5 @@
             android:title="Icon test"
             app:asp_tintEnabled="true"
             />
-
     </PreferenceScreen>
 </PreferenceScreen>

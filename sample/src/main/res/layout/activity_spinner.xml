@@ -98,7 +98,7 @@
                 android:paddingRight="?listPreferredItemPaddingRight"
                 android:paddingTop="12dp">
 
-                <net.xpece.android.support.widget.XpAppCompatSpinner
+                <net.xpece.android.support.widget.XpSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_width="16dp"
                     android:layout_height="0dp"/>
 
-                <net.xpece.android.support.widget.XpAppCompatSpinner
+                <net.xpece.android.support.widget.XpSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,13 +132,25 @@
                 android:paddingRight="?listPreferredItemPaddingRight"
                 android:paddingTop="12dp">
 
-                <net.xpece.android.support.widget.XpAppCompatSpinner
+                <net.xpece.android.support.widget.XpSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
                     android:layout_marginRight="-4dp"
                     android:entries="@array/pref_sync_frequency_titles"
+                    android:theme="@style/ThemeOverlay.Material.Spinner"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="16dp"
+                    android:layout_height="0dp"/>
+
+                <net.xpece.android.support.widget.XpSpinner
+                    style="@style/Widget.Material.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_marginRight="-4dp"
                     android:theme="@style/ThemeOverlay.Material.Spinner"/>
             </LinearLayout>
         </LinearLayout>
