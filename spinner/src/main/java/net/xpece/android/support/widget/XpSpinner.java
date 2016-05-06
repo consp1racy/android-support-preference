@@ -147,8 +147,8 @@ public class XpSpinner extends AbstractXpAppCompatSpinner {
         final int position = getSelectedItemPosition();
         SpinnerAdapter adapter = getAdapter();
 
-        if (adapter instanceof CheckedItemAdapter) {
-            CheckedItemAdapter a2 = (CheckedItemAdapter) adapter;
+        if (adapter instanceof CheckedTypedItemAdapter) {
+            CheckedTypedItemAdapter a2 = (CheckedTypedItemAdapter) adapter;
             a2.setSelection(position);
         }
 
