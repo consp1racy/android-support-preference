@@ -229,4 +229,25 @@ public class XpSpinner extends AbstractXpAppCompatSpinner {
 
         return true;
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (mPopup != null && mPopup.isShowing()) {
+            mPopup.dismiss();
+        }
+        super.onDetachedFromWindow();
+    }
+
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//
+//        if (mPopup != null && MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.AT_MOST) {
+//            final int measuredWidth = getMeasuredWidth();
+//            setMeasuredDimension(Math.min(Math.max(measuredWidth,
+//                compatMeasureContentWidth(getAdapter(), getBackground())),
+//                MeasureSpec.getSize(widthMeasureSpec)),
+//                getMeasuredHeight());
+//        }
+//    }
 }
