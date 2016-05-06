@@ -13,6 +13,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 ```groovy
 dependencies {
     compile 'net.xpece.android:support-preference:0.8.0'
+    compile 'net.xpece.android:support-spinner:0.8.1'
 }
 ```
 
@@ -30,7 +31,7 @@ Version of color preference artifact does not necessarily correspond to version 
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:0.8.0'
+    compile 'net.xpece.android:support-spinner:0.8.1'
 }
 ```
 
@@ -87,10 +88,10 @@ Library version 0.5.1. Android version 4.4.
 
 - `ColorPreference`
     - Pillaged http://www.materialdoc.com/color-picker/
-    
+
 ### Support spinner
 
-Spinner, popup menu and adapters behaving according to Material Design specs. 
+Spinner, popup menu and adapters behaving according to Material Design specs.
 Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 
 - `XpAppCompatSpinner`
@@ -236,7 +237,7 @@ The above setup will ensure the following:
   - Is not supported by AppCompat or platform popup windows.
 - `Spinner` will have proper space around its caret before API 23.
   - If using `style="@style/Widget.Material.Spinner"` or `style="@style/Widget.Material.Spinner.Underlined"`.
-  
+
 If you need to alter entries programmatically create by `CheckedItemAdapter.newInstance(Context, CharSequence[], int)`
 or supply your own adapter (responsible for its own styling) to `XpAppCompatSpinner.setAdapter(SpinnerAdapter)`.
 
@@ -403,7 +404,7 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 - Why are some of your classes in `android.support.v7` packages?
     - I'm using their package private features to achieve consistent results.
-    
+
 ## TODO
 
 - Compute simple menu preferred position with prompt enabled.

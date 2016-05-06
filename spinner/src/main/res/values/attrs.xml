@@ -11,7 +11,7 @@
         <attr name="android:layout_margin"/>
     </declare-styleable>
 
-    <declare-styleable name="XpSpinner">
+    <declare-styleable name="XpAppCompatSpinner">
         <attr name="asp_spinnerMode" format="enum">
             <enum name="adaptive" value="0"/>
             <enum name="dialog" value="1"/>

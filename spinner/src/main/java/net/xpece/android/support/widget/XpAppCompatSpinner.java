@@ -27,7 +27,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * @author Eugen on 22. 4. 2016.
  */
-public class XpSpinner extends AbstractXpAppCompatSpinner {
+public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
     @Retention(RetentionPolicy.SOURCE)
@@ -43,24 +43,24 @@ public class XpSpinner extends AbstractXpAppCompatSpinner {
     private XpListPopupWindow mPopup;
     private AlertDialog.Builder mDialogBuilder;
 
-    public XpSpinner(final Context context) {
+    public XpAppCompatSpinner(final Context context) {
         this(context, null);
     }
 
-    public XpSpinner(final Context context, final AttributeSet attrs) {
+    public XpAppCompatSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public XpSpinner(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public XpAppCompatSpinner(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, 0);
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpSpinner, defStyleAttr, defStyleRes);
-        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpSpinner_asp_simpleMenuWidthUnit, 0f);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
+        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
         //noinspection WrongConstant
-        this.mSpinnerMode = a.getInt(R.styleable.XpSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
+        this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
         a.recycle();
     }
 

@@ -27,5 +27,5 @@ ext {
     targetSdkVersion = 23
 
     publishGroupId = "net.xpece.android"
-    publishVersion = "0.8.0"
+    publishVersion = "0.8.1"
 }

@@ -98,7 +98,7 @@
                 android:paddingRight="?listPreferredItemPaddingRight"
                 android:paddingTop="12dp">
 
-                <net.xpece.android.support.widget.XpSpinner
+                <net.xpece.android.support.widget.XpAppCompatSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_width="16dp"
                     android:layout_height="0dp"/>
 
-                <net.xpece.android.support.widget.XpSpinner
+                <net.xpece.android.support.widget.XpAppCompatSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 android:paddingRight="?listPreferredItemPaddingRight"
                 android:paddingTop="12dp">
 
-                <net.xpece.android.support.widget.XpSpinner
+                <net.xpece.android.support.widget.XpAppCompatSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                     android:layout_width="16dp"
                     android:layout_height="0dp"/>
 
-                <net.xpece.android.support.widget.XpSpinner
+                <net.xpece.android.support.widget.XpAppCompatSpinner
                     style="@style/Widget.Material.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

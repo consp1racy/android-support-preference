@@ -1,5 +1,11 @@
 # Change log
 
+**0.8.1**
+- `support-spinner` only release.
+- Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.
+- *FIXED:* No more crashes when using empty adapter.
+- *FIXED:* Spinner no longer leaks popup window.
+
 **0.8.0**
 - *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone library.
 - *FIXED:* Simple menu:
