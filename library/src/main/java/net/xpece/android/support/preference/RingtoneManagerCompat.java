@@ -73,7 +73,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         return null;
     }
 
-    private Cursor getInternalRingtonesInternal() {
+    Cursor getInternalRingtonesInternal() {
         try {
             return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         return null;
     }
 
-    private Cursor getMediaRingtonesInternal() {
+    Cursor getMediaRingtonesInternal() {
         try {
             return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(this);
         } catch (Exception e) {
@@ -137,11 +137,11 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         return mImpl.getMediaRingtones();
     }
 
-    private interface RingtoneManagerImpl {
+    interface RingtoneManagerImpl {
         Cursor getMediaRingtones();
     }
 
-    private class RingtoneManagerImplBase implements RingtoneManagerImpl {
+    class RingtoneManagerImplBase implements RingtoneManagerImpl {
         @Override
         public Cursor getMediaRingtones() {
             if (PackageManager.PERMISSION_GRANTED != mContext.checkPermission(
@@ -154,7 +154,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         }
     }
 
-    private class RingtoneManagerImplV23 implements RingtoneManagerImpl {
+    class RingtoneManagerImplV23 extends RingtoneManagerImplBase {
         @Override
         public Cursor getMediaRingtones() {
             return getMediaRingtonesInternal();
