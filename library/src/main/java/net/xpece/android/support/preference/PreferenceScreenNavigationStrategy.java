@@ -190,10 +190,12 @@ public abstract class PreferenceScreenNavigationStrategy {
             if (forward) {
                 String key = mFragment.getPreferenceScreen().getKey();
                 RecyclerView list = mFragment.getListView();
-                final View firstChild = list.getChildAt(0);
-                int position = list.getChildAdapterPosition(firstChild);
-                int offset = firstChild.getTop();
-                mScrollPositions.put(key, new Tuple<>(position, offset));
+                if (list != null) {
+                    final View firstChild = list.getChildAt(0);
+                    int position = list.getChildAdapterPosition(firstChild);
+                    int offset = firstChild.getTop();
+                    mScrollPositions.put(key, new Tuple<>(position, offset));
+                }
             }
 
             mFragment.setPreferenceScreen(preference);
@@ -215,6 +217,8 @@ public abstract class PreferenceScreenNavigationStrategy {
 
         protected void onRestoreScrollPosition(final int position, final int offset) {
             final RecyclerView list = mFragment.getListView();
+            if (list == null) return;
+
             if (list.getLayoutManager() instanceof LinearLayoutManager) {
                 LinearLayoutManager layout = (LinearLayoutManager) list.getLayoutManager();
                 layout.scrollToPositionWithOffset(position, offset);
@@ -244,7 +248,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          */
         public void onPreferenceScreenClick(PreferenceScreen preference) {
             mStack.push(preference.getKey()); // Store new screen key.
-            navigateToPreferenceScreen(preference, true);
+                navigateToPreferenceScreen(preference, true);
         }
 
         /**
