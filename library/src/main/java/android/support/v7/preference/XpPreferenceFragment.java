@@ -3,6 +3,7 @@ package android.support.v7.preference;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
 import net.xpece.android.support.preference.EditTextPreference;
@@ -130,5 +131,10 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     @Override
     protected RecyclerView.Adapter onCreateAdapter(final PreferenceScreen preferenceScreen) {
         return new XpPreferenceGroupAdapter(preferenceScreen);
+    }
+
+    @Override
+    public Fragment getCallbackFragment() {
+        return this;
     }
 }
