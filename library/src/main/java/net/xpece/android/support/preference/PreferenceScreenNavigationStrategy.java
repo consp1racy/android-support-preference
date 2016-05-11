@@ -192,9 +192,11 @@ public abstract class PreferenceScreenNavigationStrategy {
                 RecyclerView list = mFragment.getListView();
                 if (list != null) {
                     final View firstChild = list.getChildAt(0);
-                    int position = list.getChildAdapterPosition(firstChild);
-                    int offset = firstChild.getTop();
-                    mScrollPositions.put(key, new Tuple<>(position, offset));
+                    if (firstChild != null) {
+                        int position = list.getChildAdapterPosition(firstChild);
+                        int offset = firstChild.getTop();
+                        mScrollPositions.put(key, new Tuple<>(position, offset));
+                    }
                 }
             }
 
