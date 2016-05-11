@@ -97,4 +97,8 @@
         <attr name="android:max"/>
     </declare-styleable>
 
+    <declare-styleable name="EditTextPreference">
+        <attr name="asp_editTextLayout" format="reference"/>
+    </declare-styleable>
+
 </resources>

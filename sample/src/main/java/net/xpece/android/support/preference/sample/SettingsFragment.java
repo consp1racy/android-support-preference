@@ -1,11 +1,15 @@
 package net.xpece.android.support.preference.sample;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
@@ -13,9 +17,11 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 
 import net.xpece.android.support.preference.ColorPreference;
+import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.PreferenceCategory;
@@ -185,6 +191,17 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Use with ReplaceFragment strategy.
         PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
+
+        ((EditTextPreference)findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
+            @Override
+            public void onEditTextCreated(EditText edit) {
+                Context context = edit.getContext();
+                Drawable d = ContextCompat.getDrawable(context, R.drawable.ic_create_black_24dp);
+                d = DrawableCompat.wrap(d);
+                DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(edit, null, null, d, null);
+            }
+        });
     }
 
     @Override

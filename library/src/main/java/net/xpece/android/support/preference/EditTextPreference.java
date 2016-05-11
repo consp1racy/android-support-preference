@@ -20,9 +20,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 
 /**
@@ -34,7 +37,9 @@ public class EditTextPreference extends DialogPreference {
 
     private String mText;
 
-    private AttributeSet mAttrs;
+    @LayoutRes private int mEditTextLayout;
+
+    private OnEditTextCreatedListener mOnEditTextCreatedListener;
 
     public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -54,28 +59,60 @@ public class EditTextPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        createEditText(context, attrs);
-        mAttrs = attrs;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPreference, defStyleAttr, defStyleRes);
+        mEditTextLayout = a.getResourceId(R.styleable.EditTextPreference_asp_editTextLayout, 0);
+        a.recycle();
+    }
+
+    public OnEditTextCreatedListener getOnEditTextCreatedListener() {
+        return mOnEditTextCreatedListener;
+    }
+
+    public void setOnEditTextCreatedListener(OnEditTextCreatedListener onEditTextCreatedListener) {
+        mOnEditTextCreatedListener = onEditTextCreatedListener;
+    }
+
+    public int getEditTextLayout() {
+        return mEditTextLayout;
+    }
+
+    public void setEditTextLayout(int editTextLayout) {
+        mEditTextLayout = editTextLayout;
     }
 
     /**
-     * Will use supplied context and stored attribute set to create a new edit text widget.
+     * Creates a new edit text widget based on supplied context. If {@link OnEditTextCreatedListener}
+     * is set it will be invoked.
+     *
      * @param context
      * @return
      */
     public EditText createEditText(Context context) {
-        EditText editText = new AppCompatEditText(context, mAttrs);
+        EditText editText;
+
+        if (mEditTextLayout == 0) {
+            editText = new AppCompatEditText(context);
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(mEditTextLayout, null, false);
+            if (view instanceof EditText) {
+                editText = (EditText) view;
+            } else {
+                try {
+                    editText = (EditText) view.findViewById(android.R.id.edit);
+                    editText.getClass();
+                } catch (Exception ex) {
+                    throw new IllegalArgumentException("EditTextPreference asp_editTextLayout has no EditText with ID android.R.id.edit.");
+                }
+            }
+        }
+
+        if (mOnEditTextCreatedListener != null) {
+            mOnEditTextCreatedListener.onEditTextCreated(editText);
+        }
 
         // Give it an ID so it can be saved/restored
         editText.setId(android.R.id.edit);
-
-        /*
-         * The preference framework and view framework both have an 'enabled'
-         * attribute. Most likely, the 'enabled' specified in this XML is for
-         * the preference framework, but it was also given to the view framework.
-         * We reset the enabled state.
-         */
-        editText.setEnabled(true);
 
         return editText;
     }
@@ -153,5 +190,9 @@ public class EditTextPreference extends DialogPreference {
         public SavedState(Parcelable superState) {
             super(superState);
         }
+    }
+
+    public interface OnEditTextCreatedListener {
+        void onEditTextCreated(EditText edit);
     }
 }

@@ -11,14 +11,10 @@
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
     <EditTextPreference
-        android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
-        android:inputType="textCapWords"
         android:key="example_text"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_name"/>
+        android:title="@string/pref_title_display_name"
+        app:asp_editTextLayout="@layout/prefs_edit_example_text"/>
 
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <MultiSelectListPreference
