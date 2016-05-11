@@ -72,14 +72,6 @@ public class EditTextPreference extends DialogPreference {
         mOnEditTextCreatedListener = onEditTextCreatedListener;
     }
 
-    public int getEditTextLayout() {
-        return mEditTextLayout;
-    }
-
-    public void setEditTextLayout(int editTextLayout) {
-        mEditTextLayout = editTextLayout;
-    }
-
     /**
      * Creates a new edit text widget based on supplied context. If {@link OnEditTextCreatedListener}
      * is set it will be invoked.

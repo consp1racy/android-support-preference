@@ -33,6 +33,9 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
 
         EditText editText = mEditText;
         if (editText == null) {
+            editText = (EditText) view.findViewById(android.R.id.edit);
+        }
+        if (editText == null) {
             EditTextPreference preference = this.getEditTextPreference();
             editText = preference.createEditText(context);
         }

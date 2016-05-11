@@ -200,6 +200,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
                 d = DrawableCompat.wrap(d);
                 DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
                 TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(edit, null, null, d, null);
+
+//                edit.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+//                edit.setSingleLine(true);
+//                edit.setSelectAllOnFocus(true);
             }
         });
     }
