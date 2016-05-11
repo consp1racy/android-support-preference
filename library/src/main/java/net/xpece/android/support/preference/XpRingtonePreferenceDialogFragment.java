@@ -1,8 +1,10 @@
 package net.xpece.android.support.preference;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -30,6 +32,10 @@ import java.util.ArrayList;
  */
 public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragment
     implements Runnable, AdapterView.OnItemSelectedListener {
+
+    private static int RC_FALLBACK_RINGTONE_PICKER = 0xff00; // <0; 0xffff>
+
+    private static String KEY_FALLBACK_RINGTONE_PICKER = BuildConfig.APPLICATION_ID + ".FALLBACK_RINGTONE_PICKER";
 
     private static final int POS_UNKNOWN = -1;
 
@@ -122,9 +128,90 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         // Give the Activity so it can do managed queries
         mRingtoneManager = new RingtoneManagerCompat(getActivity());
 
+        final boolean fallbackRingtonePicker;
         if (savedInstanceState != null) {
             mClickedPos = savedInstanceState.getInt(SAVE_CLICKED_POS, POS_UNKNOWN);
+            fallbackRingtonePicker = savedInstanceState.getBoolean(KEY_FALLBACK_RINGTONE_PICKER);
+        } else {
+            fallbackRingtonePicker = false;
         }
+
+        if (fallbackRingtonePicker) {
+            setShowsDialog(false);
+        } else {
+            RingtonePreference preference = getRingtonePreference();
+
+        /*
+         * Get whether to show the 'Default' item, and the URI to play when the
+         * default is clicked
+         */
+            mHasDefaultItem = preference.getShowDefault();
+            mUriForDefaultItem = RingtoneManager.getDefaultUri(preference.getRingtoneType());
+
+            // Get whether to show the 'Silent' item
+            mHasSilentItem = preference.getShowSilent();
+
+            // Get the types of ringtones to show
+            mType = preference.getRingtoneType();
+            if (mType != -1) {
+                mRingtoneManager.setType(mType);
+            }
+
+            // Get the URI whose list item should have a checkmark
+            mExistingUri = preference.onRestoreRingtone();
+
+            mCursor = mRingtoneManager.getCursor();
+
+            try {
+                // Check if cursor is valid.
+                mCursor.getColumnNames();
+            } catch (IllegalStateException ex) {
+                ex.printStackTrace();
+                mCursor = null;
+                try {
+                    // Alternatively try starting system picker.
+                    Intent i = buildRingtonePickerIntent(preference);
+                    startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
+                    setShowsDialog(false);
+                } catch (Exception ex2) {
+                    ex2.printStackTrace();
+                    // If everything fails show empty list.
+                }
+            }
+        }
+    }
+
+    @NonNull
+    private Intent buildRingtonePickerIntent(RingtonePreference pref) {
+        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, mExistingUri);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, mUriForDefaultItem);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, mHasDefaultItem);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, mHasSilentItem);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, mType);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getDialogTitle(pref));
+        return i;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_FALLBACK_RINGTONE_PICKER) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                onRingtoneSelected(uri);
+            }
+            dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+//        if (mCursor != null) {
+//            mCursor.close();
+//            mCursor = null;
+//        }
+        super.onDestroy();
     }
 
     @Override
@@ -133,44 +220,10 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
         RingtonePreference preference = getRingtonePreference();
 
-        /*
-         * Get whether to show the 'Default' item, and the URI to play when the
-         * default is clicked
-         */
-        mHasDefaultItem = preference.getShowDefault();
-        mUriForDefaultItem = RingtoneManager.getDefaultUri(preference.getRingtoneType());
-
-        // Get whether to show the 'Silent' item
-        mHasSilentItem = preference.getShowSilent();
-
-        // Get the types of ringtones to show
-        mType = preference.getRingtoneType();
-        if (mType != -1) {
-            mRingtoneManager.setType(mType);
-        }
-
-        mCursor = mRingtoneManager.getCursor();
-
-        try {
-            mCursor.getColumnNames();
-        } catch (IllegalStateException ex) {
-            ex.printStackTrace();
-            mCursor = null;
-        }
-
         // The volume keys will control the stream that we are choosing a ringtone for
         getActivity().setVolumeControlStream(mRingtoneManager.inferStreamType());
 
-        // Get the URI whose list item should have a checkmark
-        mExistingUri = preference.onRestoreRingtone();
-
-        CharSequence title = preference.getDialogTitle();
-        if (TextUtils.isEmpty(title)) {
-            title = preference.getTitle();
-        }
-        if (TextUtils.isEmpty(title)) {
-            title = getRingtonePickerTitleString(getContext());
-        }
+        CharSequence title = getDialogTitle(preference);
         builder.setTitle(title);
 
         final Context context = builder.getContext();
@@ -207,9 +260,19 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         // Put a checkmark next to an item.
         builder.setSingleChoiceItems(adapter, mClickedPos, mRingtoneClickListener);
 
-//        builder.setSingleChoiceItems(mCursor, mClickedPos, MediaStore.Audio.Media.TITLE, this);
-
         builder.setOnItemSelectedListener(this);
+    }
+
+    @NonNull
+    private CharSequence getDialogTitle(RingtonePreference preference) {
+        CharSequence title = preference.getDialogTitle();
+        if (TextUtils.isEmpty(title)) {
+            title = preference.getTitle();
+        }
+        if (TextUtils.isEmpty(title)) {
+            title = getRingtonePickerTitleString(getContext());
+        }
+        return title;
     }
 
     /**
@@ -286,6 +349,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_CLICKED_POS, mClickedPos);
+        outState.putBoolean(KEY_FALLBACK_RINGTONE_PICKER, !getShowsDialog());
     }
 
     public RingtonePreference getRingtonePreference() {
@@ -316,12 +380,16 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 uri = mRingtoneManager.getRingtoneUri(getRingtoneManagerPosition(mClickedPos));
             }
 
-            RingtonePreference preference = getRingtonePreference();
-            if (preference.callChangeListener(uri != null ? uri.toString() : "")) {
-                preference.onSaveRingtone(uri);
-            }
+            onRingtoneSelected(uri);
         }
 
+    }
+
+    private void onRingtoneSelected(Uri uri) {
+        RingtonePreference preference = getRingtonePreference();
+        if (preference.callChangeListener(uri != null ? uri.toString() : "")) {
+            preference.onSaveRingtone(uri);
+        }
     }
 
     private void playRingtone(int position, int delayMs) {

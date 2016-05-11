@@ -26,12 +26,11 @@ import android.util.Log;
  * A variant of MergeCursor that sorts the cursors being merged. If decent
  * performance is ever obtained, it can be put back under android.database.
  */
-final class SortCursor extends AbstractCursor
-{
+final class SortCursor extends AbstractCursor {
     private static final String TAG = "SortCursor";
     private Cursor mCursor; // updated in onMove
     private Cursor[] mCursors;
-    private int [] mSortColumns;
+    private int[] mSortColumns;
     private final int ROWCACHESIZE = 64;
     private int mRowNumCache[] = new int[ROWCACHESIZE];
     private int mCursorCache[] = new int[ROWCACHESIZE];
@@ -53,13 +52,12 @@ final class SortCursor extends AbstractCursor
         }
     };
 
-    public SortCursor(Cursor[] cursors, String sortcolumn)
-    {
+    public SortCursor(Cursor[] cursors, String sortcolumn) {
         mCursors = cursors;
 
         int length = mCursors.length;
         mSortColumns = new int[length];
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] == null) continue;
 
             // Register ourself as a data set observer
@@ -72,7 +70,7 @@ final class SortCursor extends AbstractCursor
         }
         mCursor = null;
         String smallest = "";
-        for (int j = 0 ; j < length; j++) {
+        for (int j = 0; j < length; j++) {
             if (mCursors[j] == null || mCursors[j].isAfterLast())
                 continue;
             String current = mCursors[j].getString(mSortColumns[j]);
@@ -89,11 +87,10 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         int count = 0;
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] != null) {
                 count += mCursors[i].getCount();
             }
@@ -102,8 +99,7 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public boolean onMove(int oldPosition, int newPosition)
-    {
+    public boolean onMove(int oldPosition, int newPosition) {
         if (oldPosition == newPosition)
             return true;
 
@@ -140,7 +136,7 @@ final class SortCursor extends AbstractCursor
         }
 
         if (newPosition < oldPosition || oldPosition == -1) {
-            for (int i = 0 ; i < length; i++) {
+            for (int i = 0; i < length; i++) {
                 if (mCursors[i] == null) continue;
                 mCursors[i].moveToFirst();
             }
@@ -152,10 +148,10 @@ final class SortCursor extends AbstractCursor
 
         // search forward to the new position
         int smallestIdx = -1;
-        for(int i = oldPosition; i <= newPosition; i++) {
+        for (int i = oldPosition; i <= newPosition; i++) {
             String smallest = "";
             smallestIdx = -1;
-            for (int j = 0 ; j < length; j++) {
+            for (int j = 0; j < length; j++) {
                 if (mCursors[j] == null || mCursors[j].isAfterLast()) {
                     continue;
                 }
@@ -183,38 +179,32 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public String getString(int column)
-    {
+    public String getString(int column) {
         return mCursor.getString(column);
     }
 
     @Override
-    public short getShort(int column)
-    {
+    public short getShort(int column) {
         return mCursor.getShort(column);
     }
 
     @Override
-    public int getInt(int column)
-    {
+    public int getInt(int column) {
         return mCursor.getInt(column);
     }
 
     @Override
-    public long getLong(int column)
-    {
+    public long getLong(int column) {
         return mCursor.getLong(column);
     }
 
     @Override
-    public float getFloat(int column)
-    {
+    public float getFloat(int column) {
         return mCursor.getFloat(column);
     }
 
     @Override
-    public double getDouble(int column)
-    {
+    public double getDouble(int column) {
         return mCursor.getDouble(column);
     }
 
@@ -225,27 +215,24 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public boolean isNull(int column)
-    {
+    public boolean isNull(int column) {
         return mCursor.isNull(column);
     }
 
     @Override
-    public byte[] getBlob(int column)
-    {
+    public byte[] getBlob(int column) {
         return mCursor.getBlob(column);
     }
 
     @Override
-    public String[] getColumnNames()
-    {
+    public String[] getColumnNames() {
         if (mCursor != null) {
             return mCursor.getColumnNames();
         } else {
             // All of the cursors may be empty, but they can still return
             // this information.
             int length = mCursors.length;
-            for (int i = 0 ; i < length ; i++) {
+            for (int i = 0; i < length; i++) {
                 if (mCursors[i] != null) {
                     return mCursors[i].getColumnNames();
                 }
@@ -255,10 +242,9 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public void deactivate()
-    {
+    public void deactivate() {
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] == null) continue;
             mCursors[i].deactivate();
         }
@@ -267,7 +253,7 @@ final class SortCursor extends AbstractCursor
     @Override
     public void close() {
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] == null) continue;
             mCursors[i].close();
         }
@@ -276,7 +262,7 @@ final class SortCursor extends AbstractCursor
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] != null) {
                 mCursors[i].registerDataSetObserver(observer);
             }
@@ -286,7 +272,7 @@ final class SortCursor extends AbstractCursor
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] != null) {
                 mCursors[i].unregisterDataSetObserver(observer);
             }
@@ -294,10 +280,9 @@ final class SortCursor extends AbstractCursor
     }
 
     @Override
-    public boolean requery()
-    {
+    public boolean requery() {
         int length = mCursors.length;
-        for (int i = 0 ; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             if (mCursors[i] == null) continue;
 
             if (mCursors[i].requery() == false) {
