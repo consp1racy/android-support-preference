@@ -120,7 +120,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         mHandler = new Handler();
 
         // Give the Activity so it can do managed queries
-        mRingtoneManager = new RingtoneManagerCompat(getContext().getApplicationContext());
+        mRingtoneManager = new RingtoneManagerCompat(getActivity());
 
         if (savedInstanceState != null) {
             mClickedPos = savedInstanceState.getInt(SAVE_CLICKED_POS, POS_UNKNOWN);
@@ -150,6 +150,13 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
 
         mCursor = mRingtoneManager.getCursor();
+
+        try {
+            mCursor.getColumnNames();
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+            mCursor = null;
+        }
 
         // The volume keys will control the stream that we are choosing a ringtone for
         getActivity().setVolumeControlStream(mRingtoneManager.inferStreamType());
@@ -193,7 +200,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
 
         SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(getContext(), singleChoiceItemLayout, mCursor,
-            new String[] { MediaStore.Audio.Media.TITLE }, new int[] { android.R.id.text1 });
+            new String[]{MediaStore.Audio.Media.TITLE}, new int[]{android.R.id.text1});
 
         XpHeaderViewListAdapter adapter = new XpHeaderViewListAdapter(mStaticItems, null, ringtoneAdapter);
 
@@ -221,7 +228,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         item.isSelectable = true;
 
         mStaticItems.add(item);
-        return mStaticItems.size()-1;
+        return mStaticItems.size() - 1;
     }
 
     private int addDefaultRingtoneItem(LayoutInflater inflater, @LayoutRes int layout) {
