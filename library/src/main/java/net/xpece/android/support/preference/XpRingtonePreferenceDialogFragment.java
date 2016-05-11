@@ -37,8 +37,6 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     private static String KEY_FALLBACK_RINGTONE_PICKER = BuildConfig.APPLICATION_ID + ".FALLBACK_RINGTONE_PICKER";
 
-    private boolean mPendingDismiss = false;
-
     private static final int POS_UNKNOWN = -1;
 
     private static final int DELAY_MS_SELECTION_PLAYED = 300;
@@ -203,21 +201,12 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
                 onRingtoneSelected(uri);
             }
-            mPendingDismiss = true;
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mPendingDismiss) {
             dismiss();
         }
     }
 
     @Override
     public void onDestroy() {
-        // Cursor is managed by activity.
 //        if (mCursor != null) {
 //            mCursor.close();
 //            mCursor = null;
