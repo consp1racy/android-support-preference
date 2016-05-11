@@ -161,6 +161,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         bindPreferenceSummaryToValue(findPreference("notif_content"));
         bindPreferenceSummaryToValue(findPreference("notif_color"));
 
+        // Setup SeekBarPreference "info" text field.
         final SeekBarPreference volume2 = (SeekBarPreference) findPreference("notifications_new_message_volume2");
         volume2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -179,6 +180,23 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             }
         });
 
+        // Setup EditTextPreference input field.
+        ((EditTextPreference)findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
+            @Override
+            public void onEditTextCreated(EditText edit) {
+                Context context = edit.getContext();
+                Drawable d = ContextCompat.getDrawable(context, R.drawable.ic_create_black_24dp);
+                d = DrawableCompat.wrap(d);
+                DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
+                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(edit, null, null, d, null);
+
+                // These are inflated from XML. Undocumented API.
+//                edit.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+//                edit.setSingleLine(true);
+//                edit.setSelectAllOnFocus(true);
+            }
+        });
+
         // Setup root preference title.
 //        getPreferenceScreen().setTitle(R.string.app_name);
         getPreferenceScreen().setTitle(getActivity().getTitle());
@@ -191,21 +209,6 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // Use with ReplaceFragment strategy.
         PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
-
-        ((EditTextPreference)findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
-            @Override
-            public void onEditTextCreated(EditText edit) {
-                Context context = edit.getContext();
-                Drawable d = ContextCompat.getDrawable(context, R.drawable.ic_create_black_24dp);
-                d = DrawableCompat.wrap(d);
-                DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
-                TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(edit, null, null, d, null);
-
-//                edit.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-//                edit.setSingleLine(true);
-//                edit.setSelectAllOnFocus(true);
-            }
-        });
     }
 
     @Override
