@@ -1,12 +1,21 @@
 # Change log
 
 **0.8.1**
-- `support-spinner` only release.
-- Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.
-- *FIXED:* No more crashes when using empty adapter.
-- *FIXED:* Spinner no longer leaks popup window.
+- (2016-05-06) `support-spinner` only release.
+  - Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.
+  - *FIXED:* No more crashes when using empty adapter.
+  - *FIXED:* Spinner no longer leaks popup window.
+- (2016-05-11) `support-preference` only release.
+  - Fixed crash in `RingtonePreference`.
+    - If ringtones cannot be queried the preference tries to open system ringtone picker.
+    - If system ringtone picker fails to open only "Silent" and "Default" options are shown if enabled.
+  - Fixed crash in `EditTextPreference`.
+    - `EditText` attributes are no longer passed on from `EditTextPreference` XML.
+    - Use `EditTextPreference.setOnEditTextCreatedListener(OnEditTextCreatedListener)` for setup.
+  - Fixed crash in `PreferenceScreenNavigationStrategy.ReplaceRoot`.
+    - `onPreferenceScreenClick` can now be called before `onCreateView`. 
 
-**0.8.0**
+**0.8.0** *Deprecated*
 - *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone library.
 - *FIXED:* Simple menu:
   - Correct vertical position when using asymmetric top and bottom padding on anchor.
@@ -16,7 +25,7 @@
 - `ReplaceRoot` subscreen navigation strategy now remembers precise scroll position.
 - UI tweaks.
 
-**0.7.0** *Legacy*
+**0.7.0** *Deprecated*
 - `SeekBar*Preference` support `app:asp_min` attribute.
   - Preference stores a value between `app:asp_min` and `android:max`.
 - `SeekBarPreference` supports `app:asp_info` attribute for a short arbitrary text such as numeric value.

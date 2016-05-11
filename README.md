@@ -12,8 +12,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.8.0'
-    compile 'net.xpece.android:support-spinner:0.8.1'
+    compile 'net.xpece.android:support-preference:0.8.1'
 }
 ```
 
@@ -99,17 +98,18 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - `XpListPopupWindow`
   - Popup window that supports minimum distance from edges,
   multiple size measuring modes, `ListView` padding etc.
-- `CheckedItemAdapter`
-  - `ListAdapter` that highlights one item.
-- `DropDownAdapter`
-  - `ListAdapter` that inflates `SpinnerAdapter.getDropDownView`.
+- `CheckedTypedItemAdapter<T>`
+  - `ListAdapter` plus `SpinnerAdapter` that highlights one item.
+  - Open methods for converting `T` to `CharSequence`.
+  - Allows different string representations for selected spinner item and drop down menu.
 
 ## Features on top of preference-v7
 
 - Using appcompat-v7 features.
 - Material preference item layouts out of the box.
 - Icon and dialog icon tinting and padding.
-- `EditTextPreference` understands `EditText` XML attributes.
+- <s>`EditTextPreference` understands `EditText` XML attributes.</s>
+  - Use `EditTextPreference.setOnCreateEditTextListener(OnCreateEditTextListener)` to setup your input field.
 - Several preference widgets not publicly available in preference-v7 or SDK.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Subscreen navigation implementation.
@@ -397,8 +397,6 @@ See [CHANGELOG.md](CHANGELOG.md).
   - This is hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
-- SeekBarPreference's SeekBar may appear in disabled state until clicked on Android 2.
-  - This is hotfixed in v0.7.0 by manually refreshing each of `SeekBar` drawables upon entering screen. This does not affect seek bars outside `SeekBarPreference`.
 
 ## Questions
 
