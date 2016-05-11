@@ -18,13 +18,14 @@ import java.lang.reflect.Method;
  * Created by Eugen on 14.12.2015.
  */
 public final class RingtoneManagerCompat extends RingtoneManager {
-    private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
+    static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 
     private static final Field FIELD_CURSOR;
     private static final Method METHOD_GET_INTERNAL_RINGTONES;
     private static final Method METHOD_GET_MEDIA_RINGTONES;
 
-    private final RingtoneManagerImpl mImpl;
+    private static final RingtoneManagerImpl sImpl;
+
     private final Context mContext;
 
     static {
@@ -54,6 +55,12 @@ public final class RingtoneManagerCompat extends RingtoneManager {
             e.printStackTrace();
         }
         METHOD_GET_MEDIA_RINGTONES = getMediaRingtones;
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            sImpl = new RingtoneManagerImplV23();
+        } else {
+            sImpl = new RingtoneManagerImplBase();
+        }
     }
 
     private void setCursorInternal(Cursor cursor) {
@@ -73,18 +80,18 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         return null;
     }
 
-    Cursor getInternalRingtonesInternal() {
+    static Cursor getInternalRingtonesInternal(RingtoneManager rm) {
         try {
-            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
+            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(rm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    Cursor getMediaRingtonesInternal() {
+    static Cursor getMediaRingtonesInternal(RingtoneManager rm) {
         try {
-            return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(this);
+            return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(rm);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,24 +100,12 @@ public final class RingtoneManagerCompat extends RingtoneManager {
 
     public RingtoneManagerCompat(Activity activity) {
         super(activity);
-
         mContext = activity;
-        if (Build.VERSION.SDK_INT >= 23) {
-            mImpl = new RingtoneManagerImplV23();
-        } else {
-            mImpl = new RingtoneManagerImplBase();
-        }
     }
 
     public RingtoneManagerCompat(Context context) {
         super(context);
-
         mContext = context;
-        if (Build.VERSION.SDK_INT >= 23) {
-            mImpl = new RingtoneManagerImplV23();
-        } else {
-            mImpl = new RingtoneManagerImplBase();
-        }
     }
 
     @Override
@@ -130,34 +125,34 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     }
 
     private Cursor getInternalRingtones() {
-        return getInternalRingtonesInternal();
+        return getInternalRingtonesInternal(this);
     }
 
     private Cursor getMediaRingtones() {
-        return mImpl.getMediaRingtones();
+        return sImpl.getMediaRingtones(mContext, this);
     }
 
     interface RingtoneManagerImpl {
-        Cursor getMediaRingtones();
+        Cursor getMediaRingtones(Context context, RingtoneManager rm);
     }
 
-    class RingtoneManagerImplBase implements RingtoneManagerImpl {
+    static class RingtoneManagerImplBase implements RingtoneManagerImpl {
         @Override
-        public Cursor getMediaRingtones() {
-            if (PackageManager.PERMISSION_GRANTED != mContext.checkPermission(
+        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
+            if (PackageManager.PERMISSION_GRANTED != context.checkPermission(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Process.myPid(), Process.myUid())) {
                 Log.w(TAG, "No READ_EXTERNAL_STORAGE permission, ignoring ringtones on ext storage");
                 return null;
             }
-            return getMediaRingtonesInternal();
+            return getMediaRingtonesInternal(rm);
         }
     }
 
-    class RingtoneManagerImplV23 extends RingtoneManagerImplBase {
+    static class RingtoneManagerImplV23 extends RingtoneManagerImplBase {
         @Override
-        public Cursor getMediaRingtones() {
-            return getMediaRingtonesInternal();
+        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
+            return getMediaRingtonesInternal(rm);
         }
     }
 }

@@ -183,6 +183,11 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
+    /**
+     * Use this method to process selected ringtone if you manually opened system ringtone picker
+     * by {@link RingtoneManager#ACTION_RINGTONE_PICKER}.
+     * @param data
+     */
     public void onActivityResult(Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
@@ -202,42 +207,42 @@ public class RingtonePreference extends DialogPreference {
     }
 
     public static String getNotificationSoundDefaultString(Context context) {
+        context = context.getApplicationContext();
         try {
-            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            Resources res = context.getPackageManager().getResourcesForApplication("com.android.providers.media");
             int resId = res.getIdentifier("notification_sound_default", "string", "com.android.providers.media");
             return res.getString(resId);
-        } catch (PackageManager.NameNotFoundException e) {
-            return context.getApplicationContext().getString(R.string.notification_sound_default);
-        } catch (Resources.NotFoundException e) {
-            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+            return context.getString(R.string.notification_sound_default);
         }
     }
 
     public static String getAlarmSoundDefaultString(Context context) {
+        context = context.getApplicationContext();
         try {
-            Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication("com.android.providers.media");
+            Resources res = context.getPackageManager().getResourcesForApplication("com.android.providers.media");
             int resId = res.getIdentifier("alarm_sound_default", "string", "com.android.providers.media");
             return res.getString(resId);
-        } catch (PackageManager.NameNotFoundException e) {
-            return context.getApplicationContext().getString(R.string.alarm_sound_default);
-        } catch (Resources.NotFoundException e) {
-            return context.getApplicationContext().getString(R.string.notification_sound_default);
+        } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+            return context.getString(R.string.alarm_sound_default);
         }
     }
 
     public static String getRingtoneDefaultString(Context context) {
-        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_default", "string", "android");
+        context = context.getApplicationContext();
+        int resId = context.getResources().getIdentifier("ringtone_default", "string", "android");
         if (resId == 0) {
             resId = R.string.ringtone_default;
         }
-        return context.getApplicationContext().getString(resId);
+        return context.getString(resId);
     }
 
     public static String getRingtoneSilentString(Context context) {
-        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_silent", "string", "android");
+        context = context.getApplicationContext();
+        int resId = context.getResources().getIdentifier("ringtone_silent", "string", "android");
         if (resId == 0) {
             resId = R.string.ringtone_silent;
         }
-        return context.getApplicationContext().getString(resId);
+        return context.getString(resId);
     }
 }

@@ -32,7 +32,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class ListPreference extends DialogPreference {
 
-    private static boolean sSimpleMenuPreIcsEnabled = true;
+    static boolean sSimpleMenuPreIcsEnabled = true;
 
     public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
         sSimpleMenuPreIcsEnabled = enabled;
@@ -42,7 +42,7 @@ public class ListPreference extends DialogPreference {
         return Build.VERSION.SDK_INT >= 14 || sSimpleMenuPreIcsEnabled;
     }
 
-    private static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+    static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
@@ -62,7 +62,7 @@ public class ListPreference extends DialogPreference {
     @MenuMode private int mMenuMode;
     private float mSimpleMenuPreferredWidthUnit;
 
-    private boolean mSimpleMenuShowing;
+    boolean mSimpleMenuShowing;
 
     private boolean mAdjustViewBounds;
 
@@ -243,7 +243,7 @@ public class ListPreference extends DialogPreference {
         return null;
     }
 
-    private void onItemSelected(int position) {
+    void onItemSelected(int position) {
         String value = mEntryValues[position].toString();
         if (callChangeListener(value)) {
             setValue(value);

@@ -19,7 +19,7 @@ import android.widget.SeekBar;
 public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragment
     implements View.OnKeyListener {
 
-    private SeekBar mSeekBar;
+    SeekBar mSeekBar;
 
     public static XpSeekBarPreferenceDialogFragment newInstance(String key) {
         XpSeekBarPreferenceDialogFragment fragment = new XpSeekBarPreferenceDialogFragment();
@@ -36,7 +36,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
         return (SeekBarDialogPreference) getPreference();
     }
 
-    protected static SeekBar getSeekBar(View dialogView) {
+    protected static SeekBar findSeekBar(View dialogView) {
         return (SeekBar) dialogView.findViewById(R.id.seekbar);
     }
 
@@ -66,7 +66,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
             iconView.setImageDrawable(null);
         }
 
-        mSeekBar = getSeekBar(view);
+        mSeekBar = findSeekBar(view);
 
         final int max = preference.getMax();
         final int min = preference.getMin();

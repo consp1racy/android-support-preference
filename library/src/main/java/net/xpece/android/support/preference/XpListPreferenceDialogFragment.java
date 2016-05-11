@@ -12,7 +12,7 @@ import net.xpece.android.support.widget.DropDownAdapter;
  * @author Eugen on 28. 12. 2015.
  */
 public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
-    private int mClickedDialogEntryIndex;
+    int mClickedDialogEntryIndex;
 
     public XpListPreferenceDialogFragment() {
     }

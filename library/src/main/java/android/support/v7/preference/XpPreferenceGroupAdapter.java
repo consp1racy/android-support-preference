@@ -95,9 +95,9 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     }
 
     private static class PreferenceLayout {
-        private int resId;
-        private int widgetResId;
-        private String name;
+        int resId;
+        int widgetResId;
+        String name;
 
         public PreferenceLayout() {
         }

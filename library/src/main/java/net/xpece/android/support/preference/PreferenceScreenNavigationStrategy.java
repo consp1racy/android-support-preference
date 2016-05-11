@@ -17,7 +17,7 @@ import java.util.Stack;
  * Created by Eugen on 08.12.2015.
  */
 public abstract class PreferenceScreenNavigationStrategy {
-    private static final String TAG = PreferenceScreenNavigationStrategy.class.getSimpleName();
+    static final String TAG = PreferenceScreenNavigationStrategy.class.getSimpleName();
 
     public static final String DEFAULT_ROOT_KEY = TAG + ".ROOT";
 

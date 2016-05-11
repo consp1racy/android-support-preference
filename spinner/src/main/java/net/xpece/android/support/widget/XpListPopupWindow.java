@@ -109,7 +109,7 @@ public class XpListPopupWindow {
     private Context mContext;
     PopupWindow mPopup;
     private ListAdapter mAdapter;
-    private DropDownListView mDropDownList;
+    DropDownListView mDropDownList;
 
     private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private float mDropDownPreferredWidthUnit = 0;
@@ -141,13 +141,13 @@ public class XpListPopupWindow {
     private AdapterView.OnItemClickListener mItemClickListener;
     private AdapterView.OnItemSelectedListener mItemSelectedListener;
 
-    private final ResizePopupRunnable mResizePopupRunnable = new ResizePopupRunnable();
+    final ResizePopupRunnable mResizePopupRunnable = new ResizePopupRunnable();
     private final PopupTouchInterceptor mTouchInterceptor = new PopupTouchInterceptor();
     private final PopupScrollListener mScrollListener = new PopupScrollListener();
     private final ListSelectorHider mHideSelector = new ListSelectorHider();
     private Runnable mShowDropDownRunnable;
 
-    private final Handler mHandler;
+    final Handler mHandler;
 
     private final Rect mTempRect = new Rect();
     private final int[] mTempLocation = new int[2];

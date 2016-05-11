@@ -37,20 +37,25 @@ final class SortCursor extends AbstractCursor {
     private int mCurRowNumCache[][];
     private int mLastCacheHit = -1;
 
-    private DataSetObserver mObserver = new DataSetObserver() {
+    private final DataSetObserver mObserver = new DataSetObserver() {
 
         @Override
         public void onChanged() {
             // Reset our position so the optimizations in move-related code
             // don't screw us over
-            mPos = -1;
+            resetPosition();
         }
 
         @Override
         public void onInvalidated() {
-            mPos = -1;
+            resetPosition();
         }
     };
+
+    // Because one method is better than two synthetic. ^^
+    void resetPosition() {
+        mPos = -1;
+    }
 
     public SortCursor(Cursor[] cursors, String sortcolumn) {
         mCursors = cursors;

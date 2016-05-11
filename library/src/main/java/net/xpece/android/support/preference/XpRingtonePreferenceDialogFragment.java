@@ -56,7 +56,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private int mDefaultRingtonePos = POS_UNKNOWN;
 
     /** The position in the list of the last clicked item. */
-    private int mClickedPos = POS_UNKNOWN;
+    int mClickedPos = POS_UNKNOWN;
 
     /** The position in the list of the ringtone to sample. */
     private int mSampleRingtonePos = POS_UNKNOWN;
@@ -95,7 +95,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      */
     private static Ringtone sPlayingRingtone;
 
-    private DialogInterface.OnClickListener mRingtoneClickListener =
+    private final DialogInterface.OnClickListener mRingtoneClickListener =
         new DialogInterface.OnClickListener() {
 
             /*
@@ -203,15 +203,6 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             }
             dismiss();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-//        if (mCursor != null) {
-//            mCursor.close();
-//            mCursor = null;
-//        }
-        super.onDestroy();
     }
 
     @Override
@@ -392,7 +383,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private void playRingtone(int position, int delayMs) {
+    void playRingtone(int position, int delayMs) {
         mHandler.removeCallbacks(this);
         mSampleRingtonePos = position;
         mHandler.postDelayed(this, delayMs);
