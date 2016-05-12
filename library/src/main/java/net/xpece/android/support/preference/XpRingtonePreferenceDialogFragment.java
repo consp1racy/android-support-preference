@@ -19,7 +19,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -189,7 +188,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, mHasDefaultItem);
         i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, mHasSilentItem);
         i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, mType);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getDialogTitle(pref));
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, pref.getNonEmptyDialogTitle());
         return i;
     }
 
@@ -214,7 +213,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         // The volume keys will control the stream that we are choosing a ringtone for
         getActivity().setVolumeControlStream(mRingtoneManager.inferStreamType());
 
-        CharSequence title = getDialogTitle(preference);
+        CharSequence title = preference.getNonEmptyDialogTitle();
         builder.setTitle(title);
 
         final Context context = builder.getContext();
@@ -252,18 +251,6 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         builder.setSingleChoiceItems(adapter, mClickedPos, mRingtoneClickListener);
 
         builder.setOnItemSelectedListener(this);
-    }
-
-    @NonNull
-    private CharSequence getDialogTitle(RingtonePreference preference) {
-        CharSequence title = preference.getDialogTitle();
-        if (TextUtils.isEmpty(title)) {
-            title = preference.getTitle();
-        }
-        if (TextUtils.isEmpty(title)) {
-            title = getRingtonePickerTitleString(getContext());
-        }
-        return title;
     }
 
     /**
@@ -445,13 +432,4 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private int getRingtoneManagerPosition(int listPos) {
         return listPos - mStaticItems.size();
     }
-
-    public static String getRingtonePickerTitleString(Context context) {
-        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_picker_title", "string", "android");
-        if (resId == 0) {
-            resId = R.string.ringtone_picker_title;
-        }
-        return context.getApplicationContext().getString(resId);
-    }
-
 }
