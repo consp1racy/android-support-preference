@@ -184,6 +184,22 @@ public class RingtonePreference extends DialogPreference {
     }
 
     /**
+     * Creates system ringtone picker intent for manual use.
+     * @return
+     */
+    public Intent buildRingtonePickerIntent() {
+        int type = getRingtoneType();
+        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, onRestoreRingtone());
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(type));
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, getShowDefault());
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, getShowSilent());
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, type);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getNonEmptyDialogTitle());
+        return i;
+    }
+
+    /**
      * Use this method to process selected ringtone if you manually opened system ringtone picker
      * by {@link RingtoneManager#ACTION_RINGTONE_PICKER}.
      * @param data
@@ -196,6 +212,17 @@ public class RingtonePreference extends DialogPreference {
                 onSaveRingtone(uri);
             }
         }
+    }
+
+    CharSequence getNonEmptyDialogTitle() {
+        CharSequence title = getDialogTitle();
+        if (title == null) {
+            title = getTitle();
+        }
+        if (TextUtils.isEmpty(title)) {
+            title = getRingtonePickerTitleString(getContext());
+        }
+        return title;
     }
 
     public static String getRingtoneTitle(Context context, Uri uri) {
@@ -245,4 +272,13 @@ public class RingtonePreference extends DialogPreference {
         }
         return context.getString(resId);
     }
+
+    public static String getRingtonePickerTitleString(Context context) {
+        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_picker_title", "string", "android");
+        if (resId == 0) {
+            resId = R.string.ringtone_picker_title;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
 }
