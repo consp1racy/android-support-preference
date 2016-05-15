@@ -87,7 +87,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public final void onDisplayPreferenceDialog(Preference preference) {
+    public void onDisplayPreferenceDialog(Preference preference) {
         boolean handled = false;
 
         // This has to be done first. Doubled call in super :(
