@@ -187,27 +187,22 @@ If you want to show your `ListPreference` in a popup instead of a dialog use thi
     style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"/>
 ```
 
-Since v0.5.10: Furthermore you can either force simple menu, force simple dialog or let the system decide.
-In that case simple dialog is picked when any item in the menu wraps to second line.
+Above code will ensure that:
+- If all items fit on one line a popup window is shown.
+- Otherwise a simple dialog is shown.
+- Popup window width will round up to nearest multiply of 56dp on phones and 64dp on tablets.
 
-```xml
-<ListPreference
-    app:asp_menuMode="dialog|simple_menu|simple_dialog|simple_adaptive"/>
-```
+These are the attributes and values for manual setup:
 
-Menu modes:
-
-- `dialog`: Alert dialog with radio buttons and optional title. Default behavior.
-- `simple_menu`: Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
-- `simple_dialog`: Menu is shown in a dialog with no other controls. Selected option is highlighted.
-- `simple_adaptive`: Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
-
-The width of the popup window will try to accommodate all items and be a multiple of 56dp on phones and 64dp on tablets.
-You can specify `app:asp_simpleMenuWidthUnit` attribute to override this behavior:
-
-- `match_parent` or `wrap_content`: Same width as underlying `ListPreference` view.
-- `0dp`: Popup wraps its own content (max width being limited by the width of underlying `ListPreference`).
-- `Xdp`: Popup wraps its own content and expands to the nearest multiple of X (being limited by the width of underlying `ListPreference`).
+Attribute | Values | Description
+--- | --- | ---
+`app:asp_menuMode` | `dialog` | *Default behavior.* Alert dialog with radio buttons and optional window title.
+ | `simple_menu` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive than dialog.
+ | `simple_dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
+ | `simple_adaptive` | Menu is shown in a popup window if it contains single line items only . Otherwise simple dialog is shown.
+`app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
+ | `*X*dp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+ | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
 
 ### Material Spinner
 
@@ -241,11 +236,14 @@ The above setup will ensure the following:
 If you need to alter entries programmatically create by `CheckedItemAdapter.newInstance(Context, CharSequence[], int)`
 or supply your own adapter (responsible for its own styling) to `XpAppCompatSpinner.setAdapter(SpinnerAdapter)`.
 
-Spinner modes:
-
-- `dropdown`: Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
-- `dialog`: Menu is shown in a dialog with no other controls. Selected option is highlighted.
-- `adaptive`: Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
+Attribute | Values | Description
+--- | --- | ---
+`app:asp_spinnerMode` | `dropdown` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
+ | `dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
+ | `adaptive` | *Default behavior.* Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
+`app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
+ | `Xdp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+ | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
 
 ### Color preference
 
@@ -274,12 +272,16 @@ Version 0.6.0 introduced color preference as a separate module. An example would
 </string-array>
 ```
 
-Additional attributes include:
+Attributes include:
 
-- `app:asp_columnCount`: Specify the number of columns in the color picker. Use an integer resource which will allow you to specify greater number on tablets. Default is 4.
-- `app:asp_swatchSize`: Size of individual swatches in the color picker.
-  - `small`: 48dp, default.
-  - `large`: 64dp.
+Attribute | Values | Description
+--- | --- | ---
+`android:entryValues` | Array of colors | Specifies an array of colors to display.
+`android:entries` | Array of text | Specifies textual description of each color.
+`app:asp_columnCount` | Integer | Specifies the number of columns in the color picker. Use an integer resource which will allow you to specify greater number on tablets. *Default is `4`.*
+ | `-1` | Number of columns will be computed automatically to fill space available in window.
+`app:asp_swatchSize` | `small` | *Default option.* Swatches will be 48dp in width and height plus 4dp margin on each side.
+ | `large` | Swatches will be 64dp in width and height plus 8dp margin on each side.
 
 Finally you need to make your preference fragment fire up the color picker dialog
 when the preference is clicked and optionally update summary when a color is chosen.
