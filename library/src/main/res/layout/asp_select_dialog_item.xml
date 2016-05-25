@@ -16,17 +16,18 @@
 ** limitations under the License.
 */
 -->
-<TextView android:id="@android:id/text1"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ellipsize="marquee"
-          android:gravity="center_vertical"
-          android:maxLines="2"
-          android:minHeight="?attr/listPreferredItemHeightSmall"
-          android:paddingBottom="8dp"
-          android:paddingLeft="?attr/listPreferredItemPaddingLeft"
-          android:paddingRight="?attr/listPreferredItemPaddingRight"
-          android:paddingTop="8dp"
-          android:textAppearance="?attr/textAppearanceListItemSmall"
-          android:textColor="?attr/textColorAlertDialogListItem"/>
+<CheckedTextView
+    android:id="@android:id/text1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ellipsize="marquee"
+    android:gravity="center_vertical"
+    android:maxLines="2"
+    android:minHeight="?attr/listPreferredItemHeightSmall"
+    android:paddingBottom="8dp"
+    android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+    android:paddingRight="?attr/listPreferredItemPaddingRight"
+    android:paddingTop="8dp"
+    android:textAppearance="?attr/textAppearanceListItemSmall"
+    android:textColor="?attr/textColorAlertDialogListItem"/>

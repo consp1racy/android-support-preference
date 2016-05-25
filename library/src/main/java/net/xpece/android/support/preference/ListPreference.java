@@ -23,7 +23,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.PopupWindow;
 
-import net.xpece.android.support.widget.CheckedItemAdapter;
+import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.DropDownAdapter;
 import net.xpece.android.support.widget.XpListPopupWindow;
 
@@ -143,8 +143,8 @@ public class ListPreference extends DialogPreference {
         final int position = findIndexOfValue(getValue());
 
         final int layout = R.layout.asp_simple_spinner_dropdown_item;
-        final CheckedItemAdapter adapter = new CheckedItemAdapter(context, layout, android.R.id.text1, mEntries);
-        adapter.setSelection(position);
+        //noinspection deprecation
+        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, layout, android.R.id.text1, mEntries);
 
         // Convert getDropDownView to getView.
         final DropDownAdapter adapter2 = new DropDownAdapter(adapter, context.getTheme());

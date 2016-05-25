@@ -3,6 +3,7 @@ package net.xpece.android.support.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.util.TypedValue;
 
 /**
@@ -14,16 +15,6 @@ final class Util {
 
     private Util() {}
 
-    public static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {
-        TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
-        try {
-            return ta.getResourceId(0, fallback);
-        } finally {
-            ta.recycle();
-        }
-    }
-
     public static float resolveDimension(Context context, @AttrRes int attr, float fallback) {
         TEMP_ARRAY[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
@@ -32,11 +23,6 @@ final class Util {
         } finally {
             ta.recycle();
         }
-    }
-
-    public static int resolveDimensionPixelOffset(Context context, @AttrRes int attr, int fallback) {
-        float dimen = resolveDimension(context, attr, fallback);
-        return (int) (dimen);
     }
 
     public static int resolveDimensionPixelSize(Context context, @AttrRes int attr, int fallback) {
@@ -54,6 +40,17 @@ final class Util {
 
     public static float dpToPx(Context context, int dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    @ColorInt
+    public static int resolveColor(Context context, @AttrRes int attr, @ColorInt int fallback) {
+        TEMP_ARRAY[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+        try {
+            return ta.getColor(0, fallback);
+        } finally {
+            ta.recycle();
+        }
     }
 
 }

@@ -1223,17 +1223,22 @@ public class XpListPopupWindow {
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= 11) {
-                if (list.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
-                    list.setItemChecked(position, true);
-                }
-            }
+        }
+        setItemChecked(position);
+    }
+
+    private void setItemChecked(final int position) {
+        final DropDownListView list = mDropDownList;
+        if (list != null) {
+            list.setItemChecked(position, true);
         }
     }
 
     public void setSelectionInitial(int position) {
         if (position > 0) {
             setSelection(position);
+        } else {
+            setItemChecked(position);
         }
     }
 
@@ -1774,7 +1779,9 @@ public class XpListPopupWindow {
 
     @NonNull
     DropDownListView createDropDownListView(final Context context, final boolean hijackFocus) {
-        return new DropDownListView(context, hijackFocus);
+        final DropDownListView listView = new DropDownListView(context, hijackFocus);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        return listView;
     }
 
     private class PopupDataSetObserver extends DataSetObserver {

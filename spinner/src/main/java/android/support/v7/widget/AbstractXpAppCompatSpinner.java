@@ -31,7 +31,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Spinner;
 
-import net.xpece.android.support.widget.CheckedItemAdapter;
+import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Field;
@@ -201,7 +201,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
 
         final CharSequence[] entries = a.getTextArray(R.styleable.Spinner_android_entries);
         if (entries != null) {
-            final CheckedItemAdapter adapter = new CheckedItemAdapter(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
+            final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
             adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
             setAdapter(adapter);
         }

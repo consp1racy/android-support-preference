@@ -33,7 +33,8 @@
             @style/TextAppearance.AppCompat.Subhead.Inverse
         </item>
 
-
+        <item name="asp_preferenceIconTint">?colorAccent</item>
+        <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

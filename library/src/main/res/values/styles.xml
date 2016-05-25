@@ -2,7 +2,7 @@
 
     <style name="Preference.Material" parent="">
         <item name="android:layout">@layout/asp_preference</item>
-        <item name="asp_tint">?colorAccent</item>
+        <item name="asp_tint">?asp_preferenceIconTint</item>
         <item name="asp_iconPaddingEnabled">true</item>
     </style>
 
@@ -42,6 +42,7 @@
         <item name="android:positiveButtonText">@android:string/ok</item>
         <item name="android:negativeButtonText">@android:string/cancel</item>
 
+        <item name="asp_dialogTint">?asp_preferenceDialogIconTint</item>
         <item name="asp_dialogIconPaddingEnabled">true</item>
     </style>
 

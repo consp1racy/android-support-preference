@@ -134,7 +134,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         Preference subs = findPreference("subs_screen");
         PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs,
             R.drawable.ic_inbox_black_24dp,
-            Util.resolveResourceId(subs.getContext(), R.attr.colorAccent, R.color.accent),
+            Util.resolveResourceId(subs.getContext(), R.attr.asp_preferenceIconTint, R.color.accent),
             true);
 
         // Add 'notifications' preferences, and a corresponding header.

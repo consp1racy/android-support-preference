@@ -147,11 +147,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         final int position = getSelectedItemPosition();
         SpinnerAdapter adapter = getAdapter();
 
-        if (adapter instanceof CheckedTypedItemAdapter) {
-            CheckedTypedItemAdapter a2 = (CheckedTypedItemAdapter) adapter;
-            a2.setSelection(position);
-        }
-
         if (!(adapter instanceof DropDownAdapter)) {
             adapter = new DropDownAdapter(adapter, context.getTheme());
         }

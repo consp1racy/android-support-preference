@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

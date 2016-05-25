@@ -29,6 +29,9 @@
 
         <attr name="asp_textAppearanceListItemSecondary" format="reference"/>
         <attr name="asp_textAppearanceListItemTertiary" format="reference"/>
+
+        <attr name="asp_preferenceIconTint" format="color"/>
+        <attr name="asp_preferenceDialogIconTint" format="color"/>
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
