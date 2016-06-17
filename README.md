@@ -8,7 +8,15 @@ Backporting dat material look *and* functionality.
 
 Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
-## How to get the library?
+## Table of contents
+- [How to get the library?](#how-to-get)
+- [Screenshots](#screenshots)
+- [Contents](#contents)
+- [How to use the library?](#how-to-use)
+- [Changelog](CHANGELOG.md)
+
+<a name="how-to-get"/>
+## How to get the preference library?
 
 ```groovy
 dependencies {
@@ -16,7 +24,7 @@ dependencies {
 }
 ```
 
-## ***NEW!*** How to get color picker preference too?
+## How to get color picker preference too?
 
 ```groovy
 dependencies {
@@ -24,9 +32,7 @@ dependencies {
 }
 ```
 
-Version of color preference artifact does not necessarily correspond to version of main library. Version 0.7.x is not compatible with 0.6.x.
-
-## ***NEW!*** How to get just custom Material popup menu and spinner?
+## How to get just custom Material popup menu and spinner?
 
 ```groovy
 dependencies {
@@ -34,6 +40,7 @@ dependencies {
 }
 ```
 
+<a name="screenshots"/>
 ## Screenshots
 
 Library version 0.6.0. Android version 4.4.
@@ -56,6 +63,7 @@ Library version 0.5.1. Android version 4.4.
 ![ListPreference](./docs/device-2015-12-08-200544.png)&nbsp;
 ![Disabled preferences](./docs/device-2015-12-08-200704.png)&nbsp;
 
+<a name="contents"/>
 ## Contents
 
 ### Support preference
@@ -116,6 +124,7 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - `ListPreference` can optionally show as a simple menu in a popup instead of a dialog.
 - `ColorPreference`
 
+<a name="how-to-use"/>
 ## How to use the library?
 
 ### Basic setup
@@ -140,6 +149,7 @@ Your settings activity theme needs to specify the following values:
 ```
 
 Until version 0.8.0 you also needed to define `preferenceTint` attribute:
+
 ```xml
 <!-- Default preference icon tint color. -->
 <item name="preferenceTint">?colorAccent</item>
@@ -147,6 +157,13 @@ Until version 0.8.0 you also needed to define `preferenceTint` attribute:
 
 <s>Since v0.6.1 disabled color for `preferenceTint` is computed automatically. Prior to this you'd have
 to use custom `ColorStateList` XML resource with disabled state.</s>
+
+From version 0.9.0 your theme *has to* define the following attributes which serve as default
+preference icon tint colors. Recommended colors are `?colorAccent` or `?colorControlNormal`.
+```xml
+    <item name="asp_preferenceIconTint">?colorAccent</item>
+    <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
+```
 
 Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
