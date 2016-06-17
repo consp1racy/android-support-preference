@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
 //        classpath 'com.uphyca.gradle:gradle-android-aspectj-plugin:0.9.14'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.0'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -21,11 +21,11 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 23
+    compileSdkVersion = 24
     buildToolsVersion = "24.0.0"
-    supportLibVersion = "23.4.0"
+    supportLibVersion = "24.0.0"
     minSdkVersion = 7
-    targetSdkVersion = 23
+    targetSdkVersion = 24
 
     publishGroupId = "net.xpece.android"
     publishVersion = "0.9.0"
