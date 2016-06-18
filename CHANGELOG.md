@@ -1,6 +1,7 @@
 # Change log
 
-**0.9.0** 2016-05-26
+**0.9.0** 2016-06-18
+- Supports support libs 24.0.0.
 - Cleanup.
 - `asp_preferenceIconTint` is back along with `asp_preferenceDialogIconTint`.
   - You *have to* define these attributes in your theme. 
