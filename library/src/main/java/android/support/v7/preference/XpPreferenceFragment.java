@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
 public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     private static final String TAG = XpPreferenceFragment.class.getSimpleName();
 
-    protected final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
+    public final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final Field FIELD_PREFERENCE_MANAGER;
 
@@ -75,17 +75,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         return getPreferenceManager().getContext();
     }
 
-    /**
-     * Use {@link PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback} on your activity
-     * or calling fragment instead.
-     * @param preference Preference requesting showing a dialog.
-     * @return Whether a dialog has been shown.
-     */
-    @Deprecated
-    public boolean onDisplayPreferenceDialog2(Preference preference) {
-        return false;
-    }
-
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         boolean handled = false;
@@ -96,11 +85,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
         if (!handled && this.getActivity() instanceof PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) {
             handled = ((PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) this.getActivity()).onPreferenceDisplayDialog(this, preference);
-        }
-
-        if (!handled) {
-            //noinspection deprecation
-            handled = onDisplayPreferenceDialog2(preference);
         }
 
         // Handling custom preferences.

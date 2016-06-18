@@ -20,7 +20,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.8.1'
+    compile 'net.xpece.android:support-preference:0.9.0'
 }
 ```
 
@@ -28,7 +28,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.8.0'
+    compile 'net.xpece.android:support-preference-color:0.9.0'
 }
 ```
 
@@ -36,7 +36,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:0.8.1'
+    compile 'net.xpece.android:support-spinner:0.9.0'
 }
 ```
 

@@ -1,5 +1,15 @@
 # Change log
 
+**0.9.0** 2016-06-18
+- Supports support libs 24.0.0.
+- Cleanup.
+- `asp_preferenceIconTint` is back along with `asp_preferenceDialogIconTint`.
+  - You *have to* define these attributes in your theme. 
+  - Recommended colors are either `?colorAccent` or `?colorControlNormal`.
+
+    <item name="asp_preferenceIconTint">?colorAccent</item>
+    <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
+
 **0.8.1**
 - (2016-05-06) `support-spinner` only release.
   - Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.

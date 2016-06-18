@@ -1,4 +1,4 @@
-package net.xpece.android.support.widget;
+package android.support.v7.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -22,7 +22,7 @@ import net.xpece.android.support.widget.spinner.R;
  * displayed on screen within a drop down. The focus is never actually
  * passed to the drop down in this mode; the list only looks focused.</p>
  */
-class DropDownListView extends ListViewCompat {
+class XpDropDownListView extends ListViewCompat {
 
 //    private static final int MAX_ITEMS_MEASURED = 15;
     private static final int MAX_ITEMS_MEASURED = 30;
@@ -254,7 +254,7 @@ class DropDownListView extends ListViewCompat {
      *
      * @param context this view's context
      */
-    public DropDownListView(Context context, boolean hijackFocus) {
+    public XpDropDownListView(Context context, boolean hijackFocus) {
         super(context, null, R.attr.dropDownListViewStyle);
         mHijackFocus = hijackFocus;
         setCacheColorHint(0); // Transparent, since the background drawable could be anything.
