@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
@@ -20,6 +21,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 ext {

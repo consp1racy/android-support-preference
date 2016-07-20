@@ -59,14 +59,13 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
                 SeekBarPreference pref = (SeekBarPreference) preference;
                 int progress = (int) value;
                 pref.setInfo(progress + "%");
-            } else
-            if (preference instanceof ColorPreference) {
+            } else if (preference instanceof ColorPreference) {
                 ColorPreference colorPreference = (ColorPreference) preference;
                 int color = (int) value;
 //                String colorString = String.format("#%06X", 0xFFFFFF & color);
 //                preference.setSummary(colorString);
                 int index = colorPreference.findIndexOfValue(color);
-                if (index < 0)  {
+                if (index < 0) {
                     preference.setSummary(null);
                 } else {
                     final CharSequence name = colorPreference.getNameForColor(color);
@@ -166,7 +165,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         volume2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    volume2.setInfo(progress + "%");
+                volume2.setInfo(progress + "%");
             }
 
             @Override
@@ -181,7 +180,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         });
 
         // Setup EditTextPreference input field.
-        ((EditTextPreference)findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
+        ((EditTextPreference) findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
             @Override
             public void onEditTextCreated(EditText edit) {
                 Context context = edit.getContext();

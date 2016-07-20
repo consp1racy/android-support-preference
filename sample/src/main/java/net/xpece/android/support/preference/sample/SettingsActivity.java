@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference.sample;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.preference.XpPreferenceManager;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -138,6 +140,20 @@ public class SettingsActivity extends AppCompatActivity implements
             case R.id.spinner: {
                 Intent i = new Intent(this, SpinnerActivity.class);
                 startActivity(i);
+                return true;
+            }
+            case R.id.reset: {
+                final Context context = this;
+                XpPreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply();
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true);
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true);
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true);
+                mSettingsFragment = SettingsFragment.newInstance(null);
+                getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                    .replace(R.id.content, mSettingsFragment, "Settings")
+                    .commit();
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.uphyca.android-aspectj'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -30,6 +30,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.android.support:preference-v7:$supportLibVersion"
     compile project(':spinner')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 ext {
