@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.PopupWindow;
+import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.DropDownAdapter;
@@ -142,9 +143,7 @@ public class ListPreference extends DialogPreference {
 
         final int position = findIndexOfValue(getValue());
 
-        final int layout = R.layout.asp_simple_spinner_dropdown_item;
-        //noinspection deprecation
-        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, layout, android.R.id.text1, mEntries);
+        final SpinnerAdapter adapter = buildAdapter(context);
 
         // Convert getDropDownView to getView.
         final DropDownAdapter adapter2 = new DropDownAdapter(adapter, context.getTheme());
@@ -220,6 +219,12 @@ public class ListPreference extends DialogPreference {
         popup.setSelectionInitial(position);
 
         return true;
+    }
+
+    @NonNull
+    public SpinnerAdapter buildAdapter(final Context context) {
+        //noinspection deprecation
+        return new CheckedTypedItemAdapter<>(context, R.layout.asp_simple_spinner_dropdown_item, android.R.id.text1, mEntries);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
