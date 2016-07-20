@@ -1,7 +1,11 @@
 package android.support.v7.preference;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.SharedPreferencesCompat;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -11,12 +15,10 @@ import java.util.Set;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-final class XpPreferenceManager extends PreferenceManager {
+public final class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
 
-    private static final String[] ICS_DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v14.preference.", "android.support.v7.preference."};
-    private static final String[] BASE_DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v7.preference."};
     private static final String[] DEFAULT_PACKAGES;
 
     static {
@@ -30,9 +32,9 @@ final class XpPreferenceManager extends PreferenceManager {
         METHOD_SET_NO_COMMIT = setNoCommit;
 
         if (Build.VERSION.SDK_INT < 14) {
-            DEFAULT_PACKAGES = BASE_DEFAULT_PACKAGES;
+            DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v7.preference."};
         } else {
-            DEFAULT_PACKAGES = ICS_DEFAULT_PACKAGES;
+            DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v14.preference.", "android.support.v7.preference."};
         }
     }
 
@@ -47,16 +49,17 @@ final class XpPreferenceManager extends PreferenceManager {
         }
     }
 
-    public XpPreferenceManager(final Context context, final String[] customDefaultPackages) {
+    public XpPreferenceManager(@NonNull final Context context, @Nullable final String[] customDefaultPackages) {
         this(context);
         mCustomDefaultPackages = customDefaultPackages;
     }
 
-    public XpPreferenceManager(final Context context) {
+    public XpPreferenceManager(@NonNull final Context context) {
         super(context);
     }
 
-    public PreferenceScreen inflateFromResource(Context context, int resId, PreferenceScreen rootPreferences) {
+    @Override
+    public PreferenceScreen inflateFromResource(@NonNull Context context, int resId, @Nullable PreferenceScreen rootPreferences) {
         this.setNoCommit(true);
         PreferenceInflater inflater = new PreferenceInflater(context, this);
         initPreferenceInflater(inflater);
@@ -80,4 +83,35 @@ final class XpPreferenceManager extends PreferenceManager {
         inflater.setDefaultPackages(mAllDefaultPackages);
     }
 
+    public static void setDefaultValues(@NonNull Context context, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+        setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, customDefaultPackages);
+    }
+
+    public static void setDefaultValues(@NonNull Context context, int resId, boolean readAgain) {
+        setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, null);
+    }
+
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain) {
+        setDefaultValues(context, sharedPreferencesName, sharedPreferencesMode, resId, readAgain, null);
+    }
+
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+        SharedPreferences defaultValueSp = context.getSharedPreferences("_has_set_default_values", 0);
+        if (readAgain || !defaultValueSp.getBoolean("_has_set_default_values", false)) {
+            XpPreferenceManager pm = new XpPreferenceManager(context, customDefaultPackages);
+            pm.setSharedPreferencesName(sharedPreferencesName);
+            pm.setSharedPreferencesMode(sharedPreferencesMode);
+            pm.inflateFromResource(context, resId, null);
+            SharedPreferences.Editor editor = defaultValueSp.edit().putBoolean("_has_set_default_values", true);
+            SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+        }
+    }
+
+    private static String getDefaultSharedPreferencesName(Context context) {
+        return context.getPackageName() + "_preferences";
+    }
+
+    private static int getDefaultSharedPreferencesMode() {
+        return 0;
+    }
 }
