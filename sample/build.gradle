@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -27,5 +26,4 @@ dependencies {
     compile project(':colorpicker')
 
     compile "com.android.support:design:$supportLibVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -20,7 +20,6 @@ android {
 
 dependencies {
     compile project(':library')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 ext {

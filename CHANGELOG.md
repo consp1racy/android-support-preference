@@ -1,5 +1,13 @@
 # Change log
 
+**0.9.1** 2016-07-22
+- Public `XpPreferenceManager.setDefaultValues`.
+  - Use this instead of `PreferenceManager.setDefaultValues`.
+  - Takes into account preference classes with custom packages.
+- `ListPreference` exposes `buildAdapter` method.
+  - Now you can easily supply your own `SpinnerAdapter` inside a `ListPreference` subclass.
+  - *Framework expects only one view type!*
+
 **0.9.0** 2016-06-18
 - Supports support libs 24.0.0.
 - Cleanup.

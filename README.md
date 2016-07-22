@@ -20,7 +20,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.9.0'
+    compile 'net.xpece.android:support-preference:0.9.1'
 }
 ```
 
@@ -90,6 +90,8 @@ Library version 0.5.1. Android version 4.4.
     - Handles proper Preference inflation and DialogPreference dialogs
 - `SharedPreferencesCompat`
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
+- `XpPreferenceManager`
+    - `setDefaultValues` method takes into account preference classes in custom packages
 
 ### Support color preference
 
