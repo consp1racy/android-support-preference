@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import net.xpece.android.support.preference.Util;
 import net.xpece.android.support.preference.color.R;
 
 /**

@@ -1,4 +1,4 @@
-package net.xpece.android.support.widget;
+package net.xpece.android.colorpicker;
 
 import android.content.Context;
 import android.support.annotation.AttrRes;
@@ -24,5 +24,4 @@ final class Util {
             ta.recycle();
         }
     }
-
 }

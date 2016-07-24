@@ -2,7 +2,6 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
@@ -10,6 +9,7 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.preference.Preference;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
 /**
@@ -50,7 +50,7 @@ public class PreferenceIconHelper {
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = getContext();
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
+        final TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
             int attr = a.getIndex(i);
             if (attr == R.styleable.Preference_android_icon) {
@@ -74,7 +74,7 @@ public class PreferenceIconHelper {
         }
     }
 
-    protected ColorStateList getTintList(TypedArray a, int attr, Context context) {
+    protected ColorStateList getTintList(TintTypedArray a, int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);
         csl = withDisabled(csl, context);
         return csl;

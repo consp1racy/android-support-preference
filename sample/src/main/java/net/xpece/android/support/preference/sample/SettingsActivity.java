@@ -25,8 +25,8 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import net.xpece.android.support.preference.ColorPreference;
+import net.xpece.android.support.preference.Fixes;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
-import net.xpece.android.support.preference.Util;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
 /**
@@ -58,6 +58,7 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fixes.updateLayoutInflaterFactory(getLayoutInflater());
         setContentView(R.layout.activity_settings);
 
         mReplaceFragmentStrategy = new PreferenceScreenNavigationStrategy.ReplaceFragment(this, R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out);

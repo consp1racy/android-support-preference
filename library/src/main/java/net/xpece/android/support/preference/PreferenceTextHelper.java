@@ -2,10 +2,10 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -24,7 +24,7 @@ public class PreferenceTextHelper {
     private ColorStateList mSubtitleTextColor = null;
 
     public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
+        TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         if (ta.hasValue(R.styleable.Preference_titleTextAppearance)) {
             mTitleTextAppearance = ta.getResourceId(R.styleable.Preference_titleTextAppearance, 0);
             mHasTitleTextAppearance = true;

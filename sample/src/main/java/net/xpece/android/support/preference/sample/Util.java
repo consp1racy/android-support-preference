@@ -1,10 +1,10 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.sample;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
-import android.support.v4.graphics.ColorUtils;
+import android.support.v7.widget.TintTypedArray;
 import android.util.TypedValue;
 
 /**
@@ -12,14 +12,6 @@ import android.util.TypedValue;
  * @hide
  */
 final class Util {
-    public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
-    public static final int[] EMPTY_STATE_SET = new int[0];
-
-    public static final int[][] DISABLED_STATE_LIST = new int[][]{
-        DISABLED_STATE_SET,
-        EMPTY_STATE_SET
-    };
-
     private static final int[] TEMP_ARRAY = new int[1];
 
     private Util() {}
@@ -46,18 +38,13 @@ final class Util {
         }
     }
 
-    public static float resolveFloat(Context context, @AttrRes int attr, float fallback) {
+    public static ColorStateList resolveColorStateList(Context context, @AttrRes int attr) {
         TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+        TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, TEMP_ARRAY);
         try {
-            return ta.getFloat(0, fallback);
+            return ta.getColorStateList(0);
         } finally {
             ta.recycle();
         }
-    }
-
-    public static ColorStateList withDisabled(int color, int disabledAlpha) {
-        int disabledColor = ColorUtils.setAlphaComponent(color, disabledAlpha);
-        return new ColorStateList(DISABLED_STATE_LIST, new int[]{disabledColor, color});
     }
 }

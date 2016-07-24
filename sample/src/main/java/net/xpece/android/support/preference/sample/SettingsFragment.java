@@ -31,7 +31,6 @@ import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
-import net.xpece.android.support.preference.Util;
 
 import java.util.HashSet;
 import java.util.Set;

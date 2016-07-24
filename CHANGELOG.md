@@ -1,7 +1,11 @@
 # Change log
 
-**0.9.2**
-- Depends on support libs 24.1.1 to avoid any issues.
+**0.10.0** *Pending release*
+- Depends on support libs 24.1.1 to avoid issues in 21.1.0.
+- `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` is back.
+  - `CheckedTextView`s are once more incorrectly tinted since support libs 24.1.0. This will fix it.
+  - Call in your activity after `super.onCreate()` and before `setContentView(...)`.
+- Uses appcompat-v7 `ColorStateList` inflater so theme references are resolved below API 21.
 
 **0.9.1** 2016-07-22
 - Public `XpPreferenceManager.setDefaultValues`.
