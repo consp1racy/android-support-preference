@@ -22,11 +22,11 @@ allprojects {
 
 ext {
     compileSdkVersion = 24
-    buildToolsVersion = "24.0.0"
-    supportLibVersion = "24.1.0"
+    buildToolsVersion = "24.0.1"
+    supportLibVersion = "24.1.1"
     minSdkVersion = 7
     targetSdkVersion = 24
 
     publishGroupId = "net.xpece.android"
-    publishVersion = "0.9.1"
+    publishVersion = "0.9.2"
 }

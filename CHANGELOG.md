@@ -1,5 +1,8 @@
 # Change log
 
+**0.9.2**
+- Depends on support libs 24.1.1 to avoid any issues.
+
 **0.9.1** 2016-07-22
 - Public `XpPreferenceManager.setDefaultValues`.
   - Use this instead of `PreferenceManager.setDefaultValues`.
@@ -7,6 +10,7 @@
 - `ListPreference` exposes `buildAdapter` method.
   - Now you can easily supply your own `SpinnerAdapter` inside a `ListPreference` subclass.
   - *Framework expects only one view type!*
+- Depends on support libs 24.1.0 which are broken.
 
 **0.9.0** 2016-06-18
 - Supports support libs 24.0.0.
@@ -20,7 +24,7 @@
 <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
 ```
 
-**0.8.1**
+**0.8.1** *Legacy*
 - (2016-05-06) `support-spinner` only release.
   - Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.
   - *FIXED:* No more crashes when using empty adapter.
@@ -36,7 +40,7 @@
     - `onPreferenceScreenClick` can now be called before `onCreateView`. 
 
 **0.8.0** *Deprecated*
-- *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone library.
+- *NEW!* Very much material `XpAppCompatSpinner` is now available as a standalone lib;rary.
 - *FIXED:* Simple menu:
   - Correct vertical position when using asymmetric top and bottom padding on anchor.
   - Correct horizontal size when using `setDropDownMaxWidth(MATCH_PARENT)`.
