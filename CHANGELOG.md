@@ -1,6 +1,6 @@
 # Change log
 
-**0.10.0** *Pending release*
+**1.0.0** 2016-07-24
 - Depends on support libs 24.1.1 to avoid issues in 21.1.0.
 - `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` is back.
   - `CheckedTextView`s are once more incorrectly tinted since support libs 24.1.0. This will fix it.

@@ -20,7 +20,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:0.9.1'
+    compile 'net.xpece.android:support-preference:1.0.0'
 }
 ```
 
@@ -28,7 +28,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:0.9.0'
+    compile 'net.xpece.android:support-preference-color:1.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:0.9.0'
+    compile 'net.xpece.android:support-spinner:1.0.0'
 }
 ```
 
@@ -342,7 +342,9 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-This fix is not necessary or available since version 0.5.5.
+<s>This fix is not necessary or available since version 0.5.5.</s>
+
+Similar issue is present in support library version 24.1.x. The fix is once more available in version 0.10.0 of this library.
 
 ---
 
