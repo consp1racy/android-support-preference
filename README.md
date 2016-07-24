@@ -344,7 +344,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 <s>This fix is not necessary or available since version 0.5.5.</s>
 
-Similar issue is present in support library version 24.1.x. The fix is once more available in version 0.10.0 of this library.
+Similar issue is present in support library version 24.1.x. The fix is once more available in version 1.0.0 of this library.
 
 ---
 
