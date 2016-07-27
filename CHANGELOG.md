@@ -1,5 +1,14 @@
 # Change log
 
+**1.0.1**
+- `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
+  - `SpinnerAdapter buildSimpleMenuAdapter(Context)` - Used in simple menus.
+  - `SpinnerAdapter buildSimpleDialogAdapter(Context)` - Used in simple dialogs.
+  - Override the following methods if your `SpinnerAdapter` does *not* use `getEntries()` as data set:
+    - `CharSequence[] getEntries()` - Item captions.
+    - `CharSequence[] getEntryValues()` - Persisted item values.
+
+
 **1.0.0** 2016-07-24
 - Depends on support libs 24.1.1 to avoid issues in 21.1.0.
 - `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` is back.
@@ -7,16 +16,16 @@
   - Call in your activity after `super.onCreate()` and before `setContentView(...)`.
 - Uses appcompat-v7 `ColorStateList` inflater so theme references are resolved below API 21.
 
-**0.9.1** 2016-07-22
+**0.9.1** 2016-07-22 *Deprecated*
 - Public `XpPreferenceManager.setDefaultValues`.
   - Use this instead of `PreferenceManager.setDefaultValues`.
   - Takes into account preference classes with custom packages.
-- `ListPreference` exposes `buildAdapter` method.
+- <s>`ListPreference` exposes `buildAdapter` method.</s>
   - Now you can easily supply your own `SpinnerAdapter` inside a `ListPreference` subclass.
   - *Framework expects only one view type!*
 - Depends on support libs 24.1.0 which are broken.
 
-**0.9.0** 2016-06-18
+**0.9.0** 2016-06-18 *Deprecated*
 - Supports support libs 24.0.0.
 - Cleanup.
 - `asp_preferenceIconTint` is back along with `asp_preferenceDialogIconTint`.
