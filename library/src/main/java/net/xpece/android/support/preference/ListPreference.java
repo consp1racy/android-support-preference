@@ -13,8 +13,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.preference.*;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -31,9 +32,21 @@ import net.xpece.android.support.widget.XpListPopupWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * A {@link android.support.v7.preference.Preference} that displays a list of entries as
+ * a dialog (or a simple menu or simple dialog).
+ * <p>
+ * This preference will store a string into the SharedPreferences. This string will be the value
+ * from the {@link #setEntryValues(CharSequence[])} array (by default).
+ *
+ * @attr name android:entries
+ * @attr name android:entryValues
+ * @attr name asp_menuMode
+ * @attr name popupTheme
+ */
 public class ListPreference extends DialogPreference {
 
-    static boolean sSimpleMenuPreIcsEnabled = true;
+    private static boolean sSimpleMenuPreIcsEnabled = true;
 
     public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
         sSimpleMenuPreIcsEnabled = enabled;
@@ -133,17 +146,24 @@ public class ListPreference extends DialogPreference {
         }
     }
 
+    /**
+     * @return The context used to inflate the ListPreference's simple menu.
+     */
     public Context getPopupContext() {
         return mPopupContext;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private boolean showAsPopup(final View anchor, final boolean force) {
+        if (getEntries() == null || getEntryValues() == null) {
+            throw new IllegalStateException("ListPreference requires an entries array and an entryValues array.");
+        }
+
         final Context context = getPopupContext();
 
         final int position = findIndexOfValue(getValue());
 
-        final SpinnerAdapter adapter = buildAdapter(context);
+        final SpinnerAdapter adapter = buildSimpleMenuAdapter(context);
 
         // Convert getDropDownView to getView.
         final DropDownAdapter adapter2 = new DropDownAdapter(adapter, context.getTheme());
@@ -222,16 +242,45 @@ public class ListPreference extends DialogPreference {
     }
 
     /**
-     * Override if you want to supply your own {@link SpinnerAdapter}.
+     * Override if you want to supply your own {@link SpinnerAdapter}. Used in simple dialogs.
      *
-     * If you override this, override {@link #onItemSelected(int)} as well.
      * @param context
      * @return
      */
     @NonNull
-    public SpinnerAdapter buildAdapter(final Context context) {
+    public SpinnerAdapter buildSimpleDialogAdapter(final Context context) {
+        return buildAdapter(context, R.layout.asp_select_dialog_item);
+    }
+
+    /**
+     * Override if you want to supply your own {@link SpinnerAdapter}. Used in simple menus.
+     * <p>
+     * If you override this, override {@link #onItemSelected(int)} as well.
+     *
+     * @param context
+     * @return
+     */
+    @NonNull
+    public SpinnerAdapter buildSimpleMenuAdapter(final Context context) {
         //noinspection deprecation
-        return new CheckedTypedItemAdapter<>(context, R.layout.asp_simple_spinner_dropdown_item, android.R.id.text1, mEntries);
+        return buildAdapter(context);
+    }
+
+    /**
+     * If you want to supply your own {@link SpinnerAdapter}
+     * override {@link #buildSimpleMenuAdapter(Context)}
+     * and {@link #buildSimpleDialogAdapter(Context)} instead.
+     * @param context
+     * @return
+     */
+    @NonNull @Deprecated
+    public SpinnerAdapter buildAdapter(final Context context) {
+        return buildAdapter(context, R.layout.asp_simple_spinner_dropdown_item);
+    }
+
+    @NonNull
+    private SpinnerAdapter buildAdapter(final Context context, @LayoutRes final int layout) {
+        return new CheckedTypedItemAdapter<>(context, layout, android.R.id.text1, getEntries());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -257,48 +306,100 @@ public class ListPreference extends DialogPreference {
 
     /**
      * Triggered when an item is selected from menu or dialog.
-     *
-     * Override if you supplied your own {@link SpinnerAdapter} in {@link #buildAdapter(Context)}.
-     *
+     * <p>
+     * Override if you supplied your own {@link SpinnerAdapter}
+     * in {@link #buildSimpleMenuAdapter(Context)} and {@link #buildSimpleDialogAdapter(Context)}
+     * if your {@link SpinnerAdapter} does not use {@link #getEntries()} as data set.
+     * <p>
      * Call the following code to store the new {@code value}:
      * <pre>
-if (callChangeListener(value)) {
-    setValue(value);
-}
+     * if (callChangeListener(value)) {
+     * setValue(value);
+     * }
      * </pre>
+     *
      * @param position
      */
     public void onItemSelected(int position) {
-        String value = mEntryValues[position].toString();
+        String value = getEntryValues()[position].toString();
         if (callChangeListener(value)) {
             setValue(value);
         }
     }
 
+    /**
+     * Sets the human-readable entries to be shown in the list. This will be
+     * shown in subsequent dialogs.
+     * <p>
+     * Each entry must have a corresponding index in
+     * {@link #setEntryValues(CharSequence[])}.
+     *
+     * @param entries The entries.
+     * @see #setEntryValues(CharSequence[])
+     */
     public void setEntries(CharSequence[] entries) {
         this.mEntries = entries;
     }
 
+    /**
+     * @see #setEntries(CharSequence[])
+     * @param entriesResId The entries array as a resource.
+     */
     public void setEntries(@ArrayRes int entriesResId) {
         this.setEntries(this.getContext().getResources().getTextArray(entriesResId));
     }
 
+    /**
+     * The list of entries to be shown in the list in subsequent dialogs.
+     * <p/>
+     * Override if you supplied your own {@link SpinnerAdapter}
+     * in {@link #buildSimpleMenuAdapter(Context)} and {@link #buildSimpleDialogAdapter(Context)}
+     * if your {@link SpinnerAdapter} does not use {@link #getEntries()} as data set.
+     *
+     * @return The list as an array.
+     */
     public CharSequence[] getEntries() {
         return this.mEntries;
     }
 
+    /**
+     * The array to find the value to save for a preference when an entry from
+     * entries is selected. If a user clicks on the second item in entries, the
+     * second item in this array will be saved to the preference.
+     *
+     * @param entryValues The array to be used as values to save for the preference.
+     */
     public void setEntryValues(CharSequence[] entryValues) {
         this.mEntryValues = entryValues;
     }
 
+    /**
+     * @see #setEntryValues(CharSequence[])
+     * @param entryValuesResId The entry values array as a resource.
+     */
     public void setEntryValues(@ArrayRes int entryValuesResId) {
         this.setEntryValues(this.getContext().getResources().getTextArray(entryValuesResId));
     }
 
+    /**
+     * Returns the array of values to be saved for the preference.
+     * <p/>
+     * Override if you supplied your own {@link SpinnerAdapter}
+     * in {@link #buildSimpleMenuAdapter(Context)} and {@link #buildSimpleDialogAdapter(Context)}
+     * if your {@link SpinnerAdapter} does not use {@link #getEntries()} as data set.
+     *
+     * @return The array of values.
+     */
     public CharSequence[] getEntryValues() {
         return this.mEntryValues;
     }
 
+    /**
+     * Sets the value of the key. This should be one of the entries in
+     * {@link #getEntryValues()}.
+     *
+     * @param value The value to set for the key.
+     */
     public void setValue(String value) {
         boolean changed = !TextUtils.equals(this.mValue, value);
         if (changed || !this.mValueSet) {
@@ -312,11 +413,28 @@ if (callChangeListener(value)) {
 
     }
 
+    /**
+     * Returns the summary of this ListPreference. If the summary
+     * has a {@linkplain java.lang.String#format String formatting}
+     * marker in it (i.e. "%s" or "%1$s"), then the current entry
+     * value will be substituted in its place.
+     *
+     * @return the summary with appropriate string substitution
+     */
     public CharSequence getSummary() {
         CharSequence entry = this.getEntry();
         return this.mSummary == null ? super.getSummary() : String.format(this.mSummary, entry == null ? "" : entry);
     }
 
+    /**
+     * Sets the summary for this Preference with a CharSequence.
+     * If the summary has a
+     * {@linkplain java.lang.String#format String formatting}
+     * marker in it (i.e. "%s" or "%1$s"), then the current entry
+     * value will be substituted in its place when it's retrieved.
+     *
+     * @param summary The summary for the preference.
+     */
     public void setSummary(CharSequence summary) {
         super.setSummary(summary);
         if (summary == null && this.mSummary != null) {
@@ -327,26 +445,51 @@ if (callChangeListener(value)) {
 
     }
 
+    /**
+     * Sets the value to the given index from the entry values.
+     *
+     * @param index The index of the value to set.
+     */
     public void setValueIndex(int index) {
-        if (this.mEntryValues != null) {
-            this.setValue(this.mEntryValues[index].toString());
+        final CharSequence[] entryValues = getEntryValues();
+        if (entryValues != null) {
+            this.setValue(entryValues[index].toString());
         }
 
     }
 
+    /**
+     * Returns the value of the key. This should be one of the entries in
+     * {@link #getEntryValues()}.
+     *
+     * @return The value of the key.
+     */
     public String getValue() {
         return this.mValue;
     }
 
+    /**
+     * Returns the entry corresponding to the current value.
+     *
+     * @return The entry corresponding to the current value, or null.
+     */
     public CharSequence getEntry() {
-        int index = this.getValueIndex();
-        return index >= 0 && this.mEntries != null ? this.mEntries[index] : null;
+        final int index = this.getValueIndex();
+        final CharSequence[] entries = getEntries();
+        return index >= 0 && entries != null ? entries[index] : null;
     }
 
+    /**
+     * Returns the index of the given value (in the entry values array).
+     *
+     * @param value The value whose index should be returned.
+     * @return The index of the value, or -1 if not found.
+     */
     public int findIndexOfValue(String value) {
-        if (value != null && this.mEntryValues != null) {
-            for (int i = this.mEntryValues.length - 1; i >= 0; --i) {
-                if (this.mEntryValues[i].equals(value)) {
+        final CharSequence[] entryValues = getEntryValues();
+        if (value != null && entryValues != null) {
+            for (int i = entryValues.length - 1; i >= 0; --i) {
+                if (value.equals(entryValues[i])) {
                     return i;
                 }
             }
@@ -359,10 +502,12 @@ if (callChangeListener(value)) {
         return this.findIndexOfValue(this.mValue);
     }
 
+    @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
         return a.getString(index);
     }
 
+    @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         this.setValue(restoreValue ? this.getPersistedString(this.mValue) : (String) defaultValue);
     }
