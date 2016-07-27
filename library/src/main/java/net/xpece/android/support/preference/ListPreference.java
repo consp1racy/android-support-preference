@@ -221,6 +221,13 @@ public class ListPreference extends DialogPreference {
         return true;
     }
 
+    /**
+     * Override if you want to supply your own {@link SpinnerAdapter}.
+     *
+     * If you override this, override {@link #onItemSelected(int)} as well.
+     * @param context
+     * @return
+     */
     @NonNull
     public SpinnerAdapter buildAdapter(final Context context) {
         //noinspection deprecation
@@ -248,7 +255,20 @@ public class ListPreference extends DialogPreference {
         return null;
     }
 
-    void onItemSelected(int position) {
+    /**
+     * Triggered when an item is selected from menu or dialog.
+     *
+     * Override if you supplied your own {@link SpinnerAdapter} in {@link #buildAdapter(Context)}.
+     *
+     * Call the following code to store the new {@code value}:
+     * <pre>
+if (callChangeListener(value)) {
+    setValue(value);
+}
+     * </pre>
+     * @param position
+     */
+    public void onItemSelected(int position) {
         String value = mEntryValues[position].toString();
         if (callChangeListener(value)) {
             setValue(value);
