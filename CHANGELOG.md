@@ -4,7 +4,7 @@
 - `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
   - `SpinnerAdapter buildSimpleMenuAdapter(Context)` - Used in simple menus.
   - `SpinnerAdapter buildSimpleDialogAdapter(Context)` - Used in simple dialogs.
-  - Override the following methods if your `SpinnerAdapter` does *not* use `getEntries()` as data set:
+  - Override the following methods to expose your data set:
     - `CharSequence[] getEntries()` - Item captions.
     - `CharSequence[] getEntryValues()` - Persisted item values.
 
