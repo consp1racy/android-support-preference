@@ -7,8 +7,6 @@
   - Override the following methods if your `SpinnerAdapter` does *not* use `getEntries()` as data set:
     - `CharSequence[] getEntries()` - Item captions.
     - `CharSequence[] getEntryValues()` - Persisted item values.
-    - `void onItemSelected(int)` - Called when an item is selected.
-
 
 **1.0.0** 2016-07-24
 - Depends on support libs 24.1.1 to avoid issues in 21.1.0.
