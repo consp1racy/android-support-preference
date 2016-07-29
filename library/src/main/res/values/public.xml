@@ -39,4 +39,6 @@
     <public name="Preference.Material.DialogPreference.RingtonePreference" type="style"/>
     <public name="Preference.Material.SeekBarPreference" type="style"/>
     <public name="PreferenceFragmentList.Material" type="style"/>
+
+    <public name="asp_select_dialog_item" type="layout"/>
 </resources>

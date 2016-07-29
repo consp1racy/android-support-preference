@@ -145,10 +145,11 @@ public class SettingsActivity extends AppCompatActivity implements
             }
             case R.id.reset: {
                 final Context context = this;
+                final String[] customPackages = {BuildConfig.APPLICATION_ID};
                 XpPreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply();
-                XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true);
-                XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true);
-                XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true);
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true, customPackages);
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true, customPackages);
+                XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true, customPackages);
                 mSettingsFragment = SettingsFragment.newInstance(null);
                 getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)

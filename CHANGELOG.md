@@ -1,6 +1,6 @@
 # Change log
 
-**1.0.1**
+**1.0.1** 2016-07-29
 - `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
   - `SpinnerAdapter buildSimpleMenuAdapter(Context)` - Used in simple menus.
   - `SpinnerAdapter buildSimpleDialogAdapter(Context)` - Used in simple dialogs.
@@ -8,7 +8,7 @@
     - `CharSequence[] getEntries()` - Item captions.
     - `CharSequence[] getEntryValues()` - Persisted item values.
 
-**1.0.0** 2016-07-24
+**1.0.0** 2016-07-24 *Deprecated*
 - Depends on support libs 24.1.1 to avoid issues in 21.1.0.
 - `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` is back.
   - `CheckedTextView`s are once more incorrectly tinted since support libs 24.1.0. This will fix it.

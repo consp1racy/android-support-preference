@@ -20,7 +20,7 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.0.0'
+    compile 'net.xpece.android:support-preference:1.0.1'
 }
 ```
 
@@ -77,6 +77,7 @@ Library version 0.5.1. Android version 4.4.
 - `EditTextPreference`
 - `ListPreference`
     - Optionally can display as a simple menu or simple dialog.
+    - Subclasses support custom adapter.
 - `MultiSelectListPreference`
     - Available since API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
@@ -194,6 +195,16 @@ Preference-v7 r23.1.1 does not provide a default divider so you don't need to ca
 If you want to include sounds from the external storage your app needs to request
 `android.permission.READ_EXTERNAL_STORAGE` permission in its manifest.
 Don't forget to check this runtime permission before opening ringtone picker on API 23.
+
+### ListPreference custom adapter
+
+If you subclass `ListPreference` you can supply your own `SpinnerAdapter` which may or may not
+use `getEntries()` as its data set. Here follow the methods you need to override:
+- `SpinnerAdapter buildSimpleMenuAdapter(Context)` - Used in simple menus.
+- `SpinnerAdapter buildSimpleDialogAdapter(Context)` - Used in simple dialogs.
+- Override the following methods if your `SpinnerAdapter` does *not* use `getEntries()` as data set:
+  - `CharSequence[] getEntries()` - Item captions.
+  - `CharSequence[] getEntryValues()` - Persisted item values.
 
 ### Simple menu and Simple dialog
 

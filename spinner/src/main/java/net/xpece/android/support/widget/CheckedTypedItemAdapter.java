@@ -86,6 +86,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         return view;
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = createViewFromResource(mInflater, convertView, parent, mResource);

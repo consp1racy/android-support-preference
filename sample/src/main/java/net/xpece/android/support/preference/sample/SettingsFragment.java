@@ -124,6 +124,11 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
     }
 
     @Override
+    public String[] getCustomDefaultPackages() {
+        return new String[]{BuildConfig.APPLICATION_ID};
+    }
+
+    @Override
     public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
