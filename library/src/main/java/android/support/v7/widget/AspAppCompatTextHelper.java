@@ -26,13 +26,13 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-class XpAppCompatTextHelper {
+class AspAppCompatTextHelper {
 
-    static XpAppCompatTextHelper create(TextView textView) {
+    static AspAppCompatTextHelper create(TextView textView) {
         if (Build.VERSION.SDK_INT >= 17) {
-            return new XpAppCompatTextHelperV17(textView);
+            return new AspAppCompatTextHelperV17(textView);
         }
-        return new XpAppCompatTextHelper(textView);
+        return new AspAppCompatTextHelper(textView);
     }
 
     final TextView mView;
@@ -42,7 +42,7 @@ class XpAppCompatTextHelper {
     private TintInfo mDrawableRightTint;
     private TintInfo mDrawableBottomTint;
 
-    XpAppCompatTextHelper(TextView view) {
+    AspAppCompatTextHelper(TextView view) {
         mView = view;
     }
 

@@ -6,12 +6,10 @@ import java.io.Serializable;
  * Created by Eugen on 16.04.2016.
  */
 class Tuple<T> implements Serializable {
-    public T first, second;
+    public final T first, second;
 
-    public Tuple(T first, T second) {
+    public Tuple(final T first, final T second) {
         this.first = first;
         this.second = second;
     }
-
-    public Tuple() {}
 }

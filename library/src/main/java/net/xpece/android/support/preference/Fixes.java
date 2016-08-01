@@ -3,7 +3,7 @@ package net.xpece.android.support.preference;
 import android.content.Context;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v7.widget.XpAppCompatCheckedTextView;
+import android.support.v7.widget.AspAppCompatCheckedTextView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +46,7 @@ public final class Fixes {
         @Override
         public View onCreateView(final View parent, final String name, final Context context, final AttributeSet attrs) {
             if ("CheckedTextView".equals(name)) {
-                return new XpAppCompatCheckedTextView(context, attrs);
+                return new AspAppCompatCheckedTextView(context, attrs);
             }
             return null;
         }

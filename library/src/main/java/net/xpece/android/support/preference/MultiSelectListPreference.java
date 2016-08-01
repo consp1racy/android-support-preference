@@ -23,6 +23,7 @@ import android.os.Parcelable;
 import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -214,11 +215,7 @@ public class MultiSelectListPreference extends DialogPreference {
             super(source);
             values = new HashSet<>();
             String[] strings = source.createStringArray();
-
-            final int stringCount = strings.length;
-            for (int i = 0; i < stringCount; i++) {
-                values.add(strings[i]);
-            }
+            Collections.addAll(values, strings);
         }
 
         public SavedState(Parcelable superState) {

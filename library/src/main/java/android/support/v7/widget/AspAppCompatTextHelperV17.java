@@ -25,11 +25,11 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 @TargetApi(17)
-class XpAppCompatTextHelperV17 extends XpAppCompatTextHelper {
+class AspAppCompatTextHelperV17 extends AspAppCompatTextHelper {
     private TintInfo mDrawableStartTint;
     private TintInfo mDrawableEndTint;
 
-    XpAppCompatTextHelperV17(TextView view) {
+    AspAppCompatTextHelperV17(TextView view) {
         super(view);
     }
 

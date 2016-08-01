@@ -27,27 +27,27 @@ import android.widget.CheckedTextView;
  * <p>This will automatically be used when you use {@link CheckedTextView} in your layouts.
  * You should only need to manually use this class when writing custom views.</p>
  */
-public class XpAppCompatCheckedTextView extends CheckedTextView {
+public class AspAppCompatCheckedTextView extends CheckedTextView {
 
     private static final int[] TINT_ATTRS = {
             android.R.attr.checkMark
     };
 
     private AppCompatDrawableManager mDrawableManager;
-    private XpAppCompatTextHelper mTextHelper;
+    private AspAppCompatTextHelper mTextHelper;
 
-    public XpAppCompatCheckedTextView(Context context) {
+    public AspAppCompatCheckedTextView(Context context) {
         this(context, null);
     }
 
-    public XpAppCompatCheckedTextView(Context context, AttributeSet attrs) {
+    public AspAppCompatCheckedTextView(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.checkedTextViewStyle);
     }
 
-    public XpAppCompatCheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AspAppCompatCheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(TintContextWrapper.wrap(context), attrs, defStyleAttr);
 
-        mTextHelper = XpAppCompatTextHelper.create(this);
+        mTextHelper = AspAppCompatTextHelper.create(this);
         mTextHelper.loadFromAttributes(attrs, defStyleAttr);
         mTextHelper.applyCompoundDrawablesTints();
 
