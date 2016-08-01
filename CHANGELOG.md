@@ -1,6 +1,10 @@
 # Change log
 
-**1.0.1** 2016-07-29
+**1.0.2** 2016-08-01
+- *FIXED:* class resolution when using custom packages.
+- Renamed `XpAppCompat*` widgets (used by `Fixes`) to `AspAppCompat*` to avoid conflicts with my other library.
+
+**1.0.1** 2016-07-29 *Deprecated*
 - `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
   - `SpinnerAdapter buildSimpleMenuAdapter(Context)` - Used in simple menus.
   - `SpinnerAdapter buildSimpleDialogAdapter(Context)` - Used in simple dialogs.

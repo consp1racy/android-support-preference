@@ -8,9 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.SharedPreferencesCompat;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Eugen on 6. 12. 2015.
@@ -80,7 +80,7 @@ public final class XpPreferenceManager extends PreferenceManager {
             if (mCustomDefaultPackages == null || mCustomDefaultPackages.length == 0) {
                 mAllDefaultPackages = DEFAULT_PACKAGES;
             } else {
-                Set<String> allDefaultPackagesSet = new HashSet<>(mCustomDefaultPackages.length + DEFAULT_PACKAGES.length);
+                List<String> allDefaultPackagesSet = new ArrayList<>(mCustomDefaultPackages.length + DEFAULT_PACKAGES.length);
                 Collections.addAll(allDefaultPackagesSet, mCustomDefaultPackages);
                 Collections.addAll(allDefaultPackagesSet, DEFAULT_PACKAGES);
                 mAllDefaultPackages = allDefaultPackagesSet.toArray(new String[allDefaultPackagesSet.size()]);
