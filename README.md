@@ -16,7 +16,8 @@ Available from API 7. *Connecting preference-v7 to appcompat-v7.*
 - [Changelog](CHANGELOG.md)
 
 <a name="how-to-get"/>
-## How to get the preference library?
+## How to get the preference library? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference%3A1.0.2"><img src="https://img.shields.io/badge/Methods count-core: 1194-e91e63.svg"/></a>
+
 
 ```groovy
 dependencies {
@@ -24,7 +25,8 @@ dependencies {
 }
 ```
 
-## How to get color picker preference too?
+## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.0.0"><img src="https://img.shields.io/badge/Methods count-core: 216-e91e63.svg"/></a>
+
 
 ```groovy
 dependencies {
@@ -32,7 +34,8 @@ dependencies {
 }
 ```
 
-## How to get just custom Material popup menu and spinner?
+## How to get just custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.0.0"><img src="https://img.shields.io/badge/Methods count-core: 514-e91e63.svg"/></a>
+
 
 ```groovy
 dependencies {
