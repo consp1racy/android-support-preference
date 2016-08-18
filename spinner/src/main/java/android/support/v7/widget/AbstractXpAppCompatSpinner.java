@@ -34,6 +34,7 @@ import android.widget.Spinner;
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 /**
@@ -54,6 +55,27 @@ import java.lang.reflect.Field;
  */
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
+    static class LegacyBackgroundHelper {
+        static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{View.class, AppCompatDrawableManager.class};
+        static final Constructor<AppCompatBackgroundHelper> CONSTRUCTOR;
+
+        static {
+            Constructor<AppCompatBackgroundHelper> ctor = null;
+            try {
+                Class<AppCompatBackgroundHelper> cls = AppCompatBackgroundHelper.class;
+                ctor = cls.getDeclaredConstructor(CONSTRUCTOR_SIGNATURE);
+                ctor.setAccessible(true);
+            } catch (NoSuchMethodException ex) {
+                // The class should be loaded only if support lib 24.2.0 constructor was not found.
+                ex.printStackTrace();
+            }
+            CONSTRUCTOR = ctor;
+        }
+
+        private LegacyBackgroundHelper() {
+        }
+    }
+
     private static final boolean IS_AT_LEAST_K = Build.VERSION.SDK_INT >= 19;
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
 
@@ -71,8 +93,6 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         }
         FIELD_FORWARDING_LISTENER = f;
     }
-
-    private AppCompatDrawableManager mDrawableManager;
 
     private AppCompatBackgroundHelper mBackgroundTintHelper;
 
@@ -181,8 +201,20 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs,
             R.styleable.Spinner, defStyleAttr, 0);
 
-        mDrawableManager = AppCompatDrawableManager.get();
-        mBackgroundTintHelper = new AppCompatBackgroundHelper(this, mDrawableManager);
+        try {
+            // Support libs >= 24.2.0
+            mBackgroundTintHelper = new AppCompatBackgroundHelper(this);
+        } catch (NoSuchMethodError ex) {
+            // Support libs < 24.2.0
+            final AppCompatDrawableManager drawableManager = AppCompatDrawableManager.get();
+            Object[] constructorArgs = {this, drawableManager};
+            try {
+                mBackgroundTintHelper = LegacyBackgroundHelper.CONSTRUCTOR.newInstance(constructorArgs);
+            } catch (Exception e) {
+                // Well, fuck me!
+                e.printStackTrace();
+            }
+        }
 
         if (popupTheme != null) {
             mPopupContext = new ContextThemeWrapper(context, popupTheme);
@@ -197,7 +229,9 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             }
         }
 
-        mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
+        if (mBackgroundTintHelper != null) {
+            mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
+        }
 
         final CharSequence[] entries = a.getTextArray(R.styleable.Spinner_android_entries);
         if (entries != null) {

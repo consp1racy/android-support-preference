@@ -1,8 +1,11 @@
 # Change log
 
-**1.0.2** 2016-08-01
-- *FIXED:* class resolution when using custom packages.
-- Renamed `XpAppCompat*` widgets (used by `Fixes`) to `AspAppCompat*` to avoid conflicts with my other library.
+**1.0.2**
+- 2016-08-01 `support-preference` only release 
+  - *FIXED:* class resolution when using custom packages.
+  - Renamed `XpAppCompat*` widgets (used by `Fixes`) to `AspAppCompat*` to avoid conflicts with my other library.
+- 2016-08-18 `support-spinner` only release
+  - `XpAppCompatSpinner` now supports support libs 24.2.0.
 
 **1.0.1** 2016-07-29 *Deprecated*
 - `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
@@ -41,11 +44,11 @@
 ```
 
 **0.8.1** *Legacy*
-- (2016-05-06) `support-spinner` only release.
+- 2016-05-06 `support-spinner` only release.
   - Added `CheckedTypedItemAdapter` which is more versatile than `CheckedItemAdapter`.
   - *FIXED:* No more crashes when using empty adapter.
   - *FIXED:* Spinner no longer leaks popup window.
-- (2016-05-11) `support-preference` only release.
+- 2016-05-11 `support-preference` only release.
   - Fixed crash in `RingtonePreference`.
     - If ringtones cannot be queried the preference tries to open system ringtone picker.
     - If system ringtone picker fails to open only "Silent" and "Default" options are shown if enabled.

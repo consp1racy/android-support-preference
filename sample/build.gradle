@@ -24,6 +24,13 @@ android {
 dependencies {
     compile project(':library')
     compile project(':colorpicker')
-
     compile "com.android.support:design:$supportLibVersion"
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'com.android.support') {
+            details.useVersion '24.1.1'
+        }
+    }
 }
