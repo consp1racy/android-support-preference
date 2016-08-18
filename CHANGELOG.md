@@ -6,6 +6,7 @@
   - Renamed `XpAppCompat*` widgets (used by `Fixes`) to `AspAppCompat*` to avoid conflicts with my other library.
 - 2016-08-18 `support-spinner` only release
   - `XpAppCompatSpinner` now supports support libs 24.2.0.
+  - Minimum SDK raised from 7 to 9.
 
 **1.0.1** 2016-07-29 *Deprecated*
 - `SpinnerAdapter ListPreference.buildAdapter(Context)` is deprecated in favor of:
