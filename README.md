@@ -6,7 +6,7 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 7. *Connecting preference-v7 to appcompat-v7.*
+Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ## Table of contents
 - [How to get the library?](#how-to-get)
