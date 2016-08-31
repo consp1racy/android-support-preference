@@ -27,6 +27,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * @author Eugen on 22. 4. 2016.
  */
+@TargetApi(23)
 public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})

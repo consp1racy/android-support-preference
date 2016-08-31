@@ -16,6 +16,7 @@
 
 package android.support.v7.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -53,6 +54,7 @@ import java.lang.reflect.Field;
  *
  * @hide
  */
+@TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
     static class LegacyBackgroundHelper {
@@ -256,6 +258,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
     /**
      * @return the context used to inflate the Spinner's popup or dialog window
      */
+    @Override
     public Context getPopupContext() {
         if (mPopupContext != null) {
             return mPopupContext;
