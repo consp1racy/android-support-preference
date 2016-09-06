@@ -25,6 +25,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * A base class for {@link Preference} objects that are
@@ -33,11 +34,14 @@ import android.util.AttributeSet;
  */
 public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
     implements TintablePreference, TintableDialogPreference,
-    CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference {
+    CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference,
+    LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
     private DialogPreferenceIconHelper mDialogPreferenceIconHelper;
+
+    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -145,6 +149,17 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
+
+        if (hasOnPreferenceLongClickListener()) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return mOnPreferenceLongClickListener.onLongClick(DialogPreference.this, v);
+                }
+            });
+        } else {
+            holder.itemView.setOnLongClickListener(null);
+        }
     }
 
     @Override
@@ -201,5 +216,18 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     @Override
     public boolean hasSummaryTextAppearance() {
         return mPreferenceTextHelper.hasSummaryTextAppearance();
+    }
+
+    @Override
+    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+        if (listener != mOnPreferenceLongClickListener) {
+            mOnPreferenceLongClickListener = listener;
+            notifyChanged();
+        }
+    }
+
+    @Override
+    public boolean hasOnPreferenceLongClickListener() {
+        return mOnPreferenceLongClickListener != null;
     }
 }

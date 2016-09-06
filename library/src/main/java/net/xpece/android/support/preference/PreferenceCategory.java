@@ -5,14 +5,17 @@ import android.content.res.ColorStateList;
 import android.support.annotation.ColorInt;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * Created by Eugen on 08.03.2016.
  */
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
-    implements ColorableTextPreference {
+    implements ColorableTextPreference, LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
+
+    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -40,6 +43,17 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
+
+        if (hasOnPreferenceLongClickListener()) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return mOnPreferenceLongClickListener.onLongClick(PreferenceCategory.this, v);
+                }
+            });
+        } else {
+            holder.itemView.setOnLongClickListener(null);
+        }
     }
 
     @Override
@@ -96,5 +110,18 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     @Override
     public boolean hasSummaryTextAppearance() {
         return mPreferenceTextHelper.hasSummaryTextAppearance();
+    }
+
+    @Override
+    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+        if (listener != mOnPreferenceLongClickListener) {
+            mOnPreferenceLongClickListener = listener;
+            notifyChanged();
+        }
+    }
+
+    @Override
+    public boolean hasOnPreferenceLongClickListener() {
+        return mOnPreferenceLongClickListener != null;
     }
 }

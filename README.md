@@ -129,6 +129,7 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - Subscreen navigation implementation.
 - `ListPreference` can optionally show as a simple menu in a popup instead of a dialog.
 - `ColorPreference`
+- Preference long click listeners.
 
 <a name="how-to-use"/>
 ## How to use the library?

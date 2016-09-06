@@ -38,10 +38,12 @@ import android.widget.ListView;
  * </div>
  */
 public class Preference extends android.support.v7.preference.Preference
-    implements TintablePreference, CustomIconPreference, ColorableTextPreference {
+    implements TintablePreference, CustomIconPreference, ColorableTextPreference, LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
+
+    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     /**
      * Perform inflation from XML and apply a class-specific base style. This
@@ -174,6 +176,17 @@ public class Preference extends android.support.v7.preference.Preference
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
+
+        if (hasOnPreferenceLongClickListener()) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return mOnPreferenceLongClickListener.onLongClick(Preference.this, v);
+                }
+            });
+        } else {
+            holder.itemView.setOnLongClickListener(null);
+        }
     }
 
     @Override
@@ -230,5 +243,18 @@ public class Preference extends android.support.v7.preference.Preference
     @Override
     public boolean hasSummaryTextAppearance() {
         return mPreferenceTextHelper.hasSummaryTextAppearance();
+    }
+
+    @Override
+    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+        if (listener != mOnPreferenceLongClickListener) {
+            mOnPreferenceLongClickListener = listener;
+            notifyChanged();
+        }
+    }
+
+    @Override
+    public boolean hasOnPreferenceLongClickListener() {
+        return mOnPreferenceLongClickListener != null;
     }
 }

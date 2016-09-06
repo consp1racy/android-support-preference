@@ -19,11 +19,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
+import net.xpece.android.support.preference.LongClickablePreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
+import net.xpece.android.support.preference.OnPreferenceLongClickListener;
 import net.xpece.android.support.preference.PreferenceCategory;
 import net.xpece.android.support.preference.PreferenceDividerDecoration;
 import net.xpece.android.support.preference.PreferenceIconHelper;
@@ -197,6 +200,15 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 //                edit.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 //                edit.setSingleLine(true);
 //                edit.setSelectAllOnFocus(true);
+            }
+        });
+
+        ((LongClickablePreference) findPreference("example_text")).setOnPreferenceLongClickListener(new OnPreferenceLongClickListener() {
+            @Override
+            public <T extends Preference & LongClickablePreference> boolean onLongClick(T preference, View view) {
+                final Toast toast = Toast.makeText(getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
+                toast.show();
+                return true;
             }
         });
 
