@@ -14,6 +14,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -191,7 +192,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             @Override
             public void onEditTextCreated(EditText edit) {
                 Context context = edit.getContext();
-                Drawable d = ContextCompat.getDrawable(context, R.drawable.ic_create_black_24dp);
+                Drawable d = AppCompatDrawableManager.get().getDrawable(context, R.drawable.ic_create_black_24dp);
                 d = DrawableCompat.wrap(d);
                 DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
                 TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(edit, null, null, d, null);

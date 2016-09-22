@@ -23,14 +23,14 @@ import android.widget.CheckedTextView;
 
 /**
  * A {@link CheckedTextView} which supports compatible features on older version of the platform.
- *
+ * <p>
  * <p>This will automatically be used when you use {@link CheckedTextView} in your layouts.
  * You should only need to manually use this class when writing custom views.</p>
  */
 public class AspAppCompatCheckedTextView extends CheckedTextView {
 
     private static final int[] TINT_ATTRS = {
-            android.R.attr.checkMark
+        android.R.attr.checkMark
     };
 
     private AppCompatDrawableManager mDrawableManager;
@@ -54,7 +54,7 @@ public class AspAppCompatCheckedTextView extends CheckedTextView {
         mDrawableManager = AppCompatDrawableManager.get();
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
-                TINT_ATTRS, defStyleAttr, 0);
+            TINT_ATTRS, defStyleAttr, 0);
         setCheckMarkDrawable(a.getDrawable(0));
         a.recycle();
     }

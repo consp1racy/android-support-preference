@@ -32,6 +32,11 @@ dependencies {
     compile project(':spinner')
 }
 
+repositories {
+    mavenCentral()
+//    jcenter()
+}
+
 ext {
     PUBLISH_GROUP_ID = publishGroupId
     PUBLISH_ARTIFACT_ID = 'support-preference'

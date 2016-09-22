@@ -22,6 +22,11 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
 }
 
+repositories {
+    mavenCentral()
+//    jcenter()
+}
+
 ext {
     PUBLISH_GROUP_ID = publishGroupId
     PUBLISH_ARTIFACT_ID = 'support-spinner'

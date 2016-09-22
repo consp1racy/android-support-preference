@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -25,6 +26,11 @@ dependencies {
     compile project(':library')
     compile project(':colorpicker')
     compile "com.android.support:design:$supportLibVersion"
+}
+
+repositories {
+    mavenCentral()
+//    jcenter()
 }
 
 configurations.all {

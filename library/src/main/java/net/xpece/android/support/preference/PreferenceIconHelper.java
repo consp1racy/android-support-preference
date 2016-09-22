@@ -8,7 +8,9 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.Preference;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
@@ -155,7 +157,17 @@ public class PreferenceIconHelper {
      */
     public void setIcon(int iconResId) {
         Context context = getContext();
-        setIcon(ContextCompat.getDrawable(context, iconResId));
+        Drawable d = null;
+        try {
+            d = AppCompatResources.getDrawable(context, iconResId);
+        } catch (Exception ex) {
+            try {
+                d = AppCompatDrawableManager.get().getDrawable(context, iconResId);
+            } catch (Exception ex2) {
+                d = ContextCompat.getDrawable(context, iconResId);
+            }
+        }
+        setIcon(d);
         mIconResId = iconResId;
     }
 
