@@ -4,8 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
@@ -44,6 +44,8 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     private XpListPopupWindow mPopup;
     private AlertDialog.Builder mDialogBuilder;
 
+    private OnClickListener mOnClickListener;
+
     public XpAppCompatSpinner(final Context context) {
         this(context, null);
     }
@@ -73,22 +75,41 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         mSpinnerMode = spinnerMode;
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     @Override
     public boolean performClick() {
-        if (ViewCompat.hasOnClickListeners(this)) { // TODO Support onClickListener pre API 15.
+        if (hasOnClickListeners()) {
             playSoundEffect(SoundEffectConstants.CLICK);
             if (callOnClick()) {
                 return true;
             }
         }
-        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
 
-        showOnClick();
+        onClickDefault();
         return true;
     }
 
-    public void showOnClick() {
+    @Override
+    public boolean hasOnClickListeners() {
+        return mOnClickListener != null;
+    }
+
+    @Override
+    public void setOnClickListener(@Nullable final OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    @Override
+    public boolean callOnClick() {
+        if (hasOnClickListeners()) {
+            mOnClickListener.onClick(this);
+            return true;
+        }
+        return false;
+    }
+
+    public void onClickDefault() {
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+
         final SpinnerAdapter adapter = getAdapter();
         if (adapter == null || adapter.isEmpty()) {
             return;

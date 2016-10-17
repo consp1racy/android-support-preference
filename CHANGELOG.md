@@ -1,11 +1,13 @@
 # Change log
 
+**1.0.4**
+- 2016-10-17 `support-spinner` only release
+  - Added support for an `onClickListener`.
+
 **1.0.3**
 - 2016-09-06 `support-preference` only release
   - *NEW!* `OnPreferenceLongClickListener` support for all preferences in `net.xpece.android.support.preference` package
     - Not supported by `PreferenceScreen`.
-- 2016-10-17 `support-spinner` only release
-  - Tweaks nobody will ever notice.
 
 **1.0.2**
 - 2016-08-01 `support-preference` only release 

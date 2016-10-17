@@ -39,7 +39,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:1.0.3'
+    compile 'net.xpece.android:support-spinner:1.0.4'
 }
 ```
 
