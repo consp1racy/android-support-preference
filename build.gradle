@@ -1,12 +1,9 @@
 buildscript {
     repositories {
-        mavenCentral()
-//        jcenter()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-//        classpath 'com.uphyca.gradle:gradle-android-aspectj-plugin:0.9.14'
-//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
+        classpath 'com.android.tools.build:gradle:2.2.1'
     }
 }
 
