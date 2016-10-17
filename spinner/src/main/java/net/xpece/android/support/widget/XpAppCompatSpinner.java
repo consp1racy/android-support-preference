@@ -84,9 +84,14 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
 
+        showOnClick();
+        return true;
+    }
+
+    public void showOnClick() {
         final SpinnerAdapter adapter = getAdapter();
         if (adapter == null || adapter.isEmpty()) {
-            return true;
+            return;
         }
 
         switch (mSpinnerMode) {
@@ -105,7 +110,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
                 break;
             }
         }
-        return true;
     }
 
     private void showAsDialog() {
