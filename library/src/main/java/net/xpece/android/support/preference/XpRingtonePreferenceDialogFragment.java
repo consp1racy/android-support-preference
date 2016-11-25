@@ -242,7 +242,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             mClickedPos = getListPosition(mRingtoneManager.getRingtonePosition(mExistingUri));
         }
 
-        SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(getContext(), singleChoiceItemLayout, mCursor,
+        SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(context, singleChoiceItemLayout, mCursor,
             new String[]{MediaStore.Audio.Media.TITLE}, new int[]{android.R.id.text1});
 
         XpHeaderViewListAdapter adapter = new XpHeaderViewListAdapter(mStaticItems, null, ringtoneAdapter);
