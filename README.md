@@ -22,8 +22,14 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 ```groovy
 dependencies {
     compile 'net.xpece.android:support-preference:1.2.0'
+    
+    ext.supportLibsVersion = "25.0.1"
+    compile "com.android.support:appcompat-v7:$supportLibsVersion"
+    compile "com.android.support:preference-v7:$supportLibsVersion"
 }
 ```
+
+Always specify `preference-v7` version explicitly!
 
 ## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.0.0"><img src="https://img.shields.io/badge/Methods count-core: 216-e91e63.svg"/></a>
 
