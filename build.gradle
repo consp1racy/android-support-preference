@@ -17,3 +17,6 @@ ext {
     publishGroupId = "net.xpece.android"
     publishVersion = "1.2.0"
 }
+
+group = "net.xpece.android"
+version = "1.2.0"

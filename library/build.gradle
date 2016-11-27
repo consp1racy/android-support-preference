@@ -42,3 +42,9 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
+group = rootProject.group
+version = rootProject.version
+
+apply from: rootProject.file('android-tasks.gradle')
+apply from: rootProject.file('android-maven.gradle')
