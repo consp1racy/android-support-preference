@@ -124,8 +124,12 @@ public class SwitchPreference extends TwoStatePreference {
 //        }
 //    }
 
+    @TargetApi(Build.VERSION_CODES.N)
     private void syncSwitchView(PreferenceViewHolder holder) {
-        View switchView = holder.findViewById(R.id.switchWidget);
+        View switchView = holder.findViewById(android.R.id.switch_widget);
+        if (switchView == null) {
+            switchView = holder.findViewById(R.id.switchWidget);
+        }
         this.syncSwitchView(switchView);
     }
 

@@ -16,10 +16,13 @@
 
 package android.support.v7.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.CheckedTextView;
+
+import net.xpece.android.support.preference.R;
 
 /**
  * A {@link CheckedTextView} which supports compatible features on older version of the platform.
@@ -27,6 +30,8 @@ import android.widget.CheckedTextView;
  * <p>This will automatically be used when you use {@link CheckedTextView} in your layouts.
  * You should only need to manually use this class when writing custom views.</p>
  */
+@SuppressWarnings("RestrictedApi")
+@SuppressLint("AppCompatCustomView")
 public class AspAppCompatCheckedTextView extends CheckedTextView {
 
     private static final int[] TINT_ATTRS = {
@@ -41,7 +46,7 @@ public class AspAppCompatCheckedTextView extends CheckedTextView {
     }
 
     public AspAppCompatCheckedTextView(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.checkedTextViewStyle);
+        this(context, attrs, R.attr.checkedTextViewStyle);
     }
 
     public AspAppCompatCheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
