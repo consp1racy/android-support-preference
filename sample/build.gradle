@@ -33,10 +33,10 @@ repositories {
 //    jcenter()
 }
 
-//configurations.all {
-//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-//        if (details.requested.group == 'com.android.support') {
-//            details.useVersion '24.1.1'
-//        }
-//    }
-//}
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'com.android.support') {
+            details.useVersion '24.1.1'
+        }
+    }
+}

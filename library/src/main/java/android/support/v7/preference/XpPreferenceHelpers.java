@@ -6,11 +6,13 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
+import android.view.View;
 
 import net.xpece.android.support.preference.ColorableTextPreference;
 import net.xpece.android.support.preference.CustomDialogIconPreference;
 import net.xpece.android.support.preference.CustomIconPreference;
 import net.xpece.android.support.preference.DialogPreferenceIconHelper;
+import net.xpece.android.support.preference.OnPreferenceLongClickListener;
 import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceTextHelper;
 
@@ -22,9 +24,10 @@ import java.util.WeakHashMap;
 
 public final class XpPreferenceHelpers {
 
-    static final WeakHashMap<Preference, PreferenceTextHelper> PREFERENCE_TEXT_HELPERS = new WeakHashMap<>();
-    static final WeakHashMap<Preference, PreferenceIconHelper> PREFERENCE_ICON_HELPERS = new WeakHashMap<>();
-    static final WeakHashMap<DialogPreference, DialogPreferenceIconHelper> PREFERENCE_DIALOG_ICON_HELPERS = new WeakHashMap<>();
+    private static final WeakHashMap<Preference, PreferenceTextHelper> PREFERENCE_TEXT_HELPERS = new WeakHashMap<>();
+    private static final WeakHashMap<Preference, PreferenceIconHelper> PREFERENCE_ICON_HELPERS = new WeakHashMap<>();
+    private static final WeakHashMap<DialogPreference, DialogPreferenceIconHelper> PREFERENCE_DIALOG_ICON_HELPERS = new WeakHashMap<>();
+    private static final WeakHashMap<Preference, OnPreferenceLongClickListener> PREFERENCE_LONG_CLICK_LISTENERS = new WeakHashMap<>();
 
     private XpPreferenceHelpers() {}
 
@@ -67,10 +70,24 @@ public final class XpPreferenceHelpers {
     }
 
     @RestrictTo(RestrictTo.Scope.GROUP_ID)
-    static void onBindViewHolder(Preference preference, PreferenceViewHolder holder) {
+    static void onBindViewHolder(final Preference preference, final PreferenceViewHolder holder) {
         final PreferenceTextHelper textHelper = PREFERENCE_TEXT_HELPERS.get(preference);
         if (textHelper != null) {
             textHelper.onBindViewHolder(holder);
+        }
+
+        if (PREFERENCE_LONG_CLICK_LISTENERS.containsKey(preference)) {
+            final OnPreferenceLongClickListener longClickListener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
+            if (longClickListener != null) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        return longClickListener.onLongClick(preference, v);
+                    }
+                });
+            } else {
+                holder.itemView.setOnLongClickListener(null);
+            }
         }
     }
 
@@ -282,4 +299,16 @@ public final class XpPreferenceHelpers {
         return preference.getDialogIcon();
     }
 
+    public static void setOnPreferenceLongClickListener(final Preference preference, final OnPreferenceLongClickListener listener) {
+        final OnPreferenceLongClickListener oldListener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
+        if (listener != oldListener) {
+            PREFERENCE_LONG_CLICK_LISTENERS.put(preference, listener);
+            preference.notifyChanged();
+        }
+    }
+
+    public static boolean hasOnPreferenceLongClickListener(final Preference preference) {
+        final OnPreferenceLongClickListener listener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
+        return listener != null;
+    }
 }

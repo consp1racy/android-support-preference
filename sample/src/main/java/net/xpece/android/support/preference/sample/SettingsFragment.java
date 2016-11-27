@@ -14,6 +14,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
+import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,7 +26,6 @@ import android.widget.Toast;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
-import net.xpece.android.support.preference.LongClickablePreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.OnPreferenceLongClickListener;
 import net.xpece.android.support.preference.PreferenceCategory;
@@ -203,9 +203,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             }
         });
 
-        ((LongClickablePreference) findPreference("example_text")).setOnPreferenceLongClickListener(new OnPreferenceLongClickListener() {
+        // Setup an OnPreferenceLongClickListener via XpPreferenceHelpers.
+        XpPreferenceHelpers.setOnPreferenceLongClickListener(findPreference("example_text"), new OnPreferenceLongClickListener() {
             @Override
-            public <T extends Preference & LongClickablePreference> boolean onLongClick(T preference, View view) {
+            public boolean onLongClick(Preference preference, View view) {
                 final Toast toast = Toast.makeText(getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
                 toast.show();
                 return true;

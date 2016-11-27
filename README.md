@@ -21,7 +21,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.1.1'
+    compile 'net.xpece.android:support-preference:1.2.0'
 }
 ```
 

@@ -7,8 +7,8 @@ android:
   components:
     - tools
     - platform-tools
-    - android-24
-    - build-tools-24.0.2
+    - android-25
+    - build-tools-25.0.1
     - extra-android-m2repository
 
 # as per http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
@@ -26,7 +26,7 @@ notifications:
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  
+
 # cache between builds
 cache:
   directories:

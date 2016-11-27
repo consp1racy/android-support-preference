@@ -1,9 +1,21 @@
 # Change log
-**1.1.1** 2016-11-27
+
+**1.2.0** 2016-11-27
+- *NEW!* Arbitrary `Preference`s now support long click listeners.
+  - `PreferenceScreen`s now support long click listeners.
+  - Use `XpPreferenceHelpers.setOnPreferenceLongClickListener`.
+  - Breaking change in `OnPreferenceLongClickListener` API.
+- *FIXED:*
+  - Custom text appearance is now applied to explicitly referenced preferences.
+  - `XpPreferenceHelpers` now applies custom text appearance to preferences created in Java.
+  - `SwitchPreference` supports `Switch` with `@android:id/switch_widget` introduced in Android N. 
+  - `AspAppCompatCheckedTextView` (part of `Fixes` for AppCompat v24.1.x) uses correct style.
+
+**1.1.1** 2016-11-27 *Unreleased*
 - `SwitchCompat` is now used on all platforms and animates on all supported platforms.
   - Resolves [Crashes with native Switch](https://github.com/consp1racy/android-support-preference/issues/52).
 
-**1.1.0** 2016-11-27
+**1.1.0** 2016-11-27 *Unreleased*
 - *NEW!* Arbitrary preferences support tinted icons and text appearance.
   - `PreferenceScreen`s support tinted icons and text appearance.
   - Tinted icons and text appearance accessible at runtime from `XpPreferenceHelpers` class.
@@ -13,10 +25,9 @@
 - 2016-10-17 `support-spinner` only release
   - Added support for an `onClickListener`.
 
-**1.0.3**
-- 2016-09-06 `support-preference` only release
-  - *NEW!* `OnPreferenceLongClickListener` support for all preferences in `net.xpece.android.support.preference` package
-    - Not supported by `PreferenceScreen`.
+**1.0.3** 2016-09-06
+- *NEW!* `OnPreferenceLongClickListener` support for all preferences in `net.xpece.android.support.preference` package
+  - <s>Not supported by `PreferenceScreen`.</s>
 
 **1.0.2**
 - 2016-08-01 `support-preference` only release 
