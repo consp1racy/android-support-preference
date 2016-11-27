@@ -30,12 +30,7 @@ public final class XpPreferenceHelpers {
 
     @RestrictTo(RestrictTo.Scope.GROUP_ID)
     static void onCreatePreference(final Preference preference, final AttributeSet attrs) {
-        int defStyleAttr = 0;
-        if (preference instanceof PreferenceScreen) {
-            defStyleAttr = R.attr.preferenceScreenStyle;
-        } else if (preference instanceof PreferenceCategory) {
-            defStyleAttr = R.attr.preferenceCategoryStyle;
-        }
+        final int defStyleAttr = getDefStyleAttr(preference);
 
         if (!(preference instanceof CustomIconPreference)) {
             final PreferenceIconHelper iconHelper = new PreferenceIconHelper(preference);
@@ -55,6 +50,20 @@ public final class XpPreferenceHelpers {
             textHelper.init(preference.getContext(), attrs, defStyleAttr, 0);
             PREFERENCE_TEXT_HELPERS.put(preference, textHelper);
         }
+    }
+
+    private static int getDefStyleAttr(Preference preference) {
+        final int defStyleAttr;
+        if (preference instanceof PreferenceScreen) {
+            defStyleAttr = R.attr.preferenceScreenStyle;
+        } else if (preference instanceof PreferenceCategory) {
+            defStyleAttr = R.attr.preferenceCategoryStyle;
+        } else if (preference instanceof PreferenceGroup) {
+            defStyleAttr = 0;
+        } else {
+            defStyleAttr = R.attr.preferenceStyle;
+        }
+        return defStyleAttr;
     }
 
     @RestrictTo(RestrictTo.Scope.GROUP_ID)
