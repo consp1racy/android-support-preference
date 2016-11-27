@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -13,7 +12,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -24,13 +23,6 @@ dependencies {
 
 repositories {
     mavenCentral()
-//    jcenter()
-}
-
-ext {
-    PUBLISH_GROUP_ID = publishGroupId
-    PUBLISH_ARTIFACT_ID = 'support-preference-color'
-    PUBLISH_VERSION = publishVersion
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -40,5 +32,3 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
-
-apply from: '../android-release-aar.gradle'

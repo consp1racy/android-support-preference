@@ -30,7 +30,6 @@ dependencies {
 
 repositories {
     mavenCentral()
-//    jcenter()
 }
 
 configurations.all {

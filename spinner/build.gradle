@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -24,13 +23,6 @@ dependencies {
 
 repositories {
     mavenCentral()
-//    jcenter()
-}
-
-ext {
-    PUBLISH_GROUP_ID = publishGroupId
-    PUBLISH_ARTIFACT_ID = 'support-spinner'
-    PUBLISH_VERSION = publishVersion
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -40,5 +32,3 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
-
-apply from: '../android-release-aar.gradle'
