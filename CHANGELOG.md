@@ -1,4 +1,9 @@
 # Change log
+**1.1.0** 2016-11-27
+- *NEW!* Arbitrary preferences support tinted icons and text appearance.
+  - `PreferenceScreen`s support tinted icons and text appearance.
+  - Tinted icons and text appearance accessible at runtime from `XpPreferenceHelpers` class.
+- Fixed `NoSuchMethodError` introduced in last release when using AppCompat older than 25.
 
 **1.0.4**
 - 2016-10-17 `support-spinner` only release
