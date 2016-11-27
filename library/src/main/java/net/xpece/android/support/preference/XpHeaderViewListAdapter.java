@@ -17,6 +17,7 @@
 package net.xpece.android.support.preference;
 
 import android.database.DataSetObserver;
+import android.support.annotation.RestrictTo;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;

@@ -160,10 +160,10 @@ public class PreferenceIconHelper {
         Drawable d = null;
         try {
             d = AppCompatResources.getDrawable(context, iconResId);
-        } catch (Exception ex) {
+        } catch (NoSuchMethodError ex) {
             try {
                 d = AppCompatDrawableManager.get().getDrawable(context, iconResId);
-            } catch (Exception ex2) {
+            } catch (NoSuchMethodError ex2) {
                 d = ContextCompat.getDrawable(context, iconResId);
             }
         }

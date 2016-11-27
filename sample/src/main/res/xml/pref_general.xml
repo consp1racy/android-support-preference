@@ -27,7 +27,9 @@
         android:icon="@drawable/ic_inbox_black_24dp"
         android:key="subs_screen"
         android:persistent="false"
-        android:title="Subscreen">
+        android:title="Subscreen"
+        app:asp_tintEnabled="true"
+        app:titleTextColor="@color/accent">
 
         <CheckBoxPreference
             android:icon="@drawable/ic_mail_black_24dp"

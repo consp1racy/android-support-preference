@@ -8,12 +8,12 @@ buildscript {
 }
 
 ext {
-    compileSdkVersion = 24
-    buildToolsVersion = "24.0.2"
-    supportLibVersion = "24.2.1"
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.1"
+    supportLibVersion = "25.0.1"
     minSdkVersion = 9
-    targetSdkVersion = 24
+    targetSdkVersion = 25
 
     publishGroupId = "net.xpece.android"
-    publishVersion = "1.0.4"
+    publishVersion = "1.1.0"
 }

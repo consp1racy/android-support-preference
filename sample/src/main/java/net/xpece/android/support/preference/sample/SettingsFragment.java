@@ -30,7 +30,6 @@ import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.OnPreferenceLongClickListener;
 import net.xpece.android.support.preference.PreferenceCategory;
 import net.xpece.android.support.preference.PreferenceDividerDecoration;
-import net.xpece.android.support.preference.PreferenceIconHelper;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarPreference;
@@ -138,11 +137,11 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         addPreferencesFromResource(R.xml.pref_general);
 
         // Manually tint PreferenceScreen icon.
-        Preference subs = findPreference("subs_screen");
-        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs,
-            R.drawable.ic_inbox_black_24dp,
-            Util.resolveResourceId(subs.getContext(), R.attr.asp_preferenceIconTint, R.color.accent),
-            true);
+//        Preference subs = findPreference("subs_screen");
+//        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs,
+//            R.drawable.ic_inbox_black_24dp,
+//            Util.resolveResourceId(subs.getContext(), R.attr.asp_preferenceIconTint, R.color.accent),
+//            true);
 
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());

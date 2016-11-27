@@ -1,5 +1,6 @@
 package android.support.v7.preference;
 
+import android.support.annotation.RestrictTo;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * @author Eugen on 17. 3. 2016.
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
 
     private static final int OFFSET = 0xffff;
@@ -92,6 +94,14 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
         pl.resId = preference.getLayoutResource();
         pl.widgetResId = preference.getWidgetLayoutResource();
         return pl;
+    }
+
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+
+        final Preference preference = getItem(position);
+        XpPreferenceHelpers.onBindViewHolder(preference, holder);
     }
 
     private static class PreferenceLayout {

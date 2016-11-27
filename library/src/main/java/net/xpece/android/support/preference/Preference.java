@@ -171,7 +171,6 @@ public class Preference extends android.support.v7.preference.Preference
         return mPreferenceIconHelper.getIcon();
     }
 
-
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);

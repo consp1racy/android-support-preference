@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 import android.support.v4.content.SharedPreferencesCompat;
 
 import java.lang.reflect.Method;
@@ -15,7 +16,8 @@ import java.util.List;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-public final class XpPreferenceManager extends PreferenceManager {
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
+public class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
 
@@ -67,7 +69,7 @@ public final class XpPreferenceManager extends PreferenceManager {
     @Override
     public PreferenceScreen inflateFromResource(@NonNull Context context, int resId, @Nullable PreferenceScreen rootPreferences) {
         this.setNoCommit(true);
-        PreferenceInflater inflater = new PreferenceInflater(context, this);
+        PreferenceInflater inflater = new XpPreferenceInflater(context, this);
         initPreferenceInflater(inflater);
         rootPreferences = (PreferenceScreen) inflater.inflate(resId, rootPreferences);
         rootPreferences.onAttachedToHierarchy(this);

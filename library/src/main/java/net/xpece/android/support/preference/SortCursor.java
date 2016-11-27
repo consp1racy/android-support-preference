@@ -20,12 +20,14 @@ import android.annotation.TargetApi;
 import android.database.AbstractCursor;
 import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.support.annotation.RestrictTo;
 import android.util.Log;
 
 /**
  * A variant of MergeCursor that sorts the cursors being merged. If decent
  * performance is ever obtained, it can be put back under android.database.
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 final class SortCursor extends AbstractCursor {
     private static final String TAG = "SortCursor";
     private Cursor mCursor; // updated in onMove

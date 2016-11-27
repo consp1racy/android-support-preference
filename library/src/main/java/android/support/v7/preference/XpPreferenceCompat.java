@@ -3,6 +3,7 @@ package android.support.v7.preference;
 import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
+import android.support.annotation.RestrictTo;
 import android.view.View;
 import android.widget.ListView;
 
@@ -33,6 +34,7 @@ import java.util.Set;
  *
  * @hide
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 public final class XpPreferenceCompat {
 
     public XpPreferenceCompat() {
