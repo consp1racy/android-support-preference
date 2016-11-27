@@ -21,7 +21,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.0.3'
+    compile 'net.xpece.android:support-preference:1.1.0'
 }
 ```
 
@@ -96,7 +96,9 @@ Library version 0.5.1. Android version 4.4.
     - `getStringSet` and `putStringSet` methods allow persisting string sets even before API 11
 - `XpPreferenceManager`
     - `setDefaultValues` method takes into account preference classes in custom packages
-
+- `XpPreferenceHelpers`
+    - Tinted icons and text appearance support for preferences outside of this library
+    
 ### Support color preference
 
 - `ColorPreference`
@@ -130,6 +132,7 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - `ListPreference` can optionally show as a simple menu in a popup instead of a dialog.
 - `ColorPreference`
 - Preference long click listeners.
+- Title/summary text color and text appearance defined in Java or XML.
 
 <a name="how-to-use"/>
 ## How to use the library?
