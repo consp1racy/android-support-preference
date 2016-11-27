@@ -21,7 +21,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.1.0'
+    compile 'net.xpece.android:support-preference:1.1.1'
 }
 ```
 
@@ -426,23 +426,21 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 ## Changelog
 
-**Coming [soon™](http://wowwiki.wikia.com/wiki/Soon)**
-- Ditto.
-
 See [CHANGELOG.md](CHANGELOG.md).
 
 ## Known issues
 
 - SwitchPreference does not animate its SwitchCompat widget when clicked.
   - https://code.google.com/p/android/issues/detail?id=196652
-  - This is hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.
+  - <s>This is hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.</s>
+  - This is solved in v1.1.1.
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
 
 ## Questions
 
 - Why are some of your classes in `android.support.v7` packages?
-    - I'm using their package private features to achieve consistent results.
+    - I'm using their package private features to achieve consistent results with AppCompat.
 
 ## TODO
 

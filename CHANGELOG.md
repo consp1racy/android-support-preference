@@ -1,4 +1,8 @@
 # Change log
+**1.1.1** 2016-11-27
+- `SwitchCompat` is now used on all platforms and animates on all supported platforms.
+  - Resolves [Crashes with native Switch](https://github.com/consp1racy/android-support-preference/issues/52).
+
 **1.1.0** 2016-11-27
 - *NEW!* Arbitrary preferences support tinted icons and text appearance.
   - `PreferenceScreen`s support tinted icons and text appearance.

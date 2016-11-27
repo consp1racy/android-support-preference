@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
@@ -15,5 +15,5 @@ ext {
     targetSdkVersion = 25
 
     publishGroupId = "net.xpece.android"
-    publishVersion = "1.1.0"
+    publishVersion = "1.1.1"
 }
