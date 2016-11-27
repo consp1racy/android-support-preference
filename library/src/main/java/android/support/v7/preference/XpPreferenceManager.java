@@ -111,7 +111,7 @@ public class XpPreferenceManager extends PreferenceManager {
             pm.setSharedPreferencesMode(sharedPreferencesMode);
             pm.inflateFromResource(context, resId, null);
             SharedPreferences.Editor editor = defaultValueSp.edit().putBoolean(KEY_HAS_SET_DEFAULT_VALUES, true);
-            SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+            editor.apply();
         }
     }
 

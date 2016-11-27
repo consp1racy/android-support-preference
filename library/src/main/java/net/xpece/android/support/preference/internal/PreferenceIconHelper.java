@@ -1,11 +1,10 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
+import android.support.annotation.RestrictTo;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
@@ -14,9 +13,13 @@ import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
+import net.xpece.android.support.preference.R;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@SuppressWarnings("RestrictedApi")
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 public class PreferenceIconHelper {
     private static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
@@ -33,17 +36,6 @@ public class PreferenceIconHelper {
 
     protected boolean mIconTintEnabled = false;
     protected boolean mIconPaddingEnabled = false;
-
-    public static PreferenceIconHelper setup(Preference pref, @DrawableRes int icon, @ColorRes int tint, boolean padding) {
-        PreferenceIconHelper helper = new PreferenceIconHelper(pref);
-        helper.setIconPaddingEnabled(padding);
-        helper.setIcon(icon);
-        if (tint != 0) {
-            helper.setTintList(ContextCompat.getColorStateList(pref.getPreferenceManager().getContext(), tint));
-            helper.setIconTintEnabled(true);
-        }
-        return helper;
-    }
 
     public PreferenceIconHelper(Preference preference) {
         mPreference = preference;

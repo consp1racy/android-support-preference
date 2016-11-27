@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.database.DataSetObserver;
 import android.support.annotation.RestrictTo;
@@ -34,9 +34,10 @@ import java.util.ArrayList;
  * associated data objects.
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
+ * @hide
  */
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
-final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
+public final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;
 

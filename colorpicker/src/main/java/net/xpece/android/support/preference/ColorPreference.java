@@ -12,6 +12,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 
 import net.xpece.android.colorpicker.ColorPickerPalette;
 import net.xpece.android.support.preference.color.R;
+import net.xpece.android.support.preference.internal.Util;
 
 /**
  * @author Eugen on 12. 3. 2016.

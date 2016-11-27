@@ -24,6 +24,8 @@ import android.content.res.TypedArray;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.Settings.System;
+import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.Preference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
@@ -53,7 +55,7 @@ public class RingtonePreference extends DialogPreference {
     }
 
     public RingtonePreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_RingtonePreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public RingtonePreference(Context context, AttributeSet attrs) {

@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Process;
 import android.provider.MediaStore;
+import android.support.annotation.RestrictTo;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -16,7 +17,10 @@ import java.lang.reflect.Method;
 
 /**
  * Created by Eugen on 14.12.2015.
+ *
+ * @hide
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
 public final class RingtoneManagerCompat extends RingtoneManager {
     static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 

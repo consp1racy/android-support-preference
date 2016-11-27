@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -13,7 +13,7 @@ import android.util.TypedValue;
  * @hide
  */
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
-final class Util {
+public final class Util {
     public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     public static final int[] EMPTY_STATE_SET = new int[0];
 
@@ -35,7 +35,12 @@ final class Util {
     }
 
     public static int dpToPxSize(Context context, int dp) {
-        return (int) (0.5f + dpToPx(context, dp));
+        final float value =  dpToPx(context, dp);
+        final int res = (int) (value + 0.5f);
+        if (res != 0) return res;
+        if (value == 0F) return 0;
+        if (value > 0) return 1;
+        return -1;
     }
 
     public static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {

@@ -1,17 +1,22 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.annotation.ColorInt;
+import android.support.annotation.RestrictTo;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import net.xpece.android.support.preference.R;
+
 /**
  * Created by Eugen on 08.03.2016.
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
+@SuppressWarnings("RestrictedApi")
 public class PreferenceTextHelper {
 
     private boolean mHasTitleTextAppearance = false;

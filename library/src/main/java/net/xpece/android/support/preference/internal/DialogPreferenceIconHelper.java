@@ -1,16 +1,21 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.support.annotation.RestrictTo;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 
+import net.xpece.android.support.preference.R;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@RestrictTo(RestrictTo.Scope.GROUP_ID)
+@SuppressWarnings("RestrictedApi")
 public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     private final DialogPreference mPreference;

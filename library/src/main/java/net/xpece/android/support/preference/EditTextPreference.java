@@ -18,11 +18,9 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
+import android.support.v7.preference.Preference;
 import android.support.v7.widget.AppCompatEditText;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +31,7 @@ import android.widget.EditText;
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-public class EditTextPreference extends DialogPreference {
+public class EditTextPreference extends android.support.v7.preference.EditTextPreference {
 
     private String mText;
 
@@ -47,7 +45,7 @@ public class EditTextPreference extends DialogPreference {
     }
 
     public EditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_EditTextPreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public EditTextPreference(Context context, AttributeSet attrs) {
@@ -107,81 +105,6 @@ public class EditTextPreference extends DialogPreference {
         editText.setId(android.R.id.edit);
 
         return editText;
-    }
-
-    public void setText(String text) {
-        boolean wasBlocking = this.shouldDisableDependents();
-        this.mText = text;
-        this.persistString(text);
-        boolean isBlocking = this.shouldDisableDependents();
-        if (isBlocking != wasBlocking) {
-            this.notifyDependencyChange(isBlocking);
-        }
-
-    }
-
-    public String getText() {
-        return this.mText;
-    }
-
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getString(index);
-    }
-
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        this.setText(restoreValue ? this.getPersistedString(this.mText) : (String) defaultValue);
-    }
-
-    public boolean shouldDisableDependents() {
-        return TextUtils.isEmpty(this.mText) || super.shouldDisableDependents();
-    }
-
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        if (this.isPersistent()) {
-            return superState;
-        } else {
-            EditTextPreference.SavedState myState = new EditTextPreference.SavedState(superState);
-            myState.text = this.getText();
-            return myState;
-        }
-    }
-
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state != null && state.getClass().equals(EditTextPreference.SavedState.class)) {
-            EditTextPreference.SavedState myState = (EditTextPreference.SavedState) state;
-            super.onRestoreInstanceState(myState.getSuperState());
-            this.setText(myState.text);
-        } else {
-            super.onRestoreInstanceState(state);
-        }
-    }
-
-    private static class SavedState extends BaseSavedState {
-        String text;
-        public static final Creator<EditTextPreference.SavedState> CREATOR = new Creator<EditTextPreference.SavedState>() {
-            public EditTextPreference.SavedState createFromParcel(Parcel in) {
-                return new EditTextPreference.SavedState(in);
-            }
-
-            public EditTextPreference.SavedState[] newArray(int size) {
-                return new EditTextPreference.SavedState[size];
-            }
-        };
-
-        public SavedState(Parcel source) {
-            super(source);
-            this.text = source.readString();
-        }
-
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeString(this.text);
-        }
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
     }
 
     public interface OnEditTextCreatedListener {

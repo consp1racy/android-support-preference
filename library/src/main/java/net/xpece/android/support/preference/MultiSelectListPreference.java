@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
@@ -46,7 +48,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public MultiSelectListPreference(Context context, AttributeSet attrs) {

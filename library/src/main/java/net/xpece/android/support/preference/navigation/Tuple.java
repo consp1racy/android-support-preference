@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.navigation;
 
 import android.support.annotation.RestrictTo;
 

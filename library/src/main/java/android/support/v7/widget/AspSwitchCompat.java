@@ -24,18 +24,18 @@ import android.util.AttributeSet;
  * Works around https://code.google.com/p/android/issues/detail?id=196652.
  */
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
-public class XpSwitchCompat extends SwitchCompat {
+public class AspSwitchCompat extends SwitchCompat {
     private boolean isInSetChecked = false;
 
-    public XpSwitchCompat(Context context) {
+    public AspSwitchCompat(Context context) {
         super(context);
     }
 
-    public XpSwitchCompat(Context context, AttributeSet attrs) {
+    public AspSwitchCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public XpSwitchCompat(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AspSwitchCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

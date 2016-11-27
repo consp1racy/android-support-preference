@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.annotation.TargetApi;
 import android.database.AbstractCursor;

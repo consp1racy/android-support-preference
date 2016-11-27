@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;

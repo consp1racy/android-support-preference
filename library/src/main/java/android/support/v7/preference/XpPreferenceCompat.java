@@ -92,7 +92,7 @@ public final class XpPreferenceCompat {
 
     private static void tryCommit(Preference preference, @NonNull SharedPreferences.Editor editor) {
         if (preference.getPreferenceManager().shouldCommit()) {
-            android.support.v4.content.SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+            editor.apply();
         }
     }
 }

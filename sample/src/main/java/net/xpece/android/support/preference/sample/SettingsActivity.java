@@ -26,7 +26,7 @@ import android.widget.ViewSwitcher;
 
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.Fixes;
-import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
+import net.xpece.android.support.preference.navigation.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
 /**

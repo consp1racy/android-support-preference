@@ -24,6 +24,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -32,6 +33,8 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import net.xpece.android.support.preference.internal.SeekBarCompat;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -55,7 +58,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_SeekBarPreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public SeekBarPreference(Context context, AttributeSet attrs) {

@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
@@ -10,9 +10,10 @@ import java.lang.reflect.Field;
 
 /**
  * Created by Eugen on 15.04.2016.
+ * @hide
  */
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
-class SeekBarCompat {
+public class SeekBarCompat {
     private static final Field FIELD_THUMB;
 
     static {

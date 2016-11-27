@@ -44,6 +44,7 @@ import java.lang.annotation.RetentionPolicy;
  * @attr name asp_menuMode
  * @attr name popupTheme
  */
+@SuppressWarnings("RestrictedApi")
 public class ListPreference extends DialogPreference {
 
     private static boolean sSimpleMenuPreIcsEnabled = true;

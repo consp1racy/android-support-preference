@@ -11,9 +11,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
+import android.support.v7.preference.XpPreference;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,12 +27,10 @@ import android.widget.Toast;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
-import net.xpece.android.support.preference.LongClickablePreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.OnPreferenceLongClickListener;
-import net.xpece.android.support.preference.PreferenceCategory;
 import net.xpece.android.support.preference.PreferenceDividerDecoration;
-import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
+import net.xpece.android.support.preference.navigation.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
@@ -152,8 +152,8 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         // Add 'data and sync' preferences, and a corresponding header.
         fakeHeader = new PreferenceCategory(getPreferenceManager().getContext());
         fakeHeader.setTitle(R.string.pref_header_data_sync);
-        fakeHeader.setTitleTextAppearance(R.style.TextAppearance_AppCompat_Button);
-        fakeHeader.setTitleTextColor(ContextCompat.getColor(fakeHeader.getContext(), R.color.primary)); // No disabled color state please.
+        XpPreference.setTitleTextAppearance(fakeHeader, R.style.TextAppearance_AppCompat_Button);
+        XpPreference.setTitleTextColor(fakeHeader, ContextCompat.getColor(fakeHeader.getContext(), R.color.primary)); // No disabled color state please.
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_data_sync);
 
@@ -186,8 +186,10 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             }
         });
 
+        final EditTextPreference editTextPreference = (EditTextPreference) findPreference("example_text");
+
         // Setup EditTextPreference input field.
-        ((EditTextPreference) findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
+        editTextPreference.setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
             @Override
             public void onEditTextCreated(EditText edit) {
                 Context context = edit.getContext();
@@ -203,9 +205,9 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             }
         });
 
-        ((LongClickablePreference) findPreference("example_text")).setOnPreferenceLongClickListener(new OnPreferenceLongClickListener() {
+        XpPreference.setOnPreferenceLongClickListener(editTextPreference, new OnPreferenceLongClickListener() {
             @Override
-            public <T extends Preference & LongClickablePreference> boolean onLongClick(T preference, View view) {
+            public boolean onLongClick(Preference preference, View view) {
                 final Toast toast = Toast.makeText(getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
                 toast.show();
                 return true;

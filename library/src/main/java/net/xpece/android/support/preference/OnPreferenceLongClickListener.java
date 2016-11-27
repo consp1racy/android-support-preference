@@ -14,5 +14,5 @@ public interface OnPreferenceLongClickListener {
      * @param view The view that was clicked and held.
      * @return true if the callback consumed the long click, false otherwise.
      */
-    <T extends android.support.v7.preference.Preference & LongClickablePreference> boolean onLongClick(T preference, View view);
+    boolean onLongClick(android.support.v7.preference.Preference preference, View view);
 }

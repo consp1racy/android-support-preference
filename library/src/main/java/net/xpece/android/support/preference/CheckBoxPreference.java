@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.preference.TwoStatePreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
@@ -40,7 +41,7 @@ public class CheckBoxPreference extends TwoStatePreference {
     }
 
     public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_CheckBoxPreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

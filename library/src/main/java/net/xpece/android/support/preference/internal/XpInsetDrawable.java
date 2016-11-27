@@ -1,4 +1,4 @@
-package net.xpece.android.support.preference;
+package net.xpece.android.support.preference.internal;
 
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,7 @@ import android.support.annotation.RestrictTo;
 /**
  * Before Lollipop insets didn't count to intrinsic size. This class aims to fix this issue.
  * @author Eugen on 7. 12. 2015.
+ * @hide
  */
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
 final class XpInsetDrawable extends InsetDrawable {

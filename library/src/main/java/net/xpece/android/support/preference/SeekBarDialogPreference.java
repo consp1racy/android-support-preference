@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 public class SeekBarDialogPreference extends DialogPreference {
@@ -34,7 +35,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_SeekBarDialogPreference);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs) {

@@ -20,7 +20,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.preference.TwoStatePreference;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -124,8 +126,12 @@ public class SwitchPreference extends TwoStatePreference {
 //        }
 //    }
 
+    @TargetApi(Build.VERSION_CODES.N)
     private void syncSwitchView(PreferenceViewHolder holder) {
-        View switchView = holder.findViewById(R.id.switchWidget);
+        View switchView = holder.findViewById(android.R.id.switch_widget);
+        if (switchView == null) {
+            switchView = holder.findViewById(R.id.switchWidget);
+        }
         this.syncSwitchView(switchView);
     }
 

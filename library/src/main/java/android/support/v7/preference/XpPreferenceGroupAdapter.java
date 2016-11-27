@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.xpece.android.support.preference.ColorableTextPreference;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,20 +29,17 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     public int getItemViewType(final int position) {
         int offset = 0;
         Preference preference = this.getItem(position);
-        if (preference instanceof ColorableTextPreference) {
-            ColorableTextPreference p = (ColorableTextPreference) preference;
-            if (p.hasTitleTextAppearance()) {
-                offset += OFFSET;
-            }
-            if (p.hasTitleTextColor()) {
-                offset += OFFSET;
-            }
-            if (p.hasSummaryTextAppearance()) {
-                offset += OFFSET;
-            }
-            if (p.hasSummaryTextColor()) {
-                offset += OFFSET;
-            }
+        if (XpPreference.hasTitleTextAppearance(preference)) {
+            offset += OFFSET;
+        }
+        if (XpPreference.hasTitleTextColor(preference)) {
+            offset += OFFSET;
+        }
+        if (XpPreference.hasSummaryTextAppearance(preference)) {
+            offset += OFFSET;
+        }
+        if (XpPreference.hasSummaryTextColor(preference)) {
+            offset += OFFSET;
         }
         return offset + getItemViewTypeOriginal(position);
     }
@@ -101,7 +96,7 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
         super.onBindViewHolder(holder, position);
 
         final Preference preference = getItem(position);
-        XpPreferenceHelpers.onBindViewHolder(preference, holder);
+        XpPreference.onBindViewHolder(preference, holder);
     }
 
     private static class PreferenceLayout {
