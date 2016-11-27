@@ -79,11 +79,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setTitleTextColor(titleTextColor);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setTitleTextColor(titleTextColor);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setTitleTextColor(titleTextColor);
+            preference.notifyChanged();
         }
     }
 
@@ -92,11 +94,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setTitleTextColor(titleTextColor);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setTitleTextColor(titleTextColor);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setTitleTextColor(titleTextColor);
+            preference.notifyChanged();
         }
     }
 
@@ -105,11 +109,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setTitleTextAppearance(titleTextAppearance);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setTitleTextAppearance(titleTextAppearance);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setTitleTextAppearance(titleTextAppearance);
+            preference.notifyChanged();
         }
     }
 
@@ -118,11 +124,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setSummaryTextColor(summaryTextColor);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setSummaryTextColor(summaryTextColor);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setSummaryTextColor(summaryTextColor);
+            preference.notifyChanged();
         }
     }
 
@@ -131,11 +139,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setSummaryTextColor(summaryTextColor);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setSummaryTextColor(summaryTextColor);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setSummaryTextColor(summaryTextColor);
+            preference.notifyChanged();
         }
     }
 
@@ -144,11 +154,13 @@ public final class XpPreferenceHelpers {
             ((ColorableTextPreference) preference).setSummaryTextAppearance(summaryTextAppearance);
             preference.notifyChanged();
         } else {
-            final PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
-            if (pth != null) {
-                pth.setSummaryTextAppearance(summaryTextAppearance);
-                preference.notifyChanged();
+            PreferenceTextHelper pth = PREFERENCE_TEXT_HELPERS.get(preference);
+            if (pth == null) {
+                pth = new PreferenceTextHelper();
+                PREFERENCE_TEXT_HELPERS.put(preference, pth);
             }
+            pth.setSummaryTextAppearance(summaryTextAppearance);
+            preference.notifyChanged();
         }
     }
 
@@ -199,27 +211,27 @@ public final class XpPreferenceHelpers {
     public static void setSupportIcon(final Preference preference, final Drawable icon) {
         if (preference instanceof CustomIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
-            return;
-        }
-        final PreferenceIconHelper iconHelper = PREFERENCE_ICON_HELPERS.get(preference);
-        if (iconHelper != null) {
+        } else {
+            PreferenceIconHelper iconHelper = PREFERENCE_ICON_HELPERS.get(preference);
+            if (iconHelper == null) {
+                iconHelper = new PreferenceIconHelper(preference);
+                PREFERENCE_ICON_HELPERS.put(preference, iconHelper);
+            }
             iconHelper.setIcon(icon);
-            return;
         }
-        preference.setIcon(icon);
     }
 
     public static void setSupportIcon(final Preference preference, @DrawableRes final int icon) {
         if (preference instanceof CustomIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
-            return;
-        }
-        final PreferenceIconHelper iconHelper = PREFERENCE_ICON_HELPERS.get(preference);
-        if (iconHelper != null) {
+        } else {
+            PreferenceIconHelper iconHelper = PREFERENCE_ICON_HELPERS.get(preference);
+            if (iconHelper == null) {
+                iconHelper = new PreferenceIconHelper(preference);
+                PREFERENCE_ICON_HELPERS.put(preference, iconHelper);
+            }
             iconHelper.setIcon(icon);
-            return;
         }
-        preference.setIcon(icon);
     }
 
     public static Drawable getSupportIcon(final Preference preference) {
@@ -236,27 +248,27 @@ public final class XpPreferenceHelpers {
     public static void setSupportDialogIcon(final DialogPreference preference, final Drawable icon) {
         if (preference instanceof CustomDialogIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
-            return;
-        }
-        final DialogPreferenceIconHelper iconHelper = PREFERENCE_DIALOG_ICON_HELPERS.get(preference);
-        if (iconHelper != null) {
+        } else {
+            DialogPreferenceIconHelper iconHelper = PREFERENCE_DIALOG_ICON_HELPERS.get(preference);
+            if (iconHelper == null) {
+                iconHelper = new DialogPreferenceIconHelper(preference);
+                PREFERENCE_DIALOG_ICON_HELPERS.put(preference, iconHelper);
+            }
             iconHelper.setIcon(icon);
-            return;
         }
-        preference.setIcon(icon);
     }
 
     public static void setSupportDialogIcon(final DialogPreference preference, @DrawableRes final int icon) {
         if (preference instanceof CustomDialogIconPreference) {
             ((CustomDialogIconPreference) preference).setSupportDialogIcon(icon);
-            return;
-        }
-        final DialogPreferenceIconHelper iconHelper = PREFERENCE_DIALOG_ICON_HELPERS.get(preference);
-        if (iconHelper != null) {
+        } else {
+            DialogPreferenceIconHelper iconHelper = PREFERENCE_DIALOG_ICON_HELPERS.get(preference);
+            if (iconHelper == null) {
+                iconHelper = new DialogPreferenceIconHelper(preference);
+                PREFERENCE_DIALOG_ICON_HELPERS.put(preference, iconHelper);
+            }
             iconHelper.setIcon(icon);
-            return;
         }
-        preference.setDialogIcon(icon);
     }
 
     public static Drawable getSupportDialogIcon(final DialogPreference preference) {
