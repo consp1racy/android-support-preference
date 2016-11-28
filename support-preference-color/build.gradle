@@ -7,28 +7,18 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-
-        consumerProguardFiles 'proguard-consumer-rules.pro'
     }
 
     buildTypes {
         release {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    resourcePrefix 'asp_'
-
-    lintOptions {
-        disable 'ResourceName'
     }
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.android.support:preference-v7:$supportLibVersion"
-    compile project(':spinner')
+    compile project(':support-preference')
 }
 
 repositories {

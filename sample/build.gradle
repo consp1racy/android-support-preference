@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-    compile project(':library')
-    compile project(':colorpicker')
+    compile project(':support-preference')
+    compile project(':support-preference-color')
     compile "com.android.support:design:$supportLibVersion"
 }
 
