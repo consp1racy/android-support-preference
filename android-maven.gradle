@@ -13,12 +13,21 @@ publishing {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
                 configurations.compile.allDependencies.each {
-                    if(it.group != null && (it.name != null || "unspecified" == it.name) && it.version != null)
-                    {
+                    if(it.group != null && it.name != null && it.version != null) {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
                         dependencyNode.appendNode('groupId', it.group)
                         dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+                        if (groupId == it.group && version == it.version) {
+                            // This project. Use major version range.
+                            int dot = version.indexOf('.')
+                            String majorStr = version.substring(0, dot)
+                            int major = Integer.parseInt(majorStr)
+                            String newVersion = "[$major.0.0,${major+1}.0.0)"
+                            dependencyNode.appendNode('version', newVersion)
+                        } else {
+                            // Other dependency. Use original version.
+                            dependencyNode.appendNode('version', it.version)
+                        }
                     }
                 }
             }
