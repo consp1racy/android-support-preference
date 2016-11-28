@@ -38,3 +38,4 @@ version = rootProject.version
 
 apply from: rootProject.file('android-tasks.gradle')
 apply from: rootProject.file('android-maven.gradle')
+apply from: rootProject.file('android-bintray.gradle')
