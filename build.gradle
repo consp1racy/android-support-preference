@@ -14,10 +14,4 @@ ext {
     supportLibVersion = "25.0.1"
     minSdkVersion = 9
     targetSdkVersion = 25
-
-    publishGroupId = "net.xpece.android"
-    publishVersion = "1.2.0"
 }
-
-group = "net.xpece.android"
-version = "1.2.0"
