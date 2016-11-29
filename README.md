@@ -16,7 +16,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 - [Changelog](CHANGELOG.md)
 
 <a name="how-to-get"/>
-## How to get the preference library? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference%3A1.0.2"><img src="https://img.shields.io/badge/Methods count-core: 1213-e91e63.svg"/></a>
+## How to get the preference library? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference%3A1.2.0"><img src="https://img.shields.io/badge/support--preference-1294-e91e63.svg"/></a> <a href="http://www.methodscount.com/?lib=com.android.support%3Apreference-v7%3A25.0.1"><img src="https://img.shields.io/badge/preference--v7-901-e91e63.svg"/></a>
 
 
 ```groovy
@@ -31,7 +31,7 @@ dependencies {
 
 Always specify `preference-v7` version explicitly!
 
-## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.0.0"><img src="https://img.shields.io/badge/Methods count-core: 216-e91e63.svg"/></a>
+## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.0.0"><img src="https://img.shields.io/badge/support--preference--color-216-e91e63.svg"/></a>
 
 
 ```groovy
@@ -40,7 +40,7 @@ dependencies {
 }
 ```
 
-## How to get just custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.0.0"><img src="https://img.shields.io/badge/Methods count-core: 520-e91e63.svg"/></a>
+## How to get just custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.0.0"><img src="https://img.shields.io/badge/support--spinner-523-e91e63.svg"/></a>
 
 
 ```groovy
