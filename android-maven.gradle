@@ -25,7 +25,10 @@ publishing {
                             int dot = version.indexOf('.')
                             String majorStr = version.substring(0, dot)
                             int major = Integer.parseInt(majorStr)
-                            String newVersion = "[$major.0.0,${major+1}.0.0)"
+                            String newVersion = "[$major.0.0,${major + 1}.0.0)"
+                            dependencyNode.appendNode('version', newVersion)
+                        } else if (it.group == "com.android.support") {
+                            String newVersion ="[23.1.1,)"
                             dependencyNode.appendNode('version', newVersion)
                         } else {
                             // Other dependency. Use original version.
