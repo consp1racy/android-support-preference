@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/abc_dialog_padding_top_material"
             android:textColor="?android:textColorSecondary"/>
 
-        <TextVie
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -67,12 +67,11 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="@dimen/abc_dialog_padding_top_material"/>
-
-
+				
             <TextView
                 android:id="@+id/seekbar_value"
 				android:gravity="end"
-				android:visibility:="gone"
+				android:visibility="gone"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
