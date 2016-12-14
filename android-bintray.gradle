@@ -8,7 +8,7 @@ bintray {
 
     dryRun = project.hasProperty('bintrayDryRun')
     publish = project.hasProperty('bintrayPublish')
-    override = !publish
+    override = project.hasProperty('bintrayOverride')
 
     pkg {
         repo = 'maven'
