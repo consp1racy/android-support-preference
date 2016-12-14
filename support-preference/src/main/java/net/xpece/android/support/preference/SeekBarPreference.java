@@ -23,10 +23,12 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -36,18 +38,91 @@ import android.widget.TextView;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class SeekBarPreference extends Preference implements OnSeekBarChangeListener,
-    View.OnKeyListener {
-
-    private int mProgress;
-    private int mPreferredMin = 0;
-    private int mPreferredMax = 100;
-    private boolean mTrackingTouch;
-    private CharSequence mInfo;
-    private OnSeekBarChangeListener mOnSeekBarChangeListener;
+public class SeekBarPreference extends Preference {
+    static final String TAG = SeekBarPreference.class.getSimpleName();
 
     // A filthy hack so we can update info text while dragging seek bar thumb.
     private static final WeakHashMap<TextView, SeekBarPreference> mInfoViews = new WeakHashMap<>();
+
+    private int mSeekBarValue;
+    private int mMin = 0;
+    private int mMax = 100;
+    private int mSeekBarIncrement = 0;
+    private boolean mTrackingTouch;
+
+    private boolean mAdjustable = true; // whether the seekbar should respond to the left/right keys
+    private boolean mShowSeekBarValue = false; // whether to show the seekbar value TextView next to the bar
+
+    private CharSequence mInfo;
+    private OnSeekBarChangeListener mUserSeekBarChangeListener;
+
+    /**
+     * Listener reacting to the SeekBar changing value by the user
+     */
+    private final OnSeekBarChangeListener mSeekBarChangeListener = new OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (fromUser && !mTrackingTouch) {
+                syncValueInternal(seekBar);
+            }
+            if (mUserSeekBarChangeListener != null) {
+                mUserSeekBarChangeListener.onProgressChanged(seekBar, progress + mMin, fromUser);
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            mTrackingTouch = true;
+            if (mUserSeekBarChangeListener != null) {
+                mUserSeekBarChangeListener.onStartTrackingTouch(seekBar);
+            }
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            mTrackingTouch = false;
+            if (seekBar.getProgress() + mMin != mSeekBarValue) {
+                syncValueInternal(seekBar);
+            }
+            if (mUserSeekBarChangeListener != null) {
+                mUserSeekBarChangeListener.onStopTrackingTouch(seekBar);
+            }
+        }
+    };
+
+    /**
+     * Listener reacting to the user pressing DPAD left/right keys if {@code
+     * adjustable} attribute is set to true; it transfers the key presses to the SeekBar
+     * to be handled accordingly.
+     */
+    private View.OnKeyListener buildSeekBarKeyListener(final SeekBar seekBar) {
+        return  new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) {
+                    return false;
+                }
+
+                if (!mAdjustable && (keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+                    || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
+                    // Right or left keys are pressed when in non-adjustable mode; Skip the keys.
+                    return false;
+                }
+
+                // We don't want to propagate the click keys down to the seekbar view since it will
+                // create the ripple effect for the thumb.
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                    return false;
+                }
+
+                if (seekBar == null) {
+                    Log.e(TAG, "SeekBar view is null and hence cannot be adjusted.");
+                    return false;
+                }
+                return seekBar.onKeyDown(keyCode, event);
+            }
+        };
+    }
 
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -67,10 +142,28 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mPreferredMax));
-        setMin(a.getInt(R.styleable.SeekBarPreference_asp_min, mPreferredMin));
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
+
+        /**
+         * The ordering of these two statements are important. If we want to set max first, we need
+         * to perform the same steps by changing min/max to max/min as following:
+         * mMax = a.getInt(...) and setMin(...).
+         */
+        mMin = a.getInt(R.styleable.SeekBarPreference_asp_min, mMin);
+        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+
+        try {
+            mMin = a.getInt(R.styleable.SeekBarPreference_min, mMin);
+            setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+            setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, mSeekBarIncrement));
+            mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, mAdjustable);
+            mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, mShowSeekBarValue);
+        } catch (NoSuchFieldError e) {
+            // These are only available since support libs 25.1.0.
+        }
+
         setInfo(a.getText(R.styleable.SeekBarPreference_asp_info));
+
         a.recycle();
     }
 
@@ -78,14 +171,35 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     public void onBindViewHolder(final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        holder.itemView.setClickable(false);
+        final SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
 
-        SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
-        seekBar.setOnSeekBarChangeListener(this);
-        seekBar.setMax(mPreferredMax - mPreferredMin);
-        seekBar.setProgress(mProgress - mPreferredMin);
+        holder.itemView.setOnKeyListener(buildSeekBarKeyListener(seekBar));
+
+        final TextView info = (TextView) holder.findViewById(R.id.seekbar_value);
+        if (info != null) {
+            mInfoViews.put(info, this);
+            bindInfo(info);
+        }
+
+        if (seekBar == null) {
+            Log.e(TAG, "SeekBar view is null in onBindViewHolder.");
+            return;
+        }
+        seekBar.setOnSeekBarChangeListener(mSeekBarChangeListener);
+        seekBar.setMax(mMax - mMin);
+        // If the increment is not zero, use that. Otherwise, use the default mKeyProgressIncrement
+        // in AbsSeekBar when it's zero. This default increment value is set by AbsSeekBar
+        // after calling setMax. That's why it's important to call setKeyProgressIncrement after
+        // calling setMax() since setMax() can change the increment value.
+        if (mSeekBarIncrement != 0) {
+            seekBar.setKeyProgressIncrement(mSeekBarIncrement);
+        } else {
+            mSeekBarIncrement = seekBar.getKeyProgressIncrement();
+        }
+        seekBar.setProgress(mSeekBarValue - mMin);
         seekBar.setEnabled(isEnabled());
 
+        // Fix drawable state on Android 2.
         if (Build.VERSION.SDK_INT < 14) {
             final int[] state = seekBar.getDrawableState();
             Drawable d;
@@ -98,24 +212,18 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             d = seekBar.getBackground();
             if (d != null) d.setState(state);
         }
-
-        mKeyProgressIncrement = seekBar.getKeyProgressIncrement();
-        holder.itemView.setOnKeyListener(this);
-
-        TextView info = (TextView) holder.findViewById(R.id.asp_info);
-        if (info != null) {
-            mInfoViews.put(info, this);
-            bindInfo(info);
-        }
     }
 
     private void bindInfo(@NonNull TextView info) {
-        if (TextUtils.isEmpty(mInfo)) {
-            info.setVisibility(View.GONE);
-            info.setText(null);
-        } else {
+        if (!TextUtils.isEmpty(mInfo)) {
             info.setText(mInfo);
             info.setVisibility(View.VISIBLE);
+        } else if (mShowSeekBarValue) {
+            info.setText(String.valueOf(mSeekBarValue));
+            info.setVisibility(View.VISIBLE);
+        } else {
+            info.setVisibility(View.GONE);
+            info.setText(null);
         }
     }
 
@@ -123,8 +231,13 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         return mInfo;
     }
 
-    public void setInfo(CharSequence info) {
-        if (info == null && this.mInfo != null || info != null && !info.equals(this.mInfo)) {
+    /**
+     * Will show {@code info} when not null.
+     * Otherwise shows {@code seekBarValue} when {@link #isShowSeekBarValue()} is {@code true}.
+     * @param info
+     */
+    public void setInfo(@Nullable CharSequence info) {
+        if (info != mInfo) {
             mInfo = info;
             onInfoChanged();
         }
@@ -142,46 +255,17 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     public OnSeekBarChangeListener getOnSeekBarChangeListener() {
-        return mOnSeekBarChangeListener;
+        return mUserSeekBarChangeListener;
     }
 
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
-        mOnSeekBarChangeListener = listener;
+        mUserSeekBarChangeListener = listener;
         onInfoChanged();
-    }
-
-    private int mKeyProgressIncrement;
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (isEnabled()) {
-            if (event.getAction() != KeyEvent.ACTION_UP) {
-                int increment = mKeyProgressIncrement;
-
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_PLUS:
-                    case KeyEvent.KEYCODE_EQUALS:
-                        setProgress(getProgress() + increment);
-                        return true;
-                    case KeyEvent.KEYCODE_MINUS:
-                        setProgress(getProgress() - increment);
-                        return true;
-                    case KeyEvent.KEYCODE_DPAD_LEFT:
-                        increment = -increment;
-                        // fallthrough
-                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        increment = ViewCompat.getLayoutDirection(v) == ViewCompat.LAYOUT_DIRECTION_RTL ? -increment : increment;
-                        setProgress(getProgress() + increment);
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        setProgress(restoreValue ? getPersistedInt(mProgress)
+        setValue(restoreValue ? getPersistedInt(mSeekBarValue)
             : (Integer) defaultValue);
     }
 
@@ -190,106 +274,117 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         return a.getInt(index, 0);
     }
 
-    public void setMax(int max) {
-        if (max != mPreferredMax) {
-            mPreferredMax = max;
-            notifyChanged();
-        }
-    }
-
     public void setMin(int min) {
-        if (min != mPreferredMin) {
-            mPreferredMin = min;
+        if (min > mMax) {
+            min = mMax;
+        }
+        if (min != mMin) {
+            mMin = min;
             notifyChanged();
         }
     }
 
     public int getMin() {
-        return mPreferredMin;
+        return mMin;
+    }
+
+    public void setMax(int max) {
+        if (max < mMin) {
+            max = mMin;
+        }
+        if (max != mMax) {
+            mMax = max;
+            notifyChanged();
+        }
     }
 
     public int getMax() {
-        return mPreferredMax;
+        return mMax;
     }
 
-    public void setProgress(int progress) {
-        setProgress(progress, true);
+    /**
+     * Returns the amount of increment change via each arrow key click. This value is derived from
+     * user's specified increment value if it's not zero. Otherwise, the default value is picked
+     * from the default mKeyProgressIncrement value in {@link android.widget.AbsSeekBar}.
+     * @return The amount of increment on the SeekBar performed after each user's arrow key press.
+     */
+    public final int getSeekBarIncrement() {
+        return mSeekBarIncrement;
     }
 
-    private void setProgress(int preferredProgress, boolean notifyChanged) {
-        if (preferredProgress > mPreferredMax) {
-            preferredProgress = mPreferredMax;
+    /**
+     * Sets the increment amount on the SeekBar for each arrow key press.
+     * @param seekBarIncrement The amount to increment or decrement when the user presses an
+     *                         arrow key.
+     */
+    public final void setSeekBarIncrement(int seekBarIncrement) {
+        if (seekBarIncrement != mSeekBarIncrement) {
+            mSeekBarIncrement =  Math.min(mMax - mMin, Math.abs(seekBarIncrement));
+            notifyChanged();
         }
-        if (preferredProgress < mPreferredMin) {
-            preferredProgress = mPreferredMin;
+    }
+
+    public void setAdjustable(boolean adjustable) {
+        mAdjustable = adjustable;
+    }
+
+    public boolean isAdjustable() {
+        return mAdjustable;
+    }
+
+    public boolean isShowSeekBarValue() {
+        return mShowSeekBarValue;
+    }
+
+    public void setShowSeekBarValue(final boolean showSeekBarValue) {
+        if (showSeekBarValue != mShowSeekBarValue) {
+            mShowSeekBarValue = showSeekBarValue;
+            notifyChanged();
         }
-        if (preferredProgress != mProgress) {
-            mProgress = preferredProgress;
+    }
+
+    public void setValue(int progress) {
+        setValueInternal(progress, true);
+    }
+
+    private void setValueInternal(int preferredProgress, boolean notifyChanged) {
+        if (preferredProgress > mMax) {
+            preferredProgress = mMax;
+        }
+        if (preferredProgress < mMin) {
+            preferredProgress = mMin;
+        }
+        if (preferredProgress != mSeekBarValue) {
+            mSeekBarValue = preferredProgress;
+            // seekBarValueTextView is updated in notifyChanged().
             persistInt(preferredProgress);
-//            Log.d("SBP", "preferredProgress=" + preferredProgress);
             if (notifyChanged) {
                 notifyChanged();
             }
         }
     }
 
-    public int getProgress() {
-        return mProgress;
+    public int getValue() {
+        return mSeekBarValue;
     }
 
     /**
      * Persist the seekBar's progress value if callChangeListener
      * returns true, otherwise set the seekBar's progress to the stored value
      */
-    void syncProgress(SeekBar seekBar) {
+    void syncValueInternal(SeekBar seekBar) {
         int progress = seekBar.getProgress();
-        if (progress != mProgress - mPreferredMin) {
+        if (progress != mSeekBarValue - mMin) {
             if (callChangeListener(progress)) {
-                setProgress(progress + mPreferredMin, false);
+                setValueInternal(progress + mMin, false);
             } else {
-                seekBar.setProgress(mProgress - mPreferredMin);
+                seekBar.setProgress(mSeekBarValue - mMin);
             }
         }
     }
 
     @Override
-    public void onProgressChanged(
-        SeekBar seekBar, int progress, boolean fromUser) {
-        if (fromUser && !mTrackingTouch) {
-            syncProgress(seekBar);
-        }
-        if (mOnSeekBarChangeListener != null) {
-            mOnSeekBarChangeListener.onProgressChanged(seekBar, progress + mPreferredMin, fromUser);
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        mTrackingTouch = true;
-        if (mOnSeekBarChangeListener != null) {
-            mOnSeekBarChangeListener.onStartTrackingTouch(seekBar);
-        }
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        mTrackingTouch = false;
-        if (seekBar.getProgress() != mProgress) {
-            syncProgress(seekBar);
-        }
-        if (mOnSeekBarChangeListener != null) {
-            mOnSeekBarChangeListener.onStopTrackingTouch(seekBar);
-        }
-    }
-
-    @Override
     protected Parcelable onSaveInstanceState() {
-        /*
-         * Suppose a client uses this preference type without persisting. We
-         * must save the instance state so it is able to, for example, survive
-         * orientation changes.
-         */
-
         final Parcelable superState = super.onSaveInstanceState();
         if (isPersistent()) {
             // No need to save instance state since it's persistent
@@ -298,9 +393,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
         // Save the instance state
         final SavedState myState = new SavedState(superState);
-        myState.progress = mProgress;
-        myState.max = mPreferredMax;
-        myState.min = mPreferredMin;
+        myState.seekBarValue = mSeekBarValue;
+        myState.max = mMax;
+        myState.min = mMin;
         return myState;
     }
 
@@ -315,9 +410,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         // Restore the instance state
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-        mPreferredMax = myState.max;
-        mPreferredMin = myState.min;
-        setProgress(myState.progress, true);
+        mMax = myState.max;
+        mMin = myState.min;
+        setValueInternal(myState.seekBarValue, true);
     }
 
     /**
@@ -327,7 +422,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
      * It is important to always call through to super methods.
      */
     private static class SavedState extends BaseSavedState {
-        int progress;
+        int seekBarValue;
         int max;
         int min;
 
@@ -335,7 +430,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             super(source);
 
             // Restore the click counter
-            progress = source.readInt();
+            seekBarValue = source.readInt();
             max = source.readInt();
             min = source.readInt();
         }
@@ -345,7 +440,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             super.writeToParcel(dest, flags);
 
             // Save the click counter
-            dest.writeInt(progress);
+            dest.writeInt(seekBarValue);
             dest.writeInt(max);
             dest.writeInt(min);
         }

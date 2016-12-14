@@ -109,13 +109,13 @@
                 android:layout_below="@android:id/title"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/asp_info"
+                android:layout_toLeftOf="@+id/seekbar_value"
                 android:maxLines="10"
                 android:textAppearance="?asp_textAppearanceListItemSecondary"
                 android:textColor="?android:textColorSecondary"/>
 
             <TextView
-                android:id="@+id/asp_info"
+                android:id="@+id/seekbar_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@android:id/summary"
@@ -127,18 +127,21 @@
                 android:textAppearance="?asp_textAppearanceListItemTertiary"
                 android:textColor="?android:textColorSecondary"/>
         </RelativeLayout>
-
-        <SeekBar
-            android:id="@+id/seekbar"
+<net.xpece.android.support.preference.UnPressableAbsoluteLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-12dp"
             android:layout_marginRight="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="4dp">
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:focusable="false"
             android:minHeight="32dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>
+            </net.xpece.android.support.preference.UnPressableAbsoluteLayout>
     </LinearLayout>
 
     <!-- Preference should place its actual preference widget here. -->

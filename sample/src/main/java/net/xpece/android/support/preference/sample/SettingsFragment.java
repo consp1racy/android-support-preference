@@ -191,6 +191,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
             @Override
             public void onEditTextCreated(EditText edit) {
                 Context context = edit.getContext();
+                //noinspection RestrictedApi
                 Drawable d = AppCompatDrawableManager.get().getDrawable(context, R.drawable.ic_create_black_24dp);
                 d = DrawableCompat.wrap(d);
                 DrawableCompat.setTintList(d, Util.resolveColorStateList(context, R.attr.colorControlNormal));
@@ -267,7 +268,7 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         } else if (preference instanceof ColorPreference) {
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((ColorPreference) preference).getColor());
         } else if (preference instanceof SeekBarPreference) {
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((SeekBarPreference) preference).getProgress());
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((SeekBarPreference) preference).getValue());
         } else {
             String value = PreferenceManager
                 .getDefaultSharedPreferences(preference.getContext())

@@ -93,6 +93,9 @@
         <attr name="asp_min" format="integer"/>
         <attr name="android:max"/>
         <attr name="asp_info" format="string"/>
+        <!--<attr name="asp_seekBarIncrement" format="integer"/>-->
+        <!--<attr name="asp_adjustable" format="boolean"/>-->
+        <!--<attr name="asp_showSeekBarValue" format="boolean"/>-->
     </declare-styleable>
 
     <declare-styleable name="SeekBarDialogPreference">

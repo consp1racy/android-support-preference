@@ -23,9 +23,9 @@
         android:dependency="notifications_new_message"
         android:entries="@array/colors_material_names"
         android:entryValues="@array/colors_material"
-        app:asp_columnCount="-1"
         android:key="notif_color"
         android:title="@string/pref_notif_color"
+        app:asp_columnCount="-1"
         />
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
@@ -46,29 +46,41 @@
         android:key="notifications_new_message_vibrate"
         android:title="@string/pref_title_vibrate"/>
 
+    <!--<android.support.v7.preference.SeekBarPreference-->
+        <!--android:defaultValue="50"-->
+        <!--android:dependency="notifications_new_message"-->
+        <!--android:icon="@drawable/ic_volume_up_black_24dp"-->
+        <!--android:key="notifications_new_message_volume1"-->
+        <!--android:max="100"-->
+        <!--android:title="@string/pref_title_volume2"-->
+        <!--android:summary="@string/pref_title_volume2"-->
+        <!--app:asp_dialogTintEnabled="true"-->
+        <!--app:min="20"-->
+        <!--app:asp_tintEnabled="true"/>-->
+
     <SeekBarPreference
         android:defaultValue="50"
         android:dependency="notifications_new_message"
         android:icon="@drawable/ic_volume_up_black_24dp"
         android:key="notifications_new_message_volume2"
-        app:asp_min="20"
         android:max="100"
         android:summary="@string/pref_title_volume2"
         app:asp_dialogTintEnabled="true"
+        app:asp_min="20"
         app:asp_tintEnabled="true"/>
 
     <SeekBarDialogPreference
-        app:asp_min="256"
         android:defaultValue="768"
-        android:max="1024"
         android:dependency="notifications_new_message"
         android:dialogIcon="@drawable/ic_ring_volume_black_24dp"
-        android:dialogTitle="@null"
         android:dialogMessage="@string/lipsum"
+        android:dialogTitle="@null"
         android:icon="@drawable/ic_ring_volume_black_24dp"
         android:key="notifications_new_message_volume"
+        android:max="1024"
         android:title="@string/pref_title_volume"
         app:asp_dialogTintEnabled="true"
+        app:asp_min="256"
         app:asp_tintEnabled="true"/>
 
 </PreferenceScreen>

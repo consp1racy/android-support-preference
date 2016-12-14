@@ -32,6 +32,7 @@ repositories {
     mavenCentral()
 }
 
+// For testing compatibility with oldest supported support library.
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'com.android.support') {

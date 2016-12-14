@@ -61,6 +61,8 @@
 
     <style name="Preference.Material.SeekBarPreference">
         <item name="android:layout">@layout/asp_preference_seekbar</item>
+        <!--<item name="asp_adjustable">true</item>-->
+        <!--<item name="asp_showSeekBarValue">true</item>-->
     </style>
 
     <style name="Preference.Material.DialogPreference.MultiSelectListPreference">
