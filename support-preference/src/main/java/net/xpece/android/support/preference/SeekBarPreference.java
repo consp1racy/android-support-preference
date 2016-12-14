@@ -50,8 +50,11 @@ public class SeekBarPreference extends Preference {
     private int mSeekBarIncrement = 0;
     private boolean mTrackingTouch;
 
-    private boolean mAdjustable = true; // whether the seekbar should respond to the left/right keys
-    private boolean mShowSeekBarValue = false; // whether to show the seekbar value TextView next to the bar
+    // whether the seekbar should respond to the left/right keys
+    private boolean mAdjustable = true;
+    // whether to show the seekbar value TextView next to the bar
+    // preference-v7 has true, here we set false for backwards compatibility with previous releases.
+    private boolean mShowSeekBarValue = false;
 
     private CharSequence mInfo;
     private OnSeekBarChangeListener mUserSeekBarChangeListener;
@@ -199,7 +202,10 @@ public class SeekBarPreference extends Preference {
         seekBar.setProgress(mSeekBarValue - mMin);
         seekBar.setEnabled(isEnabled());
 
-        // Fix drawable state on Android 2.
+        fixDrawableStateOnAndroid2(seekBar);
+    }
+
+    private static void fixDrawableStateOnAndroid2(final SeekBar seekBar) {// Fix drawable state on Android 2.
         if (Build.VERSION.SDK_INT < 14) {
             final int[] state = seekBar.getDrawableState();
             Drawable d;
