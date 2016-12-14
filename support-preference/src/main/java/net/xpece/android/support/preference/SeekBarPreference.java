@@ -44,20 +44,20 @@ public class SeekBarPreference extends Preference {
     // A filthy hack so we can update info text while dragging seek bar thumb.
     private static final WeakHashMap<TextView, SeekBarPreference> mInfoViews = new WeakHashMap<>();
 
-    private int mSeekBarValue;
-    private int mMin = 0;
+    int mSeekBarValue;
+    int mMin = 0;
     private int mMax = 100;
     private int mSeekBarIncrement = 0;
-    private boolean mTrackingTouch;
+    boolean mTrackingTouch;
 
     // whether the seekbar should respond to the left/right keys
-    private boolean mAdjustable = true;
+    boolean mAdjustable = true;
     // whether to show the seekbar value TextView next to the bar
     // preference-v7 has true, here we set false for backwards compatibility with previous releases.
     private boolean mShowSeekBarValue = false;
 
     private CharSequence mInfo;
-    private OnSeekBarChangeListener mUserSeekBarChangeListener;
+    OnSeekBarChangeListener mUserSeekBarChangeListener;
 
     /**
      * Listener reacting to the SeekBar changing value by the user

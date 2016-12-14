@@ -15,7 +15,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
 
     private PreferenceTextHelper mPreferenceTextHelper;
 
-    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
+    OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

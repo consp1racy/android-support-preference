@@ -41,7 +41,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     private PreferenceIconHelper mPreferenceIconHelper;
     private DialogPreferenceIconHelper mDialogPreferenceIconHelper;
 
-    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
+    OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

@@ -43,7 +43,7 @@ public class Preference extends android.support.v7.preference.Preference
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
 
-    private OnPreferenceLongClickListener mOnPreferenceLongClickListener;
+    OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     /**
      * Perform inflation from XML and apply a class-specific base style. This
