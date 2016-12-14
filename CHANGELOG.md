@@ -1,5 +1,8 @@
 # Change log
 
+**1.2.1** 2016-12-14
+- Better compatibility with new `SeekBarPreference` introduced in preference-v7 library.
+
 **1.2.0** 2016-11-27
 - *NEW!* Arbitrary `Preference`s now support long click listeners.
   - `PreferenceScreen`s now support long click listeners.

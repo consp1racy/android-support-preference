@@ -16,14 +16,15 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 - [Changelog](CHANGELOG.md)
 
 <a name="how-to-get"/>
+
 ## How to get the preference library? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference%3A1.2.0"><img src="https://img.shields.io/badge/support--preference-1294-e91e63.svg"/></a> <a href="http://www.methodscount.com/?lib=com.android.support%3Apreference-v7%3A25.0.1"><img src="https://img.shields.io/badge/preference--v7-901-e91e63.svg"/></a>
 
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.2.0'
+    compile 'net.xpece.android:support-preference:1.2.1'
     
-    ext.supportLibsVersion = "25.0.1"
+    ext.supportLibsVersion = "25.1.0"
     compile "com.android.support:appcompat-v7:$supportLibsVersion"
     compile "com.android.support:preference-v7:$supportLibsVersion"
 }
@@ -50,6 +51,7 @@ dependencies {
 ```
 
 <a name="screenshots"/>
+
 ## Screenshots
 
 Library version 0.6.0. Android version 4.4.
@@ -73,6 +75,7 @@ Library version 0.5.1. Android version 4.4.
 ![Disabled preferences](./docs/device-2015-12-08-200704.png)&nbsp;
 
 <a name="contents"/>
+
 ## Contents
 
 ### Support preference
@@ -141,6 +144,7 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - Title/summary text color and text appearance defined in Java or XML.
 
 <a name="how-to-use"/>
+
 ## How to use the library?
 
 ### Basic setup
@@ -177,8 +181,8 @@ to use custom `ColorStateList` XML resource with disabled state.</s>
 From version 0.9.0 your theme *has to* define the following attributes which serve as default
 preference icon tint colors. Recommended colors are `?colorAccent` or `?colorControlNormal`.
 ```xml
-    <item name="asp_preferenceIconTint">?colorAccent</item>
-    <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
+<item name="asp_preferenceIconTint">?colorAccent</item>
+<item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
 ```
 
 Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
