@@ -3,7 +3,6 @@ package net.xpece.android.support.preference;
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.RestrictTo;
 import android.widget.AbsSeekBar;
 
 import java.lang.reflect.Field;
@@ -11,7 +10,6 @@ import java.lang.reflect.Field;
 /**
  * Created by Eugen on 15.04.2016.
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
 class SeekBarCompat {
     private static final Field FIELD_THUMB;
 

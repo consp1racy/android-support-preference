@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.support.v4.content.SharedPreferencesCompat;
 
 import java.lang.reflect.Method;
@@ -16,7 +15,6 @@ import java.util.List;
 /**
  * @author Eugen on 6. 12. 2015.
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
 public class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
@@ -51,18 +49,13 @@ public class XpPreferenceManager extends PreferenceManager {
         }
     }
 
-    /**
-     * @hide
-     */
-    public XpPreferenceManager(@NonNull final Context context, @Nullable final String[] customDefaultPackages) {
+    XpPreferenceManager(@NonNull final Context context, @Nullable final String[] customDefaultPackages) {
         this(context);
         mCustomDefaultPackages = customDefaultPackages;
     }
 
-    /**
-     * @hide
-     */
-    public XpPreferenceManager(@NonNull final Context context) {
+    @SuppressWarnings("RestrictedApi")
+    XpPreferenceManager(@NonNull final Context context) {
         super(context);
     }
 

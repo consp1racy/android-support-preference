@@ -46,9 +46,16 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarDialogPreference, defStyleAttr, defStyleRes);
-        setMax(a.getInt(R.styleable.SeekBarDialogPreference_android_max, mPreferredMax));
-        setMin(a.getInt(R.styleable.SeekBarDialogPreference_asp_min, mPreferredMin));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
+        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mPreferredMax));
+        setMin(a.getInt(R.styleable.SeekBarPreference_asp_min, mPreferredMin));
+
+        try {
+            setMin(a.getInt(R.styleable.SeekBarPreference_min, mPreferredMin));
+        } catch (NoSuchFieldError e) {
+            // These are only available since support libs 25.1.0.
+        }
+
         a.recycle();
     }
 
