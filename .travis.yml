@@ -8,7 +8,7 @@ android:
     - tools
     - platform-tools
     - android-25
-    - build-tools-25.0.1
+    - build-tools-25.0.2
     - extra-android-m2repository
 
 # as per http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
