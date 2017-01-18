@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
-import android.support.annotation.RestrictTo;
 import android.support.v4.graphics.ColorUtils;
 import android.util.TypedValue;
 
 /**
  * Created by Eugen on 13. 5. 2015.
- * @hide
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
 final class Util {
     public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     public static final int[] EMPTY_STATE_SET = new int[0];

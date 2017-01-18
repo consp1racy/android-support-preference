@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -31,7 +30,6 @@ public final class XpPreferenceHelpers {
 
     private XpPreferenceHelpers() {}
 
-    @RestrictTo(RestrictTo.Scope.GROUP_ID)
     static void onCreatePreference(final Preference preference, final AttributeSet attrs) {
         final int defStyleAttr = getDefStyleAttr(preference);
 
@@ -69,7 +67,6 @@ public final class XpPreferenceHelpers {
         return defStyleAttr;
     }
 
-    @RestrictTo(RestrictTo.Scope.GROUP_ID)
     static void onBindViewHolder(final Preference preference, final PreferenceViewHolder holder) {
         final PreferenceTextHelper textHelper = PREFERENCE_TEXT_HELPERS.get(preference);
         if (textHelper != null) {

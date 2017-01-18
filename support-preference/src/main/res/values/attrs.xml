@@ -98,10 +98,10 @@
         <!--<attr name="asp_showSeekBarValue" format="boolean"/>-->
     </declare-styleable>
 
-    <declare-styleable name="SeekBarDialogPreference">
-        <attr name="asp_min"/>
-        <attr name="android:max"/>
-    </declare-styleable>
+    <!--<declare-styleable name="SeekBarDialogPreference">-->
+        <!--<attr name="asp_min"/>-->
+        <!--<attr name="android:max"/>-->
+    <!--</declare-styleable>-->
 
     <declare-styleable name="EditTextPreference">
         <attr name="asp_editTextLayout" format="reference"/>

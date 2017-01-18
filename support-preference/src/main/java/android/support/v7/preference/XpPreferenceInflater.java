@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.InflateException;
@@ -36,7 +35,6 @@ import java.util.HashMap;
  * The {@link XpPreferenceInflater} is used to inflate preference hierarchies from
  * XML files.
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
 class XpPreferenceInflater extends PreferenceInflater {
     private static final String TAG = "XpPreferenceInflater";
 

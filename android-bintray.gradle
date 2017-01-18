@@ -32,3 +32,5 @@ bintray {
         }
     }
 }
+
+bintrayUpload.dependsOn publishToMavenLocal

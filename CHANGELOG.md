@@ -1,5 +1,9 @@
 # Change log
 
+**1.2.2** 2017-01-18
+- `SeekBarDialogPreference` supports `app:min` attribute (since support libs 25.1.0)
+- Updated consumer proguard rules.
+
 **1.2.1** 2016-12-14
 - Better compatibility with `SeekBarPreference` introduced in preference-v7 library 25.1.0.
 

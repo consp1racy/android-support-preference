@@ -24,12 +24,13 @@ import android.widget.AbsoluteLayout;
 import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
 
 /**
- * Custom LinearLayout that does not propagate the pressed state down to its children.
+ * Custom AbsoluteLayout that does not propagate the pressed state down to its children.
  * By default, the pressed state is propagated to all the children that are not clickable
  * or long-clickable.
  * @hide
  */
 @RestrictTo(GROUP_ID)
+@SuppressWarnings("deprecation")
 public class UnPressableAbsoluteLayout extends AbsoluteLayout {
     public UnPressableAbsoluteLayout(Context context) {
         this(context, null);

@@ -1,6 +1,5 @@
 package android.support.v7.preference;
 
-import android.support.annotation.RestrictTo;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * @author Eugen on 17. 3. 2016.
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
+@SuppressWarnings("RestrictedApi")
 class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
 
     private static final int OFFSET = 0xffff;
