@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -213,6 +214,14 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
                 preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
             }
             popup.setHorizontalOffset(preferredHorizontalOffset);
+        }
+
+        final int unit = anchor.getHeight();
+        if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+            int width = anchor.getWidth();
+            popup.setEpicenterBounds(new Rect(width - unit, 0, width - unit * 2, unit));
+        } else {
+            popup.setEpicenterBounds(new Rect(unit, 0, unit * 2, unit));
         }
 
         // Testing.
