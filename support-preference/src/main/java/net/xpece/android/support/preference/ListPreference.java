@@ -8,6 +8,7 @@ package net.xpece.android.support.preference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,7 +16,8 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.preference.*;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -82,6 +84,7 @@ public class ListPreference extends DialogPreference {
 
     private Context mPopupContext;
 
+    @SuppressWarnings("RestrictedApi")
     public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
@@ -116,6 +119,7 @@ public class ListPreference extends DialogPreference {
         this(context, null);
     }
 
+    @SuppressWarnings("RestrictedApi")
     @Override
     protected void performClick(View view) {
         switch (mMenuMode) {
@@ -191,6 +195,14 @@ public class ListPreference extends DialogPreference {
 
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
+
+        final int unit = anchor.getHeight();
+        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+            int width = anchor.getWidth();
+            popup.setEpicenterBounds(new Rect(width - unit, 0, width - unit * 2, unit));
+        } else {
+            popup.setEpicenterBounds(new Rect(unit, 0, unit * 2, unit));
+        }
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);
@@ -270,10 +282,12 @@ public class ListPreference extends DialogPreference {
      * If you want to supply your own {@link SpinnerAdapter}
      * override {@link #buildSimpleMenuAdapter(Context)}
      * and {@link #buildSimpleDialogAdapter(Context)} instead.
+     *
      * @param context
      * @return
      */
-    @NonNull @Deprecated
+    @NonNull
+    @Deprecated
     public SpinnerAdapter buildAdapter(final Context context) {
         return buildAdapter(context, R.layout.asp_simple_spinner_dropdown_item);
     }
@@ -342,8 +356,8 @@ public class ListPreference extends DialogPreference {
     }
 
     /**
-     * @see #setEntries(CharSequence[])
      * @param entriesResId The entries array as a resource.
+     * @see #setEntries(CharSequence[])
      */
     public void setEntries(@ArrayRes int entriesResId) {
         this.setEntries(this.getContext().getResources().getTextArray(entriesResId));
@@ -374,8 +388,8 @@ public class ListPreference extends DialogPreference {
     }
 
     /**
-     * @see #setEntryValues(CharSequence[])
      * @param entryValuesResId The entry values array as a resource.
+     * @see #setEntryValues(CharSequence[])
      */
     public void setEntryValues(@ArrayRes int entryValuesResId) {
         this.setEntryValues(this.getContext().getResources().getTextArray(entryValuesResId));

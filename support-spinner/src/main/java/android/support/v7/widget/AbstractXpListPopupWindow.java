@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RestrictTo;
 import android.support.annotation.Size;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.GravityCompat;
@@ -53,6 +54,8 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
+import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+
 /**
  * Static library support version of the framework's {@link android.widget.ListPopupWindow}.
  * Used to write apps that run on platforms prior to Android L. When running
@@ -78,6 +81,7 @@ public abstract class AbstractXpListPopupWindow {
     private static Method sClipToWindowEnabledMethod;
     private static Method sGetMaxAvailableHeightMethod;
     private static Method sSetAllowScrollingAnchorParentMethod;
+    private static Method sSetEpicenterBoundsMethod;
 
     static {
         try {
@@ -102,6 +106,12 @@ public abstract class AbstractXpListPopupWindow {
         } catch (NoSuchMethodException e) {
             Log.i(TAG, "Could not find method setAllowScrollingAnchorParent(boolean)"
                 + " on PopupWindow. Oh well.");
+        }
+        try {
+            sSetEpicenterBoundsMethod = PopupWindow.class.getDeclaredMethod(
+                "setEpicenterBounds", Rect.class);
+        } catch (NoSuchMethodException e) {
+            Log.i(TAG, "Could not find method setEpicenterBounds(Rect) on PopupWindow. Oh well.");
         }
     }
 
@@ -150,6 +160,12 @@ public abstract class AbstractXpListPopupWindow {
 
     private final Rect mTempRect = new Rect();
     private final int[] mTempLocation = new int[2];
+
+    /**
+     * Optional anchor-relative bounds to be used as the transition epicenter.
+     * When {@code null}, the anchor bounds are used as the epicenter.
+     */
+    private Rect mEpicenterBounds;
 
     private boolean mModal;
 
@@ -680,6 +696,20 @@ public abstract class AbstractXpListPopupWindow {
     }
 
     /**
+     * Specifies the anchor-relative bounds of the popup's transition
+     * epicenter.
+     *
+     * @param bounds anchor-relative bounds
+     */
+    public void setEpicenterBounds(Rect bounds) {
+        mEpicenterBounds = bounds;
+    }
+
+    public Rect getEpicenterBounds() {
+        return mEpicenterBounds;
+    }
+
+    /**
      * Set the gravity of the dropdown list. This is commonly used to
      * set gravity to START or END for alignment with the anchor.
      *
@@ -999,6 +1029,13 @@ public abstract class AbstractXpListPopupWindow {
             // only set this if the dropdown is not always visible
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
             mPopup.setTouchInterceptor(mTouchInterceptor);
+            if (sSetEpicenterBoundsMethod != null) {
+                try {
+                    sSetEpicenterBoundsMethod.invoke(mPopup, mEpicenterBounds);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not invoke setEpicenterBounds on PopupWindow", e);
+                }
+            }
             // We handle gravity manually. Just as everything else.
             PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
             mDropDownList.setSelection(ListView.INVALID_POSITION);
