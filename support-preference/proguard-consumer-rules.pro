@@ -8,3 +8,6 @@
 
 -dontwarn net.xpece.android.support.preference.SeekBarPreference
 -dontwarn net.xpece.android.support.preference.SeekBarDialogPreference
+
+-dontwarn net.xpece.android.support.widget.XpListPopupWindow
+-dontwarn net.xpece.android.support.widget.AbstractXpListPopupWindow
