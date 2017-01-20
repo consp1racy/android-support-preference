@@ -31,6 +31,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         return mAlertDialogContext;
     }
 
+    @SuppressWarnings("RestrictedApi")
     @Override
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = getContext();
@@ -72,6 +73,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         }
     }
 
+    @SuppressWarnings("RestrictedApi")
     @Override
     protected ColorStateList getTintList(TintTypedArray a, int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);

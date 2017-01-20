@@ -43,6 +43,8 @@ public class ColorPreference extends DialogPreference {
     }
 
     public void setColorResource(@ColorRes final int colorRes) {
+//        final ColorStateList colors = Util.getColorStateListCompat(getContext(), colorRes);
+//        final int color = colors.getDefaultColor();
         int color = ContextCompat.getColor(getContext(), colorRes);
         setColor(color);
     }

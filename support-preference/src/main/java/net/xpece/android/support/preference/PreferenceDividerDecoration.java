@@ -5,14 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.preference.PreferenceGroupAdapter;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.TintTypedArray;
 import android.view.View;
@@ -36,18 +33,11 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
     }
 
     public PreferenceDividerDecoration(Context context, @DrawableRes int divider, @DimenRes int dividerHeight) {
-        try {
-            mDivider = AppCompatResources.getDrawable(context, divider);
-        }catch (Exception ex) {
-            try {
-                mDivider = AppCompatDrawableManager.get().getDrawable(context, divider);
-            } catch (Exception ex2) {
-                mDivider = ContextCompat.getDrawable(context, divider);
-            }
-        }
+        mDivider = Util.getDrawableCompat(context, divider);
         mDividerHeight = context.getResources().getDimensionPixelSize(dividerHeight);
     }
 
+    @SuppressWarnings("RestrictedApi")
     public PreferenceDividerDecoration(Context context) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, null, new int[]{R.attr.dividerHorizontal});
         mDivider = a.getDrawable(0);
@@ -118,6 +108,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         return this;
     }
 
+    @SuppressWarnings("RestrictedApi")
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         if (mDivider == null) return;

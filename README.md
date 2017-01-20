@@ -418,7 +418,7 @@ Preference subs = findPreference("subs_screen");
 PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
 subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
 subsHelper.setIcon(R.drawable.some_icon);
-subsHelper.setTintList(ContextCompat.getColorStateList(getPreferenceManager().getContext(), R.color.accent));
+subsHelper.setTintList(AppCompatResources.getColorStateList(subs.getContext(), R.color.accent));
 subsHelper.setIconTintEnabled(true);
 /* or */
 PreferenceIconHelper.setup(subs /* preference */,
