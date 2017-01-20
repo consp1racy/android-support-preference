@@ -1,6 +1,6 @@
 # Change log
 
-**1.2.3** 2017-01-20
+**1.2.4** 2017-01-21
 - Added missing `CheckBoxPreference` constructor.
 - Added methods controlling icon tint enabled state on `Preference`s.
 - Popups now have basic epicenter awareness on API 24.
