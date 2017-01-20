@@ -55,6 +55,10 @@ public class CheckBoxPreference extends TwoStatePreference {
         this(context, attrs, R.attr.checkBoxPreferenceStyle);
     }
 
+    public CheckBoxPreference(Context context) {
+        this(context, null);
+    }
+
     @Override
     public void onBindViewHolder(final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
