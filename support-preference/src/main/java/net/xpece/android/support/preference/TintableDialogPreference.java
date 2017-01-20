@@ -9,6 +9,10 @@ import android.support.annotation.Nullable;
  */
 public interface TintableDialogPreference {
 
+    boolean isSupportDialogIconTintEnabled();
+
+    void setSupportDialogIconTintEnabled(boolean enabled);
+
     /**
      * Applies a tint to the icon drawable. Does not modify the current tint
      * mode, which is {@link PorterDuff.Mode#SRC_IN} by default.
@@ -17,7 +21,6 @@ public interface TintableDialogPreference {
      * mutate the drawable and apply the specified tint and tint mode.
      *
      * @param tint the tint to apply, may be {@code null} to clear tint
-     *
      * @see #getSupportDialogIconTintList()
      */
     void setSupportDialogIconTintList(@Nullable ColorStateList tint);
@@ -36,7 +39,7 @@ public interface TintableDialogPreference {
      * drawable. The default mode is {@link PorterDuff.Mode#SRC_IN}.
      *
      * @param tintMode the blending mode used to apply the tint, may be
-     *                 {@code null} to clear tint
+     * {@code null} to clear tint
      * @see #getSupportDialogIconTintMode()
      */
     void setSupportDialogIconTintMode(@Nullable PorterDuff.Mode tintMode);
@@ -46,7 +49,7 @@ public interface TintableDialogPreference {
      * drawable, if specified.
      *
      * @return the blending mode used to apply the tint to the icon
-     *         drawable
+     * drawable
      */
     @Nullable
     PorterDuff.Mode getSupportDialogIconTintMode();

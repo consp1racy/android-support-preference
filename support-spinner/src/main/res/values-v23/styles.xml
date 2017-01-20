@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Animation.Asp.Popup" parent="Animation.Material.Popup"/>
-
     <style name="Base.Widget.Material.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
         <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
-        <item name="android:paddingEnd">36dp</item>
     </style>
-
 </resources>

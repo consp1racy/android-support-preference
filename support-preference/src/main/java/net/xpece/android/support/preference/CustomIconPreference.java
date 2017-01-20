@@ -12,4 +12,8 @@ public interface CustomIconPreference {
     void setSupportIcon(@DrawableRes int icon);
 
     Drawable getSupportIcon();
+
+    boolean isSupportIconPaddingEnabled();
+
+    void setSupportIconPaddingEnabled(boolean enabled);
 }

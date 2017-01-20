@@ -6,11 +6,8 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.Preference;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
@@ -39,7 +36,9 @@ public class PreferenceIconHelper {
         helper.setIconPaddingEnabled(padding);
         helper.setIcon(icon);
         if (tint != 0) {
-            helper.setTintList(ContextCompat.getColorStateList(pref.getPreferenceManager().getContext(), tint));
+            final Context context = pref.getPreferenceManager().getContext();
+            final ColorStateList tintList = Util.getColorStateListCompat(context, tint);
+            helper.setTintList(tintList);
             helper.setIconTintEnabled(true);
         }
         return helper;
@@ -49,6 +48,7 @@ public class PreferenceIconHelper {
         mPreference = preference;
     }
 
+    @SuppressWarnings("RestrictedApi")
     public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = getContext();
 
@@ -76,6 +76,7 @@ public class PreferenceIconHelper {
         }
     }
 
+    @SuppressWarnings("RestrictedApi")
     protected ColorStateList getTintList(TintTypedArray a, int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);
         csl = withDisabled(csl, context);
@@ -157,16 +158,7 @@ public class PreferenceIconHelper {
      */
     public void setIcon(int iconResId) {
         Context context = getContext();
-        Drawable d = null;
-        try {
-            d = AppCompatResources.getDrawable(context, iconResId);
-        } catch (NoSuchMethodError ex) {
-            try {
-                d = AppCompatDrawableManager.get().getDrawable(context, iconResId);
-            } catch (NoSuchMethodError ex2) {
-                d = ContextCompat.getDrawable(context, iconResId);
-            }
-        }
+        Drawable d = Util.getDrawableCompat(context, iconResId);
         setIcon(d);
         mIconResId = iconResId;
     }

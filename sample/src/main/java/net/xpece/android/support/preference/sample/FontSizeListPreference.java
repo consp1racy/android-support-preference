@@ -14,7 +14,9 @@ import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 
 /**
- * @author Eugen on 29.07.2016.
+ * This is a sample custom preference.
+ *
+ * It is identical to {@link ListPreference} but it grows text size with increasing index.
  */
 
 public class FontSizeListPreference extends ListPreference {

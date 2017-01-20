@@ -16,6 +16,7 @@
 
 package android.support.v7.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -54,6 +55,7 @@ import java.lang.reflect.Field;
  *
  * @hide
  */
+@SuppressLint("AppCompatCustomView")
 @TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
@@ -196,6 +198,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * @see #MODE_DIALOG
      * @see #MODE_DROPDOWN
      */
+    @SuppressWarnings("RestrictedApi")
     public AbstractXpAppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode,
                                       Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr);

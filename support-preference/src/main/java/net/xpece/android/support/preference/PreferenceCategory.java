@@ -2,7 +2,11 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,20 +15,17 @@ import android.view.View;
  * Created by Eugen on 08.03.2016.
  */
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
-    implements ColorableTextPreference, LongClickablePreference {
+    implements ColorableTextPreference, LongClickablePreference,
+    TintablePreference, CustomIconPreference{
 
     private PreferenceTextHelper mPreferenceTextHelper;
+    private PreferenceIconHelper mPreferenceIconHelper;
 
     OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mPreferenceTextHelper = new PreferenceTextHelper();
-        mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -37,6 +38,68 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
 
     public PreferenceCategory(Context context) {
         this(context, null);
+    }
+
+    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        mPreferenceTextHelper = new PreferenceTextHelper();
+        mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    public boolean isSupportIconPaddingEnabled() {
+        return mPreferenceIconHelper.isIconPaddingEnabled();
+    }
+
+    @Override
+    public void setSupportIconPaddingEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconPaddingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isSupportIconTintEnabled() {
+        return mPreferenceIconHelper.isIconTintEnabled();
+    }
+
+    @Override
+    public void setSupportIconTintEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconTintEnabled(enabled);
+    }
+
+    @Override
+    public void setSupportIconTintList(@Nullable final ColorStateList tint) {
+        mPreferenceIconHelper.setTintList(tint);
+    }
+
+    @Nullable
+    @Override
+    public ColorStateList getSupportIconTintList() {
+        return mPreferenceIconHelper.getTintList();
+    }
+
+    @Override
+    public void setSupportIconTintMode(@Nullable final PorterDuff.Mode tintMode) {
+        mPreferenceIconHelper.setTintMode(tintMode);
+    }
+
+    @Nullable
+    @Override
+    public PorterDuff.Mode getSupportIconTintMode() {
+        return mPreferenceIconHelper.getTintMode();
+    }
+
+    @Override
+    public void setSupportIcon(final Drawable icon) {
+        mPreferenceIconHelper.setIcon(icon);
+    }
+
+    @Override
+    public void setSupportIcon(@DrawableRes final int icon) {
+        mPreferenceIconHelper.setIcon(icon);
+    }
+
+    @Override
+    public Drawable getSupportIcon() {
+        return mPreferenceIconHelper.getIcon();
     }
 
     @Override

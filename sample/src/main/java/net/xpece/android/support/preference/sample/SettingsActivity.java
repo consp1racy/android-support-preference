@@ -168,7 +168,6 @@ public class SettingsActivity extends AppCompatActivity implements
     public boolean onPreferenceStartScreen(final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
         mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
         return true;
-//        return false; // Turn off to try ReplaceRoot strategy.
     }
 
     @Override
@@ -179,14 +178,6 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public PreferenceFragmentCompat onBuildPreferenceFragment(final String rootKey) {
         return SettingsFragment.newInstance(rootKey);
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Use with ReplaceRoot strategy.
-//        if (mSettingsFragment.onBackPressed()) return;
-
-        super.onBackPressed();
     }
 
     @Override

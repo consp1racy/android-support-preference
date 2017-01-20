@@ -12,7 +12,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceFragment;
 import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
@@ -41,12 +40,8 @@ import java.util.Set;
 /**
  * @author Eugen on 7. 12. 2015.
  */
-public class SettingsFragment extends XpPreferenceFragment implements ICanPressBack,
-    PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks {
+public class SettingsFragment extends XpPreferenceFragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
-
-    // These are used to navigate back and forth between subscreens. Use with ReplaceRoot strategy.
-//    private PreferenceScreenNavigationStrategy.ReplaceRoot mPreferenceScreenNavigation;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -219,11 +214,6 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
         getPreferenceScreen().setTitle(getActivity().getTitle());
 
         // Setup root preference.
-
-        // Use with ReplaceRoot strategy.
-//        mPreferenceScreenNavigation = new PreferenceScreenNavigationStrategy.ReplaceRoot(this, this);
-//        mPreferenceScreenNavigation.onCreatePreferences(savedInstanceState);
-
         // Use with ReplaceFragment strategy.
         PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
     }
@@ -288,30 +278,5 @@ public class SettingsFragment extends XpPreferenceFragment implements ICanPressB
 
         // We don't want this. The children are still focusable.
         listView.setFocusable(false);
-    }
-
-    // Here follows ReplaceRoot strategy stuff. ====================================================
-
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-//        if (preference instanceof PreferenceScreen) {
-//            PreferenceScreen preferenceScreen = (PreferenceScreen) preference;
-//            mPreferenceScreenNavigation.onPreferenceScreenClick(preferenceScreen);
-//            return true;
-//        }
-        return super.onPreferenceTreeClick(preference);
-    }
-
-    @Override
-    public boolean onBackPressed() {
-//        if (mPreferenceScreenNavigation.onBackPressed()) {
-//            return true;
-//        }
-        return false;
-    }
-
-    @Override
-    public void onNavigateToPreferenceScreen(PreferenceScreen preferenceScreen) {
-        getActivity().setTitle(preferenceScreen.getTitle());
     }
 }
