@@ -159,31 +159,19 @@ public void onCreatePreferences2(final Bundle savedInstanceState, final String r
 }
 ```
 
-Your settings activity theme needs to specify the following values:
+Your settings activity theme *needs to* specify the following values:
 
 ```xml
 <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Used to theme preference list and items. -->
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+    <!-- Default icon tint for preferences. -->
+    <item name="asp_preferenceIconTint">?colorAccent</item>
+    <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
 </style>
 ```
 
-Until version 0.8.0 you also needed to define `preferenceTint` attribute:
-
-```xml
-<!-- Default preference icon tint color. -->
-<item name="preferenceTint">?colorAccent</item>
-```
-
-<s>Since v0.6.1 disabled color for `preferenceTint` is computed automatically. Prior to this you'd have
-to use custom `ColorStateList` XML resource with disabled state.</s>
-
-From version 0.9.0 your theme *has to* define the following attributes which serve as default
-preference icon tint colors. Recommended colors are `?colorAccent` or `?colorControlNormal`.
-```xml
-<item name="asp_preferenceIconTint">?colorAccent</item>
-<item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
-```
+Recommended tint colors are `?colorAccent` or `?colorControlNormal`.
 
 Styling `alertDialogTheme` is recommended for a proper color theme. See the sample project.
 
@@ -345,18 +333,13 @@ The color is stored internally as a 32-bit integer.
 
 ### Subscreen navigation
 
-<s>One solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceRoot` class.
-This class will help you replace root preference in your preference fragment.</s>
-
-Another solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceFragment` class.
+Possible solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceFragment` class.
 This class will help you replace the whole preference fragment with a new instance with specified root preference.
-Unlike the first solution this one is using fragment transactions and back stack allowing for transition animations and saved states.
-
-Please review the sample project and javadoc of both solutions.
+It is using fragment transactions and back stack allowing for transition animations and saved states.
 
 ### Known issues with support library
 
-In appcompat-v7 r23.1.1 library there is a bug which prevents tinting of checkmarks in lists.
+In appcompat-v7 r23.1.1 and r24.1.x there is a bug which prevents tinting of checkmarks in lists.
 Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
 `super.onCreate(savedInstanceState)` in your Activity.
 
@@ -370,13 +353,11 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-<s>This fix is not necessary or available since version 0.5.5.</s>
-
-Similar issue is present in support library version 24.1.x. The fix is once more available in version 1.0.0 of this library.
-
 ---
 
-You may have experienced unexpected background color which manifests as holo blue on Android 4 and grey on Android 5. This is caused by `PreferenceFragment`'s `RecyclerView` grabbing focus on fragment start. We can disable this behavior while still being able to navigate between individual preferences with a D-pad.
+You may have experienced unexpected background color which manifests as holo blue on Android 4 and grey on Android 5.
+This is caused by `PreferenceFragment`'s `RecyclerView` grabbing focus on fragment start.
+We can disable this behavior while still being able to navigate between individual preferences with a D-pad.
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -440,10 +421,6 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## Known issues
 
-- SwitchPreference does not animate its SwitchCompat widget when clicked.
-  - https://code.google.com/p/android/issues/detail?id=196652
-  - <s>This is hotfixed in v0.7.0 on Android 5 or later by using native `Switch` instead of `SwitchCompat`. This may introduce other problems along the way so don't rely on this change.</s>
-  - This is solved in v1.1.1.
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
 
@@ -455,11 +432,11 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## TODO
 
 - Compute simple menu preferred position with prompt enabled.
-- Simple menu with INPUT_METHOD_NOT_NEEDED.
 - ListPreference scroll to viewport before renewing popup/dialog.
 - ColorPicker XML attributes.
 - Use ForwardingListener.
 
 ## Credit
 
-Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7. Since version 0.5.0 the same applies to preference-v7. Kudos to people who create and maintain these!
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7.
+Since version 0.5.0 the same applies to preference-v7. Kudos to people who create and maintain these!
