@@ -1,5 +1,11 @@
 # Change log
 
+**1.2.3** 2017-01-20
+- Added missing `CheckBoxPreference` constructor.
+- Added methods controlling icon tint enabled state on `Preference`s.
+- Popups now have basic epicenter awareness on API 24.
+- Fixed potential crashes while using older versions of the support library.
+
 **1.2.2** 2017-01-18
 - `SeekBarDialogPreference` supports `app:min` attribute (since support libs 25.1.0)
 - Updated consumer proguard rules.
