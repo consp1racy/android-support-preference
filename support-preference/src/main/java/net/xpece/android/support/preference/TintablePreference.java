@@ -9,6 +9,10 @@ import android.support.annotation.Nullable;
  */
 public interface TintablePreference {
 
+    boolean isSupportIconTintEnabled();
+
+    void setSupportIconTintEnabled(boolean enabled);
+
     /**
      * Applies a tint to the icon drawable. Does not modify the current tint
      * mode, which is {@link PorterDuff.Mode#SRC_IN} by default.

@@ -135,6 +135,26 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
+    public boolean isSupportIconPaddingEnabled() {
+        return mPreferenceIconHelper.isIconPaddingEnabled();
+    }
+
+    @Override
+    public void setSupportIconPaddingEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconPaddingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isSupportIconTintEnabled() {
+        return mPreferenceIconHelper.isIconTintEnabled();
+    }
+
+    @Override
+    public void setSupportIconTintEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconTintEnabled(enabled);
+    }
+
+    @Override
     public void setSupportIconTintList(@Nullable final ColorStateList tint) {
         mPreferenceIconHelper.setTintList(tint);
     }

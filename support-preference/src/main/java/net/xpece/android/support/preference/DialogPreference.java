@@ -72,6 +72,46 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     }
 
     @Override
+    public boolean isSupportIconPaddingEnabled() {
+        return mPreferenceIconHelper.isIconPaddingEnabled();
+    }
+
+    @Override
+    public void setSupportIconPaddingEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconPaddingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isSupportDialogIconPaddingEnabled() {
+        return mDialogPreferenceIconHelper.isIconPaddingEnabled();
+    }
+
+    @Override
+    public void setSupportDialogIconPaddingEnabled(boolean enabled) {
+        mDialogPreferenceIconHelper.setIconPaddingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isSupportIconTintEnabled() {
+        return mPreferenceIconHelper.isIconTintEnabled();
+    }
+
+    @Override
+    public void setSupportIconTintEnabled(boolean enabled) {
+        mPreferenceIconHelper.setIconTintEnabled(enabled);
+    }
+
+    @Override
+    public boolean isSupportDialogIconTintEnabled() {
+        return mDialogPreferenceIconHelper.isIconTintEnabled();
+    }
+
+    @Override
+    public void setSupportDialogIconTintEnabled(boolean enabled) {
+        mDialogPreferenceIconHelper.setIconTintEnabled(enabled);
+    }
+
+    @Override
     public void setSupportDialogIcon(final Drawable icon) {
         mDialogPreferenceIconHelper.setIcon(icon);
     }

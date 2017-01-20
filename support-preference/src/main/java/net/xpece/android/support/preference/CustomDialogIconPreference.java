@@ -12,4 +12,8 @@ public interface CustomDialogIconPreference {
     void setSupportDialogIcon(@DrawableRes int icon);
 
     Drawable getSupportDialogIcon();
+
+    boolean isSupportDialogIconPaddingEnabled();
+
+    void setSupportDialogIconPaddingEnabled(boolean enabled);
 }
