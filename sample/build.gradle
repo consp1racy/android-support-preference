@@ -26,6 +26,11 @@ dependencies {
     compile project(':support-preference')
     compile project(':support-preference-color')
     compile "com.android.support:design:$supportLibVersion"
+
+    ext.leakCanaryVersion = "1.5"
+//    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 }
 
 repositories {

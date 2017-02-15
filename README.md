@@ -22,7 +22,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.2.4'
+    compile 'net.xpece.android:support-preference:1.2.5'
     
     ext.supportLibsVersion = "25.1.0"
     compile "com.android.support:appcompat-v7:$supportLibsVersion"

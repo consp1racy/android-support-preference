@@ -1,0 +1,1 @@
+gradlew -p %1 bintrayUpload -PbintrayPublish

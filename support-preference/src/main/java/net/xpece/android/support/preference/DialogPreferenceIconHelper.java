@@ -8,27 +8,30 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 
+import java.lang.ref.WeakReference;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
 public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
-    private final DialogPreference mPreference;
-
-    private final Context mAlertDialogContext;
+    private final WeakReference<DialogPreference> mPreference;
 
     public DialogPreferenceIconHelper(DialogPreference preference) {
         super(preference);
-        mPreference = preference;
-
-        final Context context = mPreference.getContext();
-        int alertDialogTheme = Util.resolveResourceId(context, R.attr.alertDialogTheme, 0);
-        mAlertDialogContext = new ContextThemeWrapper(context, alertDialogTheme);
+        mPreference = new WeakReference<>(preference);
     }
 
     @Override
     public Context getContext() {
-        return mAlertDialogContext;
+        final Context context = super.getContext();
+        int alertDialogTheme = Util.resolveResourceId(context, R.attr.alertDialogTheme, 0);
+        return new ContextThemeWrapper(context, alertDialogTheme);
+    }
+
+    @Override
+    protected DialogPreference getPreference() {
+        return mPreference.get();
     }
 
     @SuppressWarnings("RestrictedApi")
@@ -83,6 +86,6 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     @Override
     protected void onSetIcon() {
-        mPreference.setDialogIcon(mIcon);
+        getPreference().setDialogIcon(mIcon);
     }
 }

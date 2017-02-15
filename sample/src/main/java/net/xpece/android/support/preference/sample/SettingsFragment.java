@@ -200,14 +200,7 @@ public class SettingsFragment extends XpPreferenceFragment {
         });
 
         // Setup an OnPreferenceLongClickListener via XpPreferenceHelpers.
-        XpPreferenceHelpers.setOnPreferenceLongClickListener(findPreference("example_text"), new OnPreferenceLongClickListener() {
-            @Override
-            public boolean onLongClick(Preference preference, View view) {
-                final Toast toast = Toast.makeText(getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
-                toast.show();
-                return true;
-            }
-        });
+        XpPreferenceHelpers.setOnPreferenceLongClickListener(findPreference("example_text"), new OnLongClickListenerSample());
 
         // Setup root preference title.
 //        getPreferenceScreen().setTitle(R.string.app_name);
@@ -278,5 +271,18 @@ public class SettingsFragment extends XpPreferenceFragment {
 
         // We don't want this. The children are still focusable.
         listView.setFocusable(false);
+    }
+
+    /**
+     * No chance of outer class leaks when using another static class.
+     * Method args give us everything we need anyway.
+     */
+    static class OnLongClickListenerSample implements OnPreferenceLongClickListener {
+        @Override
+        public boolean onLongClick(Preference preference, View view) {
+            final Toast toast = Toast.makeText(preference.getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
+            toast.show();
+            return true;
+        }
     }
 }

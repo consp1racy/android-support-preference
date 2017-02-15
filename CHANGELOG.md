@@ -1,5 +1,9 @@
 # Change log
 
+**1.2.5** 2017-02-15
+- *FIXED:* Using `XpPreferenceHelpers` no longer causes memory leaks
+  - `OnPreferenceLongClickListener` *MUST NOT* hold reference to outer class!
+
 **1.2.4** 2017-01-21
 - Added missing `CheckBoxPreference` constructor.
 - Added methods controlling icon tint enabled state on `Preference`s.

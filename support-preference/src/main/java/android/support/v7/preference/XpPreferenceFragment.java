@@ -121,4 +121,10 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     public Fragment getCallbackFragment() {
         return this;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        setPreferenceScreen(null);
+    }
 }

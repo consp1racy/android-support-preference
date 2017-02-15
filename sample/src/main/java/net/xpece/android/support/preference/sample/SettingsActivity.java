@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +42,6 @@ import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 public class SettingsActivity extends AppCompatActivity implements
     PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
     PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback,
-    FragmentManager.OnBackStackChangedListener,
     PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
 
     Toolbar mToolbar;
@@ -72,8 +70,6 @@ public class SettingsActivity extends AppCompatActivity implements
         } else {
             mSettingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("Settings");
         }
-
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -168,11 +164,6 @@ public class SettingsActivity extends AppCompatActivity implements
     public boolean onPreferenceStartScreen(final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
         mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
         return true;
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        mSettingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("Settings");
     }
 
     @Override

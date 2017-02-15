@@ -11,13 +11,15 @@ import android.support.v7.preference.Preference;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 
+import java.lang.ref.WeakReference;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
 public class PreferenceIconHelper {
     private static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
-    private final Preference mPreference;
+    private final WeakReference<Preference> mPreference;
 
     /**
      * mIconResId is overridden by mIcon, if mIcon is specified.
@@ -45,7 +47,7 @@ public class PreferenceIconHelper {
     }
 
     public PreferenceIconHelper(Preference preference) {
-        mPreference = preference;
+        mPreference = new WeakReference<>(preference);
     }
 
     @SuppressWarnings("RestrictedApi")
@@ -112,7 +114,9 @@ public class PreferenceIconHelper {
         applySupportIconTint();
     }
 
-    public Context getContext() {return mPreference.getContext();}
+    public Context getContext() {return getPreference().getContext();}
+
+    protected Preference getPreference() {return mPreference.get();}
 
     protected void ensureTintInfo() {
         if (mTintInfo == null) {
@@ -147,7 +151,7 @@ public class PreferenceIconHelper {
     }
 
     protected void onSetIcon() {
-        mPreference.setIcon(mIcon);
+        getPreference().setIcon(mIcon);
     }
 
     /**
