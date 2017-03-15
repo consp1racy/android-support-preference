@@ -1,5 +1,8 @@
 # Change log
 
+**1.2.6** 2017-03-15
+- *FIXED:* `RingtonePreference` no longer crashes, falls back to system Ringtone Picker Activity.
+
 **1.2.5** 2017-02-15
 - *FIXED:* Using `XpPreferenceHelpers` no longer causes memory leaks
   - `OnPreferenceLongClickListener` *MUST NOT* hold reference to outer class!

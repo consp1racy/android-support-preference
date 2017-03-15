@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -159,25 +161,45 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             // Get the URI whose list item should have a checkmark
             mExistingUri = preference.onRestoreRingtone();
 
-            mCursor = mRingtoneManager.getCursor();
-
             try {
+                mCursor = mRingtoneManager.getCursor();
+
                 // Check if cursor is valid.
                 mCursor.getColumnNames();
             } catch (IllegalStateException ex) {
-                ex.printStackTrace();
-                mCursor = null;
-                try {
-                    // Alternatively try starting system picker.
-                    Intent i = buildRingtonePickerIntent(preference);
-                    startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
-                    setShowsDialog(false);
-                } catch (Exception ex2) {
-                    ex2.printStackTrace();
-                    // If everything fails show empty list.
-                }
+                recover(preference, ex);
+            } catch (IllegalArgumentException ex) {
+                recover(preference, ex);
             }
         }
+    }
+
+    private void recover(final RingtonePreference preference, final Throwable ex) {
+        ex.printStackTrace();
+        mCursor = null;
+        setShowsDialog(false);
+        try {
+            // Alternatively try starting system picker.
+            Intent i = buildRingtonePickerIntent(preference);
+            try {
+                startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
+            } catch (ActivityNotFoundException ex2) {
+                onRingtonePickerNotFound(RC_FALLBACK_RINGTONE_PICKER);
+            }
+        } catch (Exception ex2) {
+            ex2.printStackTrace();
+            // If everything fails show empty list.
+        }
+    }
+
+    /**
+     * Called when there's no ringtone picker available in the system.
+     * Let the user know (using e.g. a Toast).
+     * Just dismisses this fragment by default.
+     * @param requestCode You can use this code to launch another activity instead of dismissing this fragment.
+     */
+    public void onRingtonePickerNotFound(final int requestCode) {
+        dismiss();
     }
 
     @NonNull
