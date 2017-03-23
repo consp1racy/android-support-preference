@@ -41,7 +41,7 @@ public final class Fixes {
         }
     }
 
-    private static class FixedFactory implements LayoutInflaterFactory {
+    static class FixedFactory implements LayoutInflaterFactory {
 
         @Override
         public View onCreateView(final View parent, final String name, final Context context, final AttributeSet attrs) {

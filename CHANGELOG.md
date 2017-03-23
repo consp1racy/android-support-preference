@@ -1,5 +1,9 @@
 # Change log
 
+**1.2.7** 2017-03-23
+- These libraries no longer contribute to the problem described here: http://stackoverflow.com/questions/42949974
+- Ensured compatibility with support libraries back to v23.2.0.
+
 **1.2.6** 2017-03-15
 - *FIXED:* `RingtonePreference` no longer crashes, falls back to system Ringtone Picker Activity.
 

@@ -38,6 +38,9 @@ import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A {@link Spinner} which supports compatible features on older version of the platform,
@@ -59,7 +62,13 @@ import java.lang.reflect.Field;
 @TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
-    static class LegacyBackgroundHelper {
+    interface BackgroundHelper {
+        AppCompatBackgroundHelper createForView(final View view);
+    }
+
+    static class BackgroundHelperLt2420 implements  BackgroundHelper {
+        public static final BackgroundHelperLt2420 INSTANCE = new BackgroundHelperLt2420();
+
         static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{View.class, AppCompatDrawableManager.class};
         static final Constructor<AppCompatBackgroundHelper> CONSTRUCTOR;
 
@@ -76,7 +85,54 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             CONSTRUCTOR = ctor;
         }
 
-        private LegacyBackgroundHelper() {
+        private BackgroundHelperLt2420() {
+        }
+
+        @Override
+        public AppCompatBackgroundHelper createForView(final View view) {
+            final AppCompatDrawableManager drawableManager = AppCompatDrawableManager.get();
+            final Object[] constructorArgs = {view, drawableManager};
+            try {
+                return CONSTRUCTOR.newInstance(constructorArgs);
+            } catch (Exception e) {
+                // Well, fuck me!
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    static class BackgroundHelperGte2420 implements  BackgroundHelper {
+        public static final BackgroundHelperGte2420 INSTANCE = new BackgroundHelperGte2420();
+
+        static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{View.class};
+        static final Constructor<AppCompatBackgroundHelper> CONSTRUCTOR;
+
+        static {
+            Constructor<AppCompatBackgroundHelper> ctor = null;
+            try {
+                Class<AppCompatBackgroundHelper> cls = AppCompatBackgroundHelper.class;
+                ctor = cls.getDeclaredConstructor(CONSTRUCTOR_SIGNATURE);
+                ctor.setAccessible(true);
+            } catch (NoSuchMethodException ex) {
+                ex.printStackTrace();
+            }
+            CONSTRUCTOR = ctor;
+        }
+
+        private BackgroundHelperGte2420() {
+        }
+
+        @Override
+        public AppCompatBackgroundHelper createForView(final View view) {
+            final Object[] constructorArgs = {view};
+            try {
+                return CONSTRUCTOR.newInstance(constructorArgs);
+            } catch (Exception e) {
+                // Well, fuck me!
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -84,6 +140,8 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
 
     private static final Field FIELD_FORWARDING_LISTENER;
+
+    private static final List<BackgroundHelper> BACKGROUND_HELPERS;
 
     static {
         Field f = null;
@@ -96,6 +154,11 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             }
         }
         FIELD_FORWARDING_LISTENER = f;
+
+        final ArrayList<BackgroundHelper> backgroundHelpers = new ArrayList<>();
+        backgroundHelpers.add(BackgroundHelperGte2420.INSTANCE);
+        backgroundHelpers.add(BackgroundHelperLt2420.INSTANCE);
+        BACKGROUND_HELPERS = Collections.unmodifiableList(backgroundHelpers);
     }
 
     private AppCompatBackgroundHelper mBackgroundTintHelper;
@@ -206,18 +269,11 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs,
             R.styleable.Spinner, defStyleAttr, 0);
 
-        try {
-            // Support libs >= 24.2.0
-            mBackgroundTintHelper = new AppCompatBackgroundHelper(this);
-        } catch (NoSuchMethodError ex) {
-            // Support libs < 24.2.0
-            final AppCompatDrawableManager drawableManager = AppCompatDrawableManager.get();
-            Object[] constructorArgs = {this, drawableManager};
-            try {
-                mBackgroundTintHelper = LegacyBackgroundHelper.CONSTRUCTOR.newInstance(constructorArgs);
-            } catch (Exception e) {
-                // Well, fuck me!
-                e.printStackTrace();
+        for (BackgroundHelper helper : BACKGROUND_HELPERS) {
+            final AppCompatBackgroundHelper candidate = helper.createForView(this);
+            if (candidate != null) {
+                mBackgroundTintHelper = candidate;
+                break;
             }
         }
 

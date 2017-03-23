@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v7.appcompat.R;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -37,17 +36,18 @@ class AspAppCompatTextHelperV17 extends AspAppCompatTextHelper {
         super.loadFromAttributes(attrs, defStyleAttr);
 
         final Context context = mView.getContext();
+        @SuppressWarnings("RestrictedApi")
         final AppCompatDrawableManager drawableManager = AppCompatDrawableManager.get();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AppCompatTextHelper,
+        TypedArray a = context.obtainStyledAttributes(attrs, R_styleable_AppCompatTextHelper,
                 defStyleAttr, 0);
-        if (a.hasValue(R.styleable.AppCompatTextHelper_android_drawableStart)) {
+        if (a.hasValue(R_styleable_AppCompatTextHelper_android_drawableStart)) {
             mDrawableStartTint = createTintInfo(context, drawableManager,
-                    a.getResourceId(R.styleable.AppCompatTextHelper_android_drawableStart, 0));
+                    a.getResourceId(R_styleable_AppCompatTextHelper_android_drawableStart, 0));
         }
-        if (a.hasValue(R.styleable.AppCompatTextHelper_android_drawableEnd)) {
+        if (a.hasValue(R_styleable_AppCompatTextHelper_android_drawableEnd)) {
             mDrawableEndTint = createTintInfo(context, drawableManager,
-                    a.getResourceId(R.styleable.AppCompatTextHelper_android_drawableEnd, 0));
+                    a.getResourceId(R_styleable_AppCompatTextHelper_android_drawableEnd, 0));
         }
         a.recycle();
     }

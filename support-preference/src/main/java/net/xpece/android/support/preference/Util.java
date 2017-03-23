@@ -72,13 +72,14 @@ final class Util {
     public static Drawable getDrawableCompat(@NonNull final Context context, @DrawableRes final int resId) {
         try {
             return AppCompatResources.getDrawable(context, resId);
-        } catch (NoSuchMethodError ex) {
-            try {
-                //noinspection RestrictedApi
-                return AppCompatDrawableManager.get().getDrawable(context, resId);
-            } catch (Exception ex2) {
-                return ContextCompat.getDrawable(context, resId);
-            }
+        } catch (Throwable ex) {
+            // The class does not exist at all on support libs 23.
+        }
+        try {
+            //noinspection RestrictedApi
+            return AppCompatDrawableManager.get().getDrawable(context, resId);
+        } catch (Throwable ex2) {
+            return ContextCompat.getDrawable(context, resId);
         }
     }
 
@@ -86,8 +87,9 @@ final class Util {
     public static ColorStateList getColorStateListCompat(@NonNull final Context context, @ColorRes final int resId) {
         try {
             return AppCompatResources.getColorStateList(context, resId);
-        } catch (NoSuchMethodError ex) {
-            return ContextCompat.getColorStateList(context, resId);
+        } catch (Throwable ex) {
+            // The class does not exist at all on support libs 23.
         }
+        return ContextCompat.getColorStateList(context, resId);
     }
 }

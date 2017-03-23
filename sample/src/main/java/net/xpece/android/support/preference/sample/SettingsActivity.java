@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
@@ -84,7 +83,8 @@ public class SettingsActivity extends AppCompatActivity implements
             @Override
             public View makeView() {
                 TextView tv = new AppCompatTextView(mToolbar.getContext());
-                TextViewCompat.setTextAppearance(tv, R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+                //noinspection deprecation
+                tv.setTextAppearance(tv.getContext(), R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
                 return tv;
             }
         });
