@@ -3,14 +3,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
 ext {
     compileSdkVersion = 25
-    buildToolsVersion = "25.0.2"
+    buildToolsVersion = "26.0.1"
     supportLibVersion = "25.3.0"
     supportLibVersionAnnotations = "25.1.0"
     minSdkVersion = 9
