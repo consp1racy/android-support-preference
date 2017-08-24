@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "net.xpece.android.support.preference.sample"
-        minSdkVersion 9
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -34,7 +34,8 @@ dependencies {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
+    google()
 }
 
 // For testing compatibility with oldest supported support library.

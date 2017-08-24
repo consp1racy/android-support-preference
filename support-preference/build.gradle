@@ -32,7 +32,8 @@ dependencies {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
+    google()
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
