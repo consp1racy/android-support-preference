@@ -20,6 +20,7 @@
             android:layout_marginLeft="?dialogPreferredPadding"
             android:layout_marginRight="?dialogPreferredPadding"
             android:layout_marginTop="@dimen/abc_dialog_padding_top_material"
+            android:textAlignment="viewStart"
             android:textColor="?android:textColorSecondary"/>
 
         <LinearLayout
@@ -67,7 +68,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="@dimen/abc_dialog_padding_top_material"/>
-				
+
             <TextView
                 android:id="@+id/seekbar_value"
 				android:gravity="end"
@@ -77,6 +78,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:maxLines="1"
+                android:textAlignment="viewStart"
                 android:textAppearance="?asp_textAppearanceListItemTertiary"
                 android:textColor="?android:textColorSecondary"/>
         </LinearLayout>

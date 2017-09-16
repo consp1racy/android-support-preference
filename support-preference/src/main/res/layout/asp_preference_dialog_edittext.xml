@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/abc_dialog_padding_top_material"
+            android:textAlignment="viewStart"
             android:textColor="?android:textColorSecondary"/>
 
         <FrameLayout

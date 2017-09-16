@@ -29,5 +29,6 @@
     android:paddingLeft="?attr/listPreferredItemPaddingLeft"
     android:paddingRight="?attr/listPreferredItemPaddingRight"
     android:paddingTop="8dp"
+    android:textAlignment="viewStart"
     android:textAppearance="?attr/textAppearanceListItemSmall"
     android:textColor="?attr/textColorAlertDialogListItem"/>

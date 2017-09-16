@@ -44,6 +44,7 @@
         android:defaultValue="true"
         android:dependency="notifications_new_message"
         android:key="notifications_new_message_vibrate"
+        android:summary="Some supposedly long text to emulate multiline summary. And even more text to make sure it sticks."
         android:title="@string/pref_title_vibrate"/>
 
     <!--<android.support.v7.preference.SeekBarPreference-->

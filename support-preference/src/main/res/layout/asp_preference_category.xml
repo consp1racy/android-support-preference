@@ -27,6 +27,7 @@
     android:paddingLeft="?listPreferredItemPaddingLeft"
     android:paddingRight="?listPreferredItemPaddingRight"
     android:paddingTop="16dip"
+    android:textAlignment="viewStart"
     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
     android:textColor="?colorAccent"
     tools:ignore="RtlHardcoded"/>

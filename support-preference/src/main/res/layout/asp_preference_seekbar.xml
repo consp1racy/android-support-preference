@@ -98,6 +98,7 @@
                 android:layout_marginRight="16dp"
                 android:ellipsize="marquee"
                 android:singleLine="true"
+                android:textAlignment="viewStart"
                 android:textAppearance="?textAppearanceListItem"/>
 
             <TextView
@@ -111,6 +112,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@+id/seekbar_value"
                 android:maxLines="10"
+                android:textAlignment="viewStart"
                 android:textAppearance="?asp_textAppearanceListItemSecondary"
                 android:textColor="?android:textColorSecondary"/>
 
@@ -124,6 +126,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
                 android:maxLines="1"
+                android:textAlignment="viewStart"
                 android:textAppearance="?asp_textAppearanceListItemTertiary"
                 android:textColor="?android:textColorSecondary"/>
         </RelativeLayout>

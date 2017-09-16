@@ -18,6 +18,7 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
@@ -97,6 +98,10 @@ public class EditTextPreference extends DialogPreference {
                     throw new IllegalArgumentException("EditTextPreference asp_editTextLayout has no EditText with ID android.R.id.edit.");
                 }
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            editText.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         }
 
         if (mOnEditTextCreatedListener != null) {
