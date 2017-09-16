@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.TintableBackgroundView;
@@ -312,6 +313,21 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void setEntries(final Spinner spinner, @ArrayRes final int entriesResId) {
+        final Context context = spinner.getContext();
+        final CharSequence[] entries = context.getResources().getTextArray(entriesResId);
+        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
+        adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    public static void setEntries(final Spinner spinner, final CharSequence[] entries) {
+        final Context context = spinner.getContext();
+        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
+        adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     /**
