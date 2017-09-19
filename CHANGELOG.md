@@ -1,5 +1,9 @@
 # Change log
 
+**1.2.8** 2017-09-19
+- Added `XpAppCompatSpinner.setEntries` method.
+- Preference text views now respect forced RTL for non-RTL content.
+
 **1.2.7** 2017-03-23
 - These libraries no longer contribute to the problem described here: http://stackoverflow.com/questions/42949974
 - Ensured compatibility with support libraries back to v23.2.0.

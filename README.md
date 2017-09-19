@@ -22,7 +22,7 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.2.7'
+    compile 'net.xpece.android:support-preference:1.2.8'
     
     ext.supportLibsVersion = "25.3.0"
     compile "com.android.support:appcompat-v7:$supportLibsVersion"
@@ -39,7 +39,7 @@ Version 1.2.7 is compatible with support libraries down to 23.2.0.
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:1.2.7'
+    compile 'net.xpece.android:support-preference-color:1.2.8'
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:1.2.7'
+    compile 'net.xpece.android:support-spinner:1.2.8'
 }
 ```
 
