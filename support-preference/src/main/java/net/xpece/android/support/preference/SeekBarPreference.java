@@ -24,13 +24,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -58,6 +58,7 @@ public class SeekBarPreference extends Preference {
 
     private CharSequence mInfo;
     OnSeekBarChangeListener mUserSeekBarChangeListener;
+    private int mInfoAnchorId;
 
     /**
      * Listener reacting to the SeekBar changing value by the user
@@ -161,6 +162,7 @@ public class SeekBarPreference extends Preference {
             setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, mSeekBarIncrement));
             mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, mAdjustable);
             mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, mShowSeekBarValue);
+            mInfoAnchorId = a.getResourceId(R.styleable.SeekBarPreference_asp_infoAnchor, 0);
         } catch (NoSuchFieldError e) {
             // These are only available since support libs 25.1.0.
         }
@@ -182,6 +184,7 @@ public class SeekBarPreference extends Preference {
         if (info != null) {
             mInfoViews.put(info, this);
             bindInfo(info);
+            bindInfoAnchor(info);
         }
 
         if (seekBar == null) {
@@ -230,6 +233,21 @@ public class SeekBarPreference extends Preference {
         } else {
             info.setVisibility(View.GONE);
             info.setText(null);
+        }
+    }
+
+    private void bindInfoAnchor(@NonNull TextView info) {
+        try {
+            final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) info.getLayoutParams();
+            if (mInfoAnchorId != 0) {
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0); // Remove rule.
+                lp.addRule(RelativeLayout.ALIGN_BASELINE, mInfoAnchorId);
+            } else {
+                lp.addRule(RelativeLayout.ALIGN_BASELINE, 0); // Remove rule.
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            }
+        } catch (ClassCastException ex) {
+            // Not applicable.
         }
     }
 

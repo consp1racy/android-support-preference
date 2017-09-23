@@ -65,8 +65,9 @@
         android:icon="@drawable/ic_volume_up_black_24dp"
         android:key="notifications_new_message_volume2"
         android:max="100"
-        android:summary="@string/pref_title_volume2"
+        android:title="@string/pref_title_volume2"
         app:asp_dialogTintEnabled="true"
+        app:asp_infoAnchor="@android:id/title"
         app:asp_min="20"
         app:asp_tintEnabled="true"/>
 

@@ -120,7 +120,6 @@
                 android:id="@+id/seekbar_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@android:id/summary"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
@@ -129,6 +128,7 @@
                 android:textAlignment="viewStart"
                 android:textAppearance="?asp_textAppearanceListItemTertiary"
                 android:textColor="?android:textColorSecondary"/>
+            <!-- Align baseline at runtime. -->
         </RelativeLayout>
 <net.xpece.android.support.preference.UnPressableAbsoluteLayout
             android:layout_width="match_parent"

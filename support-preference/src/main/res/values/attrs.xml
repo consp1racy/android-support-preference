@@ -96,6 +96,7 @@
         <!--<attr name="asp_seekBarIncrement" format="integer"/>-->
         <!--<attr name="asp_adjustable" format="boolean"/>-->
         <!--<attr name="asp_showSeekBarValue" format="boolean"/>-->
+        <attr name="asp_infoAnchor" format="reference"/>
     </declare-styleable>
 
     <!--<declare-styleable name="SeekBarDialogPreference">-->
