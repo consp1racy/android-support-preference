@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
 public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     private static final String TAG = XpPreferenceFragment.class.getSimpleName();
 
-    public final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
+    public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final Field FIELD_PREFERENCE_MANAGER;
 
@@ -100,7 +100,18 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                 } else if (preference instanceof SeekBarDialogPreference) {
                     f = XpSeekBarPreferenceDialogFragment.newInstance(preference.getKey());
                 } else if (preference instanceof RingtonePreference) {
-                    f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
+                    final RingtonePreference ringtonePreference = (RingtonePreference) preference;
+                    final Context context = ringtonePreference.getContext();
+                    final boolean canPlayDefault = ringtonePreference.canPlayDefaultRingtone(context);
+                    final boolean canShowSelectedTitle = ringtonePreference.canShowSelectedRingtoneTitle(context);
+                    if ((!canPlayDefault || !canShowSelectedTitle) &&
+                        ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
+                        ringtonePreference.getOnFailedToReadRingtoneListener()
+                            .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
+                        return;
+                    } else {
+                        f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
+                    }
                 } else {
                     super.onDisplayPreferenceDialog(preference);
                     return;

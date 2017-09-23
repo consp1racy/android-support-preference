@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -85,24 +84,29 @@ public class SettingsFragment extends XpPreferenceFragment {
                 String summary = stringValue.trim().substring(1, stringValue.length() - 1); // strip []
                 preference.setSummary(summary);
             } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
+                // For ringtone preferences, look up the correct display value using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
                     // Empty values correspond to 'silent' (no ringtone).
                     preference.setSummary(R.string.pref_ringtone_silent);
-
                 } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                        preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
+                    final Uri selectedUri = Uri.parse(stringValue);
+                    try {
+                        final Ringtone ringtone = RingtoneManager.getRingtone(
+                            preference.getContext(), selectedUri);
+                        if (ringtone == null) {
+                            // Clear the summary if there was a lookup error, i.e. does not exist.
+                            preference.setSummary(null);
+                        } else {
+                            // Set the summary to reflect the new ringtone display name.
+                            final String name = ringtone.getTitle(preference.getContext());
+                            preference.setSummary(name);
+                        }
+                    } catch (SecurityException ex) {
+                        // The user has selected a ringtone from external storage
+                        // and then revoked READ_EXTERNAL_STORAGE permission.
+                        // We have no way of guessing the ringtone title.
+                        // We'd have to store the title of selected ringtone in prefs as well.
+                        preference.setSummary("???");
                     }
                 }
 
@@ -215,13 +219,6 @@ public class SettingsFragment extends XpPreferenceFragment {
         // Setup root preference.
         // Use with ReplaceFragment strategy.
         PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-//        mPreferenceScreenNavigation.onSaveInstanceState(outState);
     }
 
     @Override

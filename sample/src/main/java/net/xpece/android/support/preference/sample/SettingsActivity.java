@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import net.xpece.android.support.preference.ColorPreference;
-import net.xpece.android.support.preference.Fixes;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
 
@@ -57,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         // Enable if you use AppCompat 24.1.x.
-        Fixes.updateLayoutInflaterFactory(getLayoutInflater());
+        // Fixes.updateLayoutInflaterFactory(getLayoutInflater());
 
         setContentView(R.layout.activity_settings);
 

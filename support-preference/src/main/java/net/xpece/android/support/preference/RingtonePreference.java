@@ -24,6 +24,8 @@ import android.content.res.TypedArray;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.Settings.System;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
@@ -46,6 +48,8 @@ public class RingtonePreference extends DialogPreference {
     private int mRingtoneType;
     private boolean mShowDefault;
     private boolean mShowSilent;
+
+    private OnFailedToReadRingtoneListener mOnFailedToReadRingtoneListener;
 
     public RingtonePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -70,6 +74,62 @@ public class RingtonePreference extends DialogPreference {
         mShowDefault = a.getBoolean(R.styleable.RingtonePreference_android_showDefault, true);
         mShowSilent = a.getBoolean(R.styleable.RingtonePreference_android_showSilent, true);
         a.recycle();
+    }
+
+    public boolean canPlayDefaultRingtone(final Context context) {
+        boolean canDo = true;
+        final Uri defaultUri = RingtoneManager.getDefaultUri(mRingtoneType);
+        try {
+            RingtoneManager.getRingtone(context, defaultUri);
+        } catch (SecurityException ex) {
+            canDo = false;
+        }
+        return canDo;
+    }
+
+    public boolean canShowSelectedRingtoneTitle(final Context context) {
+        boolean canDo = true;
+        final Uri currentUri = onRestoreRingtone();
+        try {
+            RingtoneManager.getRingtone(context, currentUri).getTitle(context);
+        } catch (SecurityException ex) {
+            canDo = false;
+        }
+        return canDo;
+    }
+
+    public void showDialogFragment(final XpPreferenceFragment fragment) {
+        if (fragment.getFragmentManager().findFragmentByTag(XpPreferenceFragment.DIALOG_FRAGMENT_TAG) == null) {
+            DialogFragment f = XpRingtonePreferenceDialogFragment.newInstance(getKey());
+            f.setTargetFragment(fragment, 0);
+            f.show(fragment.getFragmentManager(), XpPreferenceFragment.DIALOG_FRAGMENT_TAG);
+        }
+    }
+
+    /**
+     * When attempting to play a ringtone from external storage without the
+     * {@link android.Manifest.permission#READ_EXTERNAL_STORAGE} permission
+     * the picker would crash. Now you get a chance at custom handling.
+     * <p>
+     * You can use the {@link #buildRingtonePickerIntent()} and {@link #onActivityResult(Intent)}
+     * methods to open the system ringtone picker and process its result.
+     * System ringtone picker has access to external storage but does not use your app's theme.
+     * <p>
+     * Default behavior would still open the in-app picker dialog but
+     * * you won't hear any inaccessible ringtones,
+     * * inaccessible ringtones will have placeholder titles in the list.
+     * <p>
+     * You can also open the in-app picker dialog manually by calling
+     * {@link #showDialogFragment(XpPreferenceFragment)} if you want to ignore the error.
+     *
+     * @param onFailedToReadRingtoneListener
+     */
+    public void setOnFailedToReadRingtoneListener(final OnFailedToReadRingtoneListener onFailedToReadRingtoneListener) {
+        mOnFailedToReadRingtoneListener = onFailedToReadRingtoneListener;
+    }
+
+    public OnFailedToReadRingtoneListener getOnFailedToReadRingtoneListener() {
+        return mOnFailedToReadRingtoneListener;
     }
 
     /**
@@ -185,6 +245,7 @@ public class RingtonePreference extends DialogPreference {
 
     /**
      * Creates system ringtone picker intent for manual use.
+     *
      * @return
      */
     public Intent buildRingtonePickerIntent() {
@@ -202,6 +263,7 @@ public class RingtonePreference extends DialogPreference {
     /**
      * Use this method to process selected ringtone if you manually opened system ringtone picker
      * by {@link RingtoneManager#ACTION_RINGTONE_PICKER}.
+     *
      * @param data
      */
     public void onActivityResult(Intent data) {
@@ -281,4 +343,7 @@ public class RingtonePreference extends DialogPreference {
         return context.getApplicationContext().getString(resId);
     }
 
+    public interface OnFailedToReadRingtoneListener {
+        void onFailedToReadRingtone(RingtonePreference ringtonePreference, boolean cannotPlayDefault, boolean cannotShowTitleSelected);
+    }
 }

@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -196,6 +195,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * Called when there's no ringtone picker available in the system.
      * Let the user know (using e.g. a Toast).
      * Just dismisses this fragment by default.
+     *
      * @param requestCode You can use this code to launch another activity instead of dismissing this fragment.
      */
     public void onRingtonePickerNotFound(final int requestCode) {
@@ -404,27 +404,33 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             return;
         }
 
-        Ringtone ringtone;
-        if (mSampleRingtonePos == mDefaultRingtonePos) {
-            if (mDefaultRingtone == null) {
-                mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
-            }
+        final int oldSampleRingtonePos = mSampleRingtonePos;
+        try {
+            Ringtone ringtone;
+            if (mSampleRingtonePos == mDefaultRingtonePos) {
+                if (mDefaultRingtone == null) {
+                    mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
+                }
            /*
             * Stream type of mDefaultRingtone is not set explicitly here.
             * It should be set in accordance with mRingtoneManager of this Activity.
             */
-            if (mDefaultRingtone != null) {
-                mDefaultRingtone.setStreamType(mRingtoneManager.inferStreamType());
+                if (mDefaultRingtone != null) {
+                    mDefaultRingtone.setStreamType(mRingtoneManager.inferStreamType());
+                }
+                ringtone = mDefaultRingtone;
+                mCurrentRingtone = null;
+            } else {
+                ringtone = mRingtoneManager.getRingtone(getRingtoneManagerPosition(mSampleRingtonePos));
+                mCurrentRingtone = ringtone;
             }
-            ringtone = mDefaultRingtone;
-            mCurrentRingtone = null;
-        } else {
-            ringtone = mRingtoneManager.getRingtone(getRingtoneManagerPosition(mSampleRingtonePos));
-            mCurrentRingtone = ringtone;
-        }
 
-        if (ringtone != null) {
-            ringtone.play();
+            if (ringtone != null) {
+                ringtone.play();
+            }
+        } catch (SecurityException ex) {
+            // Don't play the inaccessible default ringtone.
+            mSampleRingtonePos = oldSampleRingtonePos;
         }
     }
 
