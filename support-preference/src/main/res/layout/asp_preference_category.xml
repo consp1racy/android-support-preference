@@ -15,19 +15,25 @@
 -->
 
 <!-- Layout used for PreferenceCategory in a PreferenceActivity. -->
-<TextView
-    android:id="@android:id/title"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:minHeight="48dp"
-    android:paddingBottom="16dip"
-    android:paddingLeft="?listPreferredItemPaddingLeft"
-    android:paddingRight="?listPreferredItemPaddingRight"
-    android:paddingTop="16dip"
-    android:textAlignment="viewStart"
-    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-    android:textColor="?colorAccent"
-    tools:ignore="RtlHardcoded"/>
+    android:layout_height="wrap_content">
+    <!-- Do not flatten. This allows hiding preference categories with empty title. -->
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:paddingBottom="16dip"
+        android:paddingLeft="?listPreferredItemPaddingLeft"
+        android:paddingRight="?listPreferredItemPaddingRight"
+        android:paddingTop="16dip"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="?colorAccent"
+        tools:ignore="RtlHardcoded"/>
+</FrameLayout>

@@ -18,6 +18,7 @@ import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -129,6 +130,10 @@ public class SettingsFragment extends XpPreferenceFragment {
 
     @Override
     public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
+        // Set an empty screen so getPreferenceScreen doesn't return null -
+        // so we can create fake headers from the get-go.
+        setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getPreferenceManager().getContext()));
+
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
 
@@ -266,8 +271,13 @@ public class SettingsFragment extends XpPreferenceFragment {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView listView = getListView();
 
+        final int padding = (int) TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics());
+        listView.setPadding(0, padding, 0, padding);
+
         // We're using alternative divider.
-        listView.addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true).drawBetweenCategories(false));
+        listView.addItemDecoration(new PreferenceDividerDecoration(getContext())
+            .drawBetweenItems(false).paddingDp(listView.getContext(), 8));
         setDivider(null);
 
         // We don't want this. The children are still focusable.

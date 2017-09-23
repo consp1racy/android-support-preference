@@ -16,7 +16,7 @@ import android.view.View;
  */
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
     implements ColorableTextPreference, LongClickablePreference,
-    TintablePreference, CustomIconPreference{
+    TintablePreference, CustomIconPreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
@@ -43,6 +43,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         mPreferenceTextHelper = new PreferenceTextHelper();
         mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
+        mPreferenceIconHelper = new PreferenceIconHelper(this);
     }
 
     @Override
