@@ -1,5 +1,22 @@
 # Change log
 
+**1.3.0** 2017-09-24
+- `SeekBarPreference` info text view can now be baseline aligned via `app:asp_infoAnchor` attribute 
+  to either `@android:id/title`  or `@android:id/summary` (default).
+- Added support for padding around dividers in `PreferenceDividerDecoration`.
+- Added support for preference categories without a title.
+- Changes to ringtone picker:
+  - `XpRingtonePreferenceDialogFragment` doesn't crash when trying to play default ringtone
+    from external storage without the `READ_EXTERNAL_STORAGE` permission; instead is silent.
+  - Added `RingtonePreference.OnFailedToReadRingtoneListener` to notify you 
+    about such potential case. Valid courses of actions are:
+    - Ignore the error and show the picker anyway using 
+      `RingtonePreference.showDialogFragment(XpPreferenceFragment)` (default),
+    - Open the system picker and process its result using 
+      `RingtonePreference.buildRingtonePickerIntent()` and 
+      `RingtonePreference.onActivityResult(Intent)` respectively.<br> 
+      The system picker can access external storage but does not share your app's theme.
+
 **1.2.8** 2017-09-19
 - Added `XpAppCompatSpinner.setEntries` method.
 - Preference text views now respect forced RTL for non-RTL content.
