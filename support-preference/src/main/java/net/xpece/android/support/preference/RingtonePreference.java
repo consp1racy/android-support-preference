@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.Settings.System;
@@ -91,7 +92,10 @@ public class RingtonePreference extends DialogPreference {
         boolean canDo = true;
         final Uri currentUri = onRestoreRingtone();
         try {
-            RingtoneManager.getRingtone(context, currentUri).getTitle(context);
+            final Ringtone ringtone = RingtoneManager.getRingtone(context, currentUri);
+            if (ringtone != null) {
+                ringtone.getTitle(context);
+            }
         } catch (SecurityException ex) {
             canDo = false;
         }
