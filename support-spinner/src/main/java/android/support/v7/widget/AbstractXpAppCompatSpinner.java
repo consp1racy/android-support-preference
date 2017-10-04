@@ -81,7 +81,6 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
                 ctor.setAccessible(true);
             } catch (NoSuchMethodException ex) {
                 // The class should be loaded only if support lib 24.2.0 constructor was not found.
-                ex.printStackTrace();
             }
             CONSTRUCTOR = ctor;
         }
@@ -96,8 +95,6 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             try {
                 return CONSTRUCTOR.newInstance(constructorArgs);
             } catch (Exception e) {
-                // Well, fuck me!
-                e.printStackTrace();
                 return null;
             }
         }
@@ -130,8 +127,6 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             try {
                 return CONSTRUCTOR.newInstance(constructorArgs);
             } catch (Exception e) {
-                // Well, fuck me!
-                e.printStackTrace();
                 return null;
             }
         }
