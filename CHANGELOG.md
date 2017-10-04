@@ -1,5 +1,9 @@
 # Change log
 
+**1.3.1** 2017-10-04
+- *FIXED:* `RingtonePreference.canShowSelectedRingtoneTitle` should no longer crash 
+  when no ringtone is selected
+
 **1.3.0** 2017-09-24
 - `SeekBarPreference` info text view can now be baseline aligned via `app:asp_infoAnchor` attribute 
   to either `@android:id/title`  or `@android:id/summary` (default).
