@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
@@ -149,6 +150,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true, customPackages);
                 mSettingsFragment = SettingsFragment.newInstance(null);
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
                     .replace(R.id.content, mSettingsFragment, "Settings")
