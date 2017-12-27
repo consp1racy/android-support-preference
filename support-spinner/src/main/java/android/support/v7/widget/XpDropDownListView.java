@@ -1,14 +1,13 @@
 package android.support.v7.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.widget.ListViewAutoScrollHelper;
-import android.support.v7.widget.ListViewCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,8 @@ import net.xpece.android.support.widget.spinner.R;
  * displayed on screen within a drop down. The focus is never actually
  * passed to the drop down in this mode; the list only looks focused.</p>
  */
-class XpDropDownListView extends ListViewCompat {
+@SuppressLint({"RestrictedApi", "ViewConstructor"})
+final class XpDropDownListView extends ListViewCompat {
 
 //    private static final int MAX_ITEMS_MEASURED = 15;
     private static final int MAX_ITEMS_MEASURED = 30;
@@ -270,7 +270,7 @@ class XpDropDownListView extends ListViewCompat {
         boolean handledEvent = true;
         boolean clearPressedItem = false;
 
-        final int actionMasked = MotionEventCompat.getActionMasked(event);
+        final int actionMasked = event.getActionMasked();
         switch (actionMasked) {
             case MotionEvent.ACTION_CANCEL:
                 handledEvent = false;

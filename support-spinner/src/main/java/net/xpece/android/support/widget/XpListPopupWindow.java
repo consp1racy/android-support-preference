@@ -1,26 +1,36 @@
 package net.xpece.android.support.widget;
 
 import android.content.Context;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.widget.AbstractXpListPopupWindow;
 import android.util.AttributeSet;
 
 /**
  * @author Eugen on 17. 6. 2016.
+ *
+ * @see android.support.v7.widget.ListPopupWindow
  */
 public class XpListPopupWindow extends AbstractXpListPopupWindow {
-    public XpListPopupWindow(final Context context) {
+    public XpListPopupWindow(@NonNull final Context context) {
         super(context);
     }
 
-    public XpListPopupWindow(final Context context, final AttributeSet attrs) {
+    public XpListPopupWindow(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public XpListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public XpListPopupWindow(
+            @NonNull final Context context, @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public XpListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    public XpListPopupWindow(
+            @NonNull final Context context, @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 }

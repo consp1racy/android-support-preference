@@ -12,7 +12,6 @@ android {
 
     buildTypes {
         release {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
     }
@@ -25,10 +24,12 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:support-annotations:$supportLibVersionAnnotations"
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.android.support:preference-v7:$supportLibVersion"
-    compile project(':support-spinner')
+    compileOnly "com.android.support:support-annotations:$supportLibVersionAnnotations"
+
+    api "com.android.support:appcompat-v7:$supportLibVersion"
+    api "com.android.support:preference-v7:$supportLibVersion"
+
+    implementation project(':support-spinner')
 }
 
 repositories {

@@ -1,12 +1,17 @@
 package net.xpece.android.support.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
+import android.support.annotation.StyleRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
@@ -25,13 +30,19 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+
 /**
  * @author Eugen on 22. 4. 2016.
  */
 @TargetApi(23)
 public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
+    /**
+     * @hide
+     */
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
+    @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
     public @interface SpinnerMode {}
 
@@ -47,20 +58,20 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     private OnClickListener mOnClickListener;
 
-    public XpAppCompatSpinner(final Context context) {
+    public XpAppCompatSpinner(@NonNull final Context context) {
         this(context, null);
     }
 
-    public XpAppCompatSpinner(final Context context, final AttributeSet attrs) {
+    public XpAppCompatSpinner(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         this(context, attrs, R.attr.spinnerStyle);
     }
 
-    public XpAppCompatSpinner(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public XpAppCompatSpinner(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, R.style.Widget_Material_Spinner);
     }
 
-    private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    private void init(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
         this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
         //noinspection WrongConstant
@@ -76,6 +87,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         mSpinnerMode = spinnerMode;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean performClick() {
         if (hasOnClickListeners()) {

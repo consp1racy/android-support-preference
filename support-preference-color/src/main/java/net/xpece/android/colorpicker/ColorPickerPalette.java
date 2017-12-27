@@ -19,6 +19,7 @@ package net.xpece.android.colorpicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.IntDef;
+import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import net.xpece.android.support.preference.color.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+
 /**
  * A color picker custom view which creates an grid of color squares.  The number of squares per
  * row (and the padding between the squares) is determined by the user.
@@ -39,7 +42,11 @@ import java.lang.annotation.RetentionPolicy;
 public class ColorPickerPalette extends TableLayout {
     private static final String TAG = ColorPickerPalette.class.getSimpleName();
 
+    /**
+     * @hide
+     */
     @IntDef({SIZE_LARGE, SIZE_SMALL})
+    @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
     public @interface SwatchSize {}
 

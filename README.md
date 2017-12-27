@@ -22,33 +22,34 @@ Available from API 9. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference:1.3.1'
+    implementation 'net.xpece.android:support-preference:2.0.0'
     
-    ext.supportLibsVersion = "26.1.0"
-    compile "com.android.support:appcompat-v7:$supportLibsVersion"
-    compile "com.android.support:preference-v7:$supportLibsVersion"
+    ext.supportLibsVersion = "27.0.2"
+    implementation "com.android.support:appcompat-v7:$supportLibsVersion"
+    implementation "com.android.support:preference-v7:$supportLibsVersion"
 }
 ```
 
 Always specify `preference-v7` version explicitly!
 
 Version 1.3.1 is compatible with support libraries down to 23.2.0.
+Version 2.0.0 requires at least support libraries 27.0.0.
 
 ## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.2.7"><img src="https://img.shields.io/badge/support--preference--color-216-e91e63.svg"/></a>
 
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-preference-color:1.3.1'
+    implementation 'net.xpece.android:support-preference-color:2.0.0'
 }
 ```
 
-## How to get just custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.2.7"><img src="https://img.shields.io/badge/support--spinner-538-e91e63.svg"/></a>
+## How to get custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.2.7"><img src="https://img.shields.io/badge/support--spinner-538-e91e63.svg"/></a>
 
 
 ```groovy
 dependencies {
-    compile 'net.xpece.android:support-spinner:1.3.1'
+    implementation 'net.xpece.android:support-spinner:2.0.0'
 }
 ```
 
@@ -438,6 +439,8 @@ See [CHANGELOG.md](CHANGELOG.md).
 - ListPreference scroll to viewport before renewing popup/dialog.
 - ColorPicker XML attributes.
 - Use ForwardingListener.
+- Precise selector alignment.
+- Proper Javadoc!!!
 
 ## Credit
 

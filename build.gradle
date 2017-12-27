@@ -4,16 +4,16 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
     }
 }
 
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = "26.0.1"
-    supportLibVersion = "25.3.0"
-    supportLibVersionAnnotations = "25.1.0"
-    minSdkVersion = 9
-    targetSdkVersion = 25
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    supportLibVersion = "27.0.2"
+    supportLibVersionAnnotations = supportLibVersion
+    minSdkVersion = 14
+    targetSdkVersion = 27
 }

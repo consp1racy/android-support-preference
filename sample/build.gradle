@@ -11,26 +11,26 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 }
 
 dependencies {
-    compile project(':support-preference')
-    compile project(':support-preference-color')
-    compile "com.android.support:design:$supportLibVersion"
+    implementation project(':support-preference')
+    implementation project(':support-preference-color')
+    implementation project(':support-spinner')
 
-    ext.leakCanaryVersion = "1.5"
+    implementation "com.android.support:design:$supportLibVersion"
+
+    ext.leakCanaryVersion = "1.5.4"
 //    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
-    debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 }
 
 repositories {
@@ -42,7 +42,7 @@ repositories {
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'com.android.support') {
-            details.useVersion '25.1.0'
+            details.useVersion '27.0.2'
         }
     }
 }

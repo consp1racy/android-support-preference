@@ -27,6 +27,7 @@ import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 import android.support.v4.view.TintableBackgroundView;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.AttributeSet;
@@ -37,11 +38,10 @@ import android.widget.Spinner;
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * A {@link Spinner} which supports compatible features on older version of the platform,
@@ -59,85 +59,15 @@ import java.util.List;
  *
  * @hide
  */
+@RestrictTo(LIBRARY)
 @SuppressLint("AppCompatCustomView")
 @TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
-
-    interface BackgroundHelper {
-        AppCompatBackgroundHelper createForView(final View view);
-    }
-
-    static class BackgroundHelperLt2420 implements  BackgroundHelper {
-        public static final BackgroundHelperLt2420 INSTANCE = new BackgroundHelperLt2420();
-
-        static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{View.class, AppCompatDrawableManager.class};
-        static final Constructor<AppCompatBackgroundHelper> CONSTRUCTOR;
-
-        static {
-            Constructor<AppCompatBackgroundHelper> ctor = null;
-            try {
-                Class<AppCompatBackgroundHelper> cls = AppCompatBackgroundHelper.class;
-                ctor = cls.getDeclaredConstructor(CONSTRUCTOR_SIGNATURE);
-                ctor.setAccessible(true);
-            } catch (NoSuchMethodException ex) {
-                // The class should be loaded only if support lib 24.2.0 constructor was not found.
-            }
-            CONSTRUCTOR = ctor;
-        }
-
-        private BackgroundHelperLt2420() {
-        }
-
-        @Override
-        public AppCompatBackgroundHelper createForView(final View view) {
-            final AppCompatDrawableManager drawableManager = AppCompatDrawableManager.get();
-            final Object[] constructorArgs = {view, drawableManager};
-            try {
-                return CONSTRUCTOR.newInstance(constructorArgs);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-    }
-
-    static class BackgroundHelperGte2420 implements  BackgroundHelper {
-        public static final BackgroundHelperGte2420 INSTANCE = new BackgroundHelperGte2420();
-
-        static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{View.class};
-        static final Constructor<AppCompatBackgroundHelper> CONSTRUCTOR;
-
-        static {
-            Constructor<AppCompatBackgroundHelper> ctor = null;
-            try {
-                Class<AppCompatBackgroundHelper> cls = AppCompatBackgroundHelper.class;
-                ctor = cls.getDeclaredConstructor(CONSTRUCTOR_SIGNATURE);
-                ctor.setAccessible(true);
-            } catch (NoSuchMethodException ex) {
-                ex.printStackTrace();
-            }
-            CONSTRUCTOR = ctor;
-        }
-
-        private BackgroundHelperGte2420() {
-        }
-
-        @Override
-        public AppCompatBackgroundHelper createForView(final View view) {
-            final Object[] constructorArgs = {view};
-            try {
-                return CONSTRUCTOR.newInstance(constructorArgs);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-    }
 
     private static final boolean IS_AT_LEAST_K = Build.VERSION.SDK_INT >= 19;
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
 
     private static final Field FIELD_FORWARDING_LISTENER;
-
-    private static final List<BackgroundHelper> BACKGROUND_HELPERS;
 
     static {
         Field f = null;
@@ -150,11 +80,6 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             }
         }
         FIELD_FORWARDING_LISTENER = f;
-
-        final ArrayList<BackgroundHelper> backgroundHelpers = new ArrayList<>();
-        backgroundHelpers.add(BackgroundHelperGte2420.INSTANCE);
-        backgroundHelpers.add(BackgroundHelperLt2420.INSTANCE);
-        BACKGROUND_HELPERS = Collections.unmodifiableList(backgroundHelpers);
     }
 
     private AppCompatBackgroundHelper mBackgroundTintHelper;
@@ -230,7 +155,8 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * @see #MODE_DIALOG
      * @see #MODE_DROPDOWN
      */
-    public AbstractXpAppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
+    public AbstractXpAppCompatSpinner(
+            Context context, AttributeSet attrs, int defStyleAttr, int mode) {
         this(context, attrs, defStyleAttr, mode, null);
     }
 
@@ -258,20 +184,15 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * @see #MODE_DROPDOWN
      */
     @SuppressWarnings("RestrictedApi")
-    public AbstractXpAppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode,
-                                      Resources.Theme popupTheme) {
+    public AbstractXpAppCompatSpinner(
+            Context context, AttributeSet attrs, int defStyleAttr, int mode,
+            Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr);
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs,
-            R.styleable.Spinner, defStyleAttr, 0);
+                R.styleable.Spinner, defStyleAttr, 0);
 
-        for (BackgroundHelper helper : BACKGROUND_HELPERS) {
-            final AppCompatBackgroundHelper candidate = helper.createForView(this);
-            if (candidate != null) {
-                mBackgroundTintHelper = candidate;
-                break;
-            }
-        }
+        mBackgroundTintHelper = new AppCompatBackgroundHelper(this);
 
         if (popupTheme != null) {
             mPopupContext = new ContextThemeWrapper(context, popupTheme);
@@ -362,6 +283,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      *
      * @hide
      */
+    @RestrictTo(LIBRARY_GROUP)
     @Override
     public void setSupportBackgroundTintList(@Nullable ColorStateList tint) {
         if (mBackgroundTintHelper != null) {
@@ -375,11 +297,12 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      *
      * @hide
      */
+    @RestrictTo(LIBRARY_GROUP)
     @Override
     @Nullable
     public ColorStateList getSupportBackgroundTintList() {
         return mBackgroundTintHelper != null
-            ? mBackgroundTintHelper.getSupportBackgroundTintList() : null;
+                ? mBackgroundTintHelper.getSupportBackgroundTintList() : null;
     }
 
     /**
@@ -389,6 +312,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      *
      * @hide
      */
+    @RestrictTo(LIBRARY_GROUP)
     @Override
     public void setSupportBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
         if (mBackgroundTintHelper != null) {
@@ -402,11 +326,12 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      *
      * @hide
      */
+    @RestrictTo(LIBRARY_GROUP)
     @Override
     @Nullable
     public PorterDuff.Mode getSupportBackgroundTintMode() {
         return mBackgroundTintHelper != null
-            ? mBackgroundTintHelper.getSupportBackgroundTintMode() : null;
+                ? mBackgroundTintHelper.getSupportBackgroundTintMode() : null;
     }
 
     @Override

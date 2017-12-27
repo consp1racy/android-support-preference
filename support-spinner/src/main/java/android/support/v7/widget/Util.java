@@ -10,13 +10,25 @@ import android.util.TypedValue;
  * @hide
  */
 final class Util {
-    private static final int[] TEMP_ARRAY = new int[1];
+    private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
+        @Override
+        protected int[] initialValue() {
+            return new int[]{0};
+        }
+    };
 
-    private Util() {}
+    private Util() {
+        throw new AssertionError();
+    }
+
+    private static int[] getTempArray() {
+        return TEMP_ARRAY.get();
+    }
 
     public static float resolveDimension(Context context, @AttrRes int attr, float fallback) {
-        TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+        final int[] tempArray = getTempArray();
+        tempArray[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(tempArray);
         try {
             return ta.getDimension(0, fallback);
         } finally {

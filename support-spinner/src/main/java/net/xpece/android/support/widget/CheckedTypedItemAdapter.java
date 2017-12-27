@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,21 +43,29 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     private int mDropDownResource;
     private int mResource;
 
-    public static <T> CheckedTypedItemAdapter newInstance(Context context, T[] objects) {
+    @NonNull
+    public static <T> CheckedTypedItemAdapter newInstance(
+            @NonNull Context context, @NonNull T[] objects) {
         return newInstance(context, Arrays.asList(objects));
     }
 
-    public static <T> CheckedTypedItemAdapter newInstance(Context context, List<T> objects) {
+    @NonNull
+    public static <T> CheckedTypedItemAdapter newInstance(
+            @NonNull Context context, @NonNull List<T> objects) {
         CheckedTypedItemAdapter a = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, objects);
         a.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
         return a;
     }
 
-    public CheckedTypedItemAdapter(Context context, int resource, int textViewResourceId, T[] objects) {
+    public CheckedTypedItemAdapter(
+            @NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId,
+            @NonNull T[] objects) {
         this(context, resource, textViewResourceId, Arrays.asList(objects));
     }
 
-    public CheckedTypedItemAdapter(Context context, int resource, int textViewResourceId, List<T> objects) {
+    public CheckedTypedItemAdapter(
+            @NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId,
+            @NonNull List<T> objects) {
         super(context, resource, textViewResourceId, objects);
 
         mDropDownHelper = new Helper(context);
@@ -75,8 +84,10 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         return position;
     }
 
+    @NonNull
     @Override
-    public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
+    public View getDropDownView(
+            final int position, @Nullable final View convertView, @NonNull final ViewGroup parent) {
         LayoutInflater inflater = mDropDownHelper.getDropDownViewInflater();
         View view = createViewFromResource(inflater, convertView, parent, mDropDownResource);
         T item = getItem(position);
@@ -88,7 +99,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = createViewFromResource(mInflater, convertView, parent, mResource);
         T item = getItem(position);
         bindView(view, item);
@@ -112,7 +123,9 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     }
 
     @NonNull
-    protected View createViewFromResource(@NonNull LayoutInflater inflater, @Nullable View convertView, @Nullable ViewGroup parent, @LayoutRes int resource) {
+    protected View createViewFromResource(
+            @NonNull LayoutInflater inflater, @Nullable View convertView,
+            @NonNull ViewGroup parent, @LayoutRes int resource) {
         View view;
         if (convertView == null) {
             view = inflater.inflate(resource, parent, false);
@@ -136,7 +149,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         } catch (ClassCastException e) {
             Log.e("ArrayAdapter", "You must supply a resource ID for a TextView");
             throw new IllegalStateException(
-                "ArrayAdapter requires the resource ID to be a TextView", e);
+                    "ArrayAdapter requires the resource ID to be a TextView", e);
         }
         return text;
     }

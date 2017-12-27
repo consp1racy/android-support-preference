@@ -1,5 +1,8 @@
 # Change log
 
+**2.0.0** 2018-01-XX
+- Requires compile SDK 27 and at least support library 27.0.0.
+
 **1.3.1** 2017-10-04
 - *FIXED:* `RingtonePreference.canShowSelectedRingtoneTitle` should no longer crash 
   when no ringtone is selected

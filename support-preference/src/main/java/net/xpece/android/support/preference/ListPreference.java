@@ -16,6 +16,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RestrictTo;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
@@ -33,6 +34,8 @@ import net.xpece.android.support.widget.XpListPopupWindow;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * A {@link android.support.v7.preference.Preference} that displays a list of entries as
@@ -66,7 +69,11 @@ public class ListPreference extends DialogPreference {
     private String mSummary;
     private boolean mValueSet;
 
+    /**
+     * @hide
+     */
     @IntDef({MENU_MODE_DIALOG, MENU_MODE_SIMPLE_ADAPTIVE, MENU_MODE_SIMPLE_DIALOG, MENU_MODE_SIMPLE_MENU})
+    @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
     public @interface MenuMode {}
 

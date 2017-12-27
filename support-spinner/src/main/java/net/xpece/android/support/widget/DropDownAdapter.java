@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.SpinnerAdapter;
  *
  * @hide
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
 
@@ -29,7 +32,7 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
      *
      * @param adapter the SpinnerAdapter to transform into a ListAdapter
      * @param dropDownTheme the theme against which to inflate drop-down
-     * views, may be {@null} to use default theme
+     * views, may be {@code null} to use default theme
      */
     @TargetApi(Build.VERSION_CODES.M)
     public DropDownAdapter(@Nullable SpinnerAdapter adapter,
@@ -56,37 +59,45 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
         }
     }
 
+    @Override
     public int getCount() {
         return mAdapter == null ? 0 : mAdapter.getCount();
     }
 
+    @Override
     public Object getItem(int position) {
         return mAdapter == null ? null : mAdapter.getItem(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return mAdapter == null ? -1 : mAdapter.getItemId(position);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return getDropDownView(position, convertView, parent);
     }
 
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return (mAdapter == null) ? null
             : mAdapter.getDropDownView(position, convertView, parent);
     }
 
+    @Override
     public boolean hasStableIds() {
         return mAdapter != null && mAdapter.hasStableIds();
     }
 
+    @Override
     public void registerDataSetObserver(DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.registerDataSetObserver(observer);
         }
     }
 
+    @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.unregisterDataSetObserver(observer);
@@ -97,6 +108,7 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
      * If the wrapped SpinnerAdapter is also a ListAdapter, delegate this call.
      * Otherwise, return true.
      */
+    @Override
     public boolean areAllItemsEnabled() {
         final ListAdapter adapter = mListAdapter;
         if (adapter != null) {
@@ -110,6 +122,7 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
      * If the wrapped SpinnerAdapter is also a ListAdapter, delegate this call.
      * Otherwise, return true.
      */
+    @Override
     public boolean isEnabled(int position) {
         final ListAdapter adapter = mListAdapter;
         if (adapter != null) {
@@ -119,14 +132,17 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
         }
     }
 
+    @Override
     public int getItemViewType(int position) {
         return 0;
     }
 
+    @Override
     public int getViewTypeCount() {
         return 1;
     }
 
+    @Override
     public boolean isEmpty() {
         return getCount() == 0;
     }
