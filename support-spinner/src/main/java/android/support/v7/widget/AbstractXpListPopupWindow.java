@@ -462,6 +462,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         mPopup = new AppCompatPopupWindow(context, attrs, defStyleAttr);
         mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            mPopup.setEnterTransition(null);
+            mPopup.setExitTransition(null);
+        }
+
         // Set the default layout direction to match the default locale one
         final Locale locale = mContext.getResources().getConfiguration().locale;
         mLayoutDirection = TextUtilsCompat.getLayoutDirectionFromLocale(locale);
