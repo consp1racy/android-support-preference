@@ -5,15 +5,13 @@
     <public name="asp_spinnerMode" type="attr"/>
     <public name="asp_simpleMenuWidthUnit" type="attr"/>
 
-    <public name="Widget.Material.TextView.SpinnerItem" type="style"/>
-    <public name="Widget.Material.DropDownItem.Spinner" type="style"/>
-    <public name="Widget.Material.ListView.DropDown" type="style"/>
-    <public name="Widget.Material.Spinner" type="style"/>
-    <public name="Widget.Material.Spinner.Underline" type="style"/>
+    <public name="Widget.Asp.TextView.SpinnerItem" type="style"/>
+    <public name="Widget.Asp.DropDownItem.Spinner" type="style"/>
+    <public name="Widget.Asp.ListView.DropDown" type="style"/>
+    <public name="Widget.Asp.Spinner" type="style"/>
+    <public name="Widget.Asp.Spinner.Underline" type="style"/>
 
-    <public name="ThemeOverlay.Material.Spinner" type="style"/>
+    <public name="ThemeOverlay.Asp.Spinner" type="style"/>
 
-    <public name="Animation.Material.Popup" type="style"/>
-    <public name="Animation.Popup" type="style"/>
     <public name="Animation.Asp.Popup" type="style"/>
 </resources>

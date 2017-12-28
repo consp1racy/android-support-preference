@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <declare-styleable name="XpListPopupWindow">
         <attr name="android:layout_marginLeft"/>
         <attr name="android:layout_marginRight"/>

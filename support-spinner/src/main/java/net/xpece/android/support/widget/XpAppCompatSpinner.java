@@ -68,7 +68,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     public XpAppCompatSpinner(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, R.style.Widget_Material_Spinner);
+        init(context, attrs, defStyleAttr, R.style.Widget_Asp_Spinner);
     }
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
