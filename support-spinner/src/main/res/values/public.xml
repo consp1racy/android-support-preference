@@ -10,8 +10,12 @@
     <public name="Widget.Asp.ListView.DropDown" type="style"/>
     <public name="Widget.Asp.Spinner" type="style"/>
     <public name="Widget.Asp.Spinner.Underline" type="style"/>
+    <public name="Widget.Asp.ListPopupWindow" type="style"/>
 
     <public name="ThemeOverlay.Asp.Spinner" type="style"/>
 
     <public name="Animation.Asp.Popup" type="style"/>
+
+    <public name="asp_popup_window_enter" type="transition"/>
+    <public name="asp_popup_window_exit" type="transition"/>
 </resources>

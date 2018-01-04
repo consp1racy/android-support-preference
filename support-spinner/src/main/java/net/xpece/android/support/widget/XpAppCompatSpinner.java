@@ -229,11 +229,11 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         }
 
         final int unit = anchor.getHeight();
-        if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
             int width = anchor.getWidth();
-            popup.setEpicenterBounds(new Rect(width - unit, 0, width - unit * 2, unit));
+            popup.setEpicenterBounds(new Rect(width - unit, 0, width, unit));
         } else {
-            popup.setEpicenterBounds(new Rect(unit, 0, unit * 2, unit));
+            popup.setEpicenterBounds(new Rect(0, 0, unit, unit));
         }
 
         // Testing.

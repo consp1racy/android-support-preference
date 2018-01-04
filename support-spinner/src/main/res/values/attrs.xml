@@ -21,4 +21,12 @@
             <enum name="wrap_content" value="-2"/>
         </attr>
     </declare-styleable>
+
+    <!-- @hide For internal use only. Use only as directed. -->
+    <declare-styleable name="EpicenterClipReveal">
+        <attr name="interpolatorX" format="reference" />
+        <attr name="interpolatorY" format="reference" />
+        <attr name="interpolatorZ" format="reference" />
+    </declare-styleable>
+
 </resources>

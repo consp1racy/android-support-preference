@@ -61,9 +61,15 @@
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
     </style>
 
+    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupEnterTransition" tools:ignore="NewApi">@transition/asp_popup_window_enter</item>
+        <item name="android:popupExitTransition" tools:ignore="NewApi">@transition/asp_popup_window_exit</item>
+    </style>
+
     <style name="ThemeOverlay.Asp.Spinner" parent="">
         <item name="android:spinnerItemStyle">@style/Widget.Asp.TextView.SpinnerItem</item>
         <item name="spinnerDropDownItemStyle">@style/Widget.Asp.DropDownItem.Spinner</item>
         <item name="dropDownListViewStyle">@style/Widget.Asp.ListView.DropDown</item>
+        <item name="listPopupWindowStyle">@style/Widget.Asp.ListPopupWindow</item>
     </style>
 </resources>

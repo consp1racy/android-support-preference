@@ -203,16 +203,12 @@ public class ListPreference extends DialogPreference {
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
 
-        try {
-            final int unit = anchor.getHeight();
-            if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                int width = anchor.getWidth();
-                popup.setEpicenterBounds(new Rect(width - unit, 0, width - unit * 2, unit));
-            } else {
-                popup.setEpicenterBounds(new Rect(unit, 0, unit * 2, unit));
-            }
-        } catch (NoSuchMethodError ex) {
-            // Using old version of support-spinner, nevermind.
+        final int unit = anchor.getHeight();
+        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+            int width = anchor.getWidth();
+            popup.setEpicenterBounds(new Rect(width - unit, 0, width, unit));
+        } else {
+            popup.setEpicenterBounds(new Rect(0, 0, unit, unit));
         }
 
         // Testing.

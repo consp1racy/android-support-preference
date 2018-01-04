@@ -69,8 +69,8 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * to switch to the framework's implementation. See the framework SDK
  * documentation for a class overview.
  *
- * @see android.widget.ListPopupWindow
  * @hide
+ * @see android.widget.ListPopupWindow
  */
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
@@ -87,17 +87,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     private static final int EXPAND_LIST_TIMEOUT = 250;
 
-    private static Method sClipToWindowEnabledMethod;
     private static Method sSetAllowScrollingAnchorParentMethod;
     private static Method sSetEpicenterBoundsMethod;
 
     static {
-        try {
-            sClipToWindowEnabledMethod = PopupWindow.class.getDeclaredMethod(
-                    "setClipToScreenEnabled", boolean.class);
-        } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method setClipToScreenEnabled() on PopupWindow. Oh well.");
-        }
         try {
             sSetAllowScrollingAnchorParentMethod = PopupWindow.class.getDeclaredMethod(
                     "setAllowScrollingAnchorParent", boolean.class);
@@ -115,7 +108,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     private Context mContext;
-    PopupWindow mPopup;
+    XpAppCompatPopupWindow mPopup;
     private ListAdapter mAdapter;
     XpDropDownListView mDropDownList;
 
@@ -127,7 +120,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     private int mDropDownHorizontalOffset;
     private int mDropDownVerticalOffset;
     private int mDropDownWindowLayoutType = WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL;
-    private boolean mDropDownVerticalOffsetSet;
 
     private int mDropDownGravity = Gravity.NO_GRAVITY;
 
@@ -323,22 +315,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             buildDropDown();
         }
         final XpDropDownListView list = mDropDownList;
-        if (list != null) {
-            return list.hasMultiLineItems();
-        }
-        return false;
+        return list.hasMultiLineItems();
     }
 
     int measureItemsUpTo(int position) {
-        if (mDropDownList == null) {
-            buildDropDown();
-        }
-        final XpDropDownListView list = mDropDownList;
-        if (list != null) {
-            int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
-            return list.measureHeightOfChildrenCompat(widthSpec, 0, position, Integer.MAX_VALUE, 1);
-        }
-        return 0;
+        return measureItems(0, position);
     }
 
     int measureItems(int fromIncl, int toExcl) {
@@ -354,15 +335,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     int measureItem(int position) {
-        if (mDropDownList == null) {
-            buildDropDown();
-        }
-        final XpDropDownListView list = mDropDownList;
-        if (list != null) {
-            int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
-            return list.measureHeightOfChildrenCompat(widthSpec, position, position + 1, Integer.MAX_VALUE, 1);
-        }
-        return 0;
+        return measureItems(position, position + 1);
     }
 
     /**
@@ -420,12 +393,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 R.styleable.ListPopupWindow_android_dropDownHorizontalOffset, 0);
         mDropDownVerticalOffset = a.getDimensionPixelOffset(
                 R.styleable.ListPopupWindow_android_dropDownVerticalOffset, 0);
-        if (mDropDownVerticalOffset != 0) {
-            mDropDownVerticalOffsetSet = true;
-        }
         a.recycle();
 
+        // Margin is the space reserved for shadow.
         int defaultMargin = Util.dpToPxOffset(context, 8);
+
         final TypedArray b = context.obtainStyledAttributes(attrs, R.styleable.XpListPopupWindow, defStyleAttr, defStyleRes);
         if (b.hasValue(R.styleable.XpListPopupWindow_android_layout_margin)) {
             int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_margin, defaultMargin);
@@ -459,19 +431,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
         b.recycle();
 
-        mPopup = new AppCompatPopupWindow(context, attrs, defStyleAttr);
+        mPopup = new XpAppCompatPopupWindow(context, attrs, defStyleAttr);
         mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            mPopup.setEnterTransition(null);
-            mPopup.setExitTransition(null);
-        }
 
         // Set the default layout direction to match the default locale one
         final Locale locale = mContext.getResources().getConfiguration().locale;
         mLayoutDirection = TextUtilsCompat.getLayoutDirectionFromLocale(locale);
-
-        setAllowScrollingAnchorParent(false);
     }
 
     /**
@@ -692,9 +657,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @return The vertical offset of the popup from its anchor in pixels.
      */
     public int getVerticalOffset() {
-        if (!mDropDownVerticalOffsetSet) {
-            return 0;
-        }
         return mDropDownVerticalOffset;
     }
 
@@ -705,7 +667,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     public void setVerticalOffset(int offset) {
         mDropDownVerticalOffset = offset;
-        mDropDownVerticalOffsetSet = true;
     }
 
     /**
@@ -963,35 +924,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         int limitHeight = Math.min(windowHeight, availableHeight);
 
         final int heightSpec;
-        if (mPopup.isShowing()) {
-            if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
-                // The call to PopupWindow's update method below can accept -1 for any
-                // value you do not want to update.
-//                heightSpec = noInputMethod ? height : ViewGroup.LayoutParams.MATCH_PARENT;
-//                if (noInputMethod) {
-//                    mPopup.setWidth(mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT ?
-//                        ViewGroup.LayoutParams.MATCH_PARENT : 0);
-//                    mPopup.setHeight(0);
-//                } else {
-//                    mPopup.setWidth(mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT ?
-//                        ViewGroup.LayoutParams.MATCH_PARENT : 0);
-//                    mPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-//                }
-                heightSpec = limitHeight;
-            } else if (mDropDownHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
-                heightSpec = Math.min(height, limitHeight);
-            } else {
-                heightSpec = Math.min(mDropDownHeight, limitHeight);
-            }
+        if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
+            heightSpec = limitHeight;
+        } else if (mDropDownHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            heightSpec = Math.min(height, limitHeight);
         } else {
-            if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
-//                heightSpec = ViewGroup.LayoutParams.MATCH_PARENT;
-                heightSpec = limitHeight;
-            } else if (mDropDownHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
-                heightSpec = Math.min(height, limitHeight);
-            } else {
-                heightSpec = Math.min(mDropDownHeight, limitHeight);
-            }
+            heightSpec = Math.min(mDropDownHeight, limitHeight);
         }
 
         final int screenBottom = windowBottom - (marginsBottom - backgroundBottom) - boundsBottom;
@@ -1030,31 +968,34 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 //        verticalOffset -= bottomDecorations;
 //        verticalOffset += Util.dpToPxOffset(mContext, 8);
 
+        // TODO Optimize position calculation.
+        // These two lines only exist so we can reuse the old calculation
+        // which relied on showAsDropDown instead of showAtLocation.
+        verticalOffset += anchorTop + anchorHeight;
+        horizontalOffset += anchorLeft; // TODO RTL is broken. Spinner sample is broken.
+
         if (mPopup.isShowing()) {
-            mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
-
-            mPopup.update(getAnchorView(), horizontalOffset,
-                    verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
-                    (heightSpec < 0) ? -1 : heightSpec);
+            Log.w(TAG, "Showing, should update.");
+//            throw new IllegalStateException();
+//            mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
+//            mPopup.update(getAnchorView(), horizontalOffset,
+//                    verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
+//                    (heightSpec < 0) ? -1 : heightSpec);
         } else {
-
             mPopup.setWidth(widthSpec);
             mPopup.setHeight(heightSpec);
-            setPopupClipToScreenEnabled(true);
+            mPopup.setClippingEnabled(false);
 
             // use outside touchable to dismiss drop down when touching outside of it, so
             // only set this if the dropdown is not always visible
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
             mPopup.setTouchInterceptor(mTouchInterceptor);
-            if (sSetEpicenterBoundsMethod != null) {
-                try {
-                    sSetEpicenterBoundsMethod.invoke(mPopup, mEpicenterBounds);
-                } catch (Exception e) {
-                    Log.e(TAG, "Could not invoke setEpicenterBounds on PopupWindow", e);
-                }
-            }
+            setEpicenterBoundsInternal(mEpicenterBounds);
+
             // We handle gravity manually. Just as everything else.
-            PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
+//            PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
+            mPopup.showAtLocation(getAnchorView(), Gravity.NO_GRAVITY, horizontalOffset, verticalOffset);
+
             mDropDownList.setSelection(ListView.INVALID_POSITION);
 
             if (DEBUG) Log.e(TAG, "isAboveAnchor=" + mPopup.isAboveAnchor());
@@ -1298,7 +1239,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     public int getPreferredVerticalOffset(int position) {
         buildDropDown();
+        return getPreferredVerticalOffsetInternal(position);
+    }
 
+    private int getPreferredVerticalOffsetInternal(int position) {
         final View anchor = getAnchorView();
         final AbstractXpListPopupWindow popup = this;
 
@@ -1931,12 +1875,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
     }
 
-    private void setPopupClipToScreenEnabled(boolean clip) {
-        if (sClipToWindowEnabledMethod != null) {
+    private void setEpicenterBoundsInternal(Rect epicenterBounds) {
+        if (sSetEpicenterBoundsMethod != null) {
             try {
-                sClipToWindowEnabledMethod.invoke(mPopup, clip);
+                sSetEpicenterBoundsMethod.invoke(mPopup, epicenterBounds);
             } catch (Exception e) {
-                Log.i(TAG, "Could not call setClipToScreenEnabled() on PopupWindow. Oh well.");
+                Log.i(TAG, "Could not call setEpicenterBounds() on PopupWindow. Oh well.");
             }
         }
     }
@@ -1959,6 +1903,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return returnedHeight;
     }
 
+    // This should not be needed as we're not using showAsDropDown anymore.
+    @Deprecated
     private void setAllowScrollingAnchorParent(boolean enabled) {
         if (sSetAllowScrollingAnchorParentMethod != null) {
             try {
