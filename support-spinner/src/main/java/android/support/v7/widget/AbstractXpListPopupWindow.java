@@ -87,23 +87,16 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     private static final int EXPAND_LIST_TIMEOUT = 250;
 
-    private static Method sSetAllowScrollingAnchorParentMethod;
     private static Method sSetEpicenterBoundsMethod;
 
     static {
-        try {
-            sSetAllowScrollingAnchorParentMethod = PopupWindow.class.getDeclaredMethod(
-                    "setAllowScrollingAnchorParent", boolean.class);
-            sSetAllowScrollingAnchorParentMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method setAllowScrollingAnchorParent(boolean)"
-                    + " on PopupWindow. Oh well.");
-        }
-        try {
-            sSetEpicenterBoundsMethod = PopupWindow.class.getDeclaredMethod(
-                    "setEpicenterBounds", Rect.class);
-        } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method setEpicenterBounds(Rect) on PopupWindow. Oh well.");
+        if (Build.VERSION.SDK_INT >= 23) {
+            try {
+                sSetEpicenterBoundsMethod = PopupWindow.class.getDeclaredMethod(
+                        "setEpicenterBounds", Rect.class);
+            } catch (NoSuchMethodException e) {
+                Log.i(TAG, "Could not find method setEpicenterBounds(Rect) on PopupWindow. Oh well.");
+            }
         }
     }
 
@@ -1013,8 +1006,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
             mDropDownList.setSelection(ListView.INVALID_POSITION);
 
-            if (DEBUG) Log.e(TAG, "isAboveAnchor=" + mPopup.isAboveAnchor());
-
             if (!mModal || mDropDownList.isInTouchMode()) {
                 clearListSelection();
             }
@@ -1219,40 +1210,19 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return mPopup.getInputMethodMode();
     }
 
-    /**
-     * Set the selected position of the list.
-     * Only valid when {@link #isShowing()} == {@code true}.
-     *
-     * @param position List position to set as selected.
-     */
     public void setSelection(int position) {
-        XpDropDownListView list = mDropDownList;
+        final XpDropDownListView list = mDropDownList;
         if (isShowing() && list != null) {
             list.setListSelectionHidden(false);
-            list.setSelection(position);
 
-            if (position >= 0 && position != list.getCount() - 1) {
-                if (Build.VERSION.SDK_INT >= 14 && list.canScrollVertically(-1)) {
-                    list.scrollBy(0, -list.getPaddingTop());
-                }
+            // getListPaddingTop returns zero when popup is invoked for the first time
+            // and when it's invoked after making a selection in previous invokation.
+            final int realOffsetY = mDropDownList.getPaddingTop() + mDropDownList.mSelectionTopPadding - mDropDownList.getListPaddingTop();
+            list.setSelectionFromTop(position, realOffsetY);
+
+            if (list.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
+                list.setItemChecked(position, true);
             }
-
-        }
-        setItemChecked(position);
-    }
-
-    private void setItemChecked(final int position) {
-        final XpDropDownListView list = mDropDownList;
-        if (list != null) {
-            list.setItemChecked(position, true);
-        }
-    }
-
-    public void setSelectionInitial(int position) {
-        if (position > 0) {
-            setSelection(position);
-        } else {
-            setItemChecked(position);
         }
     }
 
@@ -1284,7 +1254,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final int viewHeight = anchor.getHeight();
         final int dropDownListViewPaddingTop = mDropDownList.getPaddingTop();
         final int selectedItemHeight = popup.measureItem(position);
-//        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
         final int beforeSelectedItemHeight = popup.measureItems(realPosition - position, realPosition + 1);
 
         final int viewHeightAdjustedHalf = (viewHeight - anchor.getPaddingTop() - anchor.getPaddingBottom()) / 2 + anchor.getPaddingBottom();
@@ -1930,18 +1899,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         if (Build.VERSION.SDK_INT < 23) returnedHeight += Util.dpToPxSize(mContext, 1);
 
         return returnedHeight;
-    }
-
-    // This should not be needed as we're not using showAsDropDown anymore.
-    @Deprecated
-    private void setAllowScrollingAnchorParent(boolean enabled) {
-        if (sSetAllowScrollingAnchorParentMethod != null) {
-            try {
-                sSetAllowScrollingAnchorParentMethod.invoke(mPopup, enabled);
-            } catch (Exception e) {
-                Log.i(TAG, "Could not call setAllowScrollingAnchorParent() on PopupWindow. Oh well.");
-            }
-        }
     }
 
     private int getWindowFrame(

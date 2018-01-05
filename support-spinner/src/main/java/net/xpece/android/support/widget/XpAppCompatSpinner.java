@@ -273,7 +273,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         });
 
         popup.show();
-        popup.setSelectionInitial(position);
+        popup.setSelection(position);
 
         mPopup = popup;
 
