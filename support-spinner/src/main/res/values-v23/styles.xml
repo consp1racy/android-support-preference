@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
         <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
     </style>
+
+    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Api23</item>
+        <item name="android:popupElevation">@dimen/asp_popup_menu_z</item>
+        <item name="android:popupEnterTransition" tools:ignore="NewApi">@transition/asp_popup_window_enter</item>
+        <item name="android:popupExitTransition" tools:ignore="NewApi">@transition/asp_popup_window_exit</item>
+    </style>
+
 </resources>

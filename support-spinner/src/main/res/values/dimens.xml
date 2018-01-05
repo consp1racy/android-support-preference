@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="asp_simple_menu_width_unit">56dp</dimen>
+
+    <dimen name="asp_popup_menu_z">8dp</dimen>
 </resources>

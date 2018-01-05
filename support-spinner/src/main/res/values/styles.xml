@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Base.Animation.Asp.Popup.Material" parent="android:Animation">
+    <style name="Animation.Asp.Popup.Api23" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+        <!--<item name="android:windowExitAnimation">@anim/asp_popup_window_exit</item>-->
+    </style>
+
+    <style name="Animation.Asp.Popup.Material" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/abc_popup_enter</item>
         <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
     </style>
 
-    <style name="Base.Animation.Asp.Popup.Default" parent="android:Animation">
+    <style name="Animation.Asp.Popup.Holo" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/asp_grow_fade_in_center</item>
         <item name="android:windowExitAnimation">@anim/asp_shrink_fade_out_center</item>
     </style>
-
-    <style name="Animation.Asp.Popup" parent="Base.Animation.Asp.Popup.Default"/>
 
     <style name="Widget.Asp.TextView.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">0dp</item>
@@ -62,8 +66,7 @@
     </style>
 
     <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
-        <item name="android:popupEnterTransition" tools:ignore="NewApi">@transition/asp_popup_window_enter</item>
-        <item name="android:popupExitTransition" tools:ignore="NewApi">@transition/asp_popup_window_exit</item>
+        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Holo</item>
     </style>
 
     <style name="ThemeOverlay.Asp.Spinner" parent="">
@@ -72,4 +75,5 @@
         <item name="dropDownListViewStyle">@style/Widget.Asp.ListView.DropDown</item>
         <item name="listPopupWindowStyle">@style/Widget.Asp.ListPopupWindow</item>
     </style>
+
 </resources>

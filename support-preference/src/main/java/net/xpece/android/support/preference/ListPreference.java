@@ -8,7 +8,6 @@ package net.xpece.android.support.preference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,7 +16,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
@@ -183,7 +181,6 @@ public class ListPreference extends DialogPreference {
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setAdapter(adapter2);
-        popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
         popup.setMarginLeft(anchor.getPaddingLeft());
         popup.setMarginRight(anchor.getPaddingRight());
@@ -202,14 +199,6 @@ public class ListPreference extends DialogPreference {
 
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
-
-        final int unit = anchor.getHeight();
-        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-            int width = anchor.getWidth();
-            popup.setEpicenterBounds(new Rect(width - unit, 0, width, unit));
-        } else {
-            popup.setEpicenterBounds(new Rect(0, 0, unit, unit));
-        }
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);

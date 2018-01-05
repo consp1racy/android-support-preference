@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
 import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -200,7 +199,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         popup.setAnchorView(anchor);
         popup.setPromptPosition(XpListPopupWindow.POSITION_PROMPT_ABOVE);
         popup.setAdapter((ListAdapter) adapter);
-        popup.setAnimationStyle(R.style.Animation_Asp_Popup);
 
 //        if (mAdjustViewBounds) {
 //            popup.setBoundsView((View) anchor.getParent());
@@ -226,14 +224,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
                 preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
             }
             popup.setHorizontalOffset(preferredHorizontalOffset);
-        }
-
-        final int unit = anchor.getHeight();
-        if (ViewCompat.getLayoutDirection(anchor) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-            int width = anchor.getWidth();
-            popup.setEpicenterBounds(new Rect(width - unit, 0, width, unit));
-        } else {
-            popup.setEpicenterBounds(new Rect(0, 0, unit, unit));
         }
 
         // Testing.

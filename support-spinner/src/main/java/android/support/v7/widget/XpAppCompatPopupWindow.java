@@ -2,6 +2,7 @@ package android.support.v7.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -16,14 +17,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import net.xpece.android.support.widget.spinner.R;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
 @SuppressLint("PrivateApi")
 class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     private static final String TAG = XpAppCompatPopupWindow.class.getSimpleName();
+
+    private static final int ATTR_POPUP_ENTER_TRANSITION = 0x0101051f;
+    private static final int ATTR_POPUP_EXIT_TRANSITION = 0x01010520;
+    private static final int[] ATTRS = {ATTR_POPUP_ENTER_TRANSITION, ATTR_POPUP_EXIT_TRANSITION};
 
     private static final Field sAnchorField;
 
@@ -46,7 +49,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
             @NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mApplicationContext = context.getApplicationContext();
-        init();
+        init(context, attrs, defStyleAttr, 0);
     }
 
     public XpAppCompatPopupWindow(
@@ -54,15 +57,28 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
             @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         mApplicationContext = context.getApplicationContext();
-        init();
+        init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init() {
+    @SuppressLint({"RestrictedApi", "ResourceType"})
+    private void init(
+            @NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr,
+            @StyleRes int defStyleRes) {
         if (Build.VERSION.SDK_INT == 23) {
-            // android:popupEnter/ExitTransition attributes are supported since API 24.
-            // Popup transitions are supported since API 23. Choose reasonable defaults for API 23:
-            setEnterTransition(getTransition(R.transition.asp_popup_window_enter));
-            setExitTransition(getTransition(R.transition.asp_popup_window_exit));
+            final TypedArray a = context.obtainStyledAttributes(attrs, ATTRS, defStyleAttr, defStyleRes);
+            try {
+                final Transition enterTransition = getTransition(a.getResourceId(0, 0));
+                final Transition exitTransition;
+                if (a.hasValueOrEmpty(1)) {
+                    exitTransition = getTransition(a.getResourceId(1, 0));
+                } else {
+                    exitTransition = enterTransition == null ? null : enterTransition.clone();
+                }
+                setEnterTransition(enterTransition);
+                setExitTransition(exitTransition);
+            } finally {
+                a.recycle();
+            }
         }
     }
 
