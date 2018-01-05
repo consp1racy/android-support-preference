@@ -153,6 +153,27 @@
                     android:layout_marginRight="-4dp"
                     android:theme="@style/ThemeOverlay.Asp.Spinner"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="?listPreferredItemPaddingLeft"
+                android:paddingRight="?listPreferredItemPaddingRight"
+                android:paddingTop="12dp">
+
+                <net.xpece.android.support.widget.XpAppCompatSpinner
+                    style="@style/Widget.Asp.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_marginRight="-4dp"
+                    android:entries="@array/states"
+                    android:theme="@style/ThemeOverlay.Asp.Spinner"/>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

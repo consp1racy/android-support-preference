@@ -1037,7 +1037,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
             if (mDropDownPreferredWidthUnit > 0) {
                 int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
-                preferredWidth = (int) (units * mDropDownPreferredWidthUnit);
+                if (units == 1) {
+                    preferredWidth = (int) (1.5f * mDropDownPreferredWidthUnit);
+                } else {
+                    preferredWidth = (int) (units * mDropDownPreferredWidthUnit);
+                }
             }
             if (mDropDownMaxWidth < 0) {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
