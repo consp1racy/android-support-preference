@@ -426,7 +426,6 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
-- Custom spinner animation is not smooth on Android 6+.
 
 ## Questions
 
