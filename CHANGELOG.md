@@ -2,6 +2,7 @@
 
 **2.0.0** 2018-01-XX
 - Requires compile SDK 27 and at least support library 27.0.0.
+- *NEW!* `XpAppCompatSpinner` uses `android:rowCount` attribute to specify maximum number of items in popup menu.
 - *NEW!* Supports `android:popupEnterTransition` and `android:popupExitTransition` on API 23+.
 - *FIXED:* Popup transitions on API 23+ are now smooth.
 

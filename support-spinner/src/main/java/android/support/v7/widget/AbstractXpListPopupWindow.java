@@ -114,6 +114,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private float mDropDownPreferredWidthUnit = 0;
+    private int mDropDownMaxLength = -1;
 
     private int mDropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -429,6 +430,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             mMargins.top = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginTop, defaultMargin);
             mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         }
+
+        final int dropDownMaxLength = b.getInt(R.styleable.XpListPopupWindow_android_rowCount, mDropDownMaxLength);
+        setDropDownMaxLength(dropDownMaxLength);
+
         b.recycle();
 
         mPopup = new XpAppCompatPopupWindow(context, attrs, defStyleAttr);
@@ -766,6 +771,16 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                     "Invalid height. Must be a positive value, MATCH_PARENT, or WRAP_CONTENT.");
         }
         mDropDownHeight = height;
+    }
+
+    /**
+     * @param dropDownMaxLength Max number of items that can be displayed in popup menu.
+     */
+    public void setDropDownMaxLength(int dropDownMaxLength) {
+        if (dropDownMaxLength == 0 || dropDownMaxLength < -1) {
+            throw new IllegalArgumentException("Max length must be = -1 or > 0.");
+        }
+        mDropDownMaxLength = dropDownMaxLength;
     }
 
     /**
@@ -1246,7 +1261,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return getPreferredVerticalOffsetInternal(position);
     }
 
-    private int getPreferredVerticalOffsetInternal(int position) {
+    private int getPreferredVerticalOffsetInternal(int realPosition) {
         final View anchor = getAnchorView();
         final AbstractXpListPopupWindow popup = this;
 
@@ -1256,11 +1271,21 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final int backgroundPaddingTop = getBackgroundTopPadding();
 
         // Center selected item over anchor view.
-        if (position < 0) position = 0;
+        if (realPosition < 0) realPosition = 0;
+
+        int position = realPosition;
+
+        // If we're allowed to show at most X items, cap position at X, prefer below.
+        final int maxLength = mDropDownMaxLength;
+        if (maxLength > 0) {
+            position = Math.max(0, position - mAdapter.getCount() + maxLength);
+        }
+
         final int viewHeight = anchor.getHeight();
         final int dropDownListViewPaddingTop = mDropDownList.getPaddingTop();
         final int selectedItemHeight = popup.measureItem(position);
-        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
+//        final int beforeSelectedItemHeight = popup.measureItemsUpTo(position + 1);
+        final int beforeSelectedItemHeight = popup.measureItems(realPosition - position, realPosition + 1);
 
         final int viewHeightAdjustedHalf = (viewHeight - anchor.getPaddingTop() - anchor.getPaddingBottom()) / 2 + anchor.getPaddingBottom();
 
@@ -1787,7 +1812,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         final int listPadding = mDropDownList.getPaddingTop() + mDropDownList.getPaddingBottom();
         final int listContent = mDropDownList.measureHeightOfChildrenCompat(childWidthSpec,
-                0, XpDropDownListView.NO_POSITION, maxHeight - otherHeights - verticalMargin - listPadding + padding, -1);
+                0, mDropDownMaxLength, maxHeight - otherHeights - verticalMargin - listPadding + padding, -1);
         // add padding only if the list has items in it, that way we don't show
         // the popup if it is not needed
         if (otherHeights > 0 || listContent > 0) otherHeights += padding + listPadding;

@@ -51,6 +51,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     @SpinnerMode private int mSpinnerMode;
     private float mSimpleMenuPreferredWidthUnit;
+    private int mDropDownMaxLength = -1;
 
     private XpListPopupWindow mPopup;
     private AlertDialog.Builder mDialogBuilder;
@@ -72,10 +73,15 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
-        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
-        //noinspection WrongConstant
-        this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
-        a.recycle();
+        try {
+            this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
+            //noinspection WrongConstant
+            this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
+            final int dropDownMaxLength = a.getInt(R.styleable.XpAppCompatSpinner_android_rowCount, mDropDownMaxLength);
+            setDropDownMaxLength(dropDownMaxLength);
+        } finally {
+            a.recycle();
+        }
     }
 
     public int getSpinnerMode() {
@@ -84,6 +90,16 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     public void setSpinnerMode(final int spinnerMode) {
         mSpinnerMode = spinnerMode;
+    }
+
+    /**
+     * @param dropDownMaxLength Max number of items that can be displayed in popup menu.
+     */
+    public void setDropDownMaxLength(int dropDownMaxLength) {
+        if (dropDownMaxLength == 0 || dropDownMaxLength < -1) {
+            throw new IllegalArgumentException("Max length must be = -1 or > 0.");
+        }
+        mDropDownMaxLength = dropDownMaxLength;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -211,6 +227,8 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
         }
         popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
+
+        popup.setDropDownMaxLength(mDropDownMaxLength);
 
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
