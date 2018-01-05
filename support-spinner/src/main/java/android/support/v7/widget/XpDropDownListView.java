@@ -2,6 +2,7 @@ package android.support.v7.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -24,7 +25,7 @@ import net.xpece.android.support.widget.spinner.R;
 @SuppressLint({"RestrictedApi", "ViewConstructor"})
 final class XpDropDownListView extends ListViewCompat {
 
-//    private static final int MAX_ITEMS_MEASURED = 15;
+    //    private static final int MAX_ITEMS_MEASURED = 15;
     private static final int MAX_ITEMS_MEASURED = 30;
 
     private final Rect mTempRect = new Rect();
@@ -41,9 +42,10 @@ final class XpDropDownListView extends ListViewCompat {
     private int mLastWidthSpecForMeasuringHeight;
 
     @Override
-    public int measureHeightOfChildrenCompat(int widthMeasureSpec, int startPosition,
-                                             int endPosition, final int maxHeight,
-                                             int disallowPartialChildPosition) {
+    public int measureHeightOfChildrenCompat(
+            int widthMeasureSpec, int startPosition,
+            int endPosition, final int maxHeight,
+            int disallowPartialChildPosition) {
         if (widthMeasureSpec != mLastWidthSpecForMeasuringHeight) {
             // This will allow keeping the flag for consecutive measures.
             mHasMultiLineItems = false;
@@ -68,7 +70,7 @@ final class XpDropDownListView extends ListViewCompat {
 //            int returnedHeight = paddingTop + paddingBottom;
         int returnedHeight = 0;
         final int dividerHeight = ((reportedDividerHeight > 0) && divider != null)
-            ? reportedDividerHeight : 0;
+                ? reportedDividerHeight : 0;
 
         // The previous height value that was less than maxHeight and contained
         // no partial children
@@ -104,7 +106,7 @@ final class XpDropDownListView extends ListViewCompat {
 
             if (childLp.height > 0) {
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(childLp.height,
-                    MeasureSpec.EXACTLY);
+                        MeasureSpec.EXACTLY);
             } else {
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
             }
@@ -163,9 +165,9 @@ final class XpDropDownListView extends ListViewCompat {
         View itemView = mChildForMeasuring;
         int itemType = mViewTypeForMeasuring;
         final int widthMeasureSpec =
-            MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
+                MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
         final int heightMeasureSpec =
-            MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
+                MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
 
         // Make sure the number of items we'll measure is capped. If it's a huge data set
         // with wildly varying sizes, oh well.
@@ -182,8 +184,8 @@ final class XpDropDownListView extends ListViewCompat {
             itemView = adapter.getView(i, itemView, this);
             if (itemView.getLayoutParams() == null) {
                 itemView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
             }
             itemView.measure(widthMeasureSpec, heightMeasureSpec);
             width = Math.max(width, itemView.getMeasuredWidth());
@@ -249,6 +251,8 @@ final class XpDropDownListView extends ListViewCompat {
     /** Helper for drag-to-open auto scrolling. */
     private ListViewAutoScrollHelper mScrollHelper;
 
+    private static final int[] ATTRS = new int[]{android.R.attr.clipToPadding};
+
     /**
      * <p>Creates a new list view wrapper.</p>
      *
@@ -258,6 +262,14 @@ final class XpDropDownListView extends ListViewCompat {
         super(context, null, R.attr.dropDownListViewStyle);
         mHijackFocus = hijackFocus;
         setCacheColorHint(0); // Transparent, since the background drawable could be anything.
+
+        if (Build.VERSION.SDK_INT < 21) {
+            // For the love of god clipToPadding just cannot be read on the first try on Android 4.
+            TypedArray a = context.obtainStyledAttributes(null, ATTRS, R.attr.dropDownListViewStyle, 0);
+            final boolean clipToPadding = a.getBoolean(0, true);
+            a.recycle();
+            setClipToPadding(clipToPadding);
+        }
     }
 
     /**
@@ -336,7 +348,7 @@ final class XpDropDownListView extends ListViewCompat {
      * touch mode issue (see the declaration for mListSelectionHidden).
      *
      * @param hideListSelection {@code true} to hide list selection,
-     *                          {@code false} to show
+     * {@code false} to show
      */
     void setListSelectionHidden(boolean hideListSelection) {
         mListSelectionHidden = hideListSelection;
