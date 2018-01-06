@@ -1012,8 +1012,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             if (!mModal) {
                 mHandler.post(mHideSelector);
             }
+
+            mComputedPopupY = verticalOffset;
         }
     }
+
+    private int mComputedPopupY;
 
     private int getListWidthSpec() {
         final int displayWidth = mContext.getResources().getDisplayMetrics().widthPixels;
@@ -1210,15 +1214,21 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return mPopup.getInputMethodMode();
     }
 
+    /**
+     * Mark item on specified position checked, selected and positioned over anchor view.
+     *
+     * @param position Selected item index.
+     */
     public void setSelection(int position) {
+        setSelection(position, 0);
+    }
+
+    // TODO Make public?
+    void setSelection(int position, int offsetY) {
         final XpDropDownListView list = mDropDownList;
         if (isShowing() && list != null) {
             list.setListSelectionHidden(false);
-
-            // getListPaddingTop returns zero when popup is invoked for the first time
-            // and when it's invoked after making a selection in previous invokation.
-            final int realOffsetY = mDropDownList.getPaddingTop() + mDropDownList.mSelectionTopPadding - mDropDownList.getListPaddingTop();
-            list.setSelectionFromTop(position, realOffsetY);
+            setSelectionOverAnchor(list, position, offsetY);
 
             if (list.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
                 list.setItemChecked(position, true);
@@ -1226,12 +1236,93 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
-    public int getPreferredVerticalOffset(int position) {
-        buildDropDown();
-        return getPreferredVerticalOffsetInternal(position);
+//    @Deprecated
+//    private static void setSelectionWithPaddingTop(@NonNull final XpDropDownListView list, final int position) {
+//        // getListPaddingTop returns zero when popup is invoked for the first time
+//        // and when it's invoked after making a selection in previous invokation.
+//        final int realOffsetY = list.getPaddingTop() + list.mSelectionTopPadding - list.getListPaddingTop();
+//        list.setSelectionFromTop(position, realOffsetY);
+//    }
+
+    private void setSelectionOverAnchor(final XpDropDownListView list, final int position, final int offsetY) {
+        final View anchor = getAnchorView();
+
+        final int listTop = mComputedPopupY + getBackgroundTopPadding();
+        anchor.getLocationOnScreen(mTempLocation);
+        final int anchorTop = mTempLocation[1];
+        final int anchorPaddingTop = anchor.getPaddingTop();
+        final int anchorHeight = anchor.getHeight() - anchorPaddingTop - anchor.getPaddingBottom();
+        final int itemHeight = getSelectedItemViewHeight(position);
+        final int anchorInset = (anchorHeight - itemHeight) / 2 + anchorPaddingTop;
+
+        final int realOffsetY = anchorTop - listTop + anchorInset
+                + offsetY // Apply user supplied offset.
+                - list.getListPaddingTop(); // Negate any ListView enforced offset.
+        list.setSelectionFromTop(position, realOffsetY);
     }
 
-    private int getPreferredVerticalOffsetInternal(int realPosition) {
+    private int getSelectedItemViewHeight(final int position) {
+        if (mMeasuredSelectedItemPosition == position) {
+            return mMeasuredSelectedItemViewHeight;
+        }
+        return measureItem(position);
+    }
+
+    private int mMeasuredPreferredVerticalOffset = -1;
+    private int mMeasuredSelectedItemViewHeight = -1;
+    private int mMeasuredSelectedItemPosition = -1;
+
+    /**
+     * @return Measured vertical offset for popup window.
+     * @see #measurePreferredVerticalOffset(int)
+     * @see #getMeasuredSelectedItemViewHeight()
+     */
+    public int getMeasuredPreferredVerticalOffset() {
+        return mMeasuredPreferredVerticalOffset;
+    }
+
+    /**
+     * @return Measured height of selected item view.
+     * @see #measurePreferredVerticalOffset(int)
+     * @see #getMeasuredPreferredVerticalOffset()
+     */
+    public int getMeasuredSelectedItemViewHeight() {
+        return mMeasuredSelectedItemViewHeight;
+    }
+
+    /**
+     * Measures popup offset and selected item scroll offset
+     * for selected item to be positioned exactly over anchor.
+     *
+     * @param position Which item is supposed to be selected, and preferably aligned over anchor.
+     * @see #getMeasuredPreferredVerticalOffset()
+     * @see #getMeasuredSelectedItemViewHeight()
+     */
+    public void measurePreferredVerticalOffset(int position) {
+        if (mDropDownList == null || mListMeasureDirty) {
+            buildDropDown();
+        }
+        measurePreferredVerticalOffsetInternal(position);
+    }
+
+    /**
+     * Measures popup offset and selected item scroll offset
+     * for selected item to be positioned exactly over anchor.
+     *
+     * @param position Which item is supposed to be selected, and preferably aligned over anchor.
+     * @return Measured vertical offset for popup window.
+     * @see #measurePreferredVerticalOffset(int)
+     * @see #getMeasuredPreferredVerticalOffset()
+     * @see #getMeasuredSelectedItemViewHeight()
+     * @deprecated This method pre-calculates multiple values. Use specialized accessor methods.
+     */
+    @Deprecated
+    public int getPreferredVerticalOffset(int position) {
+        measurePreferredVerticalOffset(position);
+        return mMeasuredPreferredVerticalOffset;
+    }
+
+    private void measurePreferredVerticalOffsetInternal(int realPosition) {
         final View anchor = getAnchorView();
         final AbstractXpListPopupWindow popup = this;
 
@@ -1265,7 +1356,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
             offset = -(height * (position + 1) + (viewHeightAdjustedHalf - height / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         }
-        return offset;
+
+        mMeasuredPreferredVerticalOffset = offset;
+        mMeasuredSelectedItemViewHeight = selectedItemHeight;
+        mMeasuredSelectedItemPosition = position;
     }
 
     /**
@@ -1575,9 +1669,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     /**
      * <p>Builds the popup window's content and returns the height the popup
-     * should have. Returns -1 when the content already exists.</p>
+     * should have.</p>
      *
-     * @return the content's height or -1 if content already exists
+     * @return the content's height
      */
     private int buildDropDown() {
         ViewGroup dropDownView;
@@ -1786,7 +1880,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         // the popup if it is not needed
         if (otherHeights > 0 || listContent > 0) otherHeights += padding + listPadding;
 
-        return listContent + otherHeights;
+        final int result = listContent + otherHeights;
+        mListMeasuredHeight = result;
+
+        return result;
     }
 
     private class PopupDataSetObserver extends DataSetObserver {
