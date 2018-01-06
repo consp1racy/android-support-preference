@@ -104,6 +104,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     XpAppCompatPopupWindow mPopup;
     private ListAdapter mAdapter;
     XpDropDownListView mDropDownList;
+    boolean mListMeasureDirty;
+    private int mListMeasuredHeight = -1;
 
     private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private float mDropDownPreferredWidthUnit = 0;
@@ -214,7 +216,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     public static final int INPUT_METHOD_NOT_NEEDED = PopupWindow.INPUT_METHOD_NOT_NEEDED;
 
     public void setMarginTop(int px) {
-        mMargins.top = px;
+        if (mMargins.top != px) {
+            mMargins.top = px;
+            mListMeasureDirty = true;
+        }
     }
 
     public int getMarginTop() {
@@ -222,7 +227,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     public void setMarginBottom(int px) {
-        mMargins.bottom = px;
+        if (mMargins.bottom != px) {
+            mMargins.bottom = px;
+            mListMeasureDirty = true;
+        }
     }
 
     public int getMarginBottom() {
@@ -230,22 +238,31 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     public void setMarginLeft(int px) {
-        mMargins.left = px;
+        if (mMargins.left != px) {
+            mMargins.left = px;
+            mListMeasureDirty = true;
+        }
     }
 
     public void setMarginStart(int px) {
         if (mLayoutDirection == LayoutDirection.RTL) {
-            mMargins.right = px;
+            setMarginRight(px);
         } else {
-            mMargins.left = px;
+            setMarginLeft(px);
         }
     }
 
+    @Deprecated
+    @SuppressWarnings("unused")
     public int getMarginStart(int px) {
+        return getMarginStart();
+    }
+
+    public int getMarginStart() {
         if (mLayoutDirection == LayoutDirection.RTL) {
-            return mMargins.right;
+            return getMarginRight();
         } else {
-            return mMargins.left;
+            return getMarginLeft();
         }
     }
 
@@ -254,18 +271,27 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     public void setMarginRight(int px) {
-        mMargins.right = px;
+        if (mMargins.right != px) {
+            mMargins.right = px;
+            mListMeasureDirty = true;
+        }
     }
 
     public void setMarginEnd(int px) {
         if (mLayoutDirection == LayoutDirection.RTL) {
-            mMargins.left = px;
+            setMarginLeft(px);
         } else {
-            mMargins.right = px;
+            setMarginRight(px);
         }
     }
 
+    @Deprecated
+    @SuppressWarnings("unused")
     public int getMarginEnd(int px) {
+        return getMarginEnd();
+    }
+
+    public int getMarginEnd() {
         if (mLayoutDirection == LayoutDirection.RTL) {
             return mMargins.left;
         } else {
@@ -302,34 +328,34 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
-     * @return
+     * @return Whether the list in current setup would show any multiline items.
      */
+    @SuppressWarnings("deprecation")
+    public boolean hasMultilineItems() {
+        if (mDropDownList == null || mListMeasureDirty) {
+            buildDropDown();
+        }
+        return mDropDownList.hasMultiLineItems();
+    }
+
+    /**
+     * @return Whether the list in current setup would show any multiline items.
+     */
+    @Deprecated
     public boolean hasMultiLineItems() {
-        if (mDropDownList == null) {
-            buildDropDown();
-        }
-        final XpDropDownListView list = mDropDownList;
-        return list.hasMultiLineItems();
-    }
-
-    int measureItemsUpTo(int position) {
-        return measureItems(0, position);
-    }
-
-    int measureItems(int fromIncl, int toExcl) {
-        if (mDropDownList == null) {
-            buildDropDown();
-        }
-        final XpDropDownListView list = mDropDownList;
-        if (list != null) {
-            int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
-            return list.measureHeightOfChildrenCompat(widthSpec, fromIncl, toExcl, Integer.MAX_VALUE, 1);
-        }
-        return 0;
+        return hasMultilineItems();
     }
 
     int measureItem(int position) {
         return measureItems(position, position + 1);
+    }
+
+    int measureItems(int fromIncl, int toExcl) {
+        if (mDropDownList == null || mListMeasureDirty) {
+            buildDropDown();
+        }
+        int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
+        return mDropDownList.measureHeightOfChildrenCompat(widthSpec, fromIncl, toExcl, Integer.MAX_VALUE, 1);
     }
 
     /**
@@ -457,6 +483,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         if (mDropDownList != null) {
             mDropDownList.setAdapter(mAdapter);
         }
+        mListMeasureDirty = true;
     }
 
     /**
@@ -569,6 +596,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     public void setListSelector(Drawable selector) {
         mDropDownListHighlight = selector;
+        mListMeasureDirty = true;
     }
 
     /**
@@ -586,6 +614,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     public void setBackgroundDrawable(@Nullable Drawable d) {
         mPopup.setBackgroundDrawable(d);
+        mListMeasureDirty = true;
     }
 
     /**
@@ -624,15 +653,22 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param anchor The view to use as an anchor.
      */
     public void setAnchorView(@Nullable View anchor) {
-        mDropDownAnchorView = anchor;
+        if (mDropDownAnchorView != anchor) {
+            mDropDownAnchorView = anchor;
+            mListMeasureDirty = true; // BoundsView may be derived.
+        }
     }
 
+    @Nullable
     public View getBoundsView() {
         return mDropDownBoundsView;
     }
 
-    public void setBoundsView(View bounds) {
-        mDropDownBoundsView = bounds;
+    public void setBoundsView(@Nullable View bounds) {
+        if (mDropDownBoundsView != bounds) {
+            mDropDownBoundsView = bounds;
+            mListMeasureDirty = true;
+        }
     }
 
     /**
@@ -717,15 +753,24 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param width Width of the popup window.
      */
     public void setWidth(int width) {
-        mDropDownWidth = width;
+        if (mDropDownWidth != width) {
+            mDropDownWidth = width;
+            mListMeasureDirty = true;
+        }
     }
 
     public void setMaxWidth(int maxWidth) {
-        mDropDownMaxWidth = maxWidth;
+        if (mDropDownMaxWidth != maxWidth) {
+            mDropDownMaxWidth = maxWidth;
+            mListMeasureDirty = true;
+        }
     }
 
     public void setPreferredWidthUnit(float unit) {
-        mDropDownPreferredWidthUnit = unit;
+        if (mDropDownPreferredWidthUnit != unit) {
+            mDropDownPreferredWidthUnit = unit;
+            mListMeasureDirty = true;
+        }
     }
 
     /**
@@ -734,11 +779,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      *
      * @param width Desired width of content in pixels.
      */
+    // TODO Do we need this? At least better document diff between this and setWidth()
     public void setContentWidth(int width) {
         Drawable popupBackground = mPopup.getBackground();
         if (popupBackground != null) {
             popupBackground.getPadding(mTempRect);
-            mDropDownWidth = mTempRect.left + mTempRect.right + width;
+            setWidth(mTempRect.left + mTempRect.right + width);
         } else {
             setWidth(width);
         }
@@ -763,7 +809,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             throw new IllegalArgumentException(
                     "Invalid height. Must be a positive value, MATCH_PARENT, or WRAP_CONTENT.");
         }
-        mDropDownHeight = height;
+        if (mDropDownHeight != height) {
+            mDropDownHeight = height;
+            mListMeasureDirty = true;
+        }
     }
 
     /**
@@ -773,7 +822,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         if (dropDownMaxLength == 0 || dropDownMaxLength < -1) {
             throw new IllegalArgumentException("Max length must be = -1 or > 0.");
         }
-        mDropDownMaxLength = dropDownMaxLength;
+        if (mDropDownMaxLength != dropDownMaxLength) {
+            mDropDownMaxLength = dropDownMaxLength;
+            mListMeasureDirty = true;
+        }
     }
 
     /**
@@ -828,6 +880,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             removePromptView();
         }
         mPromptView = prompt;
+        mListMeasureDirty = true;
         if (showing) {
             show();
         }
@@ -842,11 +895,19 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     /**
      * Show the popup list. If the list is already showing, this method
-     * will recalculate the popup's size and position.
+     * will do nothing.
      */
     @Override
     public void show() {
-        final int height = buildDropDown();
+//        final int height = buildDropDown();
+//        final int widthSpec = getListWidthSpec();
+
+        final int height;
+        if (mDropDownList == null || mListMeasureDirty) {
+            height = buildDropDown();
+        } else {
+            height = mListMeasuredHeight;
+        }
         final int widthSpec = getListWidthSpec();
 
         boolean noInputMethod = isInputMethodNotNeeded();
@@ -983,12 +1044,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         horizontalOffset += anchorLeft; // TODO RTL is broken. Spinner sample is broken.
 
         if (mPopup.isShowing()) {
-            Log.w(TAG, "Showing, should update.");
-//            throw new IllegalStateException();
-//            mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
-//            mPopup.update(getAnchorView(), horizontalOffset,
-//                    verticalOffset, (widthSpec < 0) ? -1 : widthSpec,
-//                    (heightSpec < 0) ? -1 : heightSpec);
+            mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
+            mPopup.update(
+                    horizontalOffset, verticalOffset,
+                    (widthSpec < 0) ? -1 : widthSpec, (heightSpec < 0) ? -1 : heightSpec);
         } else {
             mPopup.setWidth(widthSpec);
             mPopup.setHeight(heightSpec);
@@ -1001,7 +1060,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             setEpicenterBoundsInternal(mEpicenterBounds);
 
             // We handle gravity manually. Just as everything else.
-//            PopupWindowCompat.showAsDropDown(mPopup, getAnchorView(), horizontalOffset, verticalOffset, Gravity.NO_GRAVITY);
             mPopup.showAtLocation(getAnchorView(), Gravity.NO_GRAVITY, horizontalOffset, verticalOffset);
 
             mDropDownList.setSelection(ListView.INVALID_POSITION);
@@ -1100,12 +1158,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return 0;
     }
 
-    private void getBackgroundPadding(Rect out) {
+    private void getBackgroundPadding(@NonNull Rect out) {
         Drawable background = mPopup.getBackground();
         if (background != null) {
             background.getPadding(out);
         } else {
-            out.set(0, 0, 0, 0);
+            out.setEmpty();
         }
     }
 
@@ -1882,6 +1940,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         final int result = listContent + otherHeights;
         mListMeasuredHeight = result;
+        mListMeasureDirty = false;
 
         return result;
     }
@@ -1892,6 +1951,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         @Override
         public void onChanged() {
+            mListMeasureDirty = true;
             if (isShowing()) {
                 // Resize the popup to fit new content
                 show();
@@ -1924,6 +1984,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                     && mDropDownList.getCount() > mDropDownList.getChildCount()
                     && mDropDownList.getChildCount() <= mListItemExpandMaximum) {
                 mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
+                mListMeasureDirty = true; // TODO Verify we need this.
                 show();
             }
         }
@@ -1964,6 +2025,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 mResizePopupRunnable.run();
             }
         }
+
     }
 
     private static boolean isConfirmKey(int keyCode) {
