@@ -196,7 +196,8 @@ public class Preference extends android.support.v7.preference.Preference
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
 
-        if (hasOnPreferenceLongClickListener()) {
+        final boolean hasLongClickListener = hasOnPreferenceLongClickListener();
+        if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -206,6 +207,7 @@ public class Preference extends android.support.v7.preference.Preference
         } else {
             holder.itemView.setOnLongClickListener(null);
         }
+        holder.itemView.setLongClickable(hasLongClickListener && isSelectable());
     }
 
     @Override

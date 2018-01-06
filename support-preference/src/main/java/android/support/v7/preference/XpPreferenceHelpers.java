@@ -82,7 +82,8 @@ public final class XpPreferenceHelpers {
 
         if (PREFERENCE_LONG_CLICK_LISTENERS.containsKey(preference)) {
             final OnPreferenceLongClickListener longClickListener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
-            if (longClickListener != null) {
+            final boolean hasLongClickListener = longClickListener != null;
+            if (hasLongClickListener) {
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -92,6 +93,7 @@ public final class XpPreferenceHelpers {
             } else {
                 holder.itemView.setOnLongClickListener(null);
             }
+            holder.itemView.setLongClickable(hasLongClickListener && preference.isSelectable());
         }
     }
 
