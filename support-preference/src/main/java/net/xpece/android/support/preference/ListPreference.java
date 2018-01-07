@@ -49,16 +49,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  */
 public class ListPreference extends DialogPreference {
 
-    private static boolean sSimpleMenuPreIcsEnabled = true;
-
-    public static void setSimpleMenuPreIcsEnabled(boolean enabled) {
-        sSimpleMenuPreIcsEnabled = enabled;
-    }
-
-    private static boolean isSimpleMenuEnabled() {
-        return Build.VERSION.SDK_INT >= 14 || sSimpleMenuPreIcsEnabled;
-    }
-
     static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
     private CharSequence[] mEntries;
@@ -130,22 +120,16 @@ public class ListPreference extends DialogPreference {
         switch (mMenuMode) {
             case MENU_MODE_SIMPLE_ADAPTIVE:
                 boolean shown = false;
-                if (isSimpleMenuEnabled()) {
-                    if (this.isEnabled()) {
-                        shown = showAsPopup(view, false);
-                    }
+                if (this.isEnabled()) {
+                    shown = showAsPopup(view, false);
                 }
                 if (!shown) {
                     super.performClick(view);
                 }
                 break;
             case MENU_MODE_SIMPLE_MENU:
-                if (isSimpleMenuEnabled()) {
-                    if (this.isEnabled()) {
-                        showAsPopup(view, true);
-                    }
-                } else {
-                    super.performClick(view);
+                if (this.isEnabled()) {
+                    showAsPopup(view, true);
                 }
                 break;
             case MENU_MODE_DIALOG:
@@ -197,6 +181,15 @@ public class ListPreference extends DialogPreference {
         }
         popup.setMaxWidth(XpListPopupWindow.WRAP_CONTENT);
 
+        if (!force) {
+            // If we're not forced to show popup window measure the items...
+            boolean hasMultiLineItems = popup.hasMultiLineItems();
+            if (hasMultiLineItems) {
+                // ...and if any are multiline show a dialog instead.
+                return false;
+            }
+        }
+
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
 
@@ -207,15 +200,6 @@ public class ListPreference extends DialogPreference {
 //        marginV = Util.dpToPxOffset(context, 0);
 //        popup.setMarginBottom(marginV);
 //        popup.setMarginTop(marginV);
-
-        if (!force) {
-            // If we're not forced to show popup window measure the items...
-            boolean hasMultiLineItems = popup.hasMultiLineItems();
-            if (hasMultiLineItems) {
-                // ...and if any are multiline show a dialog instead.
-                return false;
-            }
-        }
 
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

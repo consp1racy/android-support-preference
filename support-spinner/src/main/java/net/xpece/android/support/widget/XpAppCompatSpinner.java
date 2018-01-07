@@ -235,6 +235,15 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         popup.setDropDownMaxLength(mDropDownMaxLength);
 
+        if (!force) {
+            // If we're not forced to show popup window measure the items...
+            boolean hasMultiLineItems = popup.hasMultiLineItems();
+            if (hasMultiLineItems) {
+                // ...and if any are multiline show a dialog instead.
+                return false;
+            }
+        }
+
         int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
         popup.setVerticalOffset(preferredVerticalOffset);
 
@@ -256,15 +265,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 //        marginV = Util.dpToPxOffset(context, 0);
 //        popup.setMarginBottom(marginV);
 //        popup.setMarginTop(marginV);
-
-        if (!force) {
-            // If we're not forced to show popup window measure the items...
-            boolean hasMultiLineItems = popup.hasMultiLineItems();
-            if (hasMultiLineItems) {
-                // ...and if any are multiline show a dialog instead.
-                return false;
-            }
-        }
 
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
