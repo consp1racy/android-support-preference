@@ -33,7 +33,9 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
@@ -188,6 +190,12 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             Context context, AttributeSet attrs, int defStyleAttr, int mode,
             Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr);
+
+        if (!sCompatibilityDone) {
+            final int targetSdkVersion = context.getApplicationInfo().targetSdkVersion;
+            sUseZeroUnspecifiedMeasureSpec = targetSdkVersion < Build.VERSION_CODES.M;
+            sCompatibilityDone = true;
+        }
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs,
                 R.styleable.Spinner, defStyleAttr, 0);
@@ -364,4 +372,87 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         return mPrompt;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        final SpinnerAdapter adapter = getAdapter();
+        if (adapter != null && MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.AT_MOST) {
+            final int measuredWidth = getMeasuredWidth();
+            setMeasuredDimension(Math.min(Math.max(measuredWidth,
+                    measureContentWidth()),
+                    MeasureSpec.getSize(widthMeasureSpec)),
+                    getMeasuredHeight());
+        }
+    }
+
+    private int measureContentWidth() {
+        final SpinnerAdapter adapter = getAdapter();
+        if (adapter == null) {
+            return 0;
+        }
+
+        int width = 0;
+        View itemView = null;
+        int itemType = 0;
+        final int widthMeasureSpec =
+                makeSafeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
+        final int heightMeasureSpec =
+                makeSafeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
+
+        // Make sure the number of items we'll measure is capped. If it's a huge data set
+        // with wildly varying sizes, oh well.
+        final int maxItemsMeasured = getMaxItemsMeasured();
+        int start = Math.max(0, getSelectedItemPosition());
+        final int end = Math.min(adapter.getCount(), start + maxItemsMeasured);
+        final int count = end - start;
+        start = Math.max(0, start - (maxItemsMeasured - count));
+        for (int i = start; i < end; i++) {
+            final int positionType = adapter.getItemViewType(i);
+            if (positionType != itemType) {
+                itemType = positionType;
+                itemView = null;
+            }
+            itemView = adapter.getView(i, itemView, this);
+            if (itemView.getLayoutParams() == null) {
+                itemView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            itemView.measure(widthMeasureSpec, heightMeasureSpec);
+            width = Math.max(width, itemView.getMeasuredWidth());
+        }
+
+        width += getPaddingLeft() + getPaddingRight();
+
+        return width;
+    }
+
+    /**
+     * Signals that compatibility booleans have been initialized according to
+     * target SDK versions.
+     */
+    private static boolean sCompatibilityDone = false;
+
+    /**
+     * Always return a size of 0 for MeasureSpec values with a mode of UNSPECIFIED
+     */
+    private static boolean sUseZeroUnspecifiedMeasureSpec = false;
+
+    /**
+     * Like {@link MeasureSpec#makeMeasureSpec(int, int)}, but any spec with a mode of UNSPECIFIED
+     * will automatically get a size of 0. Older apps expect this.
+     */
+    private int makeSafeMeasureSpec(int size, int mode) {
+        if (sUseZeroUnspecifiedMeasureSpec && mode == MeasureSpec.UNSPECIFIED) {
+            return 0;
+        }
+        return MeasureSpec.makeMeasureSpec(size, mode);
+    }
+
+    /**
+     * Match behavior of spinner with {@link XpDropDownListView}.
+     */
+    private int getMaxItemsMeasured() {
+        return XpDropDownListView.MAX_ITEMS_MEASURED;
+    }
 }
