@@ -254,21 +254,6 @@ public class ListPreference extends DialogPreference {
      */
     @NonNull
     public SpinnerAdapter buildSimpleMenuAdapter(final Context context) {
-        //noinspection deprecation
-        return buildAdapter(context);
-    }
-
-    /**
-     * If you want to supply your own {@link SpinnerAdapter}
-     * override {@link #buildSimpleMenuAdapter(Context)}
-     * and {@link #buildSimpleDialogAdapter(Context)} instead.
-     *
-     * @param context
-     * @return
-     */
-    @NonNull
-    @Deprecated
-    public SpinnerAdapter buildAdapter(final Context context) {
         return buildAdapter(context, R.layout.asp_simple_spinner_dropdown_item);
     }
 
