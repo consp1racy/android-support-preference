@@ -415,10 +415,14 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 R.styleable.ListPopupWindow_android_dropDownVerticalOffset, 0);
         a.recycle();
 
+        final TypedArray b = context.obtainStyledAttributes(attrs, R.styleable.XpListPopupWindow, defStyleAttr, defStyleRes);
+
+        // Set the default layout direction to match the default locale one
+        final Locale locale = mContext.getResources().getConfiguration().locale;
+        mLayoutDirection = TextUtilsCompat.getLayoutDirectionFromLocale(locale);
+
         // Margin is the space reserved for shadow.
         int defaultMargin = Util.dpToPxOffset(context, 8);
-
-        final TypedArray b = context.obtainStyledAttributes(attrs, R.styleable.XpListPopupWindow, defStyleAttr, defStyleRes);
         if (b.hasValue(R.styleable.XpListPopupWindow_android_layout_margin)) {
             int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_margin, defaultMargin);
             mMargins.bottom = margin;
@@ -457,10 +461,19 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         mPopup = new XpAppCompatPopupWindow(context, attrs, defStyleAttr);
         mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+    }
 
-        // Set the default layout direction to match the default locale one
-        final Locale locale = mContext.getResources().getConfiguration().locale;
-        mLayoutDirection = TextUtilsCompat.getLayoutDirectionFromLocale(locale);
+    public void setLayoutDirection(int layoutDirection) {
+        if (layoutDirection != LayoutDirection.LTR && layoutDirection != LayoutDirection.RTL) {
+            throw new IllegalArgumentException("Layout direction must be LTR or RTL.");
+        }
+        if (mLayoutDirection != layoutDirection) {
+            mLayoutDirection = layoutDirection;
+
+            final int temp = mMargins.left;
+            mMargins.left = mMargins.right;
+            mMargins.right = temp;
+        }
     }
 
     /**

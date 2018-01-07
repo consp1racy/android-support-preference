@@ -66,12 +66,16 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         this(context, attrs, R.attr.spinnerStyle);
     }
 
-    public XpAppCompatSpinner(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr) {
+    public XpAppCompatSpinner(
+            @NonNull final Context context, @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, R.style.Widget_Asp_Spinner);
     }
 
-    private void init(@NonNull final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
+    private void init(
+            @NonNull final Context context, @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
         try {
             this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
@@ -211,6 +215,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         } else {
             popup = new XpListPopupWindow(context, null);
         }
+        popup.setLayoutDirection(getLayoutDirection());
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setPromptPosition(XpListPopupWindow.POSITION_PROMPT_ABOVE);
@@ -288,7 +293,15 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         super.onDetachedFromWindow();
     }
 
-//    @Override
+    @Override
+    public void onRtlPropertiesChanged(int layoutDirection) {
+        super.onRtlPropertiesChanged(layoutDirection);
+        if (mPopup != null) {
+            mPopup.setLayoutDirection(layoutDirection);
+        }
+    }
+
+    //    @Override
 //    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //
