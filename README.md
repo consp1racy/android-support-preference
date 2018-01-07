@@ -232,15 +232,15 @@ Above code will ensure that:
 
 These are the attributes and values for manual setup:
 
-Attribute | Values | Description
---- | --- | ---
-`app:asp_menuMode` | `dialog` | *Default behavior.* Alert dialog with radio buttons and optional window title.
- | `simple_menu` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive than dialog.
- | `simple_dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
- | `simple_adaptive` | Menu is shown in a popup window if it contains single line items only . Otherwise simple dialog is shown.
-`app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
- | `*X*dp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
- | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
+| Attribute | Values | Description
+| --- | --- | ---
+| `app:asp_menuMode` | `dialog` | *Default behavior.* Alert dialog with radio buttons and optional window title.
+|  | `simple_menu` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive than dialog.
+|  | `simple_dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
+|  | `simple_adaptive` | Menu is shown in a popup window if it contains single line items only . Otherwise simple dialog is shown.
+| `app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
+|  | `*X*dp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+|  | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
 
 ### Material Spinner
 
@@ -274,14 +274,14 @@ The above setup will ensure the following:
 If you need to alter entries programmatically create by `CheckedItemAdapter.newInstance(Context, CharSequence[], int)`
 or supply your own adapter (responsible for its own styling) to `XpAppCompatSpinner.setAdapter(SpinnerAdapter)`.
 
-Attribute | Values | Description
---- | --- | ---
-`app:asp_spinnerMode` | `dropdown` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
- | `dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
- | `adaptive` | *Default behavior.* Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
-`app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
- | `Xdp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
- | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
+| Attribute | Values | Description
+| --- | --- | ---
+| `app:asp_spinnerMode` | `dropdown` | Menu is shown in a popup window. Selected option is highlighted. Less disruptive.
+|  | `dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
+|  | `adaptive` | *Default behavior.* Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
+| `app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
+|  | `Xdp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+|  | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
 
 ### Color preference
 
@@ -313,13 +313,13 @@ Version 0.6.0 introduced color preference as a separate module. An example would
 Attributes include:
 
 Attribute | Values | Description
---- | --- | ---
-`android:entryValues` | Array of colors | Specifies an array of colors to display.
-`android:entries` | Array of text | Specifies textual description of each color.
-`app:asp_columnCount` | Integer | Specifies the number of columns in the color picker. Use an integer resource which will allow you to specify greater number on tablets. *Default is `4`.*
- | `-1` | Number of columns will be computed automatically to fill space available in window.
-`app:asp_swatchSize` | `small` | *Default option.* Swatches will be 48dp in width and height plus 4dp margin on each side.
- | `large` | Swatches will be 64dp in width and height plus 8dp margin on each side.
+| --- | --- | ---
+| `android:entryValues` | Array of colors | Specifies an array of colors to display.
+| `android:entries` | Array of text | Specifies textual description of each color.
+| `app:asp_columnCount` | Integer | Specifies the number of columns in the color picker. Use an integer resource which will allow you to specify greater number on tablets. *Default is `4`.*
+|  | `-1` | Number of columns will be computed automatically to fill space available in window.
+| `app:asp_swatchSize` | `small` | *Default option.* Swatches will be 48dp in width and height plus 4dp margin on each side.
+|  | `large` | Swatches will be 64dp in width and height plus 8dp margin on each side.
 
 Finally you need to make your preference fragment fire up the color picker dialog
 when the preference is clicked and optionally update summary when a color is chosen.
