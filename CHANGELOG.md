@@ -1,5 +1,8 @@
 # Change log
 
+**1.3.2** 2018-01-08
+- *FIXED:* Fixed behavior when `android:selectable="false"`. See #84.
+
 **1.3.1** 2017-10-04
 - *FIXED:* `RingtonePreference.canShowSelectedRingtoneTitle` should no longer crash 
   when no ringtone is selected
