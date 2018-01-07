@@ -3,6 +3,7 @@
 
     <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
         <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
+        <item name="android:paddingEnd">36dp</item>
     </style>
 
     <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">

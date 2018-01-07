@@ -17,7 +17,8 @@
         <item name="android:windowExitAnimation">@anim/asp_shrink_fade_out_center</item>
     </style>
 
-    <style name="Widget.Asp.TextView.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
+    <style name="Widget.Asp.TextView.SpinnerItem" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Menu</item>
         <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">0dp</item>
         <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">0dp</item>
         <item name="android:paddingLeft">0dp</item>
@@ -25,7 +26,7 @@
     </style>
 
     <style name="Widget.Asp.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Menu</item>
         <item name="android:paddingLeft">?listPreferredItemPaddingLeft</item>
         <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">
             ?listPreferredItemPaddingLeft
@@ -44,7 +45,7 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbars">vertical</item>
-        <!--<item name="android:scrollbarStyle">outsideInset</item>-->
+        <item name="android:scrollbarStyle">insideOverlay</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
 

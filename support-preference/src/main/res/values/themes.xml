@@ -42,6 +42,7 @@
         <item name="asp_textAppearanceListItemTertiary">@style/TextAppearance.AppCompat.Caption
         </item>
 
+        <item name="android:spinnerItemStyle">@style/Widget.Asp.TextView.SpinnerItem</item>
         <item name="spinnerDropDownItemStyle">@style/Widget.Asp.DropDownItem.Spinner</item>
         <item name="dropDownListViewStyle">@style/Widget.Asp.ListView.DropDown</item>
         <item name="listPopupWindowStyle">@style/Widget.Asp.ListPopupWindow</item>
