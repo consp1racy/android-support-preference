@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SpinnerAdapter;
 
@@ -228,6 +229,12 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuShowing = true;
 
         popup.show();
+
+        final ListView list = popup.getListView();
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setTextAlignment(anchor.getTextAlignment());
+        list.setTextDirection(anchor.getTextDirection());
+
         popup.setSelection(position);
 
         return true;

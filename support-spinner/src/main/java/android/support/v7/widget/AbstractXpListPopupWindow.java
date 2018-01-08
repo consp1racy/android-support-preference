@@ -463,7 +463,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
     }
 
-    public void setLayoutDirection(int layoutDirection) {
+    // TODO Do we want this public? What about setTextAlignment and setTextDirection?
+    void setLayoutDirection(int layoutDirection) {
         if (layoutDirection != LayoutDirection.LTR && layoutDirection != LayoutDirection.RTL) {
             throw new IllegalArgumentException("Layout direction must be LTR or RTL.");
         }

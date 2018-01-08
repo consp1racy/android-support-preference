@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.spinner.R;
@@ -215,7 +216,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         } else {
             popup = new XpListPopupWindow(context, null);
         }
-        popup.setLayoutDirection(getLayoutDirection());
         popup.setModal(true);
         popup.setAnchorView(anchor);
         popup.setPromptPosition(XpListPopupWindow.POSITION_PROMPT_ABOVE);
@@ -278,6 +278,12 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         });
 
         popup.show();
+
+        final ListView list = popup.getListView();
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setTextAlignment(getTextAlignment());
+        list.setTextDirection(getTextDirection());
+
         popup.setSelection(position);
 
         mPopup = popup;
@@ -293,24 +299,11 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         super.onDetachedFromWindow();
     }
 
-    @Override
-    public void onRtlPropertiesChanged(int layoutDirection) {
-        super.onRtlPropertiesChanged(layoutDirection);
-        if (mPopup != null) {
-            mPopup.setLayoutDirection(layoutDirection);
-        }
-    }
-
-    //    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        if (mPopup != null && MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.AT_MOST) {
-//            final int measuredWidth = getMeasuredWidth();
-//            setMeasuredDimension(Math.min(Math.max(measuredWidth,
-//                compatMeasureContentWidth(getAdapter(), getBackground())),
-//                MeasureSpec.getSize(widthMeasureSpec)),
-//                getMeasuredHeight());
+//    @Override
+//    public void onRtlPropertiesChanged(int layoutDirection) {
+//        super.onRtlPropertiesChanged(layoutDirection);
+//        if (mPopup != null) {
+//            mPopup.setLayoutDirection(layoutDirection);
 //        }
 //    }
 }
