@@ -16,6 +16,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AbstractXpAppCompatSpinner;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -37,6 +38,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  */
 @TargetApi(23)
 public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
+    private static final String TAG = XpAppCompatSpinner.class.getSimpleName();
 
     /**
      * @hide
@@ -44,14 +46,22 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
     @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface SpinnerMode {}
+    @interface SpinnerMode {}
 
+    /**
+     * Simple dialog is shown instead of simple popup,
+     * when there are multiline items.
+     */
     public static final int SPINNER_MODE_ADAPTIVE = 0;
+    /** Always show as simple dialog. */
     public static final int SPINNER_MODE_DIALOG = 1;
+    /** Always show as simple popup. */
     public static final int SPINNER_MODE_DROPDOWN = 2;
 
     @SpinnerMode private int mSpinnerMode;
-    private float mSimpleMenuPreferredWidthUnit;
+    private float mSimpleMenuWidthUnit;
+    @SimpleMenu.MaxWidth private int mSimpleMenuMaxWidth;
+    @SimpleMenu.WidthMode private int mSimpleMenuWidthMode;
     private int mSimpleMenuMaxItemCount = -1;
 
     private XpListPopupWindow mPopup;
@@ -79,9 +89,14 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XpAppCompatSpinner, defStyleAttr, defStyleRes);
         try {
-            this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
+            final float simpleMenuWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
+            final int simpleMenuWidthMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthMode, 0);
+            final int simpleMenuMaxWidth = a.getInt(R.styleable.XpAppCompatSpinner_asp_simpleMenuMaxWidth, 0);
+            initWidth(simpleMenuWidthMode, simpleMenuMaxWidth, simpleMenuWidthUnit);
+
             //noinspection WrongConstant
             this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
+
             final int maxItemCount = a.getInt(R.styleable.XpAppCompatSpinner_asp_simpleMenuMaxItemCount, mSimpleMenuMaxItemCount);
             setSimpleMenuMaxItemCount(maxItemCount);
         } finally {
@@ -89,12 +104,95 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         }
     }
 
+    /**
+     * This method exists for compatibility reasons.
+     * In version 1.x.x there was only {@code asp_simpleMenuWidthUnit} attribute and
+     * other values were inferred from its value.
+     */
+    private void initWidth(
+            @SimpleMenu.WidthMode final int widthMode, @SimpleMenu.MaxWidth final int maxWidth,
+            float widthUnit) {
+        if (maxWidth == 0 && widthMode == 0) {
+            setSimpleMenuWidthUnitCompat(widthUnit);
+        } else {
+            setSimpleMenuWidthMode(widthMode);
+            setSimpleMenuMaxWidth(maxWidth);
+            setSimpleMenuWidthUnit(widthUnit);
+        }
+    }
+
+    private void setSimpleMenuWidthUnitCompat(float widthUnit) {
+        Log.w(TAG, "Applying width unit in compat mode. Max width is now fit_screen.");
+        setSimpleMenuMaxWidth(SimpleMenu.MaxWidth.FIT_SCREEN);
+        if (widthUnit < 0) {
+            setSimpleMenuWidthMode(SimpleMenu.WidthMode.WRAP_CONTENT);
+            setSimpleMenuWidthUnit(0);
+        } else {
+            setSimpleMenuWidthMode(SimpleMenu.WidthMode.WRAP_CONTENT_UNIT);
+            setSimpleMenuWidthUnit(widthUnit);
+        }
+    }
+
+    /**
+     * @see #SPINNER_MODE_ADAPTIVE
+     * @see #SPINNER_MODE_DIALOG
+     * @see #SPINNER_MODE_DROPDOWN
+     */
+    @SpinnerMode
     public int getSpinnerMode() {
         return mSpinnerMode;
     }
 
-    public void setSpinnerMode(final int spinnerMode) {
+    /**
+     * @see #SPINNER_MODE_ADAPTIVE
+     * @see #SPINNER_MODE_DIALOG
+     * @see #SPINNER_MODE_DROPDOWN
+     */
+    public void setSpinnerMode(@SpinnerMode final int spinnerMode) {
         mSpinnerMode = spinnerMode;
+    }
+
+    /**
+     * @param maxWidth Maximum allowed width of the popup menu in pixels or one of constants.
+     * @see SimpleMenu.MaxWidth#FIT_SCREEN
+     * @see SimpleMenu.MaxWidth#FIT_ANCHOR
+     */
+    public void setSimpleMenuMaxWidth(@SimpleMenu.MaxWidth int maxWidth) {
+        if (maxWidth < -2) {
+            throw new IllegalArgumentException("simpleMenuMaxWidth must be fit_screen, fit_anchor or a valid dimension.");
+        }
+        mSimpleMenuMaxWidth = maxWidth;
+    }
+
+    /**
+     * @param widthMode Preferred measuring mode for the popup menu.
+     * @see SimpleMenu.WidthMode#MATCH_CONSTRAINT
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
+     */
+    public void setSimpleMenuWidthMode(@SimpleMenu.WidthMode int widthMode) {
+        if (widthMode > -1 || widthMode < -3) {
+            throw new IllegalArgumentException("simpleMenuWidthMode must be match_parent, wrap_content or wrap_content_unit.");
+        }
+        mSimpleMenuWidthMode = widthMode;
+    }
+
+    /**
+     * @param widthUnit When {@link #setSimpleMenuWidthMode(int)}
+     * is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
+     * popup width will be
+     * <ul>
+     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     * <li>at least as wide as {@code widthUnit * 1.5},</li>
+     * <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
+     * </ul>
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
+     */
+    public void setSimpleMenuWidthUnit(float widthUnit) {
+        if (widthUnit < 0) {
+            throw new IllegalArgumentException("Width unit must be greater than zero.");
+        }
+        mSimpleMenuWidthUnit = widthUnit;
     }
 
     /**
@@ -102,7 +200,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
      */
     public void setSimpleMenuMaxItemCount(int simpleMenuMaxItemCount) {
         if (simpleMenuMaxItemCount == 0 || simpleMenuMaxItemCount < -1) {
-            throw new IllegalArgumentException("Max length must be = -1 or > 0.");
+            throw new IllegalArgumentException("Max length must be greater than zero, or -1, which represents infinity.");
         }
         mSimpleMenuMaxItemCount = simpleMenuMaxItemCount;
     }
@@ -225,26 +323,23 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 //            popup.setBoundsView((View) anchor.getParent());
 //        }
 
-        if (mSimpleMenuPreferredWidthUnit >= 0) {
-            popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
-            popup.setWidth(XpListPopupWindow.PREFERRED);
-        } else {
-            popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
-        }
-        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
+        popup.setWidthUnit(mSimpleMenuWidthUnit);
+        popup.setWidth(mSimpleMenuWidthMode);
+        popup.setMaxWidth(mSimpleMenuMaxWidth);
 
         popup.setMaxItemCount(mSimpleMenuMaxItemCount);
 
         if (!force) {
             // If we're not forced to show popup window measure the items...
-            boolean hasMultiLineItems = popup.hasMultiLineItems();
+            boolean hasMultiLineItems = popup.hasMultilineItems();
             if (hasMultiLineItems) {
                 // ...and if any are multiline show a dialog instead.
                 return false;
             }
         }
 
-        int preferredVerticalOffset = popup.getPreferredVerticalOffset(position);
+        popup.measurePreferredVerticalOffset(position);
+        int preferredVerticalOffset = popup.getMeasuredPreferredVerticalOffset();
         popup.setVerticalOffset(preferredVerticalOffset);
 
         View v = adapter.getView(0, null, this);
@@ -260,7 +355,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);
-//        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
+//        popup.setMaxWidth(XpListPopupWindow.MATCH_CONSTRAINT);
 //        popup.setWidth(1347);
 //        marginV = Util.dpToPxOffset(context, 0);
 //        popup.setMarginBottom(marginV);

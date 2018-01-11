@@ -64,6 +64,8 @@
             <enum name="simple_adaptive" value="3"/>
         </attr>
         <attr name="asp_simpleMenuWidthUnit"/>
+        <attr name="asp_simpleMenuWidthMode"/>
+        <attr name="asp_simpleMenuMaxWidth"/>
         <attr name="android:adjustViewBounds"/>
         <attr name="popupTheme"/>
         <attr name="asp_simpleMenuMaxItemCount"/>

@@ -73,11 +73,14 @@
         <item name="android:positiveButtonText">@null</item>
         <item name="android:negativeButtonText">@null</item>
         <item name="android:adjustViewBounds">true</item>
+        <item name="asp_simpleMenuWidthMode">wrap_content</item>
+        <item name="asp_simpleMenuMaxWidth">fit_anchor</item>
     </style>
 
     <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu">
         <item name="asp_menuMode">simple_adaptive</item>
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
+        <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
     </style>
 
     <style name="Preference.Material.DialogPreference.RingtonePreference">

@@ -9,6 +9,16 @@
         <attr name="android:layout_marginBottom"/>
         <attr name="android:layout_margin"/>
         <attr name="asp_maxItemCount" format="integer"/>
+        <attr name="asp_widthUnit" format="dimension"/>
+        <attr name="asp_width" format="enum|dimension">
+            <enum name="match_parent" value="-1"/>
+            <enum name="wrap_content" value="-2"/>
+            <enum name="wrap_content_unit" value="-3"/>
+        </attr>
+        <attr name="asp_maxWidth" format="enum|dimension">
+            <enum name="fit_screen" value="-1"/>
+            <enum name="fit_anchor" value="-2"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="XpAppCompatSpinner">
@@ -20,6 +30,15 @@
         <attr name="asp_simpleMenuWidthUnit" format="enum|dimension">
             <enum name="match_parent" value="-1"/>
             <enum name="wrap_content" value="-2"/>
+        </attr>
+        <attr name="asp_simpleMenuWidthMode" format="enum">
+            <enum name="match_parent" value="-1"/>
+            <enum name="wrap_content" value="-2"/>
+            <enum name="wrap_content_unit" value="-3"/>
+        </attr>
+        <attr name="asp_simpleMenuMaxWidth" format="enum|dimension">
+            <enum name="fit_screen" value="-1"/>
+            <enum name="fit_anchor" value="-2"/>
         </attr>
         <attr name="asp_simpleMenuMaxItemCount" format="integer"/>
     </declare-styleable>

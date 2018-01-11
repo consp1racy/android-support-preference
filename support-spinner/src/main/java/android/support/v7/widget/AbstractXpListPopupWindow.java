@@ -176,20 +176,46 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     public static final int POSITION_PROMPT_BELOW = 1;
 
-    /**
-     * Alias for {@link ViewGroup.LayoutParams#MATCH_PARENT}.
-     * If used to specify a popup width, the popup will match the width of the anchor view.
-     * If used to specify a popup height, the popup will fill available space.
-     */
-    public static final int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
+    /** Popup menu width is only limited by {@code maxWidth}. */
+    public static final int WIDTH_MATCH_CONSTRAINT = -1;
 
     /**
-     * Alias for {@link ViewGroup.LayoutParams#WRAP_CONTENT}.
-     * If used to specify a popup width, the popup will use the width of its content.
+     * Popup menu width is
+     * * at least as wide as its content,
+     * * limited by {@code maxWidth}.
      */
-    public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
+    public static final int WIDTH_WRAP_CONTENT = -2;
 
-    public static final int PREFERRED = -3;
+    /**
+     * Popup menu width is
+     * <ul>
+     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     * <li>at least as wide as {@code widthUnit * 1.5},</li>
+     * <li>limited by {@code maxWidth}.</li>
+     * </ul>
+     */
+    public static final int WIDTH_WRAP_CONTENT_UNIT = -3;
+
+    /**
+     * Popup menu width is limited by screen width.
+     *
+     * @see #setMaxWidth(int)
+     */
+    public static final int MAX_WIDTH_FIT_SCREEN = -1;
+
+    /**
+     * Popup menu width is limited by anchor width.
+     *
+     * @see #setMaxWidth(int)
+     */
+    public static final int MAX_WIDTH_FIT_ANCHOR = -2;
+
+    public static final int MATCH_PARENT = -1;
+
+    public static final int WRAP_CONTENT = -2;
+
+    @Deprecated
+    public static final int PREFERRED = WIDTH_WRAP_CONTENT_UNIT;
 
     /**
      * Mode for {@link #setInputMethodMode(int)}: the requirements for the
@@ -454,6 +480,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         }
 
+        final float simpleMenuWidthUnit = a.getDimension(R.styleable.XpListPopupWindow_asp_widthUnit, 0f);
+        final int simpleMenuWidthMode = a.getInt(R.styleable.XpListPopupWindow_asp_width, 0);
+        final int simpleMenuMaxWidth = a.getInt(R.styleable.XpListPopupWindow_asp_maxWidth, 0);
+        initWidth(simpleMenuWidthMode, simpleMenuMaxWidth, simpleMenuWidthUnit);
+
         final int maxItemCount = b.getInt(R.styleable.XpListPopupWindow_asp_maxItemCount, mMaxItemCount);
         setMaxItemCount(maxItemCount);
 
@@ -461,6 +492,17 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         mPopup = new XpAppCompatPopupWindow(context, attrs, defStyleAttr);
         mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+    }
+
+    /**
+     * This method exists for compatibility reasons.
+     * In version 1.x.x there was only {@code asp_simpleMenuWidthUnit} attribute and
+     * other values were inferred from its value.
+     */
+    private void initWidth(final int width, final int maxWidth, float widthUnit) {
+        setWidth(width);
+        setMaxWidth(maxWidth);
+        setWidthUnit(widthUnit);
     }
 
     // TODO Do we want this public? What about setTextAlignment and setTextDirection?
@@ -756,33 +798,70 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return mDropDownMaxWidth;
     }
 
+    @Deprecated
     public float getPreferredWidthUnit() {
         return mDropDownPreferredWidthUnit;
     }
 
+    public float getWidthUnit() {
+        return mDropDownPreferredWidthUnit;
+    }
+
     /**
-     * Sets the width of the popup window in pixels. Can also be {@link #MATCH_PARENT}
-     * or {@link #WRAP_CONTENT}.
+     * Sets the <i>preferred</i> width of the popup window in pixels.
+     * Can also be {@link #WIDTH_MATCH_CONSTRAINT} or {@link #WIDTH_WRAP_CONTENT}
+     * or {@link #WIDTH_WRAP_CONTENT_UNIT}.
      *
-     * @param width Width of the popup window.
+     * @param width Preferred width of the popup window.
      */
     public void setWidth(int width) {
+        if (width < -3) {
+            throw new IllegalArgumentException("width must be a dimension or match_constraint or wrap_content or wrap_content_unit.");
+        }
         if (mDropDownWidth != width) {
             mDropDownWidth = width;
             mListMeasureDirty = true;
         }
     }
 
+    /**
+     * Sets the <i>maximum</i> width of the popup menu in pixels.
+     * Can also be {@link #MAX_WIDTH_FIT_SCREEN} or {@link #MAX_WIDTH_FIT_ANCHOR}.
+     *
+     * @param maxWidth Maximum width of the popup window.
+     */
     public void setMaxWidth(int maxWidth) {
+        if (maxWidth < -2) {
+            throw new IllegalArgumentException("maxWidth must be a dimension or fit_screen or fit_anchor.");
+        }
         if (mDropDownMaxWidth != maxWidth) {
             mDropDownMaxWidth = maxWidth;
             mListMeasureDirty = true;
         }
     }
 
+    @Deprecated
     public void setPreferredWidthUnit(float unit) {
-        if (mDropDownPreferredWidthUnit != unit) {
-            mDropDownPreferredWidthUnit = unit;
+        setWidthUnit(unit);
+    }
+
+    /**
+     * @param widthUnit When {@link #getWidth()} is set to {@link #WIDTH_WRAP_CONTENT_UNIT}
+     * popup width will be
+     * <ul>
+     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     * <li>at least as wide as {@code widthUnit * 1.5},</li>
+     * <li>limited by {@link #getMaxWidth()}.</li>
+     * </ul>
+     *
+     * @see #WIDTH_WRAP_CONTENT_UNIT
+     */
+    public void setWidthUnit(float widthUnit) {
+        if (widthUnit < 0) {
+            throw new IllegalArgumentException("widthUnit must be a dimension greater than zero.");
+        }
+        if (mDropDownPreferredWidthUnit != widthUnit) {
+            mDropDownPreferredWidthUnit = widthUnit;
             mListMeasureDirty = true;
         }
     }
@@ -1099,23 +1178,23 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final int mps = margins - paddings;
 
         final int widthSpec;
-        if (mDropDownWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
+        if (mDropDownWidth == WIDTH_MATCH_CONSTRAINT) {
             // The call to PopupWindow's update method below can accept -1 for any
             // value you do not want to update.
-            if (mDropDownMaxWidth == MATCH_PARENT) {
+            if (mDropDownMaxWidth == WIDTH_MATCH_CONSTRAINT) {
                 widthSpec = displayWidth - mps;//-1;
-            } else if (mDropDownMaxWidth == WRAP_CONTENT) {
+            } else if (mDropDownMaxWidth == WIDTH_WRAP_CONTENT) {
                 widthSpec = getAnchorView().getWidth() - mps;
             } else {
                 widthSpec = mDropDownMaxWidth - mps;
             }
-        } else if (mDropDownWidth == ViewGroup.LayoutParams.WRAP_CONTENT) {
+        } else if (mDropDownWidth == WIDTH_WRAP_CONTENT) {
             if (mDropDownMaxWidth < 0) {
                 widthSpec = getAnchorView().getWidth() - mps;
             } else {
                 widthSpec = mDropDownMaxWidth - mps;
             }
-        } else if (mDropDownWidth == PREFERRED) {
+        } else if (mDropDownWidth == WIDTH_WRAP_CONTENT_UNIT) {
             int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
             if (mDropDownPreferredWidthUnit > 0) {
                 int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
@@ -1128,7 +1207,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             if (mDropDownMaxWidth < 0) {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
                 if (preferredWidth > anchorWidthTemp) {
-                    if (mDropDownMaxWidth == MATCH_PARENT) {
+                    if (mDropDownMaxWidth == WIDTH_MATCH_CONSTRAINT) {
                         widthSpec = Math.min(preferredWidth, displayWidth - mps);//-1;
                     } else { // WRAP_CONTENT
                         widthSpec = anchorWidthTemp;
@@ -1146,7 +1225,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         } else {
             if (mDropDownMaxWidth < 0) {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
-                if (mDropDownMaxWidth == WRAP_CONTENT && mDropDownWidth > anchorWidthTemp) {
+                if (mDropDownMaxWidth == WIDTH_WRAP_CONTENT && mDropDownWidth > anchorWidthTemp) {
                     widthSpec = anchorWidthTemp;
                 } else {
                     widthSpec = mDropDownWidth;
@@ -1316,7 +1395,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 //        list.setSelectionFromTop(position, realOffsetY);
 //    }
 
-    private void setSelectionOverAnchor(final XpDropDownListView list, final int position, final int offsetY) {
+    private void setSelectionOverAnchor(
+            final XpDropDownListView list, final int position, final int offsetY) {
         final View anchor = getAnchorView();
 
         final int listTop = mComputedPopupY + getBackgroundTopPadding();
@@ -1927,11 +2007,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                     childWidthSpec = MeasureSpec.makeMeasureSpec(widthSize, widthMode);
                 } else {
                     widthMode = MeasureSpec.AT_MOST;
-                    if (mDropDownMaxWidth == WRAP_CONTENT) {
+                    if (mDropDownMaxWidth == WIDTH_WRAP_CONTENT) {
                         widthSize = getAnchorView().getWidth() -
                                 (mMargins.left + mMargins.right) -
                                 (mTempRect.left + mTempRect.right);
-                    } else { // MATCH_PARENT
+                    } else { // MATCH_CONSTRAINT
                         widthSize = mContext.getResources().getDisplayMetrics().widthPixels -
                                 (mMargins.left + mMargins.right) -
                                 (mTempRect.left + mTempRect.right);

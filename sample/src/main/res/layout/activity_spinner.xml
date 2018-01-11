@@ -174,7 +174,7 @@
                     android:layout_marginRight="-4dp"
                     android:entries="@array/states"
                     android:theme="@style/ThemeOverlay.Asp.Spinner"
-                    app:asp_maxItemCount="4"/>
+                    app:asp_simpleMenuMaxItemCount="4"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

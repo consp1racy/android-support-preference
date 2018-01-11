@@ -20,6 +20,7 @@ import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.DropDownAdapter;
+import net.xpece.android.support.widget.SimpleMenu;
 import net.xpece.android.support.widget.XpListPopupWindow;
 
 import java.lang.annotation.Retention;
@@ -49,6 +51,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  * @attr name popupTheme
  */
 public class ListPreference extends DialogPreference {
+    private static final String TAG = ListPreference.class.getSimpleName();
 
     static final boolean SUPPORTS_ON_WINDOW_ATTACH_LISTENER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
@@ -72,7 +75,9 @@ public class ListPreference extends DialogPreference {
     public static final int MENU_MODE_SIMPLE_ADAPTIVE = 3;
 
     @MenuMode private int mMenuMode;
-    private float mSimpleMenuPreferredWidthUnit;
+    private float mSimpleMenuWidthUnit;
+    @SimpleMenu.MaxWidth private int mSimpleMenuMaxWidth;
+    @SimpleMenu.WidthMode private int mSimpleMenuWidthMode;
     private int mSimpleMenuMaxItemCount = -1;
 
     boolean mSimpleMenuShowing;
@@ -89,14 +94,21 @@ public class ListPreference extends DialogPreference {
         this.mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
         //noinspection WrongConstant
         this.mMenuMode = a.getInt(R.styleable.ListPreference_asp_menuMode, MENU_MODE_DIALOG);
-        this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
+
+        final float simpleMenuWidthUnit = a.getDimension(R.styleable.ListPreference_asp_simpleMenuWidthUnit, 0f);
+        final int simpleMenuWidthMode = a.getInt(R.styleable.ListPreference_asp_simpleMenuWidthMode, 0);
+        final int simpleMenuMaxWidth = a.getInt(R.styleable.ListPreference_asp_simpleMenuMaxWidth, 0);
+        initWidth(simpleMenuWidthMode, simpleMenuMaxWidth, simpleMenuWidthUnit);
+
+        final int maxItemCount = a.getInt(R.styleable.ListPreference_asp_simpleMenuMaxItemCount, mSimpleMenuMaxItemCount);
+        setSimpleMenuMaxItemCount(maxItemCount);
+
         this.mAdjustViewBounds = a.getBoolean(R.styleable.ListPreference_android_adjustViewBounds, false);
         final int popupThemeResId = a.getResourceId(R.styleable.ListPreference_popupTheme, 0);
         a.recycle();
+
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
-        final int maxItemCount = a.getInt(R.styleable.ListPreference_asp_simpleMenuMaxItemCount, mSimpleMenuMaxItemCount);
-        setSimpleMenuMaxItemCount(maxItemCount);
         a.recycle();
 
         if (popupThemeResId != 0) {
@@ -116,6 +128,35 @@ public class ListPreference extends DialogPreference {
 
     public ListPreference(Context context) {
         this(context, null);
+    }
+
+    /**
+     * This method exists for compatibility reasons.
+     * In version 1.x.x there was only {@code asp_simpleMenuWidthUnit} attribute and
+     * other values were inferred from its value.
+     */
+    private void initWidth(
+            @SimpleMenu.WidthMode final int widthMode, @SimpleMenu.MaxWidth final int maxWidth,
+            float widthUnit) {
+        if (maxWidth == 0 && widthMode == 0) {
+            setSimpleMenuWidthUnitCompat(widthUnit);
+        } else {
+            setSimpleMenuWidthMode(widthMode);
+            setSimpleMenuMaxWidth(maxWidth);
+            setSimpleMenuWidthUnit(widthUnit);
+        }
+    }
+
+    private void setSimpleMenuWidthUnitCompat(float widthUnit) {
+        Log.w(TAG, "Applying width unit in compat mode. Max width is now fit_screen.");
+        setSimpleMenuMaxWidth(SimpleMenu.MaxWidth.FIT_SCREEN);
+        if (widthUnit < 0) {
+            setSimpleMenuWidthMode(SimpleMenu.WidthMode.WRAP_CONTENT);
+            setSimpleMenuWidthUnit(0);
+        } else {
+            setSimpleMenuWidthMode(SimpleMenu.WidthMode.WRAP_CONTENT_UNIT);
+            setSimpleMenuWidthUnit(widthUnit);
+        }
     }
 
     @SuppressWarnings("RestrictedApi")
@@ -148,6 +189,49 @@ public class ListPreference extends DialogPreference {
      */
     public Context getPopupContext() {
         return mPopupContext;
+    }
+
+    /**
+     * @param maxWidth Maximum allowed width of the popup menu in pixels or one of constants.
+     * @see SimpleMenu.MaxWidth#FIT_SCREEN
+     * @see SimpleMenu.MaxWidth#FIT_ANCHOR
+     */
+    public void setSimpleMenuMaxWidth(@SimpleMenu.MaxWidth int maxWidth) {
+        if (maxWidth < -2) {
+            throw new IllegalArgumentException("simpleMenuMaxWidth must be fit_screen, fit_anchor or a valid dimension.");
+        }
+        mSimpleMenuMaxWidth = maxWidth;
+    }
+
+    /**
+     * @param widthMode Preferred measuring mode for the popup menu.
+     * @see SimpleMenu.WidthMode#MATCH_CONSTRAINT
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
+     */
+    public void setSimpleMenuWidthMode(@SimpleMenu.WidthMode int widthMode) {
+        if (widthMode > -1 || widthMode < -3) {
+            throw new IllegalArgumentException("simpleMenuWidthMode must be match_parent, wrap_content or wrap_content_unit.");
+        }
+        mSimpleMenuWidthMode = widthMode;
+    }
+
+    /**
+     * @param widthUnit When {@link #setSimpleMenuWidthMode(int)}
+     * is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
+     * popup width will be
+     * <ul>
+     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     * <li>at least as wide as {@code widthUnit * 1.5},</li>
+     * <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
+     * </ul>
+     * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
+     */
+    public void setSimpleMenuWidthUnit(float widthUnit) {
+        if (widthUnit < 0) {
+            throw new IllegalArgumentException("Width unit must be greater than zero.");
+        }
+        mSimpleMenuWidthUnit = widthUnit;
     }
 
     /**
@@ -187,13 +271,9 @@ public class ListPreference extends DialogPreference {
             popup.setBoundsView((View) anchor.getParent());
         }
 
-        if (mSimpleMenuPreferredWidthUnit >= 0) {
-            popup.setPreferredWidthUnit(mSimpleMenuPreferredWidthUnit);
-            popup.setWidth(XpListPopupWindow.PREFERRED);
-        } else {
-            popup.setWidth(XpListPopupWindow.WRAP_CONTENT);
-        }
-        popup.setMaxWidth(XpListPopupWindow.WRAP_CONTENT);
+        popup.setWidthUnit(mSimpleMenuWidthUnit);
+        popup.setWidth(mSimpleMenuWidthMode);
+        popup.setMaxWidth(mSimpleMenuMaxWidth);
 
         if (!force) {
             // If we're not forced to show popup window measure the items...
@@ -209,7 +289,7 @@ public class ListPreference extends DialogPreference {
 
         // Testing.
 //        popup.setDropDownGravity(Gravity.LEFT);
-//        popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
+//        popup.setMaxWidth(XpListPopupWindow.MATCH_CONSTRAINT);
 //        popup.setWidth(1347);
 //        marginV = Util.dpToPxOffset(context, 0);
 //        popup.setMarginBottom(marginV);
@@ -568,12 +648,14 @@ public class ListPreference extends DialogPreference {
         return mMenuMode != MENU_MODE_DIALOG;
     }
 
+    @Deprecated
     public float getSimpleMenuPreferredWidthUnit() {
-        return mSimpleMenuPreferredWidthUnit;
+        return mSimpleMenuWidthUnit;
     }
 
+    @Deprecated
     public void setSimpleMenuPreferredWidthUnit(final float simplePreferredWidthUnit) {
-        mSimpleMenuPreferredWidthUnit = simplePreferredWidthUnit;
+        setSimpleMenuWidthUnitCompat(simplePreferredWidthUnit);
     }
 
     private static class SavedState extends BaseSavedState {
