@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.RestrictTo;
 import android.transition.TransitionValues;
 import android.transition.Visibility;
 import android.util.AttributeSet;
@@ -39,8 +40,11 @@ import net.xpece.android.support.widget.spinner.R;
  * EpicenterClipReveal captures the clip bounds and translation values
  * before and after the scene change and animates between those and the
  * epicenter bounds during a visibility transition.
+ *
+ * @hide
  */
 @RequiresApi(23)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class EpicenterClipReveal extends Visibility {
     private static final String PROPNAME_CLIP = "android:epicenterReveal:clip";
     private static final String PROPNAME_BOUNDS = "android:epicenterReveal:bounds";

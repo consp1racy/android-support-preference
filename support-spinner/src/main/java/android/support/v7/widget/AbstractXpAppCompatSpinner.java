@@ -55,9 +55,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * {@link R.attr#backgroundTintMode}.</li>
  * <li>Allows setting of the popups theme using {@link R.attr#popupTheme}.</li>
  * </ul>
- * <p/>
- * <p>This will automatically be used when you use {@link Spinner} in your layouts.
- * You should only need to manually use this class when writing custom views.</p>
  *
  * @hide
  */

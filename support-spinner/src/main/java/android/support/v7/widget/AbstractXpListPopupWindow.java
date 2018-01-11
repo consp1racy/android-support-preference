@@ -853,7 +853,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * <li>at least as wide as {@code widthUnit * 1.5},</li>
      * <li>limited by {@link #getMaxWidth()}.</li>
      * </ul>
-     *
      * @see #WIDTH_WRAP_CONTENT_UNIT
      */
     public void setWidthUnit(float widthUnit) {

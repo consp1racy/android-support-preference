@@ -9,9 +9,8 @@ import android.support.v7.widget.AbstractXpListPopupWindow;
 import android.util.AttributeSet;
 
 /**
- * @author Eugen on 17. 6. 2016.
- *
  * @see android.support.v7.widget.ListPopupWindow
+ * @see android.widget.ListPopupWindow
  */
 public class XpListPopupWindow extends AbstractXpListPopupWindow {
     public XpListPopupWindow(@NonNull final Context context) {

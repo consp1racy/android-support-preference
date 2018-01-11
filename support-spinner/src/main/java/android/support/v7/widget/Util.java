@@ -3,12 +3,13 @@ package android.support.v7.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
+import android.support.annotation.RestrictTo;
 import android.util.TypedValue;
 
 /**
- * Created by Eugen on 13. 5. 2015.
  * @hide
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 final class Util {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
         @Override

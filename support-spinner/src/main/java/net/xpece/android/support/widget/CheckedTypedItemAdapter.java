@@ -25,7 +25,12 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 /**
- * Created by Eugen on 07.04.2016.
+ * An adapter that's responsible for transforming its items to text representation that's used
+ * <ul>
+ *     <li>in a {@link android.widget.ListView} or a {@link android.widget.Spinner},</li>
+ *     <li>in {@link android.widget.Spinner} popup menu.</li>
+ * </ul>
+ * Additionally checked items will be highlighted.
  */
 public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements ThemedSpinnerAdapter {
 
@@ -166,10 +171,26 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         text.setText(value);
     }
 
+    /**
+     * The method is responsible for transforming an object from the list into a string
+     * representation that's used in a {@link android.widget.ListView} or
+     * a {@link android.widget.Spinner}.
+     *
+     * @param item A data object
+     * @return String representation of {@code item}.
+     */
     public CharSequence getItemText(@NonNull T item) {
         return item.toString();
     }
 
+    /**
+     * The method is responsible for transforming an object from the list into a string
+     * representation that's used in a a popup menu of a {@link android.widget.Spinner}
+     * or simple menu / simple dialog of a {@link XpAppCompatSpinner}.
+     *
+     * @param item A data object
+     * @return String representation of {@code item}.
+     */
     public CharSequence getItemDropDownText(@NonNull T item) {
         return getItemText(item);
     }
