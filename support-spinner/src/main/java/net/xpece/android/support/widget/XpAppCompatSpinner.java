@@ -52,7 +52,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     @SpinnerMode private int mSpinnerMode;
     private float mSimpleMenuPreferredWidthUnit;
-    private int mDropDownMaxLength = -1;
+    private int mSimpleMenuMaxItemCount = -1;
 
     private XpListPopupWindow mPopup;
     private AlertDialog.Builder mDialogBuilder;
@@ -82,8 +82,8 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             this.mSimpleMenuPreferredWidthUnit = a.getDimension(R.styleable.XpAppCompatSpinner_asp_simpleMenuWidthUnit, 0f);
             //noinspection WrongConstant
             this.mSpinnerMode = a.getInt(R.styleable.XpAppCompatSpinner_asp_spinnerMode, SPINNER_MODE_ADAPTIVE);
-            final int dropDownMaxLength = a.getInt(R.styleable.XpAppCompatSpinner_android_rowCount, mDropDownMaxLength);
-            setDropDownMaxLength(dropDownMaxLength);
+            final int maxItemCount = a.getInt(R.styleable.XpAppCompatSpinner_asp_simpleMenuMaxItemCount, mSimpleMenuMaxItemCount);
+            setSimpleMenuMaxItemCount(maxItemCount);
         } finally {
             a.recycle();
         }
@@ -98,13 +98,13 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     }
 
     /**
-     * @param dropDownMaxLength Max number of items that can be displayed in popup menu.
+     * @param simpleMenuMaxItemCount Popup menu will adjust its height to display at most this many items.
      */
-    public void setDropDownMaxLength(int dropDownMaxLength) {
-        if (dropDownMaxLength == 0 || dropDownMaxLength < -1) {
+    public void setSimpleMenuMaxItemCount(int simpleMenuMaxItemCount) {
+        if (simpleMenuMaxItemCount == 0 || simpleMenuMaxItemCount < -1) {
             throw new IllegalArgumentException("Max length must be = -1 or > 0.");
         }
-        mDropDownMaxLength = dropDownMaxLength;
+        mSimpleMenuMaxItemCount = simpleMenuMaxItemCount;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -233,7 +233,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         }
         popup.setMaxWidth(XpListPopupWindow.MATCH_PARENT);
 
-        popup.setDropDownMaxLength(mDropDownMaxLength);
+        popup.setMaxItemCount(mSimpleMenuMaxItemCount);
 
         if (!force) {
             // If we're not forced to show popup window measure the items...

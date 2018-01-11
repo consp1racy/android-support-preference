@@ -109,7 +109,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     private int mDropDownMaxWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     private float mDropDownPreferredWidthUnit = 0;
-    private int mDropDownMaxLength = -1;
+    private int mMaxItemCount = -1;
 
     private int mDropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int mDropDownWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -365,7 +365,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param context Context used for contained views.
      */
     public AbstractXpListPopupWindow(@NonNull Context context) {
-        this(context, null, R.attr.listPopupWindowStyle);
+        this(context, null);
     }
 
     /**
@@ -454,8 +454,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             mMargins.bottom = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginBottom, defaultMargin);
         }
 
-        final int dropDownMaxLength = b.getInt(R.styleable.XpListPopupWindow_android_rowCount, mDropDownMaxLength);
-        setDropDownMaxLength(dropDownMaxLength);
+        final int maxItemCount = b.getInt(R.styleable.XpListPopupWindow_asp_maxItemCount, mMaxItemCount);
+        setMaxItemCount(maxItemCount);
 
         b.recycle();
 
@@ -830,14 +830,14 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
-     * @param dropDownMaxLength Max number of items that can be displayed in popup menu.
+     * @param maxItemCount Popup menu will adjust its height to display at most this many items.
      */
-    public void setDropDownMaxLength(int dropDownMaxLength) {
-        if (dropDownMaxLength == 0 || dropDownMaxLength < -1) {
+    public void setMaxItemCount(int maxItemCount) {
+        if (maxItemCount == 0 || maxItemCount < -1) {
             throw new IllegalArgumentException("Max length must be = -1 or > 0.");
         }
-        if (mDropDownMaxLength != dropDownMaxLength) {
-            mDropDownMaxLength = dropDownMaxLength;
+        if (mMaxItemCount != maxItemCount) {
+            mMaxItemCount = maxItemCount;
             mListMeasureDirty = true;
         }
     }
@@ -1409,7 +1409,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         int position = realPosition;
 
         // If we're allowed to show at most X items, cap position at X, prefer below.
-        final int maxLength = mDropDownMaxLength;
+        final int maxLength = mMaxItemCount;
         if (maxLength > 0) {
             position = Math.max(0, position - mAdapter.getCount() + maxLength);
         }
@@ -1947,7 +1947,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         final int listPadding = mDropDownList.getPaddingTop() + mDropDownList.getPaddingBottom();
         final int listContent = mDropDownList.measureHeightOfChildrenCompat(childWidthSpec,
-                0, mDropDownMaxLength, maxHeight - otherHeights - verticalMargin - listPadding + padding, -1);
+                0, mMaxItemCount, maxHeight - otherHeights - verticalMargin - listPadding + padding, -1);
         // add padding only if the list has items in it, that way we don't show
         // the popup if it is not needed
         if (otherHeights > 0 || listContent > 0) otherHeights += padding + listPadding;

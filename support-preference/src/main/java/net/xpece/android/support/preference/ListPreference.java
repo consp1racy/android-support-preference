@@ -73,6 +73,7 @@ public class ListPreference extends DialogPreference {
 
     @MenuMode private int mMenuMode;
     private float mSimpleMenuPreferredWidthUnit;
+    private int mSimpleMenuMaxItemCount = -1;
 
     boolean mSimpleMenuShowing;
 
@@ -94,6 +95,8 @@ public class ListPreference extends DialogPreference {
         a.recycle();
         a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
+        final int maxItemCount = a.getInt(R.styleable.ListPreference_asp_simpleMenuMaxItemCount, mSimpleMenuMaxItemCount);
+        setSimpleMenuMaxItemCount(maxItemCount);
         a.recycle();
 
         if (popupThemeResId != 0) {
@@ -145,6 +148,16 @@ public class ListPreference extends DialogPreference {
      */
     public Context getPopupContext() {
         return mPopupContext;
+    }
+
+    /**
+     * @param simpleMenuMaxItemCount Popup menu will adjust its height to display at most this many items.
+     */
+    public void setSimpleMenuMaxItemCount(int simpleMenuMaxItemCount) {
+        if (simpleMenuMaxItemCount == 0 || simpleMenuMaxItemCount < -1) {
+            throw new IllegalArgumentException("Max length must be = -1 or > 0.");
+        }
+        mSimpleMenuMaxItemCount = simpleMenuMaxItemCount;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)

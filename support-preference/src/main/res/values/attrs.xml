@@ -66,6 +66,7 @@
         <attr name="asp_simpleMenuWidthUnit"/>
         <attr name="android:adjustViewBounds"/>
         <attr name="popupTheme"/>
+        <attr name="asp_simpleMenuMaxItemCount"/>
     </declare-styleable>
 
     <declare-styleable name="DialogPreference">

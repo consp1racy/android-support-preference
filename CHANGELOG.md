@@ -5,7 +5,7 @@
 - Changes in support-preference library
   - *FIXED:* Fixed behavior when `android:selectable="false"`. 
 - Changes in support-spinner library
-  - *NEW!* `XpAppCompatSpinner` uses `android:rowCount` attribute to specify maximum number of items in popup menu.
+  - *NEW!* `XpAppCompatSpinner` uses `app:asp_simpleMenuMaxItemCount` attribute to limit popup menu height.
   - *NEW!* Supports `android:popupEnterTransition` and `android:popupExitTransition` on API 23+.
   - *FIXED:* Popup transitions on API 23+ are now smooth.
   - *FIXED:* Make best effort to position selected item over emitting widget when popup menu scrolls.

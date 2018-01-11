@@ -8,7 +8,7 @@
         <attr name="android:layout_marginTop"/>
         <attr name="android:layout_marginBottom"/>
         <attr name="android:layout_margin"/>
-        <attr name="android:rowCount"/>
+        <attr name="asp_maxItemCount" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="XpAppCompatSpinner">
@@ -21,7 +21,7 @@
             <enum name="match_parent" value="-1"/>
             <enum name="wrap_content" value="-2"/>
         </attr>
-        <attr name="android:rowCount"/>
+        <attr name="asp_simpleMenuMaxItemCount" format="integer"/>
     </declare-styleable>
 
     <!-- @hide For internal use only. Use only as directed. -->
