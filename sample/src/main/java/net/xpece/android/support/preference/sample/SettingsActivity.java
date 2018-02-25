@@ -39,9 +39,9 @@ import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatActivity implements
-    PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
-    PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback,
-    PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
+        PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
+        PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback,
+        PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
 
     Toolbar mToolbar;
     TextSwitcher mTitleSwitcher;
@@ -152,9 +152,15 @@ public class SettingsActivity extends AppCompatActivity implements
                 mSettingsFragment = SettingsFragment.newInstance(null);
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                    .replace(R.id.content, mSettingsFragment, "Settings")
-                    .commit();
+                        .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                        .replace(R.id.content, mSettingsFragment, "Settings")
+                        .commit();
+                return true;
+
+            }
+            case R.id.ringtone: {
+                Intent i = new Intent(this, RingtoneActivity.class);
+                startActivity(i);
                 return true;
             }
         }

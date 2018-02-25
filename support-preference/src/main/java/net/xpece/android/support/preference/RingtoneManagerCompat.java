@@ -2,13 +2,17 @@ package net.xpece.android.support.preference;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -80,18 +84,18 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         return null;
     }
 
-    static Cursor getInternalRingtonesInternal(RingtoneManager rm) {
+    private Cursor getInternalRingtonesInternal() {
         try {
-            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(rm);
+            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    static Cursor getMediaRingtonesInternal(RingtoneManager rm) {
+    Cursor getMediaRingtonesInternal() {
         try {
-            return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(rm);
+            return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,6 +110,77 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     public RingtoneManagerCompat(Context context) {
         super(context);
         mContext = context;
+    }
+
+    /**
+     * Returns a valid ringtone/notification/alarm URI. No guarantees on which it returns. If it
+     * cannot find one, returns null. If it can only find one on external storage and the caller
+     * doesn't have the {@link android.Manifest.permission#READ_EXTERNAL_STORAGE} permission,
+     * returns null.
+     *
+     * @return A ringtone/notification/alarm URI, or null if one cannot be found.
+     */
+    @Nullable
+    public Uri getValidRingtoneUri() {
+        return getValidRingtoneUri(mContext, this);
+    }
+
+
+    /**
+     * Returns a valid ringtone/notification/alarm URI. No guarantees on which it returns. If it
+     * cannot find one, returns null. If it can only find one on external storage and the caller
+     * doesn't have the {@link android.Manifest.permission#READ_EXTERNAL_STORAGE} permission,
+     * returns null.
+     *
+     * @param context The context to use for querying.
+     * @return A ringtone/notification/alarm URI, or null if one cannot be found.
+     */
+    @Nullable
+    private static Uri getValidRingtoneUri(@NonNull Context context, @NonNull RingtoneManagerCompat rm) {
+        Uri uri = getValidRingtoneUriFromCursorAndClose(context, rm.getInternalRingtones());
+
+        if (uri == null) {
+            uri = getValidRingtoneUriFromCursorAndClose(context, rm.getMediaRingtones());
+        }
+
+        return uri;
+    }
+
+    /**
+     * Returns a valid ringtone URI. No guarantees on which it returns. If it
+     * cannot find one, returns null. If it can only find one on external storage and the caller
+     * doesn't have the {@link android.Manifest.permission#READ_EXTERNAL_STORAGE} permission,
+     * returns null.
+     *
+     * @param context The context to use for querying.
+     * @return A ringtone URI, or null if one cannot be found.
+     */
+    @Deprecated
+    @Nullable
+    public static Uri getValidRingtoneUri(@NonNull Context context) {
+        return RingtoneManager.getValidRingtoneUri(context);
+    }
+
+    @Nullable
+    private static Uri getValidRingtoneUriFromCursorAndClose(@NonNull Context context, @Nullable Cursor cursor) {
+        if (cursor != null) {
+            Uri uri = null;
+
+            if (cursor.moveToFirst()) {
+                uri = getUriFromCursor(cursor);
+            }
+            cursor.close();
+
+            return uri;
+        } else {
+            return null;
+        }
+    }
+
+    @NonNull
+    private static Uri getUriFromCursor(@NonNull Cursor cursor) {
+        return ContentUris.withAppendedId(Uri.parse(cursor.getString(URI_COLUMN_INDEX)), cursor
+                .getLong(ID_COLUMN_INDEX));
     }
 
     @Override
@@ -125,7 +200,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     }
 
     private Cursor getInternalRingtones() {
-        return getInternalRingtonesInternal(this);
+        return getInternalRingtonesInternal();
     }
 
     private Cursor getMediaRingtones() {
@@ -133,26 +208,26 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     }
 
     interface RingtoneManagerImpl {
-        Cursor getMediaRingtones(Context context, RingtoneManager rm);
+        Cursor getMediaRingtones(Context context, RingtoneManagerCompat rm);
     }
 
     static class RingtoneManagerImplBase implements RingtoneManagerImpl {
         @Override
-        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
+        public Cursor getMediaRingtones(Context context, RingtoneManagerCompat rm) {
             if (PackageManager.PERMISSION_GRANTED != context.checkPermission(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Process.myPid(), Process.myUid())) {
                 Log.w(TAG, "No READ_EXTERNAL_STORAGE permission, ignoring ringtones on ext storage");
                 return null;
             }
-            return getMediaRingtonesInternal(rm);
+            return rm.getMediaRingtonesInternal();
         }
     }
 
     static class RingtoneManagerImplV23 extends RingtoneManagerImplBase {
         @Override
-        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
-            return getMediaRingtonesInternal(rm);
+        public Cursor getMediaRingtones(Context context, RingtoneManagerCompat rm) {
+            return rm.getMediaRingtonesInternal();
         }
     }
 }

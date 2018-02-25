@@ -13,4 +13,8 @@
         android:id="@+id/spinner"
         android:title="@string/spinner_sample"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/ringtone"
+        android:title="Ringtone Test"
+        app:showAsAction="never"/>
 </menu>
