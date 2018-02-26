@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.XpPreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import net.xpece.android.support.preference.RingtoneManagerCompat;
 
@@ -23,11 +24,14 @@ public class RingtoneActivity extends AppCompatActivity {
     private Button buttonPlayDefaultNotificationSound;
     private Button buttonPlayPickedNotificationSound;
     private Button buttonPlayValidNotificationSound;
+    private TextView textRingtoneTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ringtone);
+
+        textRingtoneTitle = findViewById(R.id.textRingtoneTitle);
 
         buttonPlayDefaultNotificationSound = findViewById(R.id.buttonPlayDefaultNotificationSound);
         buttonPlayDefaultNotificationSound.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +41,7 @@ public class RingtoneActivity extends AppCompatActivity {
                 Uri uri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
                 ringtone.play();
+                textRingtoneTitle.setText(ringtone.getTitle(context));
             }
         });
 
@@ -54,6 +59,7 @@ public class RingtoneActivity extends AppCompatActivity {
                 }
                 Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
                 ringtone.play();
+                textRingtoneTitle.setText(ringtone.getTitle(context));
             }
         });
 
@@ -67,6 +73,7 @@ public class RingtoneActivity extends AppCompatActivity {
                 final Uri uri = rm.getValidRingtoneUri();
                 Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
                 ringtone.play();
+                textRingtoneTitle.setText(ringtone.getTitle(context));
             }
         });
     }

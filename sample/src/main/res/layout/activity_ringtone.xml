@@ -21,4 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play Valid Notification Sound" />
+
+    <TextView
+        android:id="@+id/textRingtoneTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
