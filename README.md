@@ -36,6 +36,8 @@ Always specify `preference-v7` version explicitly!
 Version 1.3.2 is compatible with support libraries from 23.2.0 to 27.0.2.
 Version 2.0.0 requires at least support libraries 27.0.0.
 
+Keep the major version of all artifacts same. V2 is not compatible with V1.
+
 ## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.2.7"><img src="https://img.shields.io/badge/support--preference--color-216-e91e63.svg"/></a>
 
 

@@ -1,6 +1,6 @@
 # Change log
 
-**2.0.0** 2018-01-XX
+**2.0.0** 2018-03-01
 - Requires compile SDK 27 and at least support library 27.0.0.
 - Changes in support-preference library
   - *FIXED:* `ListPreference` in simple menu mode doesn't crash with support libraries 27.1.0.
