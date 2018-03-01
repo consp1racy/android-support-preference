@@ -1623,6 +1623,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @return The {@link ListView} displayed within the popup window.
      * Only valid when {@link #isShowing()} == {@code true}.
      */
+    @Nullable
     @Override
     public XpDropDownListView getListView() {
         return mDropDownList;

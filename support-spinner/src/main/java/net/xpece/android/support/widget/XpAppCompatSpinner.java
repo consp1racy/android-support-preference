@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AbstractXpAppCompatSpinner;
+import android.support.v7.widget.XpDropDownListView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -352,13 +353,17 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         int preferredVerticalOffset = popup.getMeasuredPreferredVerticalOffset();
         popup.setVerticalOffset(preferredVerticalOffset);
 
+        final XpDropDownListView list = popup.getListView();
+        assert list != null;
+
         View v = adapter.getView(0, null, this);
         if (v != null) {
+            list.ensureListPaddingResolved();
             int preferredHorizontalOffset;
             if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
-                preferredHorizontalOffset = -(v.getPaddingLeft() + getPaddingLeft());
+                preferredHorizontalOffset = -(v.getPaddingLeft() + list.getListPaddingLeft() + getPaddingLeft());
             } else {
-                preferredHorizontalOffset = v.getPaddingRight() + getPaddingRight();
+                preferredHorizontalOffset = v.getPaddingRight() + list.getListPaddingRight() + getPaddingRight();
             }
             popup.setHorizontalOffset(preferredHorizontalOffset);
         }
@@ -384,7 +389,6 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         popup.show();
 
-        final ListView list = popup.getListView();
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         list.setTextAlignment(getTextAlignment());
         list.setTextDirection(getTextDirection());
