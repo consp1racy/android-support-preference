@@ -247,9 +247,9 @@ These are the attributes and values for manual setup:
 |  | `wrap_content` | *Default behavior.* Popup window width is determined by the width of its content.
 |  | `wrap_content_unit` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
 | `app:asp_simpleMenuMaxWidth` | `fit_anchor` | *Default behavior.* Popup width can stretch up to width of the underlying `ListPreference`.
-|  | `fit_screen` | *Default behavior.* Popup width can stretch up to width of the screen.
+|  | `fit_screen` | Popup width can stretch up to width of the screen.
 | `app:asp_simpleMenuMaxItemCount` | `-1` | *Default behavior.* Popup will show as many items as fit on the screen.
-|  | `X` | *Default behavior.* Popup will show at most `X` items. 
+|  | `X` | Popup will show at most `X` items. 
 
 ### Material Spinner
 
@@ -293,10 +293,10 @@ or supply your own adapter (responsible for its own styling) to `XpAppCompatSpin
 | `app:asp_simpleMenuWidthMode` | `match_constraint` | Popup width will stretch to match underlying anchor width.
 |  | `wrap_content` | *Default behavior.* Popup window width is determined by the width of its content.
 |  | `wrap_content_unit` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
-| `app:asp_simpleMenuMaxWidth` | `fit_anchor` | *Default behavior.* Popup width can stretch up to width of the underlying anchor.
+| `app:asp_simpleMenuMaxWidth` | `fit_anchor` | Popup width can stretch up to width of the underlying anchor.
 |  | `fit_screen` | *Default behavior.* Popup width can stretch up to width of the screen.
 | `app:asp_simpleMenuMaxItemCount` | `-1` | *Default behavior.* Popup will show as many items as fit on the screen.
-|  | `X` | *Default behavior.* Popup will show at most `X` items. 
+|  | `X` | Popup will show at most `X` items. 
 
 ### Color preference
 
