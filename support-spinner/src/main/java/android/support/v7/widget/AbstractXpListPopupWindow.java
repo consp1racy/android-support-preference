@@ -33,6 +33,7 @@ import android.support.annotation.StyleRes;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.ListViewCompat;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.view.menu.ShowableListMenu;
 import android.util.AttributeSet;
@@ -1397,24 +1398,65 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     private void setSelectionOverAnchor(
             final XpDropDownListView list, final int position, final int offsetY) {
-
-        final View anchor = getAnchorView();
-
-        final int listTop = mComputedPopupY + getBackgroundTopPadding();
-        anchor.getLocationOnScreen(mTempLocation);
-        final int anchorTop = mTempLocation[1];
-        final int anchorPaddingTop = anchor.getPaddingTop();
-        final int anchorHeight = anchor.getHeight() - anchorPaddingTop - anchor.getPaddingBottom();
+        // Assuming all items have the same height.
         final int itemHeight = getSelectedItemViewHeight(position);
-        final int anchorInset = (anchorHeight - itemHeight) / 2 + anchorPaddingTop;
 
         // Before setting selection make sure list padding is resolved.
         list.ensureListPaddingResolved();
 
+        final int listTop = mComputedPopupY + getBackgroundTopPadding();
+        final int listPaddingTop = list.getListPaddingTop();
+
+        final View anchor = getAnchorView();
+        anchor.getLocationOnScreen(mTempLocation);
+        final int anchorTop = mTempLocation[1];
+        final int anchorPaddingTop = anchor.getPaddingTop();
+        final int anchorHeight = anchor.getHeight() - anchorPaddingTop - anchor.getPaddingBottom();
+        final int anchorInset = (anchorHeight - itemHeight) / 2 + anchorPaddingTop;
+
         final int realOffsetY = anchorTop - listTop + anchorInset
                 + offsetY // Apply user supplied offset.
-                - list.getListPaddingTop(); // Negate any ListView enforced offset.
+                - listPaddingTop; // Negate any ListView enforced offset.
         list.setSelectionFromTop(position, realOffsetY);
+
+        ensureSelectionAtBottomVisible(list, position);
+    }
+
+    private void ensureSelectionAtBottomVisible(final XpDropDownListView list,
+                                                final int selectionAdapterPosition) {
+
+        list.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(final View v, final int left, final int top, final int right,
+                                       final int bottom, final int oldLeft, final int oldTop,
+                                       final int oldRight, final int oldBottom) {
+
+                list.removeOnLayoutChangeListener(this);
+
+                final int lastVisibleAdapterPosition = list.getLastVisiblePosition();
+                final int lastVisibleLayoutPosition = list.getChildCount() - 1;
+                final int selectionLayoutPosition = lastVisibleLayoutPosition -
+                        (lastVisibleAdapterPosition - selectionAdapterPosition);
+
+                final View child = list.getChildAt(selectionLayoutPosition);
+                if (child != null) {
+                    // Don't attempt to offset based on invalid input. This shouldn't happen.
+
+                    final int childBottom = child.getBottom();
+                    final int childHeight = child.getHeight();
+
+                    final int listHeight = list.getHeight();
+                    if (childHeight < listHeight) {
+                        // Don't attempt to offset if it wouldn't fit anyway. This could happen.
+
+                        final int listBottom = listHeight - list.getListPaddingBottom();
+                        if (childBottom > listBottom) {
+                            ListViewCompat.scrollListBy(list, childBottom - listBottom);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private int getSelectedItemViewHeight(final int position) {
