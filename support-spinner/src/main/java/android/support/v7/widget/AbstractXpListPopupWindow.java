@@ -2033,7 +2033,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 break;
         }
 
-        final int listPadding = mDropDownList.getPaddingTop() + mDropDownList.getPaddingBottom();
+        mDropDownList.ensureListPaddingResolved();
+        final int listPadding = mDropDownList.getListPaddingTop() + mDropDownList.getListPaddingBottom();
         final int listContent = mDropDownList.measureHeightOfChildrenCompat(childWidthSpec,
                 0, mMaxItemCount, maxHeight - otherHeights - verticalMargin - listPadding + padding, -1);
         // add padding only if the list has items in it, that way we don't show

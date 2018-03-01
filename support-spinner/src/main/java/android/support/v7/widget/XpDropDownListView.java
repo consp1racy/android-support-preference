@@ -48,7 +48,7 @@ public final class XpDropDownListView extends DropDownListView {
     // @formatter:off
     /**
      * Measures the height of the given range of children (inclusive) and returns the height
-     * with this ListView's padding and divider heights included. If maxHeight is provided, the
+     * with divider heights included. If maxHeight is provided, the
      * measuring will stop when the current height reaches maxHeight.
      *
      * @param widthMeasureSpec             The width measure spec to be given to a child's
