@@ -321,6 +321,8 @@ public class ListPreference extends DialogPreference {
 
         mSimpleMenuShowing = true;
 
+        onPreShowPopup(popup);
+
         popup.show();
 
         final ListView list = popup.getListView();
@@ -331,6 +333,17 @@ public class ListPreference extends DialogPreference {
         popup.setSelection(position);
 
         return true;
+    }
+
+    /**
+     * Last chance to modify the popup window before showing.
+     *
+     * You can use this e.g. to {@link XpListPopupWindow#setMaxMeasuredItems(int)} if your data set
+     * is larger than 15 items, to conserve processing power.
+     *
+     * @param popup Popup to be displayed
+     */
+    public void onPreShowPopup(final XpListPopupWindow popup) {
     }
 
     /**
