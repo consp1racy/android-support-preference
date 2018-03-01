@@ -84,7 +84,15 @@ public final class XpDropDownListView extends DropDownListView {
         View child = null;
         int viewType = -1;
         int count = adapter.getCount();
-        for (int i = 0; i < count; i++) {
+        int start = startPosition;
+        if (start < 0) {
+            start = 0;
+        }
+        int end = endPosition;
+        if (end < 0 || end > count) {
+            end = count;
+        }
+        for (int i = start; i < end; i++) {
             int newType = adapter.getItemViewType(i);
             if (newType != viewType) {
                 child = mMeasuredViewCache.get(newType);
