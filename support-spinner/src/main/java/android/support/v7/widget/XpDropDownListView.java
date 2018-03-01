@@ -159,20 +159,6 @@ public final class XpDropDownListView extends DropDownListView {
      * @return Preferred width of the list view
      */
     public int compatMeasureContentWidth() {
-        return compatMeasureContentWidth(Integer.MAX_VALUE);
-    }
-
-    /**
-     * Compute preferred, or unconstrained, width of the largest child view plus list padding.
-     *
-     * Note: This method measures {@code maxItemsMeasured} items from currently selected forward.
-     * If data set is smaller than {@code selectedItemPosition + maxItemsMeasured} items before
-     * selected position will be included.
-     *
-     * @param maxItemsMeasured Maximum number of items to measure.
-     * @return Preferred width of the list view
-     */
-    public int compatMeasureContentWidth(final int maxItemsMeasured) {
         ensureListPaddingResolved();
 
         ListAdapter adapter = getAdapter();
@@ -190,14 +176,8 @@ public final class XpDropDownListView extends DropDownListView {
 
         View child = null;
         int viewType = -1;
-
-        // Make sure the number of items we'll measure is capped. If it's a huge data set
-        // with wildly varying sizes, oh well.
-        int start = Math.max(0, getSelectedItemPosition());
-        final int end = Math.min(adapter.getCount(), start + maxItemsMeasured);
-        final int count = end - start;
-        start = Math.max(0, start - (maxItemsMeasured - count));
-        for (int i = start; i < end; i++) {
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
             final int newType = adapter.getItemViewType(i);
             if (newType != viewType) {
                 child = mMeasuredViewCache.get(newType);

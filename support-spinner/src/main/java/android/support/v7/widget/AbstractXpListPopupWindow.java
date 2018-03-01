@@ -158,8 +158,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     private int mLayoutDirection;
 
-    private int mMaxMeasuredItems = Integer.MAX_VALUE;
-
     /**
      * The provided prompt view should appear above list content.
      *
@@ -384,10 +382,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
         int widthSpec = MeasureSpec.makeMeasureSpec(getListWidthSpec(), MeasureSpec.AT_MOST);
         return mDropDownList.measureHeightOfChildrenCompat(widthSpec, fromIncl, toExcl, Integer.MAX_VALUE, 1);
-    }
-
-    public void setMaxMeasuredItems(final int maxMeasuredItems) {
-        mMaxMeasuredItems = maxMeasuredItems;
     }
 
     /**
@@ -1200,7 +1194,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 widthSpec = mDropDownMaxWidth - mps;
             }
         } else if (mDropDownWidth == WIDTH_WRAP_CONTENT_UNIT) {
-            int preferredWidth = mDropDownList.compatMeasureContentWidth(mMaxMeasuredItems) + getBackgroundHorizontalPadding();
+            int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
             if (mDropDownPreferredWidthUnit > 0) {
                 int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
                 if (units == 1) {

@@ -63,9 +63,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 @TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
 
-    //    private static final int MAX_ITEMS_MEASURED = 15;
-    private static final int MAX_ITEMS_MEASURED = Integer.MAX_VALUE;
-
     private static final boolean IS_AT_LEAST_K = Build.VERSION.SDK_INT >= 19;
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
 
@@ -394,23 +391,15 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
 
         int width = 0;
 
-        View child = null;
-        int itemType = 0;
-
         final int widthMeasureSpec =
                 makeSafeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
         final int heightMeasureSpec =
                 makeSafeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
 
-        // Make sure the number of items we'll measure is capped. If it's a huge data set
-        // with wildly varying sizes, oh well.
-        final int maxItemsMeasured = getMaxItemsMeasured();
-
-        int start = Math.max(0, getSelectedItemPosition());
-        final int end = Math.min(adapter.getCount(), start + maxItemsMeasured);
-        final int count = end - start;
-        start = Math.max(0, start - (maxItemsMeasured - count));
-        for (int i = start; i < end; i++) {
+        View child = null;
+        int itemType = 0;
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
             final int newType = adapter.getItemViewType(i);
             if (newType != itemType) {
                 itemType = newType;
@@ -460,9 +449,5 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             return 0;
         }
         return MeasureSpec.makeMeasureSpec(size, mode);
-    }
-
-    protected int getMaxItemsMeasured() {
-        return MAX_ITEMS_MEASURED;
     }
 }
