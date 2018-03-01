@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- @deprecated Use Animation.Asp.Popup. -->
+    <style name="Animation.Material.Popup" parent="Animation.Asp.Popup.Api23"/>
+
+</resources>

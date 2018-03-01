@@ -21,6 +21,17 @@
 
     <public name="asp_menuMode" type="attr"/>
     <public name="asp_simpleMenuWidthUnit" type="attr"/>
+    <public name="asp_simpleMenuWidthMode" type="attr"/>
+    <public name="asp_simpleMenuMaxWidth" type="attr"/>
+
+    <!-- Pending review. -->
+    <!--<public name="asp_simpleMenuMaxItemCount" type="attr"/>-->
+
+    <public name="asp_editTextLayout" type="attr"/>
+
+    <public name="asp_min" type="attr"/>
+    <public name="asp_info" type="attr"/>
+    <public name="asp_infoAnchor" type="attr"/>
 
     <public name="PreferenceThemeOverlay.Material" type="style"/>
     <public name="Preference.Material" type="style"/>

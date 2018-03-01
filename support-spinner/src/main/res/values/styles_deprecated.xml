@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- @deprecated Use Animation.Asp.Popup. -->
+    <style name="Animation.Material.Popup" parent="Animation.Asp.Popup.Holo"/>
+
+    <!-- @deprecated Use Widget.Asp.TextView.SpinnerItem. -->
+    <style name="Widget.Material.TextView.SpinnerItem" parent="Widget.Asp.TextView.SpinnerItem"/>
+
+    <!-- @deprecated Use Widget.Asp.DropDownItem.Spinner. -->
+    <style name="Widget.Material.DropDownItem.Spinner" parent="Widget.Asp.DropDownItem.Spinner"/>
+
+    <!-- @deprecated Use Widget.Asp.ListView.DropDown. -->
+    <style name="Widget.Material.ListView.DropDown" parent="Widget.Asp.ListView.DropDown"/>
+
+    <!-- @deprecated Use Widget.Asp.Spinner. -->
+    <style name="Widget.Material.Spinner" parent="Widget.Asp.Spinner"/>
+
+    <!-- @deprecated Use Widget.Asp.Spinner.Underlined. -->
+    <style name="Widget.Material.Spinner.Underlined" parent="Widget.Asp.Spinner.Underlined"/>
+
+    <!-- @deprecated Use Widget.Asp.ListPopupWindow. -->
+    <style name="Widget.Material.ListPopupWindow" parent="Widget.Asp.ListPopupWindow"/>
+
+    <!-- @deprecated Use ThemeOverlay.Asp.Spinner. -->
+    <style name="ThemeOverlay.Material.Spinner" parent="ThemeOverlay.Asp.Spinner"/>
+
+</resources>

@@ -4,6 +4,16 @@
 
     <public name="asp_spinnerMode" type="attr"/>
     <public name="asp_simpleMenuWidthUnit" type="attr"/>
+    <public name="asp_simpleMenuWidthMode" type="attr"/>
+    <public name="asp_simpleMenuMaxWidth" type="attr"/>
+
+    <public name="asp_widthUnit" type="attr"/>
+    <public name="asp_width" type="attr"/>
+    <public name="asp_maxWidth" type="attr"/>
+
+    <!-- Pending review. -->
+    <!--<public name="asp_simpleMenuMaxItemCount" type="attr"/>-->
+    <!--<public name="asp_maxItemCount" type="attr"/>-->
 
     <public name="Widget.Asp.TextView.SpinnerItem" type="style"/>
     <public name="Widget.Asp.DropDownItem.Spinner" type="style"/>
