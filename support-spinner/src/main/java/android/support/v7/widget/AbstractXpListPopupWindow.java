@@ -897,8 +897,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @throws IllegalArgumentException if height is set to negative value
      */
     public void setHeight(int height) {
-        if (height < 0 && ViewGroup.LayoutParams.WRAP_CONTENT != height
-                && ViewGroup.LayoutParams.MATCH_PARENT != height) {
+        if (height < 0 && WRAP_CONTENT != height
+                && MATCH_PARENT != height) {
             throw new IllegalArgumentException(
                     "Invalid height. Must be a positive value, MATCH_PARENT, or WRAP_CONTENT.");
         }
@@ -1086,9 +1086,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         int limitHeight = Math.min(windowHeight, availableHeight);
 
         final int heightSpec;
-        if (mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
+        if (mDropDownHeight == MATCH_PARENT) {
             heightSpec = limitHeight;
-        } else if (mDropDownHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
+        } else if (mDropDownHeight == WRAP_CONTENT) {
             heightSpec = Math.min(height, limitHeight);
         } else {
             heightSpec = Math.min(mDropDownHeight, limitHeight);
@@ -1181,15 +1181,15 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         if (mDropDownWidth == WIDTH_MATCH_CONSTRAINT) {
             // The call to PopupWindow's update method below can accept -1 for any
             // value you do not want to update.
-            if (mDropDownMaxWidth == WIDTH_MATCH_CONSTRAINT) {
+            if (mDropDownMaxWidth == MAX_WIDTH_FIT_SCREEN) {
                 widthSpec = displayWidth - mps;//-1;
-            } else if (mDropDownMaxWidth == WIDTH_WRAP_CONTENT) {
+            } else if (mDropDownMaxWidth == MAX_WIDTH_FIT_ANCHOR) {
                 widthSpec = getAnchorView().getWidth() - mps;
             } else {
                 widthSpec = mDropDownMaxWidth - mps;
             }
         } else if (mDropDownWidth == WIDTH_WRAP_CONTENT) {
-            if (mDropDownMaxWidth < 0) {
+            if (mDropDownMaxWidth < 0) { // MAX_WIDTH_FIT_SCREEN or MAX_WIDTH_FIT_ANCHOR
                 widthSpec = getAnchorView().getWidth() - mps;
             } else {
                 widthSpec = mDropDownMaxWidth - mps;
@@ -1205,12 +1205,12 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 }
                 preferredWidth += paddings;
             }
-            if (mDropDownMaxWidth < 0) {
+            if (mDropDownMaxWidth < 0) { // MAX_WIDTH_FIT_SCREEN or MAX_WIDTH_FIT_ANCHOR
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
                 if (preferredWidth > anchorWidthTemp) {
-                    if (mDropDownMaxWidth == WIDTH_MATCH_CONSTRAINT) {
+                    if (mDropDownMaxWidth == MAX_WIDTH_FIT_SCREEN) {
                         widthSpec = Math.min(preferredWidth, displayWidth - mps);//-1;
-                    } else { // WRAP_CONTENT
+                    } else { // MAX_WIDTH_FIT_ANCHOR
                         widthSpec = anchorWidthTemp;
                     }
                 } else {
@@ -1224,11 +1224,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 }
             }
         } else {
-            if (mDropDownMaxWidth < 0) {
+            if (mDropDownMaxWidth < 0) { // MAX_WIDTH_FIT_SCREEN or MAX_WIDTH_FIT_ANCHOR
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
                 if (mDropDownMaxWidth == WIDTH_WRAP_CONTENT && mDropDownWidth > anchorWidthTemp) {
                     widthSpec = anchorWidthTemp;
-                } else {
+                } else { // MAX_WIDTH_FIT_ANCHOR
                     widthSpec = mDropDownWidth;
                 }
             } else {
@@ -2026,27 +2026,27 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 mPopup.getInputMethodMode() == PopupWindow.INPUT_METHOD_NOT_NEEDED;
 //        final int maxHeight = getMaxAvailableHeight(getAnchorView(), mDropDownVerticalOffset, ignoreBottomDecorations);
         final int maxHeight = getMaxAvailableHeight(getAnchorView(), ignoreBottomDecorations);
-        if (mDropDownAlwaysVisible || mDropDownHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
+        if (mDropDownAlwaysVisible || mDropDownHeight == MATCH_PARENT) {
             return maxHeight - verticalMargin + padding;
         }
 
         final int childWidthSpec;
         switch (mDropDownWidth) {
-            case ViewGroup.LayoutParams.WRAP_CONTENT:
+            case WIDTH_WRAP_CONTENT:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(
                         getAnchorView().getWidth() -
                                 (mMargins.left + mMargins.right) -
                                 (mTempRect.left + mTempRect.right),
                         MeasureSpec.AT_MOST);
                 break;
-            case ViewGroup.LayoutParams.MATCH_PARENT:
+            case WIDTH_MATCH_CONSTRAINT:
                 childWidthSpec = MeasureSpec.makeMeasureSpec(
                         mContext.getResources().getDisplayMetrics().widthPixels -
                                 (mMargins.left + mMargins.right) -
                                 (mTempRect.left + mTempRect.right),
                         MeasureSpec.EXACTLY);
                 break;
-            case PREFERRED:
+            case WIDTH_WRAP_CONTENT_UNIT:
                 int widthSize;
                 int widthMode;
                 if (mDropDownMaxWidth >= 0) {
