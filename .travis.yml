@@ -1,41 +1,38 @@
-language: android
+#https://medium.com/@harmittaa/travis-ci-android-example-357f6e632fc4
+#https://docs.travis-ci.com/user/customizing-the-build/
 
-jdk:
-  - oraclejdk8
+language: android
+sudo: required
+jdk: oraclejdk8
+
+notifications:
+  email: false
 
 android:
   components:
     - tools
     - platform-tools
-    - android-25
-    - build-tools-25.0.2
-    - extra-android-m2repository
+    - android-27
+    - build-tools-27.0.3
+  licenses:
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
 
-# as per http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
-#sudo: false
-sudo: true
-
-# script for build and release via Travis to Bintray
-# script: gradle/buildViaTravis.sh
-
-before_install:
- - chmod +x gradlew
-
-notifications:
-  email: false
-
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
-# cache between builds
 cache:
   directories:
-  - $HOME/.m2
-  - $HOME/.gradle/caches
-  - $HOME/.gradle/wrapper
+    -$HOME/.gradle/caches/
+    -$HOME/.gradle/wrapper/
 
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+before_install:
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "504667f4c0de7af1a06de9f4b1727b84351f2910\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - chmod +x gradlew
+  - ./gradlew dependencies || true
+
+script: "./gradlew clean build --no-build-cache -PdisablePreDex --stacktrace"
+
+before_cache:
+  -rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  -rm -fr $HOME/.gradle/caches/*/plugin-resolution/
