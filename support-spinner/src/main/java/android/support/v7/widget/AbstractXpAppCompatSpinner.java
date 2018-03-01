@@ -384,39 +384,44 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
 
     private int measureContentWidth() {
         final SpinnerAdapter adapter = getAdapter();
+
         if (adapter == null) {
-            return 0;
+            return getPaddingLeft() + getPaddingRight();
         }
 
         int width = 0;
-        View itemView = null;
-        int itemType = 0;
+
         final int widthMeasureSpec =
                 makeSafeMeasureSpec(getMeasuredWidth(), MeasureSpec.UNSPECIFIED);
         final int heightMeasureSpec =
                 makeSafeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED);
 
-        // Make sure the number of items we'll measure is capped. If it's a huge data set
-        // with wildly varying sizes, oh well.
-        final int maxItemsMeasured = getMaxItemsMeasured();
-        int start = Math.max(0, getSelectedItemPosition());
-        final int end = Math.min(adapter.getCount(), start + maxItemsMeasured);
-        final int count = end - start;
-        start = Math.max(0, start - (maxItemsMeasured - count));
-        for (int i = start; i < end; i++) {
-            final int positionType = adapter.getItemViewType(i);
-            if (positionType != itemType) {
-                itemType = positionType;
-                itemView = null;
+        View child = null;
+        int itemType = 0;
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
+            final int newType = adapter.getItemViewType(i);
+            if (newType != itemType) {
+                itemType = newType;
+                child = null;
             }
-            itemView = adapter.getView(i, itemView, this);
-            if (itemView.getLayoutParams() == null) {
-                itemView.setLayoutParams(new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+            child = adapter.getView(i, child, this);
+
+            ViewGroup.LayoutParams childLp = child.getLayoutParams();
+            if (childLp == null) {
+                childLp = generateDefaultLayoutParams();
+                child.setLayoutParams(childLp);
             }
-            itemView.measure(widthMeasureSpec, heightMeasureSpec);
-            width = Math.max(width, itemView.getMeasuredWidth());
+            childLp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            childLp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            child.measure(widthMeasureSpec, heightMeasureSpec);
+
+            // Since this view was measured directly against the parent measure
+            // spec, we must measure it again before reuse.
+            child.forceLayout();
+
+            width = Math.max(width, child.getMeasuredWidth());
         }
 
         width += getPaddingLeft() + getPaddingRight();
@@ -444,12 +449,5 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
             return 0;
         }
         return MeasureSpec.makeMeasureSpec(size, mode);
-    }
-
-    /**
-     * Match behavior of spinner with {@link XpDropDownListView}.
-     */
-    private int getMaxItemsMeasured() {
-        return XpDropDownListView.MAX_ITEMS_MEASURED;
     }
 }

@@ -1194,7 +1194,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 widthSpec = mDropDownMaxWidth - mps;
             }
         } else if (mDropDownWidth == WIDTH_WRAP_CONTENT_UNIT) {
-            int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
+            int preferredWidth = mDropDownList.compatMeasureContentWidth();
             if (mDropDownPreferredWidthUnit > 0) {
                 int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
                 if (units == 1) {
@@ -1202,6 +1202,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 } else {
                     preferredWidth = (int) (units * mDropDownPreferredWidthUnit);
                 }
+                preferredWidth += paddings;
             }
             if (mDropDownMaxWidth < 0) {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
@@ -1396,6 +1397,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     private void setSelectionOverAnchor(
             final XpDropDownListView list, final int position, final int offsetY) {
+
         final View anchor = getAnchorView();
 
         final int listTop = mComputedPopupY + getBackgroundTopPadding();
@@ -1405,6 +1407,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final int anchorHeight = anchor.getHeight() - anchorPaddingTop - anchor.getPaddingBottom();
         final int itemHeight = getSelectedItemViewHeight(position);
         final int anchorInset = (anchorHeight - itemHeight) / 2 + anchorPaddingTop;
+
+        // Before setting selection make sure list padding is resolved.
+        list.ensureListPaddingResolved();
 
         final int realOffsetY = anchorTop - listTop + anchorInset
                 + offsetY // Apply user supplied offset.
@@ -1493,8 +1498,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             position = Math.max(0, position - mAdapter.getCount() + maxLength);
         }
 
+        // Before measuring list padding make sure it is resolved.
+        mDropDownList.ensureListPaddingResolved();
+
         final int viewHeight = anchor.getHeight();
-        final int dropDownListViewPaddingTop = mDropDownList.getPaddingTop();
+        final int dropDownListViewPaddingTop = mDropDownList.getListPaddingTop();
         final int selectedItemHeight = popup.measureItem(position);
         final int beforeSelectedItemHeight = popup.measureItems(realPosition - position, realPosition + 1);
 
