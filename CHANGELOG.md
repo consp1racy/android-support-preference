@@ -1,6 +1,6 @@
 # Change log
 
-**2.0.0** 2018-03-01
+**2.0.1** 2018-03-01
 - Requires compile SDK 27 and at least support library 27.0.0.
 - Changes in support-preference library
   - *FIXED:* `ListPreference` in simple menu mode doesn't crash with support libraries 27.1.0.
@@ -11,6 +11,8 @@
   - *FIXED:* Popup transitions on API 23+ are now smooth.
   - *FIXED:* Make best effort to position selected item over emitting widget when popup menu scrolls.
   - *FIXED:* `XpAppCompatSpinner` width is now better calculated from up to 30 items.
+
+<s>**2.0.0** 2018-03-01</s>
 
 **1.3.2** 2018-01-08
 - *FIXED:* Fixed behavior when `android:selectable="false"`. See #84.
