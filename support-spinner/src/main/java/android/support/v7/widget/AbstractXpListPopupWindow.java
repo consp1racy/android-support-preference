@@ -1194,7 +1194,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 widthSpec = mDropDownMaxWidth - mps;
             }
         } else if (mDropDownWidth == WIDTH_WRAP_CONTENT_UNIT) {
-            int preferredWidth = mDropDownList.compatMeasureContentWidth() + getBackgroundHorizontalPadding();
+            int preferredWidth = mDropDownList.compatMeasureContentWidth();
             if (mDropDownPreferredWidthUnit > 0) {
                 int units = (int) Math.ceil(preferredWidth / mDropDownPreferredWidthUnit);
                 if (units == 1) {
@@ -1202,6 +1202,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                 } else {
                     preferredWidth = (int) (units * mDropDownPreferredWidthUnit);
                 }
+                preferredWidth += paddings;
             }
             if (mDropDownMaxWidth < 0) {
                 int anchorWidthTemp = getAnchorView().getWidth() - mps;
