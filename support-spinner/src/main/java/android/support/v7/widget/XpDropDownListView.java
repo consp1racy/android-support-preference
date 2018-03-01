@@ -2,19 +2,27 @@ package android.support.v7.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
+import net.xpece.android.support.widget.spinner.R;
+
 @SuppressLint("ViewConstructor")
 public final class XpDropDownListView extends DropDownListView {
+
+    private static final int[] ATTRS = new int[]{android.R.attr.clipToPadding};
 
     private LruCache<Integer, View> mMeasuredViewCache = new LruCache<>(2);
 
     private boolean mHasMultiLineItems;
+
+    private boolean mResolvingListPadding = false;
 
     /**
      * <p>Creates a new list view wrapper.</p>
@@ -23,6 +31,14 @@ public final class XpDropDownListView extends DropDownListView {
      */
     XpDropDownListView(final Context context, final boolean hijackFocus) {
         super(context, hijackFocus);
+
+        if (Build.VERSION.SDK_INT < 21) {
+            // For the love of god clipToPadding just cannot be read on the first try on Android 4.
+            TypedArray a = context.obtainStyledAttributes(null, ATTRS, R.attr.dropDownListViewStyle, 0);
+            final boolean clipToPadding = a.getBoolean(0, true);
+            a.recycle();
+            setClipToPadding(clipToPadding);
+        }
     }
 
     boolean hasMultiLineItems() {
@@ -59,21 +75,18 @@ public final class XpDropDownListView extends DropDownListView {
     public int measureHeightOfChildrenCompat(int widthMeasureSpec, int startPosition,
                                              int endPosition, final int maxHeight,
                                              int disallowPartialChildPosition) {
-        ensureListPaddingResolved();
 
-        final int paddingTop = getListPaddingTop();
-        final int paddingBottom = getListPaddingBottom();
         final int reportedDividerHeight = getDividerHeight();
         final Drawable divider = getDivider();
 
         final ListAdapter adapter = getAdapter();
 
         if (adapter == null) {
-            return paddingTop + paddingBottom;
+            return 0;
         }
 
         // Include the padding of the list
-        int returnedHeight = paddingTop + paddingBottom;
+        int returnedHeight = 0;
         final int dividerHeight = ((reportedDividerHeight > 0) && divider != null)
                 ? reportedDividerHeight : 0;
 
@@ -161,7 +174,7 @@ public final class XpDropDownListView extends DropDownListView {
 
     /**
      * Compute preferred, or unconstrained, width of the largest child view plus list padding.
-     *
+     * <p>
      * Note: This method measures all items in the adapter, don't use with large data sets.
      *
      * @return Preferred width of the list view
@@ -217,19 +230,44 @@ public final class XpDropDownListView extends DropDownListView {
         return returnedWidth;
     }
 
-    /**
-     * {@code #getListPadding*()} returns incorrect number before the first measurement.
-     * Call this method to manually resolve list padding.
-     */
-    public void ensureListPaddingResolved() {
-        final int transcriptMode = getTranscriptMode();
-        setTranscriptMode(TRANSCRIPT_MODE_DISABLED);
-        measure(0, 0);
-        setTranscriptMode(transcriptMode);
-    }
-
     private int getAllHorizontalPadding() {
         return getListPaddingLeft() + getListPaddingRight();
     }
 
+    /**
+     * {@code #getListPadding*()} returns incorrect number before the first measurement.
+     * Call this method to manually resolve list padding.
+     */
+    @SuppressLint("WrongCall")
+    public void ensureListPaddingResolved() {
+        mResolvingListPadding = true;
+        final int transcriptMode = getTranscriptMode();
+        try {
+            // Make sure we intercept some call and terminate measurement after what we need.
+            // The first call is #getChildCount when transcript mode is normal.
+            setTranscriptMode(TRANSCRIPT_MODE_NORMAL);
+
+            // List padding is resolved as part of AbsListView#onMeasure.
+            // Do NOT call measure! We're not actually measuring and setting measured dimension.
+            onMeasure(0, 0);
+        } catch (StopExecution ignored) {
+            // See comments in getChildCount().
+        } finally {
+            setTranscriptMode(transcriptMode);
+            mResolvingListPadding = false;
+        }
+    }
+
+    @Override
+    public int getChildCount() {
+        if (mResolvingListPadding) {
+            throw new StopExecution();
+        }
+        return super.getChildCount();
+    }
+
+    private class StopExecution extends RuntimeException {
+        StopExecution() {
+        }
+    }
 }
