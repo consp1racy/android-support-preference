@@ -243,7 +243,13 @@ These are the attributes and values for manual setup:
 |  | `simple_adaptive` | Menu is shown in a popup window if it contains single line items only . Otherwise simple dialog is shown.
 | `app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
 |  | `*X*dp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
-|  | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
+| `app:asp_simpleMenuWidthMode` | `match_constraint` | Popup width will stretch to match underlying `ListPreference` width.
+|  | `wrap_content` | *Default behavior.* Popup window width is determined by the width of its content.
+|  | `wrap_content_unit` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+| `app:asp_simpleMenuMaxWidth` | `fit_anchor` | *Default behavior.* Popup width can stretch up to width of the underlying `ListPreference`.
+|  | `fit_screen` | *Default behavior.* Popup width can stretch up to width of the screen.
+| `app:asp_simpleMenuMaxItemCount` | `-1` | *Default behavior.* Popup will show as many items as fit on the screen.
+|  | `X` | *Default behavior.* Popup will show at most `X` items. 
 
 ### Material Spinner
 
@@ -283,8 +289,14 @@ or supply your own adapter (responsible for its own styling) to `XpAppCompatSpin
 |  | `dialog` | Menu is shown in a dialog with no other controls. Selected option is highlighted.
 |  | `adaptive` | *Default behavior.* Menu is shown in a popup window if it contains only single line items. Otherwise simple dialog is shown.
 | `app:asp_simpleMenuWidthUnit` | `0dp` | *Default behavior.* Popup window width is determined by the width of its content.
-|  | `Xdp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
-|  | `match_parent`</br>`wrap_content` | Popup width will stretch to match underlying `ListPreference` width.
+|  | `*X*dp` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+| `app:asp_simpleMenuWidthMode` | `match_constraint` | Popup width will stretch to match underlying anchor width.
+|  | `wrap_content` | *Default behavior.* Popup window width is determined by the width of its content.
+|  | `wrap_content_unit` | Popup width is determined by the width of its content and rounded up to the nearest multiply of *X*dp.
+| `app:asp_simpleMenuMaxWidth` | `fit_anchor` | *Default behavior.* Popup width can stretch up to width of the underlying anchor.
+|  | `fit_screen` | *Default behavior.* Popup width can stretch up to width of the screen.
+| `app:asp_simpleMenuMaxItemCount` | `-1` | *Default behavior.* Popup will show as many items as fit on the screen.
+|  | `X` | *Default behavior.* Popup will show at most `X` items. 
 
 ### Color preference
 

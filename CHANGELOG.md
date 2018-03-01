@@ -10,7 +10,7 @@
   - *NEW!* Supports `android:popupEnterTransition` and `android:popupExitTransition` on API 23+.
   - *FIXED:* Popup transitions on API 23+ are now smooth.
   - *FIXED:* Make best effort to position selected item over emitting widget when popup menu scrolls.
-  - *FIXED:* `XpAppCompatSpinner` width is now better calculated from up to 30 items.
+  - *FIXED:* `XpAppCompatSpinner` width is now better calculated from all items. Don't use with large data sets!
 
 <s>**2.0.0** 2018-03-01</s>
 
