@@ -93,7 +93,9 @@
     </declare-styleable>
 
     <declare-styleable name="SeekBarPreference">
+        <!-- @deprecated Use min. -->
         <attr name="asp_min" format="integer"/>
+
         <attr name="android:max"/>
         <attr name="asp_info" format="string"/>
         <!--<attr name="asp_seekBarIncrement" format="integer"/>-->
@@ -102,6 +104,7 @@
         <attr name="asp_infoAnchor" format="reference"/>
     </declare-styleable>
 
+    <!-- Use SeekBarPreference instead. It is merged with styleable from support library. -->
     <!--<declare-styleable name="SeekBarDialogPreference">-->
         <!--<attr name="asp_min"/>-->
         <!--<attr name="android:max"/>-->

@@ -2,7 +2,9 @@
 
 **2.0.0** 2018-01-XX
 - Requires compile SDK 27 and at least support library 27.0.0.
-- *FIXED:* `ListPreference` in simple menu mode doesn't crash with support libraries 27.1.0.
+- Changes in support-preference library
+  - *FIXED:* `ListPreference` in simple menu mode doesn't crash with support libraries 27.1.0.
+  - `app:asp_min` is now deprecated in favor of `app:min`. `app:asp_min` takes precedence if both are specified.
 - Changes in support-spinner library
   - *NEW!* `XpAppCompatSpinner` uses `app:asp_simpleMenuMaxItemCount` attribute to limit popup menu height.
   - *NEW!* Supports `android:popupEnterTransition` and `android:popupExitTransition` on API 23+.

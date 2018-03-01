@@ -100,7 +100,7 @@ public class SeekBarPreference extends Preference {
      * to be handled accordingly.
      */
     private View.OnKeyListener buildSeekBarKeyListener(final SeekBar seekBar) {
-        return  new View.OnKeyListener() {
+        return new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() != KeyEvent.ACTION_DOWN) {
@@ -108,7 +108,7 @@ public class SeekBarPreference extends Preference {
                 }
 
                 if (!mAdjustable && (keyCode == KeyEvent.KEYCODE_DPAD_LEFT
-                    || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
+                        || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
                     // Right or left keys are pressed when in non-adjustable mode; Skip the keys.
                     return false;
                 }
@@ -148,25 +148,36 @@ public class SeekBarPreference extends Preference {
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 
-        /**
-         * The ordering of these two statements are important. If we want to set max first, we need
-         * to perform the same steps by changing min/max to max/min as following:
-         * mMax = a.getInt(...) and setMin(...).
-         */
-        mMin = a.getInt(R.styleable.SeekBarPreference_asp_min, mMin);
-        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+        final boolean hasAspMin = a.hasValue(R.styleable.SeekBarPreference_asp_min);
+        if (hasAspMin) {
+            Log.w(TAG, "app:asp_min is deprecated. Use app:min instead.");
+
+            /*
+             * The ordering of these two statements are important. If we want to set max first,
+             * we need to perform the same steps by changing min/max to max/min as following:
+             * mMax = a.getInt(...) and setMin(...).
+             */
+            mMin = a.getInt(R.styleable.SeekBarPreference_asp_min, mMin);
+            setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+        }
 
         try {
-            mMin = a.getInt(R.styleable.SeekBarPreference_min, mMin);
-            setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
+            final boolean hasMin = a.hasValue(R.styleable.SeekBarPreference_min);
+            if (hasAspMin && hasMin) {
+                Log.w(TAG, "You've specified both app:asp_min and app:min. app:asp_min takes precedence.");
+            } else {
+                mMin = a.getInt(R.styleable.SeekBarPreference_min, mMin);
+                setMax(mMax);
+            }
+
             setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, mSeekBarIncrement));
             mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, mAdjustable);
             mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, mShowSeekBarValue);
-            mInfoAnchorId = a.getResourceId(R.styleable.SeekBarPreference_asp_infoAnchor, 0);
         } catch (NoSuchFieldError e) {
             // These are only available since support libs 25.1.0.
         }
 
+        mInfoAnchorId = a.getResourceId(R.styleable.SeekBarPreference_asp_infoAnchor, 0);
         setInfo(a.getText(R.styleable.SeekBarPreference_asp_info));
 
         a.recycle();
@@ -216,7 +227,7 @@ public class SeekBarPreference extends Preference {
             if (d != null) d.setState(state);
             d = seekBar.getProgressDrawable();
             if (d != null) d.setState(state);
-            d= seekBar.getIndeterminateDrawable();
+            d = seekBar.getIndeterminateDrawable();
             if (d != null) d.setState(state);
             d = seekBar.getBackground();
             if (d != null) d.setState(state);
@@ -258,6 +269,7 @@ public class SeekBarPreference extends Preference {
     /**
      * Will show {@code info} when not null.
      * Otherwise shows {@code seekBarValue} when {@link #isShowSeekBarValue()} is {@code true}.
+     *
      * @param info
      */
     public void setInfo(@Nullable CharSequence info) {
@@ -290,7 +302,7 @@ public class SeekBarPreference extends Preference {
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         setValue(restoreValue ? getPersistedInt(mSeekBarValue)
-            : (Integer) defaultValue);
+                : (Integer) defaultValue);
     }
 
     @Override
@@ -330,6 +342,7 @@ public class SeekBarPreference extends Preference {
      * Returns the amount of increment change via each arrow key click. This value is derived from
      * user's specified increment value if it's not zero. Otherwise, the default value is picked
      * from the default mKeyProgressIncrement value in {@link android.widget.AbsSeekBar}.
+     *
      * @return The amount of increment on the SeekBar performed after each user's arrow key press.
      */
     public final int getSeekBarIncrement() {
@@ -338,12 +351,13 @@ public class SeekBarPreference extends Preference {
 
     /**
      * Sets the increment amount on the SeekBar for each arrow key press.
+     *
      * @param seekBarIncrement The amount to increment or decrement when the user presses an
-     *                         arrow key.
+     * arrow key.
      */
     public final void setSeekBarIncrement(int seekBarIncrement) {
         if (seekBarIncrement != mSeekBarIncrement) {
-            mSeekBarIncrement =  Math.min(mMax - mMin, Math.abs(seekBarIncrement));
+            mSeekBarIncrement = Math.min(mMax - mMin, Math.abs(seekBarIncrement));
             notifyChanged();
         }
     }
@@ -475,14 +489,14 @@ public class SeekBarPreference extends Preference {
 
         @SuppressWarnings("unused")
         public static final Creator<SavedState> CREATOR =
-            new Creator<SavedState>() {
-                public SavedState createFromParcel(Parcel in) {
-                    return new SavedState(in);
-                }
+                new Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-                public SavedState[] newArray(int size) {
-                    return new SavedState[size];
-                }
-            };
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }
