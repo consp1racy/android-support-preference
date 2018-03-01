@@ -2,14 +2,16 @@
 
 **2.0.0** 2018-01-XX
 - Requires compile SDK 27 and at least support library 27.0.0.
-- Changes in support-preference library
-  - *FIXED:* Fixed behavior when `android:selectable="false"`. 
+- *FIXED:* `ListPreference` in simple menu mode doesn't crash with support libraries 27.1.0.
 - Changes in support-spinner library
   - *NEW!* `XpAppCompatSpinner` uses `app:asp_simpleMenuMaxItemCount` attribute to limit popup menu height.
   - *NEW!* Supports `android:popupEnterTransition` and `android:popupExitTransition` on API 23+.
   - *FIXED:* Popup transitions on API 23+ are now smooth.
   - *FIXED:* Make best effort to position selected item over emitting widget when popup menu scrolls.
   - *FIXED:* `XpAppCompatSpinner` width is now better calculated from up to 30 items.
+
+**1.3.2** 2018-01-08
+- *FIXED:* Fixed behavior when `android:selectable="false"`. See #84.
 
 **1.3.1** 2017-10-04
 - *FIXED:* `RingtonePreference.canShowSelectedRingtoneTitle` should no longer crash 

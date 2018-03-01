@@ -18,6 +18,11 @@ android {
             minifyEnabled false
         }
     }
+    lintOptions {
+        ignore "MissingTranslation"
+        warning "PrivateResource", "RestrictedApi"
+        abortOnError = false
+    }
 }
 
 dependencies {
