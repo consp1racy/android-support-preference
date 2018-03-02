@@ -79,6 +79,7 @@ final class SortCursor extends AbstractCursor {
             if (mCursors[j] == null || mCursors[j].isAfterLast())
                 continue;
             String current = mCursors[j].getString(mSortColumns[j]);
+            if (current == null) current = "";
             if (mCursor == null || current.compareToIgnoreCase(smallest) < 0) {
                 smallest = current;
                 mCursor = mCursors[j];
