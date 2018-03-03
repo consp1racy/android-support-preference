@@ -1,5 +1,11 @@
 # Change log
 
+**2.0.2** 2018-03-03
+- All libraries
+  - Libraries do not automatically transitively pull support libraries 27.1.0. (https://github.com/consp1racy/android-support-preference/issues/91)
+- `RingtonePreference`
+  - `SortCursor` does not crash when sorting by null columns. (https://github.com/consp1racy/android-support-preference/issues/88)
+
 **2.0.1** 2018-03-01
 - Requires compile SDK 27 and at least support library 27.0.0.
 - Changes in support-preference library
