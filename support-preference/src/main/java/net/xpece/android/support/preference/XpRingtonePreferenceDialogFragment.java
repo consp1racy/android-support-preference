@@ -126,7 +126,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         mHandler = new Handler();
 
         // Give the Activity so it can do managed queries
-        mRingtoneManager = new RingtoneManagerCompat(getActivity());
+        mRingtoneManager = RingtoneManagerCompat.from(getActivity());
 
         final boolean fallbackRingtonePicker;
         if (savedInstanceState != null) {
