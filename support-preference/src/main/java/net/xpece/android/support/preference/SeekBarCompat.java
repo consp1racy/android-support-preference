@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.AbsSeekBar;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 import java.lang.reflect.Field;
 
 /**
@@ -19,12 +21,13 @@ class SeekBarCompat {
             thumb = AbsSeekBar.class.getDeclaredField("mThumb");
             thumb.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            XpSupportPreferencePlugins.onError(e, "mThumb not available.");
         }
         FIELD_THUMB = thumb;
     }
 
-    private SeekBarCompat() {}
+    private SeekBarCompat() {
+    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static Drawable getThumb(AbsSeekBar seekBar) {
@@ -34,7 +37,7 @@ class SeekBarCompat {
             try {
                 return (Drawable) FIELD_THUMB.get(seekBar);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new IllegalStateException(e);
             }
         }
         return null;

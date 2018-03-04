@@ -8,7 +8,10 @@ import android.media.RingtoneManager;
 import android.support.annotation.RestrictTo;
 import android.util.Log;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -27,7 +30,8 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             cursor = RingtoneManager.class.getDeclaredField("mCursor");
             cursor.setAccessible(true);
-        } catch (NoSuchFieldException ignore) {
+        } catch (NoSuchFieldException e) {
+            XpSupportPreferencePlugins.onError(e, "mCursor not available.");
         }
         FIELD_CURSOR = cursor;
 
@@ -35,7 +39,8 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
             getInternalRingtones.setAccessible(true);
-        } catch (NoSuchMethodException ignore) {
+        } catch (NoSuchMethodException e) {
+            XpSupportPreferencePlugins.onError(e, "getInternalRingtones not available.");
         }
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
     }
@@ -43,7 +48,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     private void setCursorInternal(Cursor cursor) {
         try {
             FIELD_CURSOR.set(this, cursor);
-        } catch (Exception e) {
+        } catch (IllegalAccessException e) {
             throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
     }
@@ -51,7 +56,9 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     private Cursor getInternalRingtones() {
         try {
             return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
-        } catch (Exception e) {
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
+        } catch (InvocationTargetException e) {
             throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
     }
