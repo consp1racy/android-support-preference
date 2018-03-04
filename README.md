@@ -357,22 +357,6 @@ It is using fragment transactions and back stack allowing for transition animati
 
 ### Known issues with support library
 
-In appcompat-v7 r23.1.1 and r24.1.x there is a bug which prevents tinting of checkmarks in lists.
-Call `Fixes.updateLayoutInflaterFactory(getLayoutInflater())` right after
-`super.onCreate(savedInstanceState)` in your Activity.
-
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Fixes.updateLayoutInflaterFactory(getLayoutInflater());
-    setContentView(R.layout.activity_settings);
-    //...
-}
-```
-
----
-
 You may have experienced unexpected background color which manifests as holo blue on Android 4 and grey on Android 5.
 This is caused by `PreferenceFragment`'s `RecyclerView` grabbing focus on fragment start.
 We can disable this behavior while still being able to navigate between individual preferences with a D-pad.

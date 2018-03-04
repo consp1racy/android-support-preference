@@ -1,54 +1,25 @@
 package net.xpece.android.support.preference;
 
-import android.content.Context;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v7.widget.AspAppCompatCheckedTextView;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-
-import java.lang.reflect.Field;
 
 /**
  * @author Eugen on 7. 12. 2015.
  */
 public final class Fixes {
-    private Fixes() {}
-
-    public static void updateLayoutInflaterFactory(LayoutInflater layoutInflater) {
-        final LayoutInflater.Factory existingFactory = layoutInflater.getFactory();
-        try {
-            Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
-            field.setAccessible(true);
-            field.setBoolean(layoutInflater, false);
-            LayoutInflaterCompat.setFactory(layoutInflater, new LayoutInflaterFactory() {
-                private LayoutInflaterFactory fixedFactory = new FixedFactory();
-
-                @Override
-                public View onCreateView(View parent, String name, final Context context, AttributeSet attrs) {
-                    View view = fixedFactory.onCreateView(parent, name, context, attrs);
-                    if (view == null) {
-                        if (existingFactory != null) {
-                            view = existingFactory.onCreateView(name, context, attrs);
-                        }
-                    }
-                    return view;
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private Fixes() {
+        throw new AssertionError("No instances");
     }
 
-    static class FixedFactory implements LayoutInflaterFactory {
-
-        @Override
-        public View onCreateView(final View parent, final String name, final Context context, final AttributeSet attrs) {
-            if ("CheckedTextView".equals(name)) {
-                return new AspAppCompatCheckedTextView(context, attrs);
-            }
-            return null;
-        }
+    /**
+     * In appcompat-v7 r23.1.1 and r24.1.x there is a bug
+     * which prevents tinting of checkmarks in lists.
+     * <p>
+     * This fix is no longer necessary and does nothing. This method will be removed.
+     *
+     * @param layoutInflater Layout inflater that should automatically inflate fixed widgets
+     */
+    @Deprecated
+    public static void updateLayoutInflaterFactory(LayoutInflater layoutInflater) {
+        // No-op.
     }
 }

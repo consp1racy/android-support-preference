@@ -56,9 +56,6 @@ public class SettingsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Enable if you use AppCompat 24.1.x.
-        // Fixes.updateLayoutInflaterFactory(getLayoutInflater());
-
         setContentView(R.layout.activity_settings);
 
         mReplaceFragmentStrategy = new PreferenceScreenNavigationStrategy.ReplaceFragment(this, R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out);
