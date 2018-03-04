@@ -17,7 +17,7 @@ import android.widget.SeekBar;
  * @author Eugen on 7. 12. 2015.
  */
 public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragment
-    implements View.OnKeyListener {
+        implements View.OnKeyListener {
 
     SeekBar mSeekBar;
 
@@ -80,32 +80,29 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
         setupAccessibilityDelegate(max, min);
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setupAccessibilityDelegate(final int max, final int min) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mSeekBar.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-                @Override
-                public void onInitializeAccessibilityEvent(final View host, final AccessibilityEvent event) {
-                    super.onInitializeAccessibilityEvent(host, event);
+        mSeekBar.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public void onInitializeAccessibilityEvent(final View host, final AccessibilityEvent event) {
+                super.onInitializeAccessibilityEvent(host, event);
 
-                    final int progress = mSeekBar.getProgress() + min;
-                    event.setContentDescription(progress + "");
+                final int progress = mSeekBar.getProgress() + min;
+                event.setContentDescription(progress + "");
 
 //                    event.setItemCount(max - min);
 //                    event.setFromIndex(min);
 //                    event.setToIndex(max);
 //                    event.setCurrentItemIndex(progress);
-                }
+            }
 
-                @Override
-                public void onInitializeAccessibilityNodeInfo(final View host, final AccessibilityNodeInfo info) {
-                    super.onInitializeAccessibilityNodeInfo(host, info);
+            @Override
+            public void onInitializeAccessibilityNodeInfo(final View host, final AccessibilityNodeInfo info) {
+                super.onInitializeAccessibilityNodeInfo(host, info);
 
-                    int progress = mSeekBar.getProgress() + min;
-                    info.setContentDescription(progress + "");
-                }
-            });
-        }
+                int progress = mSeekBar.getProgress() + min;
+                info.setContentDescription(progress + "");
+            }
+        });
     }
 
     private boolean hasDialogTitle() {

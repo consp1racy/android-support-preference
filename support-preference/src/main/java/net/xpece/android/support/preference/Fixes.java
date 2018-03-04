@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
  */
 public final class Fixes {
     private Fixes() {
-        throw new AssertionError("No instances");
+        throw new AssertionError("No instances!");
     }
 
     /**
      * In appcompat-v7 r23.1.1 and r24.1.x there is a bug
      * which prevents tinting of checkmarks in lists.
      * <p>
-     * This fix is no longer necessary and does nothing. This method will be removed.
+     * This library now requires at least support library 27.0.0 so
+     * this fix is no longer necessary and does nothing. This method will be removed.
      *
      * @param layoutInflater Layout inflater that should automatically inflate fixed widgets
      */

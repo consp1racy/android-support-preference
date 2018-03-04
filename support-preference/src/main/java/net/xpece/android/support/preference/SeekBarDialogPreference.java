@@ -58,15 +58,11 @@ public class SeekBarDialogPreference extends DialogPreference {
             setMin(a.getInt(R.styleable.SeekBarPreference_asp_min, mPreferredMin));
         }
 
-        try {
-            final boolean hasMin = a.hasValue(R.styleable.SeekBarPreference_min);
-            if (hasMin && hasAspMin) {
-                Log.w(TAG, "You've specified both app:asp_min and app:min. app:asp_min takes precedence.");
-            } else {
-                setMin(a.getInt(R.styleable.SeekBarPreference_min, mPreferredMin));
-            }
-        } catch (NoSuchFieldError e) {
-            // These are only available since support libs 25.1.0.
+        final boolean hasMin = a.hasValue(R.styleable.SeekBarPreference_min);
+        if (hasMin && hasAspMin) {
+            Log.w(TAG, "You've specified both app:asp_min and app:min. app:asp_min takes precedence.");
+        } else {
+            setMin(a.getInt(R.styleable.SeekBarPreference_min, mPreferredMin));
         }
 
         setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mPreferredMax));

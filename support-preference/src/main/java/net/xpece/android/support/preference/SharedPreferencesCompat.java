@@ -1,7 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.support.annotation.NonNull;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -12,35 +12,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Eugen on 20. 5. 2015.
+ * We used to store string sets as JSON array {@link String} on Android 2.x.
+ *
+ * This class allows to read such JSON array as {@code Set<String>} and overwrite it.
  */
 public final class SharedPreferencesCompat {
 
-    public static void putStringSet(SharedPreferences.Editor editor, String key, Set<String> values) {
-            if (Build.VERSION.SDK_INT >= 11) {
-                while (true) {
-                    try {
-                        editor.putStringSet(key, values);
-                        break;
-                    } catch (ClassCastException ex) {
-                        // Clear stale JSON string from before system upgrade
-                        editor.remove(key);
-                    }
-                }
-            } else {
-                putStringSetToJson(editor, key, values);
+    /**
+     * Stores supplied preference as {@code Set<String>}
+     * while overwriting previous JSON array string.
+     *
+     * @param editor Preference editor
+     * @param key Preference key
+     * @param values Data set
+     */
+    public static void putStringSet(@NonNull SharedPreferences.Editor editor, String key, Set<String> values) {
+        while (true) {
+            try {
+                editor.putStringSet(key, values);
+                break;
+            } catch (ClassCastException ex) {
+                // We used to store string sets as JSON array on Android 2.x.
+                // Clear stale JSON string from before system upgrade.
+                editor.remove(key);
             }
+        }
     }
 
+    /**
+     * Reads preference as {@code Set<String>} even when it's stored as JSON array string.
+     *
+     * @param prefs Preferences
+     * @param key Preference key
+     * @param defaultReturnValue Default value if not found
+     * @return Data set
+     */
     public static Set<String> getStringSet(SharedPreferences prefs, String key, Set<String> defaultReturnValue) {
-        if (Build.VERSION.SDK_INT >= 11) {
-            try {
-                return prefs.getStringSet(key, defaultReturnValue);
-            } catch (ClassCastException ex) {
-                // If user upgraded from Gingerbread to something higher read the stale JSON string
-                return getStringSetFromJson(prefs, key, defaultReturnValue);
-            }
-        } else {
+        try {
+            return prefs.getStringSet(key, defaultReturnValue);
+        } catch (ClassCastException ex) {
+            // We used to store string sets as JSON array on Android 2.x.
+            // If user upgraded from Gingerbread to something higher read the stale JSON string.
             return getStringSetFromJson(prefs, key, defaultReturnValue);
         }
     }
@@ -63,11 +75,7 @@ public final class SharedPreferencesCompat {
         }
     }
 
-    private static void putStringSetToJson(SharedPreferences.Editor editor, String key, Set<String> values) {
-        JSONArray json = new JSONArray(values);
-        editor.putString(key, json.toString());
+    private SharedPreferencesCompat() {
+        throw new AssertionError("No instances!");
     }
-
-    private SharedPreferencesCompat() {}
-
 }

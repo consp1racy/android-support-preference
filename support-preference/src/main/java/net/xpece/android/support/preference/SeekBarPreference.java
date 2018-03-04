@@ -162,21 +162,17 @@ public class SeekBarPreference extends Preference {
             setMax(a.getInt(R.styleable.SeekBarPreference_android_max, mMax));
         }
 
-        try {
-            final boolean hasMin = a.hasValue(R.styleable.SeekBarPreference_min);
-            if (hasAspMin && hasMin) {
-                Log.w(TAG, "You've specified both app:asp_min and app:min. app:asp_min takes precedence.");
-            } else {
-                mMin = a.getInt(R.styleable.SeekBarPreference_min, mMin);
-                setMax(mMax);
-            }
-
-            setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, mSeekBarIncrement));
-            mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, mAdjustable);
-            mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, mShowSeekBarValue);
-        } catch (NoSuchFieldError e) {
-            // These are only available since support libs 25.1.0.
+        final boolean hasMin = a.hasValue(R.styleable.SeekBarPreference_min);
+        if (hasAspMin && hasMin) {
+            Log.w(TAG, "You've specified both app:asp_min and app:min. app:asp_min takes precedence.");
+        } else {
+            mMin = a.getInt(R.styleable.SeekBarPreference_min, mMin);
+            setMax(mMax);
         }
+
+        setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, mSeekBarIncrement));
+        mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, mAdjustable);
+        mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, mShowSeekBarValue);
 
         mInfoAnchorId = a.getResourceId(R.styleable.SeekBarPreference_asp_infoAnchor, 0);
         setInfo(a.getText(R.styleable.SeekBarPreference_asp_info));
@@ -216,23 +212,6 @@ public class SeekBarPreference extends Preference {
         }
         seekBar.setProgress(mSeekBarValue - mMin);
         seekBar.setEnabled(isEnabled());
-
-        fixDrawableStateOnAndroid2(seekBar);
-    }
-
-    private static void fixDrawableStateOnAndroid2(final SeekBar seekBar) {// Fix drawable state on Android 2.
-        if (Build.VERSION.SDK_INT < 14) {
-            final int[] state = seekBar.getDrawableState();
-            Drawable d;
-            d = SeekBarCompat.getThumb(seekBar);
-            if (d != null) d.setState(state);
-            d = seekBar.getProgressDrawable();
-            if (d != null) d.setState(state);
-            d = seekBar.getIndeterminateDrawable();
-            if (d != null) d.setState(state);
-            d = seekBar.getBackground();
-            if (d != null) d.setState(state);
-        }
     }
 
     private void bindInfo(@NonNull TextView info) {

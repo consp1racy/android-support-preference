@@ -381,20 +381,18 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         // No-op.
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onPause() {
         super.onPause();
-        if (Build.VERSION.SDK_INT < 11 || !getActivity().isChangingConfigurations()) {
+        if (!getActivity().isChangingConfigurations()) {
             stopAnyPlayingRingtone();
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onStop() {
         super.onStop();
-        if (Build.VERSION.SDK_INT < 11 || !getActivity().isChangingConfigurations()) {
+        if (!getActivity().isChangingConfigurations()) {
             stopAnyPlayingRingtone();
         } else {
             saveAnyPlayingRingtone();

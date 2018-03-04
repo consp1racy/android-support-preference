@@ -2,7 +2,6 @@ package android.support.v7.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.SharedPreferencesCompat;
@@ -34,11 +33,7 @@ public class XpPreferenceManager extends PreferenceManager {
         }
         METHOD_SET_NO_COMMIT = setNoCommit;
 
-        if (Build.VERSION.SDK_INT < 14) {
-            DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v7.preference."};
-        } else {
-            DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v14.preference.", "android.support.v7.preference."};
-        }
+        DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v14.preference.", "android.support.v7.preference."};
     }
 
     private String[] mCustomDefaultPackages;

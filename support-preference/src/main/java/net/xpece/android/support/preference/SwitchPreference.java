@@ -34,8 +34,6 @@ import android.widget.Switch;
  * This preference will store a boolean into the SharedPreferences.
  */
 public class SwitchPreference extends TwoStatePreference {
-    private static final boolean NATIVE_SWITCH_CAPABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-
     private final Listener mListener = new Listener();
 
     // Switch text for on and off states
@@ -133,7 +131,6 @@ public class SwitchPreference extends TwoStatePreference {
         this.syncSwitchView(switchView);
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void syncSwitchView(View view) {
         if (view instanceof Checkable) {
             final Checkable checkable = (Checkable) view;
@@ -145,7 +142,7 @@ public class SwitchPreference extends TwoStatePreference {
                 switchView.setTextOn(this.mSwitchOn);
                 switchView.setTextOff(this.mSwitchOff);
                 switchView.setOnCheckedChangeListener(null);
-            } else if (NATIVE_SWITCH_CAPABLE && view instanceof Switch) {
+            } else if (view instanceof Switch) {
                 Switch switchView = (Switch) view;
                 switchView.setTextOn(this.mSwitchOn);
                 switchView.setTextOff(this.mSwitchOff);
@@ -157,7 +154,7 @@ public class SwitchPreference extends TwoStatePreference {
             if (view instanceof SwitchCompat) {
                 SwitchCompat switchView = (SwitchCompat) view;
                 switchView.setOnCheckedChangeListener(mListener);
-            } else if (NATIVE_SWITCH_CAPABLE && view instanceof Switch) {
+            } else if (view instanceof Switch) {
                 Switch switchView = (Switch) view;
                 switchView.setOnCheckedChangeListener(mListener);
             }
