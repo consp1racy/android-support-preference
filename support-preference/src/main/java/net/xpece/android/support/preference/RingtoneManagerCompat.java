@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import java.lang.reflect.Method;
  * Created by Eugen on 14.12.2015.
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
+@SuppressLint("PrivateApi")
 public final class RingtoneManagerCompat extends RingtoneManager {
     private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 
@@ -25,8 +27,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             cursor = RingtoneManager.class.getDeclaredField("mCursor");
             cursor.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException ignore) {
         }
         FIELD_CURSOR = cursor;
 
@@ -34,8 +35,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
             getInternalRingtones.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException ignore) {
         }
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
     }
@@ -43,8 +43,8 @@ public final class RingtoneManagerCompat extends RingtoneManager {
     private void setCursorInternal(Cursor cursor) {
         try {
             FIELD_CURSOR.set(this, cursor);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
     }
 
@@ -52,9 +52,8 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
-        return null;
     }
 
     public RingtoneManagerCompat(Activity activity) {
