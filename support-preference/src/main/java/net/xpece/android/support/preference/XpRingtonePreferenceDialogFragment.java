@@ -153,7 +153,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
         loadRingtoneManager(savedInstanceState);
 
-        if (getShowsDialog()) {
+        if (getDialog() instanceof DummyAlertDialog) {
             // Reinstall the real dialog now if we don't have custom view.
             // The resulting layout inflater will be discarded. First call result is preserved.
             // Fragment-Dialog listeners are attached in super.onActivityCreated. Do this before.
@@ -172,7 +172,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         } else {
             // Dummy. Will be replaced with real dialog in onActivityCreated.
             // LayoutInflater from the dialog builder will remain cached in this fragment.
-            return new AlertDialog.Builder(getContext()).create();
+            return new DummyAlertDialog(getContext());
         }
     }
 
@@ -191,7 +191,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         if (fallbackRingtonePicker) {
             setShowsDialog(false);
         } else {
-            RingtonePreference preference = getRingtonePreference();
+            RingtonePreference preference = requireRingtonePreference();
 
         /*
          * Get whether to show the 'Default' item, and the URI to play when the
@@ -280,11 +280,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        RingtonePreference preference = getRingtonePreference();
-        if (preference == null) {
-            final String key = getArguments().getString(ARG_KEY);
-            throw new IllegalStateException("RingtonePreference[" + key + "] not available (yet).");
-        }
+        RingtonePreference preference = requireRingtonePreference();
 
         // The volume keys will control the stream that we are choosing a ringtone for
         getActivity().setVolumeControlStream(mRingtoneManager.inferStreamType());
@@ -413,6 +409,16 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return (RingtonePreference) getPreference();
     }
 
+    @NonNull
+    protected RingtonePreference requireRingtonePreference() {
+        final RingtonePreference preference = getRingtonePreference();
+        if (preference == null) {
+            final String key = getArguments().getString(ARG_KEY);
+            throw new IllegalStateException("RingtonePreference[" + key + "] not available (yet).");
+        }
+        return preference;
+    }
+
     @Override
     public void onDialogClosed(boolean positiveResult) {
         // Stop playing the previous ringtone
@@ -516,5 +522,11 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     private int getRingtoneManagerPosition(int listPos) {
         return listPos - mStaticItems.size();
+    }
+
+    private static class DummyAlertDialog extends AlertDialog {
+        DummyAlertDialog(@NonNull Context context) {
+            super(context);
+        }
     }
 }
