@@ -183,7 +183,7 @@ public class MultiSelectListPreference extends DialogPreference {
             for (int i = 0; i < valueCount; i++) {
                 result.add(defaultValues[i].toString());
             }
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ignore) {
             // TADA! Now you don't need to specify an empty array in XML.
         }
         return result;

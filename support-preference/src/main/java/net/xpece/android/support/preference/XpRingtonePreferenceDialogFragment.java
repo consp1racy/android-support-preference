@@ -26,6 +26,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 import java.util.ArrayList;
 
 /**
@@ -226,7 +228,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     private void recover(final RingtonePreference preference, final Throwable ex) {
-        ex.printStackTrace();
+        XpSupportPreferencePlugins.onError(ex, "RingtoneManager returned unexpected cursor.");
+
         mCursor = null;
         setShowsDialog(false);
 

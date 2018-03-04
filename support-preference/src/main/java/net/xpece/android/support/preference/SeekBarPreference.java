@@ -30,6 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -257,8 +258,17 @@ public class SeekBarPreference extends Preference {
                 lp.addRule(RelativeLayout.ALIGN_BASELINE, 0); // Remove rule.
                 lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             }
-        } catch (ClassCastException ex) {
-            // Not applicable.
+        } catch (ClassCastException ignore) {
+            final String lpName;
+            final ViewGroup.LayoutParams lp = info.getLayoutParams();
+            Class<? extends ViewGroup.LayoutParams> lpClass = lp.getClass();
+            final Class<?> enclosing = lpClass.getEnclosingClass();
+            if (enclosing == null) {
+                lpName = lpClass.getSimpleName();
+            } else {
+                lpName = enclosing.getSimpleName() + "." + lpClass.getSimpleName();
+            }
+            Log.e(TAG, "Could not align info to anchor. Expected RelativeLayout.LayoutParams, got " + lpName + ".");
         }
     }
 
@@ -353,7 +363,7 @@ public class SeekBarPreference extends Preference {
      * Sets the increment amount on the SeekBar for each arrow key press.
      *
      * @param seekBarIncrement The amount to increment or decrement when the user presses an
-     * arrow key.
+     *                         arrow key.
      */
     public final void setSeekBarIncrement(int seekBarIncrement) {
         if (seekBarIncrement != mSeekBarIncrement) {

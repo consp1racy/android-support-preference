@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.SharedPreferencesCompat;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +30,7 @@ public class XpPreferenceManager extends PreferenceManager {
             setNoCommit = PreferenceManager.class.getDeclaredMethod("setNoCommit", boolean.class);
             setNoCommit.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            XpSupportPreferencePlugins.onError(e, "setNoCommit not available.");
         }
         METHOD_SET_NO_COMMIT = setNoCommit;
 
@@ -44,8 +47,12 @@ public class XpPreferenceManager extends PreferenceManager {
     private void setNoCommit(boolean noCommit) {
         try {
             METHOD_SET_NO_COMMIT.invoke(this, noCommit);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // This should never happen.
+            throw new IllegalStateException(e);
+        } catch (InvocationTargetException e) {
+            // This should never happen.
+            throw new IllegalStateException(e);
         }
     }
 
@@ -61,12 +68,12 @@ public class XpPreferenceManager extends PreferenceManager {
 
     @Override
     public PreferenceScreen inflateFromResource(@NonNull Context context, int resId, @Nullable PreferenceScreen rootPreferences) {
-        this.setNoCommit(true);
+        setNoCommit(true);
         PreferenceInflater inflater = new XpPreferenceInflater(context, this);
         initPreferenceInflater(inflater);
         rootPreferences = (PreferenceScreen) inflater.inflate(resId, rootPreferences);
         rootPreferences.onAttachedToHierarchy(this);
-        this.setNoCommit(false);
+        setNoCommit(false);
         return rootPreferences;
     }
 

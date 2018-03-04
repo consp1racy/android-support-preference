@@ -16,6 +16,7 @@ import net.xpece.android.support.preference.XpListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment;
 import net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment;
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
 import java.lang.reflect.Field;
 
@@ -35,7 +36,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
             preferenceManager = PreferenceFragmentCompat.class.getDeclaredField("mPreferenceManager");
             preferenceManager.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            XpSupportPreferencePlugins.onError(e, "mPreferenceManager not available.");
         }
         FIELD_PREFERENCE_MANAGER = preferenceManager;
     }
@@ -44,7 +45,8 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         try {
             FIELD_PREFERENCE_MANAGER.set(this, manager);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            // This should never happen.
+            throw new IllegalStateException(e);
         }
     }
 

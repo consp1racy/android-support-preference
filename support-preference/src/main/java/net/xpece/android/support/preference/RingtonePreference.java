@@ -30,6 +30,8 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
  * The chosen ringtone's URI will be persisted as a string.
@@ -306,6 +308,7 @@ public class RingtonePreference extends DialogPreference {
             int resId = res.getIdentifier("notification_sound_default", "string", "com.android.providers.media");
             return res.getString(resId);
         } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+            XpSupportPreferencePlugins.onError(e, null);
             return context.getString(R.string.notification_sound_default);
         }
     }
@@ -317,6 +320,7 @@ public class RingtonePreference extends DialogPreference {
             int resId = res.getIdentifier("alarm_sound_default", "string", "com.android.providers.media");
             return res.getString(resId);
         } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+            XpSupportPreferencePlugins.onError(e, null);
             return context.getString(R.string.alarm_sound_default);
         }
     }

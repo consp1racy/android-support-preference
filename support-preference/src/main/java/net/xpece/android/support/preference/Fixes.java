@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 import java.lang.reflect.Field;
 
 /**
@@ -37,7 +39,7 @@ public final class Fixes {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            XpSupportPreferencePlugins.onError(e, null);
         }
     }
 

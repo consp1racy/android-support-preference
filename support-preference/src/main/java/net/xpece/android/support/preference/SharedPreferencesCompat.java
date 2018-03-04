@@ -3,6 +3,8 @@ package net.xpece.android.support.preference;
 import android.content.SharedPreferences;
 import android.os.Build;
 
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -56,7 +58,7 @@ public final class SharedPreferencesCompat {
             }
             return set;
         } catch (JSONException e) {
-            e.printStackTrace();
+            XpSupportPreferencePlugins.onError(e, "Couldn't read '" + key + "' preference as JSON.");
             return defaultReturnValue;
         }
     }
