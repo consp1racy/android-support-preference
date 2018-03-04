@@ -1,5 +1,19 @@
 # Change log
 
+**2.1.0** 2018-03-XX
+- Support library 27.0.0+ and min SDK 14 are required.
+  - Non-compliance is punished by unexpected runtime exceptions from now on.
+- `Fixes.updateLayoutInflaterFactory` is now deprecated and does nothing. It's no longer needed.
+- *NEW!* Use `XpSupportPreferencePlugins.registerErrorInterceptor` to report internal non-fatal
+  errors e.g. to Crashlytics. Read more in [README.md](README.md#reporting-errors).
+  [Issue #93](https://github.com/consp1racy/android-support-preference/issues/93)
+- Ringtone picker preference
+  - *FIXED:* Ringtone picker should no longer crash on orientation change or state restoration
+    when the dialog fragment is restored before preference fragment.
+    [Issue #87](https://github.com/consp1racy/android-support-preference/issues/87)
+  - *FIXED:* Ringtone picker should no longer crash while listing ringtones on some device.
+    [Issue #92](https://github.com/consp1racy/android-support-preference/issues/92)
+
 **2.0.2** 2018-03-03
 - All libraries
   - Libraries do not automatically transitively pull support libraries 27.1.0. (https://github.com/consp1racy/android-support-preference/issues/91)
