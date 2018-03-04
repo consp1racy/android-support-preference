@@ -1,14 +1,11 @@
 package net.xpece.android.support.preference;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
-import android.os.Build;
-import android.os.Process;
-import android.provider.MediaStore;
+import android.support.annotation.RestrictTo;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -17,24 +14,20 @@ import java.lang.reflect.Method;
 /**
  * Created by Eugen on 14.12.2015.
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+@SuppressLint("PrivateApi")
 public final class RingtoneManagerCompat extends RingtoneManager {
-    static final String TAG = RingtoneManagerCompat.class.getSimpleName();
+    private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 
     private static final Field FIELD_CURSOR;
     private static final Method METHOD_GET_INTERNAL_RINGTONES;
-    private static final Method METHOD_GET_MEDIA_RINGTONES;
-
-    private static final RingtoneManagerImpl sImpl;
-
-    private final Context mContext;
 
     static {
         Field cursor = null;
         try {
             cursor = RingtoneManager.class.getDeclaredField("mCursor");
             cursor.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException ignore) {
         }
         FIELD_CURSOR = cursor;
 
@@ -42,117 +35,48 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
             getInternalRingtones.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException ignore) {
         }
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
-
-        Method getMediaRingtones = null;
-        try {
-            getMediaRingtones = RingtoneManager.class.getDeclaredMethod("getMediaRingtones");
-            getMediaRingtones.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        METHOD_GET_MEDIA_RINGTONES = getMediaRingtones;
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            sImpl = new RingtoneManagerImplV23();
-        } else {
-            sImpl = new RingtoneManagerImplBase();
-        }
     }
 
     private void setCursorInternal(Cursor cursor) {
         try {
             FIELD_CURSOR.set(this, cursor);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Cursor getCursorInternal() {
-        try {
-            return (Cursor) FIELD_CURSOR.get(this);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    static Cursor getInternalRingtonesInternal(RingtoneManager rm) {
-        try {
-            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(rm);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
-        return null;
     }
 
-    static Cursor getMediaRingtonesInternal(RingtoneManager rm) {
+    private Cursor getInternalRingtones() {
         try {
-            return (Cursor) METHOD_GET_MEDIA_RINGTONES.invoke(rm);
+            return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
         }
-        return null;
     }
 
     public RingtoneManagerCompat(Activity activity) {
         super(activity);
-        mContext = activity;
     }
 
     public RingtoneManagerCompat(Context context) {
         super(context);
-        mContext = context;
     }
 
     @Override
     public Cursor getCursor() {
-        Cursor mCursor = getCursorInternal();
-        if (mCursor != null && mCursor.requery()) {
-            return mCursor;
-        }
-
-        final Cursor internalCursor = getInternalRingtones();
-        final Cursor mediaCursor = getMediaRingtones();
-
-        mCursor = new SortCursor(new Cursor[]{internalCursor, mediaCursor},
-            MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        setCursorInternal(mCursor);
-        return mCursor;
-    }
-
-    private Cursor getInternalRingtones() {
-        return getInternalRingtonesInternal(this);
-    }
-
-    private Cursor getMediaRingtones() {
-        return sImpl.getMediaRingtones(mContext, this);
-    }
-
-    interface RingtoneManagerImpl {
-        Cursor getMediaRingtones(Context context, RingtoneManager rm);
-    }
-
-    static class RingtoneManagerImplBase implements RingtoneManagerImpl {
-        @Override
-        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
-            if (PackageManager.PERMISSION_GRANTED != context.checkPermission(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Process.myPid(), Process.myUid())) {
-                Log.w(TAG, "No READ_EXTERNAL_STORAGE permission, ignoring ringtones on ext storage");
-                return null;
+        try {
+            return super.getCursor();
+        } catch (SecurityException ex) {
+            Log.w(TAG, "No READ_EXTERNAL_STORAGE permission, ignoring ringtones on ext storage");
+            if (getIncludeDrm()) {
+                Log.w(TAG, "DRM ringtones are ignored.");
             }
-            return getMediaRingtonesInternal(rm);
-        }
-    }
 
-    static class RingtoneManagerImplV23 extends RingtoneManagerImplBase {
-        @Override
-        public Cursor getMediaRingtones(Context context, RingtoneManager rm) {
-            return getMediaRingtonesInternal(rm);
+            final Cursor cursor = getInternalRingtones();
+            setCursorInternal(cursor);
+            return cursor;
         }
     }
 }

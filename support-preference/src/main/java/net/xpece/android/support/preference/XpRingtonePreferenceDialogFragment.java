@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * Created by Eugen on 07.12.2015.
  */
 public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragment
-    implements Runnable, AdapterView.OnItemSelectedListener {
+        implements Runnable, AdapterView.OnItemSelectedListener {
 
     private static int RC_FALLBACK_RINGTONE_PICKER = 0xff00; // <0; 0xffff>
 
@@ -49,31 +50,49 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private Cursor mCursor;
     private Handler mHandler;
 
-    /** The position in the list of the 'Silent' item. */
+    /**
+     * The position in the list of the 'Silent' item.
+     */
     private int mSilentPos = POS_UNKNOWN;
 
-    /** The position in the list of the 'Default' item. */
+    /**
+     * The position in the list of the 'Default' item.
+     */
     private int mDefaultRingtonePos = POS_UNKNOWN;
 
-    /** The position in the list of the last clicked item. */
+    /**
+     * The position in the list of the last clicked item.
+     */
     int mClickedPos = POS_UNKNOWN;
 
-    /** The position in the list of the ringtone to sample. */
+    /**
+     * The position in the list of the ringtone to sample.
+     */
     private int mSampleRingtonePos = POS_UNKNOWN;
 
-    /** Whether this list has the 'Silent' item. */
+    /**
+     * Whether this list has the 'Silent' item.
+     */
     private boolean mHasSilentItem;
 
-    /** The Uri to place a checkmark next to. */
+    /**
+     * The Uri to place a checkmark next to.
+     */
     private Uri mExistingUri;
 
-    /** The number of static items in the list. */
+    /**
+     * The number of static items in the list.
+     */
     private final ArrayList<XpHeaderViewListAdapter.FixedViewInfo> mStaticItems = new ArrayList<>();
 
-    /** Whether this list has the 'Default' item. */
+    /**
+     * Whether this list has the 'Default' item.
+     */
     private boolean mHasDefaultItem;
 
-    /** The Uri to play when the 'Default' item is clicked. */
+    /**
+     * The Uri to play when the 'Default' item is clicked.
+     */
     private Uri mUriForDefaultItem;
 
     /**
@@ -96,20 +115,22 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private static Ringtone sPlayingRingtone;
 
     private final DialogInterface.OnClickListener mRingtoneClickListener =
-        new DialogInterface.OnClickListener() {
+            new DialogInterface.OnClickListener() {
 
-            /*
-             * On item clicked
-             */
-            public void onClick(DialogInterface dialog, int which) {
-                // Save the position of most recently clicked item
-                mClickedPos = which;
+                /*
+                 * On item clicked
+                 */
+                public void onClick(DialogInterface dialog, int which) {
+                    // Save the position of most recently clicked item
+                    mClickedPos = which;
 
-                // Play clip
-                playRingtone(which, 0);
-            }
+                    // Play clip
+                    playRingtone(which, 0);
+                }
 
-        };
+            };
+
+    private boolean mActivityCreated = false;
 
     public static XpRingtonePreferenceDialogFragment newInstance(String key) {
         XpRingtonePreferenceDialogFragment fragment = new XpRingtonePreferenceDialogFragment();
@@ -124,7 +145,38 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         super.onCreate(savedInstanceState);
 
         mHandler = new Handler();
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        mActivityCreated = true;
+
+        loadRingtoneManager(savedInstanceState);
+
+        if (getShowsDialog()) {
+            // Reinstall the real dialog now if we don't have custom view.
+            // The resulting layout inflater will be discarded. First call result is preserved.
+            // Fragment-Dialog listeners are attached in super.onActivityCreated. Do this before.
+            getDialog().dismiss();
+            onGetLayoutInflater(savedInstanceState);
+        }
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        if (mActivityCreated) {
+            return super.onCreateDialog(savedInstanceState);
+        } else {
+            // Dummy. Will be replaced with real dialog in onActivityCreated.
+            // LayoutInflater from the dialog builder will remain cached in this fragment.
+            return new AlertDialog.Builder(getContext()).create();
+        }
+    }
+
+    private void loadRingtoneManager(Bundle savedInstanceState) {
         // Give the Activity so it can do managed queries
         mRingtoneManager = new RingtoneManagerCompat(getActivity());
 
@@ -177,17 +229,13 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         ex.printStackTrace();
         mCursor = null;
         setShowsDialog(false);
+
+        // Alternatively try starting system picker.
+        Intent i = buildRingtonePickerIntent(preference);
         try {
-            // Alternatively try starting system picker.
-            Intent i = buildRingtonePickerIntent(preference);
-            try {
-                startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
-            } catch (ActivityNotFoundException ex2) {
-                onRingtonePickerNotFound(RC_FALLBACK_RINGTONE_PICKER);
-            }
-        } catch (Exception ex2) {
-            ex2.printStackTrace();
-            // If everything fails show empty list.
+            startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
+        } catch (ActivityNotFoundException ex2) {
+            onRingtonePickerNotFound(RC_FALLBACK_RINGTONE_PICKER);
         }
     }
 
@@ -196,7 +244,9 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * Let the user know (using e.g. a Toast).
      * Just dismisses this fragment by default.
      *
-     * @param requestCode You can use this code to launch another activity instead of dismissing this fragment.
+     * @param requestCode You can use this code to launch another activity instead of dismissing
+     *                    this fragment. The result must contain
+     *                    {@link RingtoneManager#EXTRA_RINGTONE_PICKED_URI} extra.
      */
     public void onRingtonePickerNotFound(final int requestCode) {
         dismiss();
@@ -231,6 +281,10 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         super.onPrepareDialogBuilder(builder);
 
         RingtonePreference preference = getRingtonePreference();
+        if (preference == null) {
+            final String key = getArguments().getString(ARG_KEY);
+            throw new IllegalStateException("RingtonePreference[" + key + "] not available (yet).");
+        }
 
         // The volume keys will control the stream that we are choosing a ringtone for
         getActivity().setVolumeControlStream(mRingtoneManager.inferStreamType());
@@ -265,7 +319,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
 
         SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(context, singleChoiceItemLayout, mCursor,
-            new String[]{MediaStore.Audio.Media.TITLE}, new int[]{android.R.id.text1});
+                new String[]{MediaStore.Audio.Media.TITLE}, new int[]{android.R.id.text1});
 
         XpHeaderViewListAdapter adapter = new XpHeaderViewListAdapter(mStaticItems, null, ringtoneAdapter);
 
@@ -295,13 +349,16 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     private int addDefaultRingtoneItem(LayoutInflater inflater, @LayoutRes int layout) {
-        if (mType == RingtoneManager.TYPE_NOTIFICATION) {
-            return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
-        } else if (mType == RingtoneManager.TYPE_ALARM) {
-            return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
+        switch (mType) {
+            case RingtoneManager.TYPE_NOTIFICATION:
+                return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
+            case RingtoneManager.TYPE_ALARM:
+                return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
+            case RingtoneManager.TYPE_RINGTONE:
+                return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
+            default:
+                throw new IllegalArgumentException("Unknown ringtone type: " + mType);
         }
-
-        return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
     }
 
     private int addSilentItem(LayoutInflater inflater, @LayoutRes int layout) {
@@ -309,7 +366,6 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     private int getListPosition(int ringtoneManagerPos) {
-
         // If the manager position is -1 (for not found), return that
         if (ringtoneManagerPos < 0) return ringtoneManagerPos;
 
@@ -323,6 +379,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+        // No-op.
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
