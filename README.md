@@ -14,6 +14,7 @@ Available from API 14. *Connecting preference-v7 to appcompat-v7.*
 - [Contents](#contents)
 - [How to use the library?](#how-to-use)
 - [Changelog](CHANGELOG.md)
+- [Reporting errors](#reporting-errors)
 
 <a name="how-to-get"/>
 
@@ -441,6 +442,39 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 - MultiSelectListPreference items may be incorrectly tinted on Android 2.
   - Observed on Android 4 as well on first opening of multi select dialog.
+
+<a name="reporting-errors"/>
+
+## Reporting errors
+
+Some devices require special care and specific errors may occur inside this library.
+You are encouraged to opt-in to notifications about these internal errors so this library and
+relay them to the [Issues section](https://github.com/consp1racy/android-support-preference/issues).
+
+Here's an example how to get error reports to Crashlytics:
+
+```java
+XpSupportPreferencePlugins.registerErrorInterceptor(new ErrorInterceptor() {
+    @Override
+    public void onError(@NonNull Throwable t, @Nullable String message) {
+        Timber.w(t, message);
+        if (message != null) Crashlytics.log(message);
+        Crashlytics.logException(t);
+    }
+});
+```
+
+When reporting your findings here make sure to strip any user or sensitive data.
+
+What's needed:
+
+* Android version
+* Device manufacturer and model
+* Stacktrace with line numbers preserved
+* Android support library version
+* xpece-android-support-preference library version
+
+Thanks for making this library better!
 
 ## Questions
 
