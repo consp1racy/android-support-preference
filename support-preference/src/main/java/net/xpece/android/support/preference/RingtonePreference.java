@@ -373,6 +373,19 @@ public class RingtonePreference extends DialogPreference {
 
     // TODO Bundle the string in the library in all languages.
     @NonNull
+    public static String getRingtoneDefaultWithActualString(@NonNull Context context, @NonNull String actual) {
+        final String resName = "ringtone_default_with_actual";
+        int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
+        if (resId == 0) {
+            // This shouldn't happen.
+            XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
+            resId = R.string.ringtone_default_with_actual;
+        }
+        return context.getApplicationContext().getString(resId, actual);
+    }
+
+    // TODO Bundle the string in the library in all languages.
+    @NonNull
     public static String getRingtoneSilentString(@NonNull Context context) {
         final String resName = "ringtone_silent";
         int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
