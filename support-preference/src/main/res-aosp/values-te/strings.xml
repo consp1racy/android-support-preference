@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ఆన్‌లో ఉంది"</string>
+    <string name="capital_off">"ఆఫ్‌లో ఉంది"</string>
+    <string name="ringtone_default">"డిఫాల్ట్ రింగ్‌టోన్"</string>
+    <string name="ringtone_default_with_actual">"డిఫాల్ట్ (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"ఏదీ వద్దు"</string>
+    <string name="ringtone_picker_title">"రింగ్‌టోన్‌లు"</string>
+    <string name="ringtone_picker_title_alarm">"అలారం ధ్వనులు"</string>
+    <string name="ringtone_picker_title_notification">"నోటిఫికేషన్ ధ్వనులు"</string>
+    <string name="ringtone_unknown">"తెలియదు"</string>
+</resources>

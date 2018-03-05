@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ಆನ್‌ ಮಾಡಿ"</string>
+    <string name="capital_off">"ಆಫ್ ಮಾಡು"</string>
+    <string name="ringtone_default">"ಡಿಫಾಲ್ಟ್ ರಿಂಗ್‌ಟೋನ್"</string>
+    <string name="ringtone_default_with_actual">"ಡಿಫಾಲ್ಟ್‌‌ (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"ಯಾವುದೂ ಇಲ್ಲ"</string>
+    <string name="ringtone_picker_title">"ರಿಂಗ್‌ಟೋನ್‌ಗಳು"</string>
+    <string name="ringtone_picker_title_alarm">"ಅಲಾರಮ್ ಧ್ವನಿಗಳು"</string>
+    <string name="ringtone_picker_title_notification">"ಅಧಿಸೂಚನೆ ಧ್ವನಿಗಳು"</string>
+    <string name="ringtone_unknown">"ಅಪರಿಚಿತ"</string>
+</resources>

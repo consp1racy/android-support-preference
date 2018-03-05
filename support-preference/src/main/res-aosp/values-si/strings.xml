@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"සක්‍රීයයි"</string>
+    <string name="capital_off">"අක්‍රිය කරන්න"</string>
+    <string name="ringtone_default">"සුපුරුදු රින්ටෝනය සකසන්න"</string>
+    <string name="ringtone_default_with_actual">"පෙරනිමි (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"කිසිවක් නැත"</string>
+    <string name="ringtone_picker_title">"රිගින්ටෝන"</string>
+    <string name="ringtone_picker_title_alarm">"එලාම හඬ"</string>
+    <string name="ringtone_picker_title_notification">"දැනුම්දීම් හඬ"</string>
+    <string name="ringtone_unknown">"නොදනී"</string>
+</resources>

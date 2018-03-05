@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"BẬT"</string>
+    <string name="capital_off">"TẮT"</string>
+    <string name="ringtone_default">"Nhạc chuông mặc định"</string>
+    <string name="ringtone_default_with_actual">"Mặc định (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Không"</string>
+    <string name="ringtone_picker_title">"Nhạc chuông"</string>
+    <string name="ringtone_picker_title_alarm">"Âm thanh báo thức"</string>
+    <string name="ringtone_picker_title_notification">"Âm thanh thông báo"</string>
+    <string name="ringtone_unknown">"Không xác định"</string>
+</resources>

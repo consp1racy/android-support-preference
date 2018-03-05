@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"PÄÄLLÄ"</string>
+    <string name="capital_off">"POIS"</string>
+    <string name="ringtone_default">"Oletussoittoääni"</string>
+    <string name="ringtone_default_with_actual">"Oletus (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Ei mitään"</string>
+    <string name="ringtone_picker_title">"Soittoäänet"</string>
+    <string name="ringtone_picker_title_alarm">"Hälytysäänet"</string>
+    <string name="ringtone_picker_title_notification">"Ilmoitusäänet"</string>
+    <string name="ringtone_unknown">"Tuntematon"</string>
+</resources>

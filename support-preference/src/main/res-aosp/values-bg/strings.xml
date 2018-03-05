@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ВКЛ"</string>
+    <string name="capital_off">"ИЗКЛ"</string>
+    <string name="ringtone_default">"Стандартна мелодия"</string>
+    <string name="ringtone_default_with_actual">"По подразбиране (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Без"</string>
+    <string name="ringtone_picker_title">"Мелодии"</string>
+    <string name="ringtone_picker_title_alarm">"Звуци на будилника"</string>
+    <string name="ringtone_picker_title_notification">"Звуци на известията"</string>
+    <string name="ringtone_unknown">"Няма информация"</string>
+</resources>

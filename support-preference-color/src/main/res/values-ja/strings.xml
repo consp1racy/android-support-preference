@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="color_picker_default_title" msgid="1248663997452044787">"色の選択"</string>
-    <string name="color_swatch_description" msgid="2883438431173736180">"色<xliff:g id="COLOR_INDEX">%1$d</xliff:g>"</string>
-    <string name="color_swatch_description_selected" msgid="5020921249944943124">"色<xliff:g id="COLOR_INDEX">%1$d</xliff:g>を選択しました"</string>
+    <string name="color_picker_default_title">"色の選択"</string>
+    <string name="color_swatch_description">"色<xliff:g id="COLOR_INDEX">%1$d</xliff:g>"</string>
+    <string name="color_swatch_description_selected">"色<xliff:g id="COLOR_INDEX">%1$d</xliff:g>を選択しました"</string>
 </resources>

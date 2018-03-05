@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Sí"</string>
+    <string name="capital_off">"No"</string>
+    <string name="ringtone_default">"Tono predeterminado"</string>
+    <string name="ringtone_default_with_actual">"Predeterminado (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Ninguno"</string>
+    <string name="ringtone_picker_title">"Tonos de llamada"</string>
+    <string name="ringtone_picker_title_alarm">"Sonidos de la alarma"</string>
+    <string name="ringtone_picker_title_notification">"Sonidos de notificaciones"</string>
+    <string name="ringtone_unknown">"Desconocido"</string>
+</resources>

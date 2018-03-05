@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"OUI"</string>
+    <string name="capital_off">"NON"</string>
+    <string name="ringtone_default">"Sonnerie par défaut"</string>
+    <string name="ringtone_default_with_actual">"Défaut (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Aucun(e)"</string>
+    <string name="ringtone_picker_title">"Sonneries"</string>
+    <string name="ringtone_picker_title_alarm">"Sons d\'alarme"</string>
+    <string name="ringtone_picker_title_notification">"Sons de notification"</string>
+    <string name="ringtone_unknown">"Inconnu"</string>
+</resources>

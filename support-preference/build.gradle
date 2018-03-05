@@ -18,6 +18,13 @@ android {
 
     resourcePrefix 'asp_'
 
+    sourceSets {
+        main {
+            res.srcDirs += 'src/main/res-aosp'
+            res.srcDirs += 'src/main/res-media'
+        }
+    }
+
     lintOptions {
         disable 'ResourceName', 'InlinedApi'
         warning 'GradleCompatible'

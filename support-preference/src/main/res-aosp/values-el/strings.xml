@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Ενεργό"</string>
+    <string name="capital_off">"Ανενεργό"</string>
+    <string name="ringtone_default">"Προεπιλεγμένος ήχος κλήσης"</string>
+    <string name="ringtone_default_with_actual">"Προεπιλογή (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Κανένας"</string>
+    <string name="ringtone_picker_title">"Ήχοι κλήσης"</string>
+    <string name="ringtone_picker_title_alarm">"Ήχοι ξυπνητηριού"</string>
+    <string name="ringtone_picker_title_notification">"Ήχοι ειδοποίησης"</string>
+    <string name="ringtone_unknown">"Άγνωστο"</string>
+</resources>

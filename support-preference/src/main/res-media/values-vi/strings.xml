@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="notification_sound_default">"Âm thanh thông báo mặc định"</string>
+    <string name="alarm_sound_default">"Âm thanh báo thức mặc định"</string>
+</resources>

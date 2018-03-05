@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"VKLOPLJENO"</string>
+    <string name="capital_off">"IZKLOPLJENO"</string>
+    <string name="ringtone_default">"Privzeta melodija zvonjenja"</string>
+    <string name="ringtone_default_with_actual">"Privzeto (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Brez"</string>
+    <string name="ringtone_picker_title">"Melodije zvonjenja"</string>
+    <string name="ringtone_picker_title_alarm">"Zvoki alarma"</string>
+    <string name="ringtone_picker_title_notification">"Zvoki obvestil"</string>
+    <string name="ringtone_unknown">"Neznano"</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"I"</string>
+    <string name="capital_off">"O"</string>
+    <string name="ringtone_default">"Мелодия по умолчанию"</string>
+    <string name="ringtone_default_with_actual">"По умолчанию (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Без звука"</string>
+    <string name="ringtone_picker_title">"Мелодии"</string>
+    <string name="ringtone_picker_title_alarm">"Сигнал будильника"</string>
+    <string name="ringtone_picker_title_notification">"Мелодии уведомлений"</string>
+    <string name="ringtone_unknown">"Неизвестно"</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"LIG"</string>
+    <string name="capital_off">"DESL"</string>
+    <string name="ringtone_default">"Toque padrão"</string>
+    <string name="ringtone_default_with_actual">"Padrão (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Nenhum"</string>
+    <string name="ringtone_picker_title">"Toques"</string>
+    <string name="ringtone_picker_title_alarm">"Sons do alarme"</string>
+    <string name="ringtone_picker_title_notification">"Sons de notificação"</string>
+    <string name="ringtone_unknown">"Desconhecido"</string>
+</resources>

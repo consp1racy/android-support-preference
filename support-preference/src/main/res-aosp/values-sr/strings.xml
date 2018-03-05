@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ДА"</string>
+    <string name="capital_off">"НЕ"</string>
+    <string name="ringtone_default">"Подразумевани звук звона"</string>
+    <string name="ringtone_default_with_actual">"Подразумевано (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Без звука"</string>
+    <string name="ringtone_picker_title">"Звукови звона"</string>
+    <string name="ringtone_picker_title_alarm">"Звуци аларма"</string>
+    <string name="ringtone_picker_title_notification">"Звуци обавештења"</string>
+    <string name="ringtone_unknown">"Непознато"</string>
+</resources>

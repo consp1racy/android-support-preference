@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="notification_sound_default">Default notification sound</string>
+    <string name="alarm_sound_default">Default alarm sound</string>
+</resources>

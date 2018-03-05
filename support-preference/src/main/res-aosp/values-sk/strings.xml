@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"I"</string>
+    <string name="capital_off">"O"</string>
+    <string name="ringtone_default">"Predvolený tón zvonenia"</string>
+    <string name="ringtone_default_with_actual">"Predvolený (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Žiadny"</string>
+    <string name="ringtone_picker_title">"Tóny zvonenia"</string>
+    <string name="ringtone_picker_title_alarm">"Zvuky budíka"</string>
+    <string name="ringtone_picker_title_notification">"Zvuky upozornení"</string>
+    <string name="ringtone_unknown">"Neznáme"</string>
+</resources>

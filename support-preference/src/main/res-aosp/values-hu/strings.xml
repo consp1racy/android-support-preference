@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Be"</string>
+    <string name="capital_off">"Ki"</string>
+    <string name="ringtone_default">"Alapértelmezett csengőhang"</string>
+    <string name="ringtone_default_with_actual">"Alapértelmezett (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Egyik sem"</string>
+    <string name="ringtone_picker_title">"Csengőhangok"</string>
+    <string name="ringtone_picker_title_alarm">"Ébresztőhangok"</string>
+    <string name="ringtone_picker_title_notification">"Értesítőhangok"</string>
+    <string name="ringtone_unknown">"Ismeretlen"</string>
+</resources>

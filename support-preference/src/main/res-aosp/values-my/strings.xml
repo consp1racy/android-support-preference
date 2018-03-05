@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ဖွင့်ရန်"</string>
+    <string name="capital_off">"ပိတ်"</string>
+    <string name="ringtone_default">"မူရင်းမြည်သံ"</string>
+    <string name="ringtone_default_with_actual">"မူရင်း (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"တစ်ခုမှမဟုတ်"</string>
+    <string name="ringtone_picker_title">"မြည်သံများ"</string>
+    <string name="ringtone_picker_title_alarm">"နှိုးစက်သံ"</string>
+    <string name="ringtone_picker_title_notification">"အကြောင်းကြားချက်အသံ"</string>
+    <string name="ringtone_unknown">"အမျိုးအမည်မသိ"</string>
+</resources>

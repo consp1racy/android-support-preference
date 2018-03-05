@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"KVEIKT"</string>
+    <string name="capital_off">"SLÖKKT"</string>
+    <string name="ringtone_default">"Sjálfgefinn hringitónn"</string>
+    <string name="ringtone_default_with_actual">"Sjálfgefið (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Ekkert"</string>
+    <string name="ringtone_picker_title">"Hringitónar"</string>
+    <string name="ringtone_picker_title_alarm">"Vekjarahljóð"</string>
+    <string name="ringtone_picker_title_notification">"Tilkynningarhljóð"</string>
+    <string name="ringtone_unknown">"Óþekkt"</string>
+</resources>

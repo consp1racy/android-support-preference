@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">ON</string>
+    <string name="capital_off">OFF</string>
+    <string name="ringtone_default">Default ringtone</string>
+    <string name="ringtone_default_with_actual">Default (<xliff:g id="actual_ringtone">%1$s</xliff:g>)</string>
+    <string name="ringtone_silent">None</string>
+    <string name="ringtone_picker_title">Ringtones</string>
+    <string name="ringtone_picker_title_alarm">Alarm sounds</string>
+    <string name="ringtone_picker_title_notification">Notification sounds</string>
+    <string name="ringtone_unknown">Unknown</string>
+</resources>

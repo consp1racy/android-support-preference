@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"চালু করুন"</string>
+    <string name="capital_off">"বন্ধ করুন"</string>
+    <string name="ringtone_default">"ডিফল্ট রিংটোন"</string>
+    <string name="ringtone_default_with_actual">"ডিফল্ট (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"কোনো কিছুই নয়"</string>
+    <string name="ringtone_picker_title">"রিংটোনগুলি"</string>
+    <string name="ringtone_picker_title_alarm">"অ্যালার্মের শব্দ"</string>
+    <string name="ringtone_picker_title_notification">"বিজ্ঞপ্তির শব্দ"</string>
+    <string name="ringtone_unknown">"অজানা"</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"VULIWE"</string>
+    <string name="capital_off">"VALIWE"</string>
+    <string name="ringtone_default">"Iringithoni emisiwe"</string>
+    <string name="ringtone_default_with_actual">"Okuzenzakalelayo (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Akunalutho"</string>
+    <string name="ringtone_picker_title">"Amaringithoni"</string>
+    <string name="ringtone_picker_title_alarm">"Imisindo ye-alamu"</string>
+    <string name="ringtone_picker_title_notification">"Imisindo yezaziso"</string>
+    <string name="ringtone_unknown">"Akwaziwa"</string>
+</resources>

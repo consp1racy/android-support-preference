@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Уключыць"</string>
+    <string name="capital_off">"Выключана"</string>
+    <string name="ringtone_default">"Стандартны рынгтон"</string>
+    <string name="ringtone_default_with_actual">"Стандартны (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Няма"</string>
+    <string name="ringtone_picker_title">"Рынгтоны"</string>
+    <string name="ringtone_picker_title_alarm">"Гукі будзільніка"</string>
+    <string name="ringtone_picker_title_notification">"Гукі апавяшчэнняў"</string>
+    <string name="ringtone_unknown">"Невядома"</string>
+</resources>

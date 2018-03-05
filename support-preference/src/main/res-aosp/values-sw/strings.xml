@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Washa"</string>
+    <string name="capital_off">"ZIMA"</string>
+    <string name="ringtone_default">"Mlio chaguo-msingi"</string>
+    <string name="ringtone_default_with_actual">"Chaguo-msingi (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Hamna"</string>
+    <string name="ringtone_picker_title">"Toni za mlio"</string>
+    <string name="ringtone_picker_title_alarm">"Sauti za kengele"</string>
+    <string name="ringtone_picker_title_notification">"Sauti za arifa"</string>
+    <string name="ringtone_unknown">"Haijulikani"</string>
+</resources>

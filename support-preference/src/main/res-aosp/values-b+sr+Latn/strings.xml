@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"DA"</string>
+    <string name="capital_off">"NE"</string>
+    <string name="ringtone_default">"Podrazumevani zvuk zvona"</string>
+    <string name="ringtone_default_with_actual">"Podrazumevano (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Bez zvuka"</string>
+    <string name="ringtone_picker_title">"Zvukovi zvona"</string>
+    <string name="ringtone_picker_title_alarm">"Zvuci alarma"</string>
+    <string name="ringtone_picker_title_notification">"Zvuci obaveštenja"</string>
+    <string name="ringtone_unknown">"Nepoznato"</string>
+</resources>

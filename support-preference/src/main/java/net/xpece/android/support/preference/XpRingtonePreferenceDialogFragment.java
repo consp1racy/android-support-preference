@@ -12,7 +12,6 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -250,8 +249,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * Just dismisses this fragment by default.
      *
      * @param requestCode You can use this code to launch another activity instead of dismissing
-     * this fragment. The result must contain
-     * {@link RingtoneManager#EXTRA_RINGTONE_PICKED_URI} extra.
+     *                    this fragment. The result must contain
+     *                    {@link RingtoneManager#EXTRA_RINGTONE_PICKED_URI} extra.
      */
     public void onRingtonePickerNotFound(final int requestCode) {
         dismiss();
@@ -337,19 +336,14 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return mStaticItems.size() - 1;
     }
 
-    // FIXME Adjust logic once strings are bundled.
     private int addDefaultRingtoneItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch (mType) {
-                case RingtoneManager.TYPE_NOTIFICATION:
-                    return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
-                case RingtoneManager.TYPE_ALARM:
-                    return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
-                default:
-                    return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
-            }
-        } else {
-            return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
+        switch (mType) {
+            case RingtoneManager.TYPE_NOTIFICATION:
+                return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
+            case RingtoneManager.TYPE_ALARM:
+                return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
+            default:
+                return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
         }
     }
 

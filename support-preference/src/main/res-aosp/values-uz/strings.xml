@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"I"</string>
+    <string name="capital_off">"O"</string>
+    <string name="ringtone_default">"Standart rington"</string>
+    <string name="ringtone_default_with_actual">"Standart (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Yo‘q"</string>
+    <string name="ringtone_picker_title">"Ringtonlar"</string>
+    <string name="ringtone_picker_title_alarm">"Signal ovozlari"</string>
+    <string name="ringtone_picker_title_notification">"Bildirishnoma ovozlari"</string>
+    <string name="ringtone_unknown">"Noma’lum"</string>
+</resources>

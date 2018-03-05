@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"चालु"</string>
+    <string name="capital_off">"बन्द"</string>
+    <string name="ringtone_default">"पूर्वनिर्धारित रिङटोन"</string>
+    <string name="ringtone_default_with_actual">"पूर्वनिर्धारित (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"कुनै पनि होइन"</string>
+    <string name="ringtone_picker_title">"रिङटोनहरू"</string>
+    <string name="ringtone_picker_title_alarm">"अलार्मका आवाजहरू"</string>
+    <string name="ringtone_picker_title_notification">"सूचना सम्बन्धी आवाजहरू"</string>
+    <string name="ringtone_unknown">"अज्ञात"</string>
+</resources>

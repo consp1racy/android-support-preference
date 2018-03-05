@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"เปิด"</string>
+    <string name="capital_off">"ปิด"</string>
+    <string name="ringtone_default">"เสียงเรียกเข้าเริ่มต้น"</string>
+    <string name="ringtone_default_with_actual">"ค่าเริ่มต้น (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"ไม่มี"</string>
+    <string name="ringtone_picker_title">"เสียงเรียกเข้า"</string>
+    <string name="ringtone_picker_title_alarm">"เสียงปลุก"</string>
+    <string name="ringtone_picker_title_notification">"เสียงการแจ้งเตือน"</string>
+    <string name="ringtone_unknown">"ไม่รู้จัก"</string>
+</resources>

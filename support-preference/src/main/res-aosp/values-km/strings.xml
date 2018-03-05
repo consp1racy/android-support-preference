@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"បើក"</string>
+    <string name="capital_off">"បិទ"</string>
+    <string name="ringtone_default">"សំឡេង​រោទ៍​លំនាំដើម"</string>
+    <string name="ringtone_default_with_actual">"(<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>) លំនាំដើម"</string>
+    <string name="ringtone_silent">"គ្មាន"</string>
+    <string name="ringtone_picker_title">"សំឡេង​រោទ៍"</string>
+    <string name="ringtone_picker_title_alarm">"សំឡេងម៉ោងរោទិ៍"</string>
+    <string name="ringtone_picker_title_notification">"សំឡេងជូនដំណឹង"</string>
+    <string name="ringtone_unknown">"មិន​ស្គាល់"</string>
+</resources>

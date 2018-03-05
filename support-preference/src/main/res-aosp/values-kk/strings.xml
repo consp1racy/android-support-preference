@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Қосулы"</string>
+    <string name="capital_off">"Өшірулі"</string>
+    <string name="ringtone_default">"Әдепкі рингтон"</string>
+    <string name="ringtone_default_with_actual">"Әдепкі (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Ешқандай"</string>
+    <string name="ringtone_picker_title">"Қоңырау әуендері"</string>
+    <string name="ringtone_picker_title_alarm">"Дабыл сигналдары"</string>
+    <string name="ringtone_picker_title_notification">"Хабарландыру сигналдары"</string>
+    <string name="ringtone_unknown">"Белгісіз"</string>
+</resources>

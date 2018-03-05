@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"ચાલુ"</string>
+    <string name="capital_off">"બંધ"</string>
+    <string name="ringtone_default">"ડિફોલ્ટ રિંગટોન"</string>
+    <string name="ringtone_default_with_actual">"ડિફૉલ્ટ (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"કોઈ નહીં"</string>
+    <string name="ringtone_picker_title">"રિંગટોન્સ"</string>
+    <string name="ringtone_picker_title_alarm">"એલાર્મ ધ્વનિઓ"</string>
+    <string name="ringtone_picker_title_notification">"સૂચના ધ્વનિઓ"</string>
+    <string name="ringtone_unknown">"અજાણી"</string>
+</resources>

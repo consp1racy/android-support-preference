@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"آن"</string>
+    <string name="capital_off">"آف"</string>
+    <string name="ringtone_default">"ڈیفالٹ رنگ ٹون"</string>
+    <string name="ringtone_default_with_actual">"ڈیفالٹ (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"کوئی نہیں"</string>
+    <string name="ringtone_picker_title">"رنگ ٹونز"</string>
+    <string name="ringtone_picker_title_alarm">"الارم کی آوازیں"</string>
+    <string name="ringtone_picker_title_notification">"اطلاعات کی آوازیں"</string>
+    <string name="ringtone_unknown">"نامعلوم"</string>
+</resources>

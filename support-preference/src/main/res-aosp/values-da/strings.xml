@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"TIL"</string>
+    <string name="capital_off">"FRA"</string>
+    <string name="ringtone_default">"Standardringetone"</string>
+    <string name="ringtone_default_with_actual">"Standard (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Ingen"</string>
+    <string name="ringtone_picker_title">"Ringetoner"</string>
+    <string name="ringtone_picker_title_alarm">"Alarmlyde"</string>
+    <string name="ringtone_picker_title_notification">"Meddelelseslyde"</string>
+    <string name="ringtone_unknown">"Ukendt"</string>
+</resources>

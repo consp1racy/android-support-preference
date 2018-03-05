@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"DA"</string>
+    <string name="capital_off">"NU"</string>
+    <string name="ringtone_default">"Ton de apel prestabilit"</string>
+    <string name="ringtone_default_with_actual">"Prestabilit (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Niciunul"</string>
+    <string name="ringtone_picker_title">"Tonuri de apel"</string>
+    <string name="ringtone_picker_title_alarm">"Sunete de alarmă"</string>
+    <string name="ringtone_picker_title_notification">"Sunete pentru notificare"</string>
+    <string name="ringtone_unknown">"Necunoscut"</string>
+</resources>

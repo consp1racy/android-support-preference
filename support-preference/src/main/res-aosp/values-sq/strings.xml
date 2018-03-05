@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="capital_on">"Aktivizuar"</string>
+    <string name="capital_off">"Çaktivizuar"</string>
+    <string name="ringtone_default">"Zile e paracaktuar."</string>
+    <string name="ringtone_default_with_actual">"I parazgjedhur (<xliff:g id="ACTUAL_RINGTONE">%1$s</xliff:g>)"</string>
+    <string name="ringtone_silent">"Asnjë"</string>
+    <string name="ringtone_picker_title">"Zilet"</string>
+    <string name="ringtone_picker_title_alarm">"Tingujt e alarmeve"</string>
+    <string name="ringtone_picker_title_notification">"Tingujt e njoftimeve"</string>
+    <string name="ringtone_unknown">"E panjohur"</string>
+</resources>
