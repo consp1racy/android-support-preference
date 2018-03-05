@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -133,6 +134,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     private boolean mActivityCreated = false;
 
+    @NonNull
     public static XpRingtonePreferenceDialogFragment newInstance(String key) {
         XpRingtonePreferenceDialogFragment fragment = new XpRingtonePreferenceDialogFragment();
         Bundle b = new Bundle(1);
@@ -142,14 +144,14 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mHandler = new Handler();
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         mActivityCreated = true;
 
         loadRingtoneManager(savedInstanceState);
@@ -167,7 +169,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         if (mActivityCreated) {
             return super.onCreateDialog(savedInstanceState);
         } else {
@@ -177,7 +179,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private void loadRingtoneManager(Bundle savedInstanceState) {
+    private void loadRingtoneManager(@Nullable Bundle savedInstanceState) {
         // Give the Activity so it can do managed queries
         mRingtoneManager = new RingtoneManagerCompat(getActivity());
 
@@ -226,14 +228,15 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private void recover(final RingtonePreference preference, final Throwable ex) {
+    private void recover(
+            @NonNull final RingtonePreference preference, @NonNull final Throwable ex) {
         XpSupportPreferencePlugins.onError(ex, "RingtoneManager returned unexpected cursor.");
 
         mCursor = null;
         setShowsDialog(false);
 
         // Alternatively try starting system picker.
-        Intent i = buildRingtonePickerIntent(preference);
+        Intent i = preference.buildRingtonePickerIntent();
         try {
             startActivityForResult(i, RC_FALLBACK_RINGTONE_PICKER);
         } catch (ActivityNotFoundException ex2) {
@@ -254,32 +257,19 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         dismiss();
     }
 
-    @NonNull
-    private Intent buildRingtonePickerIntent(RingtonePreference pref) {
-        Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, mExistingUri);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, mUriForDefaultItem);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, mHasDefaultItem);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, mHasSilentItem);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, mType);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, pref.getNonEmptyDialogTitle());
-        return i;
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_FALLBACK_RINGTONE_PICKER) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                onRingtoneSelected(uri);
+            if (resultCode == Activity.RESULT_OK) {
+                requireRingtonePreference().onActivityResult(data);
             }
             dismiss();
         }
     }
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         RingtonePreference preference = requireRingtonePreference();
@@ -334,7 +324,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * @param text Text for the item.
      * @return The position of the inserted item.
      */
-    private int addStaticItem(LayoutInflater inflater, @LayoutRes int layout, CharSequence text) {
+    private int addStaticItem(
+            @NonNull LayoutInflater inflater, @LayoutRes int layout, @NonNull CharSequence text) {
         TextView textView = (TextView) inflater.inflate(layout, null, false);
         textView.setText(text);
 
@@ -446,16 +437,9 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 uri = mRingtoneManager.getRingtoneUri(getRingtoneManagerPosition(mClickedPos));
             }
 
-            onRingtoneSelected(uri);
+            requireRingtonePreference().saveRingtone(uri);
         }
 
-    }
-
-    private void onRingtoneSelected(Uri uri) {
-        RingtonePreference preference = getRingtonePreference();
-        if (preference.callChangeListener(uri != null ? uri.toString() : "")) {
-            preference.onSaveRingtone(uri);
-        }
     }
 
     void playRingtone(int position, int delayMs) {

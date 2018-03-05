@@ -26,6 +26,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings.System;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.XpPreferenceFragment;
@@ -253,9 +255,8 @@ public class RingtonePreference extends DialogPreference {
 
     /**
      * Creates system ringtone picker intent for manual use.
-     *
-     * @return
      */
+    @NonNull
     public Intent buildRingtonePickerIntent() {
         int type = getRingtoneType();
         Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
@@ -274,17 +275,21 @@ public class RingtonePreference extends DialogPreference {
      *
      * @param data
      */
-    public void onActivityResult(Intent data) {
+    public void onActivityResult(@Nullable Intent data) {
         if (data != null) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            saveRingtone(uri);
+        }
+    }
 
-            if (callChangeListener(uri != null ? uri.toString() : "")) {
-                onSaveRingtone(uri);
-            }
+    void saveRingtone(@Nullable final Uri uri) {
+        if (callChangeListener(uri != null ? uri.toString() : "")) {
+            onSaveRingtone(uri);
         }
     }
 
     // FIXME Adjust logic once strings are bundled.
+    @NonNull
     CharSequence getNonEmptyDialogTitle() {
         CharSequence title = getDialogTitle();
         if (title == null) {
@@ -306,7 +311,8 @@ public class RingtonePreference extends DialogPreference {
         return title;
     }
 
-    public static String getRingtoneTitle(Context context, Uri uri) {
+    @Nullable
+    public static String getRingtoneTitle(@NonNull Context context, @Nullable Uri uri) {
         if (uri == null) {
             return null;
         } else {
@@ -315,8 +321,9 @@ public class RingtonePreference extends DialogPreference {
     }
 
     // TODO Bundle the string in the library in all languages.
+    @NonNull
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    public static String getNotificationSoundDefaultString(Context context) {
+    public static String getNotificationSoundDefaultString(@NonNull Context context) {
         context = context.getApplicationContext();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             final String resName = "string/notification_sound_default";
@@ -333,8 +340,9 @@ public class RingtonePreference extends DialogPreference {
     }
 
     // TODO Bundle the string in the library in all languages.
+    @NonNull
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    public static String getAlarmSoundDefaultString(Context context) {
+    public static String getAlarmSoundDefaultString(@NonNull Context context) {
         context = context.getApplicationContext();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             final String resName = "string/alarm_sound_default";
@@ -351,7 +359,8 @@ public class RingtonePreference extends DialogPreference {
     }
 
     // TODO Bundle the string in the library in all languages.
-    public static String getRingtoneDefaultString(Context context) {
+    @NonNull
+    public static String getRingtoneDefaultString(@NonNull Context context) {
         final String resName = "ringtone_default";
         int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
@@ -363,7 +372,8 @@ public class RingtonePreference extends DialogPreference {
     }
 
     // TODO Bundle the string in the library in all languages.
-    public static String getRingtoneSilentString(Context context) {
+    @NonNull
+    public static String getRingtoneSilentString(@NonNull Context context) {
         final String resName = "ringtone_silent";
         int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
@@ -374,9 +384,9 @@ public class RingtonePreference extends DialogPreference {
         return context.getApplicationContext().getString(resId);
     }
 
-    // "Vyzváněcí tóny"
     // TODO Bundle the string in the library in all languages.
-    public static String getRingtonePickerTitleString(Context context) {
+    @NonNull
+    public static String getRingtonePickerTitleString(@NonNull Context context) {
         final String resName = "ringtone_picker_title";
         int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
@@ -387,10 +397,10 @@ public class RingtonePreference extends DialogPreference {
         return context.getApplicationContext().getString(resId);
     }
 
-    // "Zvuky budíku"
     // TODO Bundle the string in the library in all languages.
+    @NonNull
     @RequiresApi(Build.VERSION_CODES.O)
-    public static String getRingtonePickerTitleAlarmString(Context context) {
+    public static String getRingtonePickerTitleAlarmString(@NonNull Context context) {
         int resId = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final String resName = "ringtone_picker_title_alarm";
@@ -406,10 +416,10 @@ public class RingtonePreference extends DialogPreference {
         return context.getApplicationContext().getString(resId);
     }
 
-    // "Zvuky upozornění"
     // TODO Bundle the string in the library in all languages.
+    @NonNull
     @RequiresApi(Build.VERSION_CODES.O)
-    public static String getRingtonePickerTitleNotificationString(Context context) {
+    public static String getRingtonePickerTitleNotificationString(@NonNull Context context) {
         int resId = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final String resName = "ringtone_picker_title_alarm";
