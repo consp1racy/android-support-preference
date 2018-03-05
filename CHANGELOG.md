@@ -1,8 +1,9 @@
 # Change log
 
 **2.1.0** 2018-03-05
-- Support library 27.0.0+ and min SDK 14 are required.
-  - Otherwise you *will* get unexpected runtime exceptions from now on.
+- Support library 27.0.0+ and min SDK 14 are now required.
+  - You will get unexpected runtime exceptions if your project does not comply.
+- *FIXED:* Version 2.0.x didn't publish javadoc and sources artifacts. We're back on track.
 - `Fixes.updateLayoutInflaterFactory` is now deprecated and does nothing. It's no longer needed.
 - *NEW!* Use `XpSupportPreferencePlugins.registerErrorInterceptor` to report internal non-fatal
   errors e.g. to Crashlytics. Read more in [README.md](README.md#reporting-errors).
