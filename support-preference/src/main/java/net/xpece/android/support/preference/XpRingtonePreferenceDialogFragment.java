@@ -51,6 +51,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private Cursor mCursor;
     private Handler mHandler;
 
+    private int mUnknownPos = POS_UNKNOWN;
+
     /**
      * The position in the list of the 'Silent' item.
      */
@@ -95,6 +97,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * The Uri to play when the 'Default' item is clicked.
      */
     private Uri mUriForDefaultItem;
+
+    private Ringtone mUnknownRingtone;
 
     /**
      * A Ringtone for the default ringtone. In most cases, the RingtoneManager
@@ -305,6 +309,11 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             mClickedPos = getListPosition(mRingtoneManager.getRingtonePosition(mExistingUri));
         }
 
+        if (mClickedPos == POS_UNKNOWN) {
+            mUnknownPos = addUnknownItem(inflater, singleChoiceItemLayout);
+            mClickedPos = mUnknownPos;
+        }
+
         SimpleCursorAdapter ringtoneAdapter = new SimpleCursorAdapter(context, singleChoiceItemLayout, mCursor,
                 new String[]{MediaStore.Audio.Media.TITLE}, new int[]{android.R.id.text1});
 
@@ -351,9 +360,13 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return addStaticItem(inflater, layout, RingtonePreference.getRingtoneSilentString(getContext()));
     }
 
+    private int addUnknownItem(LayoutInflater inflater, @LayoutRes int layout) {
+        return addStaticItem(inflater, layout, RingtonePreference.getRingtoneUnknownString(getContext()));
+    }
+
     private int getListPosition(int ringtoneManagerPos) {
         // If the manager position is -1 (for not found), return that
-        if (ringtoneManagerPos < 0) return ringtoneManagerPos;
+        if (ringtoneManagerPos < 0) return POS_UNKNOWN;
 
         return ringtoneManagerPos + mStaticItems.size();
     }
@@ -427,13 +440,16 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             } else if (mClickedPos == mSilentPos) {
                 // A null Uri is for the 'Silent' item
                 uri = null;
+            } else if (mClickedPos == mUnknownPos) {
+                // 'Unknown' was shown because it was persisted before showing the picker.
+                // There's no change to persist, return immediately.
+                return;
             } else {
                 uri = mRingtoneManager.getRingtoneUri(getRingtoneManagerPosition(mClickedPos));
             }
 
             requireRingtonePreference().saveRingtone(uri);
         }
-
     }
 
     void playRingtone(int position, int delayMs) {
@@ -448,7 +464,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             return;
         }
 
-        final int oldSampleRingtonePos = mSampleRingtonePos;
+//        final int oldSampleRingtonePos = mSampleRingtonePos;
         try {
             Ringtone ringtone = null;
             if (mSampleRingtonePos == mDefaultRingtonePos) {
@@ -468,6 +484,19 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 }
                 ringtone = mDefaultRingtone;
                 mCurrentRingtone = null;
+            } else if (mSampleRingtonePos == mUnknownPos) {
+                if (mUnknownRingtone == null) {
+                    try {
+                        mUnknownRingtone = RingtoneManager.getRingtone(getContext(), mExistingUri);
+                    } catch (SecurityException ex) {
+                        XpSupportPreferencePlugins.onError(ex, "Failed to create unknown Ringtone from " + mExistingUri + ".");
+                    }
+                }
+                if (mUnknownRingtone != null) {
+                    mUnknownRingtone.setStreamType(mRingtoneManager.inferStreamType());
+                }
+                ringtone = mUnknownRingtone;
+                mCurrentRingtone = null;
             } else {
                 final int position = getRingtoneManagerPosition(mSampleRingtonePos);
                 try {
@@ -483,13 +512,16 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             }
         } catch (SecurityException ex) {
             // Don't play the inaccessible default ringtone.
-            mSampleRingtonePos = oldSampleRingtonePos;
+            XpSupportPreferencePlugins.onError(ex, "Failed to play Ringtone.");
+//            mSampleRingtonePos = oldSampleRingtonePos;
         }
     }
 
     private void saveAnyPlayingRingtone() {
         if (mDefaultRingtone != null && mDefaultRingtone.isPlaying()) {
             sPlayingRingtone = mDefaultRingtone;
+        } else if (mUnknownRingtone != null && mUnknownRingtone.isPlaying()) {
+            sPlayingRingtone = mUnknownRingtone;
         } else if (mCurrentRingtone != null && mCurrentRingtone.isPlaying()) {
             sPlayingRingtone = mCurrentRingtone;
         }
@@ -503,6 +535,10 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
         if (mDefaultRingtone != null && mDefaultRingtone.isPlaying()) {
             mDefaultRingtone.stop();
+        }
+
+        if (mUnknownRingtone != null && mUnknownRingtone.isPlaying()) {
+            mUnknownRingtone.stop();
         }
 
         if (mRingtoneManager != null) {
