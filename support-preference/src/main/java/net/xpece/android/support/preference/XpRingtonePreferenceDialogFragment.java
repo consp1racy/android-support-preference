@@ -309,8 +309,26 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             mClickedPos = getListPosition(mRingtoneManager.getRingtonePosition(mExistingUri));
         }
 
-        if (mClickedPos == POS_UNKNOWN) {
-            mUnknownPos = addUnknownItem(inflater, singleChoiceItemLayout);
+        // If we still don't have selected item, but we're not silent, show the 'Unknown' item.
+        if (mClickedPos == POS_UNKNOWN && mExistingUri != null) {
+            final String ringtoneTitle;
+            final SafeRingtone ringtone = SafeRingtone.obtain(context, mExistingUri);
+            try {
+                // We may not be able to list external ringtones
+                // but we may be able to show selected external ringtone title.
+                if (ringtone.canGetTitle()) {
+                    ringtoneTitle = ringtone.getTitle();
+                } else {
+                    ringtoneTitle = null;
+                }
+            } finally {
+                ringtone.stop();
+            }
+            if (ringtoneTitle == null) {
+                mUnknownPos = addUnknownItem(inflater, singleChoiceItemLayout);
+            } else {
+                mUnknownPos = addStaticItem(inflater, singleChoiceItemLayout, ringtoneTitle);
+            }
             mClickedPos = mUnknownPos;
         }
 

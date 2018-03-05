@@ -100,7 +100,7 @@ public class SafeRingtone {
         }
     }
 
-    public boolean canGetTitle(@NonNull Context context, @Nullable Uri uri) {
+    public static boolean canGetTitle(@NonNull Context context, @Nullable Uri uri) {
         if (uri == null) {
             // We can display "None".
             return true;
