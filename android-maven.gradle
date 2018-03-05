@@ -1,11 +1,12 @@
-import groovy.xml.QName
-
 apply plugin: 'digital.wup.android-maven-publish'
 
 publishing {
     publications {
         MyMaven(MavenPublication) {
             from components.android
+
+            artifact(androidSourcesJar)
+            artifact(androidJavadocsJar)
 
             pom.withXml {
                 def dependencies = asNode().get("dependencies")

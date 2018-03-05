@@ -37,7 +37,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     private static int RC_FALLBACK_RINGTONE_PICKER = 0xff00; // <0; 0xffff>
 
-    private static String KEY_FALLBACK_RINGTONE_PICKER = BuildConfig.APPLICATION_ID + ".FALLBACK_RINGTONE_PICKER";
+    private static String KEY_FALLBACK_RINGTONE_PICKER = "net.xpece.android.support.preference.FALLBACK_RINGTONE_PICKER";
 
     private static final int POS_UNKNOWN = -1;
 
