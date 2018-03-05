@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -84,28 +83,23 @@ public class RingtonePreference extends DialogPreference {
     }
 
     public boolean canPlayDefaultRingtone(final Context context) {
-        boolean canDo = true;
         final Uri defaultUri = RingtoneManager.getDefaultUri(mRingtoneType);
+        final SafeRingtone ringtone = SafeRingtone.obtain(context, defaultUri);
         try {
-            RingtoneManager.getRingtone(context, defaultUri);
-        } catch (SecurityException ex) {
-            canDo = false;
+            return ringtone.canPlay();
+        } finally {
+            ringtone.stop();
         }
-        return canDo;
     }
 
     public boolean canShowSelectedRingtoneTitle(final Context context) {
-        boolean canDo = true;
         final Uri currentUri = onRestoreRingtone();
+        final SafeRingtone ringtone = SafeRingtone.obtain(context, currentUri);
         try {
-            final Ringtone ringtone = RingtoneManager.getRingtone(context, currentUri);
-            if (ringtone != null) {
-                ringtone.getTitle(context);
-            }
-        } catch (SecurityException ex) {
-            canDo = false;
+            return ringtone.canGetTitle();
+        } finally {
+            ringtone.stop();
         }
-        return canDo;
     }
 
     public void showDialogFragment(final XpPreferenceFragment fragment) {
@@ -311,12 +305,13 @@ public class RingtonePreference extends DialogPreference {
         return title;
     }
 
-    @Nullable
+    @NonNull
     public static String getRingtoneTitle(@NonNull Context context, @Nullable Uri uri) {
-        if (uri == null) {
-            return null;
-        } else {
-            return RingtoneManager.getRingtone(context, uri).getTitle(context);
+        final SafeRingtone ringtone = SafeRingtone.obtain(context, uri);
+        try {
+            return ringtone.getTitle();
+        } finally {
+            ringtone.stop();
         }
     }
 
@@ -393,6 +388,19 @@ public class RingtonePreference extends DialogPreference {
             // This shouldn't happen.
             XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
             resId = R.string.ringtone_silent;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    // TODO Bundle the string in the library in all languages.
+    @NonNull
+    public static String getRingtoneUnknownString(@NonNull Context context) {
+        final String resName = "ringtone_unknown";
+        int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
+        if (resId == 0) {
+            // This shouldn't happen.
+            XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
+            resId = R.string.ringtone_unknown;
         }
         return context.getApplicationContext().getString(resId);
     }

@@ -456,10 +456,14 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
         final int oldSampleRingtonePos = mSampleRingtonePos;
         try {
-            Ringtone ringtone;
+            Ringtone ringtone = null;
             if (mSampleRingtonePos == mDefaultRingtonePos) {
                 if (mDefaultRingtone == null) {
-                    mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
+                    try {
+                        mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
+                    } catch (SecurityException ex) {
+                        XpSupportPreferencePlugins.onError(ex, "Failed to create default Ringtone from " + mUriForDefaultItem + ".");
+                    }
                 }
                 /*
                  * Stream type of mDefaultRingtone is not set explicitly here.
@@ -471,7 +475,12 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 ringtone = mDefaultRingtone;
                 mCurrentRingtone = null;
             } else {
-                ringtone = mRingtoneManager.getRingtone(getRingtoneManagerPosition(mSampleRingtonePos));
+                final int position = getRingtoneManagerPosition(mSampleRingtonePos);
+                try {
+                    ringtone = mRingtoneManager.getRingtone(position);
+                } catch (SecurityException ex) {
+                    XpSupportPreferencePlugins.onError(ex, "Failed to create selected Ringtone from " + mRingtoneManager.getRingtoneUri(position) + ".");
+                }
                 mCurrentRingtone = ringtone;
             }
 

@@ -2,8 +2,6 @@ package net.xpece.android.support.preference.sample;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,6 +30,7 @@ import net.xpece.android.support.preference.PreferenceCategory;
 import net.xpece.android.support.preference.PreferenceDividerDecoration;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
+import net.xpece.android.support.preference.SafeRingtone;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.SharedPreferencesCompat;
 
@@ -76,10 +75,7 @@ public class SettingsFragment extends XpPreferenceFragment {
                 int index = listPreference.findIndexOfValue(stringValue);
 
                 // Set the summary to reflect the new value.
-                preference.setSummary(
-                    index >= 0
-                        ? listPreference.getEntries()[index]
-                        : null);
+                preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             } else if (preference instanceof MultiSelectListPreference) {
                 String summary = stringValue.trim().substring(1, stringValue.length() - 1); // strip []
                 preference.setSummary(summary);
@@ -89,24 +85,16 @@ public class SettingsFragment extends XpPreferenceFragment {
                     // Empty values correspond to 'silent' (no ringtone).
                     preference.setSummary(R.string.pref_ringtone_silent);
                 } else {
+                    final Context context = preference.getContext();
                     final Uri selectedUri = Uri.parse(stringValue);
+                    final SafeRingtone ringtone = SafeRingtone.obtain(context, selectedUri);
                     try {
-                        final Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), selectedUri);
-                        if (ringtone == null) {
-                            // Clear the summary if there was a lookup error, i.e. does not exist.
-                            preference.setSummary(null);
-                        } else {
-                            // Set the summary to reflect the new ringtone display name.
-                            final String name = ringtone.getTitle(preference.getContext());
-                            preference.setSummary(name);
-                        }
-                    } catch (SecurityException ex) {
-                        // The user has selected a ringtone from external storage
-                        // and then revoked READ_EXTERNAL_STORAGE permission.
-                        // We have no way of guessing the ringtone title.
-                        // We'd have to store the title of selected ringtone in prefs as well.
-                        preference.setSummary("???");
+                        final String name = ringtone.getTitle();
+
+                        // Set the summary to reflect the new ringtone display name.
+                        preference.setSummary(name);
+                    } finally {
+                        ringtone.stop();
                     }
                 }
 
@@ -247,9 +235,9 @@ public class SettingsFragment extends XpPreferenceFragment {
         final String key = preference.getKey();
         if (preference instanceof MultiSelectListPreference) {
             Set<String> summary = SharedPreferencesCompat.getStringSet(
-                PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
-                key,
-                new HashSet<String>());
+                    PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
+                    key,
+                    new HashSet<String>());
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, summary);
         } else if (preference instanceof ColorPreference) {
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((ColorPreference) preference).getColor());
@@ -257,8 +245,8 @@ public class SettingsFragment extends XpPreferenceFragment {
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, ((SeekBarPreference) preference).getValue());
         } else {
             String value = PreferenceManager
-                .getDefaultSharedPreferences(preference.getContext())
-                .getString(key, "");
+                    .getDefaultSharedPreferences(preference.getContext())
+                    .getString(key, "");
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, value);
         }
     }
@@ -269,12 +257,12 @@ public class SettingsFragment extends XpPreferenceFragment {
         final RecyclerView listView = getListView();
 
         final int padding = (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics());
         listView.setPadding(0, padding, 0, padding);
 
         // We're using alternative divider.
         listView.addItemDecoration(new PreferenceDividerDecoration(getContext())
-            .drawBetweenItems(false).paddingDp(listView.getContext(), 8));
+                .drawBetweenItems(false).paddingDp(listView.getContext(), 8));
         setDivider(null);
 
         // We don't want this. The children are still focusable.
