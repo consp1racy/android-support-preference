@@ -26,6 +26,12 @@ android {
 }
 
 dependencies {
+//    def jitpackVersion = "05655a4c95"
+//    implementation "com.github.consp1racy:android-support-preference:$jitpackVersion"
+//    implementation "com.github.consp1racy.android-support-preference:support-preference-color:$jitpackVersion"
+//    implementation "com.github.consp1racy.android-support-preference:support-preference:$jitpackVersion"
+//    implementation "com.github.consp1racy.android-support-preference:support-spinner:$jitpackVersion"
+
     implementation project(':support-preference')
     implementation project(':support-preference-color')
     implementation project(':support-spinner')
@@ -41,6 +47,7 @@ dependencies {
 repositories {
     jcenter()
     google()
+    maven { url 'https://jitpack.io' }
 }
 
 // For testing compatibility with oldest supported support library.
