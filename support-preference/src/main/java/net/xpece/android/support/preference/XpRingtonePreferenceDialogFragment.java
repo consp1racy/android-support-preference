@@ -1,6 +1,5 @@
 package net.xpece.android.support.preference;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -195,10 +194,10 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         } else {
             RingtonePreference preference = requireRingtonePreference();
 
-        /*
-         * Get whether to show the 'Default' item, and the URI to play when the
-         * default is clicked
-         */
+            /*
+             * Get whether to show the 'Default' item, and the URI to play when the
+             * default is clicked
+             */
             mHasDefaultItem = preference.getShowDefault();
             mUriForDefaultItem = RingtoneManager.getDefaultUri(preference.getRingtoneType());
 
@@ -248,8 +247,8 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * Just dismisses this fragment by default.
      *
      * @param requestCode You can use this code to launch another activity instead of dismissing
-     *                    this fragment. The result must contain
-     *                    {@link RingtoneManager#EXTRA_RINGTONE_PICKED_URI} extra.
+     * this fragment. The result must contain
+     * {@link RingtoneManager#EXTRA_RINGTONE_PICKED_URI} extra.
      */
     public void onRingtonePickerNotFound(final int requestCode) {
         dismiss();
@@ -347,16 +346,19 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return mStaticItems.size() - 1;
     }
 
-    private int addDefaultRingtoneItem(LayoutInflater inflater, @LayoutRes int layout) {
-        switch (mType) {
-            case RingtoneManager.TYPE_NOTIFICATION:
-                return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
-            case RingtoneManager.TYPE_ALARM:
-                return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
-            case RingtoneManager.TYPE_RINGTONE:
-                return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
-            default:
-                throw new IllegalArgumentException("Unknown ringtone type: " + mType);
+    // FIXME Adjust logic once strings are bundled.
+    private int addDefaultRingtoneItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            switch (mType) {
+                case RingtoneManager.TYPE_NOTIFICATION:
+                    return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
+                case RingtoneManager.TYPE_ALARM:
+                    return addStaticItem(inflater, layout, RingtonePreference.getAlarmSoundDefaultString(getContext()));
+                default:
+                    return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
+            }
+        } else {
+            return addStaticItem(inflater, layout, RingtonePreference.getRingtoneDefaultString(getContext()));
         }
     }
 
@@ -475,10 +477,10 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 if (mDefaultRingtone == null) {
                     mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
                 }
-           /*
-            * Stream type of mDefaultRingtone is not set explicitly here.
-            * It should be set in accordance with mRingtoneManager of this Activity.
-            */
+                /*
+                 * Stream type of mDefaultRingtone is not set explicitly here.
+                 * It should be set in accordance with mRingtoneManager of this Activity.
+                 */
                 if (mDefaultRingtone != null) {
                     mDefaultRingtone.setStreamType(mRingtoneManager.inferStreamType());
                 }

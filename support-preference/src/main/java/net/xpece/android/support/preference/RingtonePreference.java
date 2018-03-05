@@ -24,7 +24,9 @@ import android.content.res.TypedArray;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings.System;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
@@ -45,8 +47,8 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
  * See https://code.google.com/p/android/issues/detail?id=183255.
  */
 public class RingtonePreference extends DialogPreference {
-
     private static final String TAG = "RingtonePreference";
+    private static final String MEDIA_PROVIDER_PACKAGE_NAME = "com.android.providers.media";
 
     private int mRingtoneType;
     private boolean mShowDefault;
@@ -282,10 +284,21 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
+    // FIXME Adjust logic once strings are bundled.
     CharSequence getNonEmptyDialogTitle() {
         CharSequence title = getDialogTitle();
         if (title == null) {
             title = getTitle();
+        }
+        if (TextUtils.isEmpty(title) && Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            switch (mRingtoneType) {
+                case RingtoneManager.TYPE_NOTIFICATION:
+                    title = getRingtonePickerTitleNotificationString(getContext());
+                    break;
+                case RingtoneManager.TYPE_ALARM:
+                    title = getRingtonePickerTitleAlarmString(getContext());
+                    break;
+            }
         }
         if (TextUtils.isEmpty(title)) {
             title = getRingtonePickerTitleString(getContext());
@@ -301,52 +314,113 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
+    // TODO Bundle the string in the library in all languages.
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     public static String getNotificationSoundDefaultString(Context context) {
         context = context.getApplicationContext();
-        try {
-            Resources res = context.getPackageManager().getResourcesForApplication("com.android.providers.media");
-            int resId = res.getIdentifier("notification_sound_default", "string", "com.android.providers.media");
-            return res.getString(resId);
-        } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
-            XpSupportPreferencePlugins.onError(e, null);
-            return context.getString(R.string.notification_sound_default);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            final String resName = "string/notification_sound_default";
+            try {
+                Resources res = context.getApplicationContext().getPackageManager().getResourcesForApplication(MEDIA_PROVIDER_PACKAGE_NAME);
+                int resId = res.getIdentifier(resName, null, MEDIA_PROVIDER_PACKAGE_NAME);
+                return res.getString(resId);
+            } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+                // This shouldn't happen.
+                XpSupportPreferencePlugins.onError(e, "Couldn't find @" + MEDIA_PROVIDER_PACKAGE_NAME + ":" + resName + ".");
+            }
         }
+        return context.getString(R.string.notification_sound_default);
     }
 
+    // TODO Bundle the string in the library in all languages.
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     public static String getAlarmSoundDefaultString(Context context) {
         context = context.getApplicationContext();
-        try {
-            Resources res = context.getPackageManager().getResourcesForApplication("com.android.providers.media");
-            int resId = res.getIdentifier("alarm_sound_default", "string", "com.android.providers.media");
-            return res.getString(resId);
-        } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
-            XpSupportPreferencePlugins.onError(e, null);
-            return context.getString(R.string.alarm_sound_default);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            final String resName = "string/alarm_sound_default";
+            try {
+                Resources res = context.getPackageManager().getResourcesForApplication(MEDIA_PROVIDER_PACKAGE_NAME);
+                int resId = res.getIdentifier(resName, null, MEDIA_PROVIDER_PACKAGE_NAME);
+                return res.getString(resId);
+            } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+                // This shouldn't happen.
+                XpSupportPreferencePlugins.onError(e, "Couldn't find @" + MEDIA_PROVIDER_PACKAGE_NAME + ":" + resName + ".");
+            }
         }
+        return context.getString(R.string.alarm_sound_default);
     }
 
+    // TODO Bundle the string in the library in all languages.
     public static String getRingtoneDefaultString(Context context) {
-        context = context.getApplicationContext();
-        int resId = context.getResources().getIdentifier("ringtone_default", "string", "android");
+        final String resName = "ringtone_default";
+        int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
+            // This shouldn't happen.
+            XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
             resId = R.string.ringtone_default;
         }
-        return context.getString(resId);
+        return context.getApplicationContext().getString(resId);
     }
 
+    // TODO Bundle the string in the library in all languages.
     public static String getRingtoneSilentString(Context context) {
-        context = context.getApplicationContext();
-        int resId = context.getResources().getIdentifier("ringtone_silent", "string", "android");
+        final String resName = "ringtone_silent";
+        int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
+            // This shouldn't happen.
+            XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
             resId = R.string.ringtone_silent;
         }
-        return context.getString(resId);
+        return context.getApplicationContext().getString(resId);
     }
 
+    // "Vyzváněcí tóny"
+    // TODO Bundle the string in the library in all languages.
     public static String getRingtonePickerTitleString(Context context) {
-        int resId = context.getApplicationContext().getResources().getIdentifier("ringtone_picker_title", "string", "android");
+        final String resName = "ringtone_picker_title";
+        int resId = Resources.getSystem().getIdentifier(resName, "string", "android");
         if (resId == 0) {
+            // This shouldn't happen.
+            XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
             resId = R.string.ringtone_picker_title;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    // "Zvuky budíku"
+    // TODO Bundle the string in the library in all languages.
+    @RequiresApi(Build.VERSION_CODES.O)
+    public static String getRingtonePickerTitleAlarmString(Context context) {
+        int resId = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final String resName = "ringtone_picker_title_alarm";
+            resId = Resources.getSystem().getIdentifier(resName, "string", "android");
+            if (resId == 0) {
+                // This shouldn't happen.
+                XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
+            }
+        }
+        if (resId == 0) {
+            resId = R.string.ringtone_picker_title_alarm;
+        }
+        return context.getApplicationContext().getString(resId);
+    }
+
+    // "Zvuky upozornění"
+    // TODO Bundle the string in the library in all languages.
+    @RequiresApi(Build.VERSION_CODES.O)
+    public static String getRingtonePickerTitleNotificationString(Context context) {
+        int resId = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final String resName = "ringtone_picker_title_alarm";
+            resId = Resources.getSystem().getIdentifier(resName, "string", "android");
+            if (resId == 0) {
+                // This shouldn't happen.
+                XpSupportPreferencePlugins.onError(new Resources.NotFoundException(resName), null);
+            }
+        }
+        if (resId == 0) {
+            resId = R.string.ringtone_picker_title_notification;
         }
         return context.getApplicationContext().getString(resId);
     }
