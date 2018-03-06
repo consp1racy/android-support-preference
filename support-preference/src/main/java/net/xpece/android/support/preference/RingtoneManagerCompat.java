@@ -11,7 +11,6 @@ import android.util.Log;
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -30,7 +29,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             cursor = RingtoneManager.class.getDeclaredField("mCursor");
             cursor.setAccessible(true);
-        } catch (NoSuchFieldException e) {
+        } catch (Exception e) {
             XpSupportPreferencePlugins.onError(e, "mCursor not available.");
         }
         FIELD_CURSOR = cursor;
@@ -39,27 +38,25 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
             getInternalRingtones.setAccessible(true);
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             XpSupportPreferencePlugins.onError(e, "getInternalRingtones not available.");
         }
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
     }
 
-    private void setCursorInternal(Cursor cursor) {
+    private void setCursor(Cursor cursor) {
         try {
             FIELD_CURSOR.set(this, cursor);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
+        } catch (Exception e) {
+            throw new IllegalStateException("setCursor not available.", e);
         }
     }
 
     private Cursor getInternalRingtones() {
         try {
             return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
-        } catch (InvocationTargetException e) {
-            throw new IllegalStateException("Platform implementation is different from AOSP.", e);
+        } catch (Exception e) {
+            throw new IllegalStateException("getInternalRingtones not available.", e);
         }
     }
 
@@ -82,7 +79,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
             }
 
             final Cursor cursor = getInternalRingtones();
-            setCursorInternal(cursor);
+            setCursor(cursor);
             return cursor;
         }
     }
