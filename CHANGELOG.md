@@ -1,5 +1,8 @@
 # Change log
 
+**2.1.1** 2018-03-06
+- Catch more error cases when loading ringtone picker dialog.
+
 **2.1.0** 2018-03-05
 - Support library 27.0.0+ and min SDK 14 are now required.
   - You will get unexpected runtime exceptions if your project does not comply.
