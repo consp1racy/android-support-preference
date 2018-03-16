@@ -67,18 +67,21 @@ public class SafeRingtone {
     }
 
     private static void peek(@NonNull Context context, @NonNull Uri uri) {
-        final Uri actualUri;
         if (Settings.AUTHORITY.equals(uri.getAuthority())) {
             final int type = RingtoneManager.getDefaultType(uri);
             // This can throw a SecurityException.
-            actualUri = RingtoneManager.getActualDefaultRingtoneUri(context, type);
-        } else {
-            actualUri = uri;
+            final Uri actualUri = RingtoneManager.getActualDefaultRingtoneUri(context, type);
+            if (actualUri != null) {
+                // Actual Uri may be null on Android 4 emulators, where there are no ringtones.
+                // Plus silent default ringtone sounds like a valid case.
+                peek(context, actualUri);
+            }
+            return;
         }
 
         // This can throw a SecurityException.
         final ContentResolver res = context.getContentResolver();
-        final Cursor cursor = res.query(actualUri, COLUMNS, null, null, null);
+        final Cursor cursor = res.query(uri, COLUMNS, null, null, null);
         if (cursor != null) {
             cursor.close();
         }
