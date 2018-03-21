@@ -437,16 +437,27 @@ relay them to the [Issues section](https://github.com/consp1racy/android-support
 
 Here's an example how to get error reports to Crashlytics:
 
-```java
-XpSupportPreferencePlugins.registerErrorInterceptor(new ErrorInterceptor() {
-    @Override
-    public void onError(@NonNull Throwable t, @Nullable String message) {
-        Timber.w(t, message);
-        if (message != null) Crashlytics.log(message);
-        Crashlytics.logException(t);
-    }
-});
 ```
+class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // Setup Crashlytics, do whatever else you need...
+
+        XpSupportPreferencePlugins.registerErrorInterceptor(new ErrorInterceptor() {
+            @Override
+            public void onError(@NonNull Throwable t, @Nullable String message) {
+                Timber.w(t, message);
+                if (message != null) Crashlytics.log(message);
+                Crashlytics.logException(t);
+            }
+        });
+    }
+}
+```
+
+Only register the listener once per app process!
 
 When reporting your findings here make sure to strip any user or sensitive data.
 
