@@ -1,5 +1,9 @@
 # Change log
 
+**2.1.2** 2018-04-02
+- *FIXED:* Popup window exit transition now plays on API 24-25.
+- Catch more error cases when loading ringtone picker dialog.
+
 **2.1.1** 2018-03-06
 - Catch more error cases when loading ringtone picker dialog.
 
