@@ -185,7 +185,7 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putIntArray(KEY_COLORS, mColors);
         outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);

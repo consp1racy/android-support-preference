@@ -15,6 +15,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
@@ -591,21 +592,25 @@ public class ListPreference extends DialogPreference {
         this.setValue(restoreValue ? this.getPersistedString(this.mValue) : (String) defaultValue);
     }
 
+    @Nullable
+    @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
 //        if (this.isPersistent()) {
 //            return superState;
 //        } else {
-        ListPreference.SavedState myState = new ListPreference.SavedState(superState);
+        SavedState myState = new SavedState(superState);
         myState.value = this.getValue();
         myState.simpleMenuShowing = this.mSimpleMenuShowing;
         return myState;
 //        }
     }
 
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state != null && state.getClass().equals(ListPreference.SavedState.class)) {
-            ListPreference.SavedState myState = (ListPreference.SavedState) state;
+    @Override
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+        if (state.getClass().equals(ListPreference.SavedState.class)) {
+            SavedState myState = (SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
             if (!isPersistent()) {
                 this.setValue(myState.value);

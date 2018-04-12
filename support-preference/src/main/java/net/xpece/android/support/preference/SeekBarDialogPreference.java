@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -139,9 +140,11 @@ public class SeekBarDialogPreference extends DialogPreference {
         return mPreferredMin;
     }
 
+    @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
         if (isPersistent()) {
             // No need to save instance state since it's persistent
             return superState;
@@ -155,8 +158,8 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state == null || !state.getClass().equals(SavedState.class)) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+        if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;

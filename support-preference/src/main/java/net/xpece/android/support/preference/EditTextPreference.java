@@ -22,6 +22,8 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -141,8 +143,11 @@ public class EditTextPreference extends DialogPreference {
         return TextUtils.isEmpty(this.mText) || super.shouldDisableDependents();
     }
 
+    @Nullable
+    @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
         if (this.isPersistent()) {
             return superState;
         } else {
@@ -152,8 +157,9 @@ public class EditTextPreference extends DialogPreference {
         }
     }
 
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state != null && state.getClass().equals(EditTextPreference.SavedState.class)) {
+    @Override
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+        if (state.getClass().equals(EditTextPreference.SavedState.class)) {
             EditTextPreference.SavedState myState = (EditTextPreference.SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
             this.setText(myState.text);

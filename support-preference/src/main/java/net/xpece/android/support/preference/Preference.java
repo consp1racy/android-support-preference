@@ -7,9 +7,11 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Parcelable;
 import android.preference.PreferenceActivity;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
@@ -277,5 +279,16 @@ public class Preference extends android.support.v7.preference.Preference
     @Override
     public boolean hasOnPreferenceLongClickListener() {
         return mOnPreferenceLongClickListener != null;
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull final Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 }

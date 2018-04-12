@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -239,9 +240,11 @@ public abstract class TwoStatePreference extends Preference {
         }
     }
 
+    @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
         if (isPersistent()) {
             // No need to save instance state since it's persistent
             return superState;
@@ -253,8 +256,8 @@ public abstract class TwoStatePreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state == null || !state.getClass().equals(SavedState.class)) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+        if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;

@@ -418,7 +418,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_CLICKED_POS, mClickedPos);
         outState.putBoolean(KEY_FALLBACK_RINGTONE_PICKER, !getShowsDialog());

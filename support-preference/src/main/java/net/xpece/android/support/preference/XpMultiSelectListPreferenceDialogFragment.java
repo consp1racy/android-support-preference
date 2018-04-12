@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
 import java.util.HashSet;
@@ -89,7 +90,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(TAG + ".mNewValues", mNewValues);

@@ -201,6 +201,7 @@ public class MultiSelectListPreference extends DialogPreference {
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
         if (isPersistent()) {
             // No need to save instance state
             return superState;

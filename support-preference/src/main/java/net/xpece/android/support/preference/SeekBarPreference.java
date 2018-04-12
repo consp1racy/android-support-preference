@@ -18,8 +18,6 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -410,9 +408,11 @@ public class SeekBarPreference extends Preference {
         }
     }
 
+    @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
+        assert superState != null;
         if (isPersistent()) {
             // No need to save instance state since it's persistent
             return superState;
@@ -427,7 +427,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);

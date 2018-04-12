@@ -1,6 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -177,7 +178,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          *
          * @param outState
          */
-        public void onSaveInstanceState(Bundle outState) {
+        public void onSaveInstanceState(@NonNull final Bundle outState) {
             outState.putSerializable(TAG + ".mStack", mStack);
             outState.putSerializable(TAG + ".mScrollPositions", mScrollPositions);
         }
