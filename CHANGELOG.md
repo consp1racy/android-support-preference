@@ -1,5 +1,14 @@
 # Change log
 
+**2.2.0** 2018-04-12
+- *FIXED:* `MultiSelectListPreference` no longer crashes on saved state restoration.
+
+**API Changes**
+
+* Nullable parameter in `Preference.onSaveInstanceState(@NonNull Parcelable savedState)`
+  * No included preferences return `null` here.
+* Non-null parameter in `Preference.onRestoreInstanceState(@NonNull Parcelable savedState)`
+
 **2.1.2** 2018-04-02
 - *FIXED:* Popup window exit transition now plays on API 24-25.
 - Catch more error cases when loading ringtone picker dialog.
