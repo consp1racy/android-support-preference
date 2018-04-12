@@ -22,7 +22,7 @@ public abstract class PreferenceScreenNavigationStrategy {
 
     public static final String DEFAULT_ROOT_KEY = TAG + ".ROOT";
 
-    private PreferenceScreenNavigationStrategy() {}
+    protected PreferenceScreenNavigationStrategy() {}
 
     /**
      * This will replace the whole preference fragment while putting it on the backstack.

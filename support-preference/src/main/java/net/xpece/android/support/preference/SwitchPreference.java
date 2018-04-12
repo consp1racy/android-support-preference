@@ -218,7 +218,7 @@ public class SwitchPreference extends TwoStatePreference {
     }
 
     private class Listener implements CompoundButton.OnCheckedChangeListener {
-        private Listener() {
+        Listener() {
         }
 
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

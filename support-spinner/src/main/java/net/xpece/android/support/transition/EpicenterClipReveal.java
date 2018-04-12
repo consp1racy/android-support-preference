@@ -265,6 +265,8 @@ public class EpicenterClipReveal extends Visibility {
     }
 
     private static class StateEvaluator implements TypeEvaluator<State> {
+        StateEvaluator() {}
+
         private final State mTemp = new State();
 
         @Override
