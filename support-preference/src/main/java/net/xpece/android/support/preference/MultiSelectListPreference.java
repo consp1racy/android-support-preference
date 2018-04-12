@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
@@ -195,6 +197,7 @@ public class MultiSelectListPreference extends DialogPreference {
         setValues(restoreValue ? XpPreferenceCompat.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
     }
 
+    @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
@@ -206,6 +209,19 @@ public class MultiSelectListPreference extends DialogPreference {
         final SavedState myState = new SavedState(superState);
         myState.values = getValues();
         return myState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+        if (!state.getClass().equals(SavedState.class)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        setValues(myState.values);
     }
 
     private static class SavedState extends BaseSavedState {
