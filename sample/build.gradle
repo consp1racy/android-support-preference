@@ -38,7 +38,7 @@ dependencies {
 
     implementation "com.android.support:design:$supportLibVersion"
 
-    ext.leakCanaryVersion = "1.5.4"
+    def leakCanaryVersion = "1.5.4"
 //    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
     debugImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
@@ -54,7 +54,7 @@ repositories {
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'com.android.support') {
-            details.useVersion '27.0.0'
+            details.useVersion rootProject.ext.supportLibVersionOverride
         }
     }
 }

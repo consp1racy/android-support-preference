@@ -14,6 +14,7 @@ ext {
     compileSdkVersion = 27
     buildToolsVersion = "27.0.3"
     supportLibVersion = "27.1.0"
+    supportLibVersionOverride = "27.1.1"
     supportLibVersionAnnotations = supportLibVersion
     minSdkVersion = 14
     targetSdkVersion = 27
