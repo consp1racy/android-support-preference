@@ -23,13 +23,6 @@ import java.util.WeakHashMap;
 
 public final class XpPreferenceHelpers {
 
-    static class NoOpWeakHashMap<K,V> extends WeakHashMap<K, V> {
-        @Override
-        public V put(K key, V value) {
-            return value;
-        }
-    }
-
     private static final WeakHashMap<Preference, PreferenceTextHelper> PREFERENCE_TEXT_HELPERS = new WeakHashMap<>();
     private static final WeakHashMap<Preference, PreferenceIconHelper> PREFERENCE_ICON_HELPERS = new WeakHashMap<>();
     private static final WeakHashMap<DialogPreference, DialogPreferenceIconHelper> PREFERENCE_DIALOG_ICON_HELPERS = new WeakHashMap<>();
