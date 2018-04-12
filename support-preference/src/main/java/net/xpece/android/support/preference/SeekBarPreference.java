@@ -34,14 +34,35 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 
 public class SeekBarPreference extends Preference {
     static final String TAG = SeekBarPreference.class.getSimpleName();
 
     // A filthy hack so we can update info text while dragging seek bar thumb.
-    private static final WeakHashMap<TextView, SeekBarPreference> mInfoViews = new WeakHashMap<>();
+    private static final Map<SeekBarPreference, Set<TextView>> sInfoViews = new WeakHashMap<>();
+
+    private Set<TextView> getInfoViews() {
+        Set<TextView> infoViews = sInfoViews.get(this);
+        if (infoViews == null) {
+            infoViews = Collections.newSetFromMap(new WeakHashMap<TextView, Boolean>());
+            sInfoViews.put(this, infoViews);
+        }
+        return infoViews;
+    }
+
+    private void replaceInfoView(final TextView infoView) {
+        for (Map.Entry<SeekBarPreference, Set<TextView>> entry : sInfoViews.entrySet()) {
+            if (entry.getKey() == this) {
+                entry.getValue().add(infoView);
+            } else {
+                entry.getValue().remove(infoView);
+            }
+        }
+    }
 
     int mSeekBarValue;
     int mMin = 0;
@@ -188,7 +209,7 @@ public class SeekBarPreference extends Preference {
 
         final TextView info = (TextView) holder.findViewById(R.id.seekbar_value);
         if (info != null) {
-            mInfoViews.put(info, this);
+            replaceInfoView(info);
             bindInfo(info);
             bindInfoAnchor(info);
         }
@@ -266,14 +287,13 @@ public class SeekBarPreference extends Preference {
         }
     }
 
+    /**
+     * You can't call {@link #notifyChanged()} in this method.
+     */
     public void onInfoChanged() {
         // DO NOT call notifyChanged()!
-        for (Map.Entry<TextView, SeekBarPreference> entry : mInfoViews.entrySet()) {
-            TextView tv = entry.getKey();
-            SeekBarPreference pref = entry.getValue();
-            if (pref == this) {
-                bindInfo(tv);
-            }
+        for (TextView tv : getInfoViews()) {
+            bindInfo(tv);
         }
     }
 
@@ -283,7 +303,6 @@ public class SeekBarPreference extends Preference {
 
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
         mUserSeekBarChangeListener = listener;
-        onInfoChanged();
     }
 
     @Override
@@ -340,7 +359,7 @@ public class SeekBarPreference extends Preference {
      * Sets the increment amount on the SeekBar for each arrow key press.
      *
      * @param seekBarIncrement The amount to increment or decrement when the user presses an
-     *                         arrow key.
+     * arrow key.
      */
     public final void setSeekBarIncrement(int seekBarIncrement) {
         if (seekBarIncrement != mSeekBarIncrement) {
