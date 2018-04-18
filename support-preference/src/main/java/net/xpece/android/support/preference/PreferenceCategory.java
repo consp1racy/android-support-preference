@@ -15,8 +15,8 @@ import android.view.View;
  * Created by Eugen on 08.03.2016.
  */
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
-    implements ColorableTextPreference, LongClickablePreference,
-    TintablePreference, CustomIconPreference {
+        implements ColorableTextPreference, LongClickablePreference,
+        TintablePreference, CustomIconPreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
@@ -108,7 +108,8 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
 
-        if (hasOnPreferenceLongClickListener()) {
+        final boolean hasLongClickListener = hasOnPreferenceLongClickListener();
+        if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -118,6 +119,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         } else {
             holder.itemView.setOnLongClickListener(null);
         }
+        holder.itemView.setLongClickable(hasLongClickListener && isSelectable());
     }
 
     @Override
