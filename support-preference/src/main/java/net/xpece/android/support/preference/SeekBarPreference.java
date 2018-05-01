@@ -55,12 +55,19 @@ public class SeekBarPreference extends Preference {
     }
 
     private void replaceInfoView(final TextView infoView) {
+        boolean added = false;
         for (Map.Entry<SeekBarPreference, Set<TextView>> entry : sInfoViews.entrySet()) {
+            // First traverse already existing mappings and reassign the view to correct preference.
             if (entry.getKey() == this) {
                 entry.getValue().add(infoView);
+                added = true;
             } else {
                 entry.getValue().remove(infoView);
             }
+        }
+        if (!added) {
+            // Create a mapping if it doesn't exist yet.
+            getInfoViews().add(infoView);
         }
     }
 
