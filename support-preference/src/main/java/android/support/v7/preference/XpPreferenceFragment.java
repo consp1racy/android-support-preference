@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -119,8 +121,12 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
     }
 
+    /**
+     * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
+     */
     @NonNull
-    private static Context resolveStyledContext(@NonNull final ContextThemeWrapper context) {
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    protected final Context resolveStyledContext(@NonNull final ContextThemeWrapper context) {
         final TypedValue tv = TYPED_VALUE;
         context.getTheme().resolveAttribute(R.attr.preferenceTheme, tv, true);
         final int theme = tv.resourceId;
@@ -130,18 +136,34 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         return new ContextThemeWrapper(context, theme);
     }
 
+    /**
+     * Provide application scoped context with a theme from supplied activity.
+     *
+     * @see #getActivityThemeResource(Activity)
+     * @see #resolveStyledContext(ContextThemeWrapper)
+     */
     @NonNull
-    private static Context newStyledContext(@NonNull final Activity activity) {
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    protected Context newStyledContext(@NonNull final Activity activity) {
+        final int activityThemeId = getActivityThemeResource(activity);
+        final Context app = activity.getApplicationContext();
+        final ContextThemeWrapper themedContext = new ContextThemeWrapper(app, activityThemeId);
+        return resolveStyledContext(themedContext);
+    }
+
+    /**
+     * Extract the effective theme resource ID of the activity.
+     */
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @StyleRes
+    protected final int getActivityThemeResource(final @NonNull Activity activity) {
         try {
-            final int activityThemeId = activity.getPackageManager()
+            return activity.getPackageManager()
                     .getActivityInfo(activity.getComponentName(), 0)
                     .getThemeResource();
-            final Context app = activity.getApplicationContext();
-            final ContextThemeWrapper themedContext = new ContextThemeWrapper(app, activityThemeId);
-            return resolveStyledContext(themedContext);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException ignore) {
             // This should never happen.
-            throw new IllegalStateException(e);
+            throw new RuntimeException(ignore);
         }
     }
 
@@ -232,9 +254,9 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                     final boolean canPlayDefault = ringtonePreference.canPlayDefaultRingtone(context);
                     final boolean canShowSelectedTitle = ringtonePreference.canShowSelectedRingtoneTitle(context);
                     if ((!canPlayDefault || !canShowSelectedTitle) &&
-                        ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
+                            ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
                         ringtonePreference.getOnFailedToReadRingtoneListener()
-                            .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
+                                .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
                         return;
                     } else {
                         f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
