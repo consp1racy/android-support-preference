@@ -13,7 +13,7 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
 
     private static final int OFFSET = 0xffff;
 
-    public XpPreferenceGroupAdapter(final PreferenceGroup preferenceGroup) {
+    public XpPreferenceGroupAdapter(@NonNull final PreferenceGroup preferenceGroup) {
         super(preferenceGroup);
     }
 
@@ -58,7 +58,7 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
         final Preference preference = getItem(position);

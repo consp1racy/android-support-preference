@@ -2,6 +2,8 @@ package android.support.v7.preference;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +43,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         FIELD_PREFERENCE_MANAGER = preferenceManager;
     }
 
-    private void setPreferenceManager(PreferenceManager manager) {
+    private void setPreferenceManager(@NonNull final PreferenceManager manager) {
         try {
             FIELD_PREFERENCE_MANAGER.set(this, manager);
         } catch (IllegalAccessException e) {
@@ -51,7 +53,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public final void onCreatePreferences(final Bundle bundle, final String s) {
+    public final void onCreatePreferences(@Nullable final Bundle bundle, @Nullable final String s) {
         onCreatePreferences1();
         onCreatePreferences2(bundle, s);
     }
@@ -67,18 +69,20 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         manager.setOnNavigateToScreenListener(this);
     }
 
+    @Nullable
     public String[] getCustomDefaultPackages() {
         return null;
     }
 
-    public abstract void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey);
+    public abstract void onCreatePreferences2(@Nullable final Bundle savedInstanceState, @Nullable final String rootKey);
 
+    @NonNull
     private Context getStyledContext() {
         return getPreferenceManager().getContext();
     }
 
     @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
+    public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
         boolean handled = false;
 
         // This has to be done first. Doubled call in super :(
@@ -126,7 +130,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    protected RecyclerView.Adapter onCreateAdapter(final PreferenceScreen preferenceScreen) {
+    protected RecyclerView.Adapter onCreateAdapter(@NonNull final PreferenceScreen preferenceScreen) {
         return new XpPreferenceGroupAdapter(preferenceScreen);
     }
 
