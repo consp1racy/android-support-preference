@@ -44,8 +44,8 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull PreferenceViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
+    public void onViewRecycled(@NonNull final PreferenceViewHolder holder) {
+        super.onViewRecycled(holder);
 
         // Clear key listener from SeekBarPreference.
         holder.itemView.setOnKeyListener(null);
