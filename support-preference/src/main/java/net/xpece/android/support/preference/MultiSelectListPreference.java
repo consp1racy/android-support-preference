@@ -40,7 +40,8 @@ import java.util.Set;
 public class MultiSelectListPreference extends DialogPreference {
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
-    private Set<String> mValues = new HashSet<>();
+
+    private final Set<String> mValues = new HashSet<>();
 
     public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -193,8 +194,11 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        // Values are never null here. Preference class code has checks against it.
+        // We either restore value, and if not found it falls back to non-null mValues,
+        // or we don't restore value and this method is only called when defaultValue is not null.
         setValues(restoreValue ? XpPreferenceCompat.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
     }
 
