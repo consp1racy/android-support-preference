@@ -3,6 +3,7 @@ package net.xpece.android.support.preference;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -27,7 +28,9 @@ public final class SharedPreferencesCompat {
      * @param key    Preference key
      * @param values Data set
      */
-    public static void putStringSet(@NonNull SharedPreferences.Editor editor, String key, Set<String> values) {
+    public static void putStringSet(@NonNull SharedPreferences.Editor editor,
+                                    @NonNull String key,
+                                    @NonNull Set<String> values) {
         while (true) {
             try {
                 editor.putStringSet(key, values);
@@ -35,6 +38,10 @@ public final class SharedPreferencesCompat {
             } catch (ClassCastException ex) {
                 // We used to store string sets as JSON array on Android 2.x.
                 // Clear stale JSON string from before system upgrade.
+                // This may hide some client code errors:
+                // * multiple preferences of different type with same key
+                // * assigning wrong default value type
+                // TODO Verify it's JSON first? and rethrow the original exception.
                 editor.remove(key);
             }
         }
@@ -48,7 +55,10 @@ public final class SharedPreferencesCompat {
      * @param defaultReturnValue Default value if not found
      * @return Data set
      */
-    public static Set<String> getStringSet(SharedPreferences prefs, String key, Set<String> defaultReturnValue) {
+    @Nullable
+    public static Set<String> getStringSet(@NonNull SharedPreferences prefs,
+                                           @NonNull String key,
+                                           @Nullable Set<String> defaultReturnValue) {
         try {
             return prefs.getStringSet(key, defaultReturnValue);
         } catch (ClassCastException ex) {
@@ -63,7 +73,10 @@ public final class SharedPreferencesCompat {
         }
     }
 
-    private static Set<String> getStringSetFromJson(SharedPreferences prefs, String key, Set<String> defaultReturnValue) {
+    @Nullable
+    private static Set<String> getStringSetFromJson(@NonNull SharedPreferences prefs,
+                                                    @NonNull String key,
+                                                    @Nullable Set<String> defaultReturnValue) {
         final String input = prefs.getString(key, null);
         if (input == null) return defaultReturnValue;
 
@@ -82,6 +95,6 @@ public final class SharedPreferencesCompat {
     }
 
     private SharedPreferencesCompat() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 }

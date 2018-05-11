@@ -14,8 +14,9 @@ import java.util.Set;
 public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private static final String TAG = XpMultiSelectListPreferenceDialogFragment.class.getSimpleName();
 
+    final HashSet<String> mNewValues = new HashSet<>();
+
     boolean mPreferenceChanged;
-    HashSet<String> mNewValues = new HashSet<>();
     boolean[] mSelectedItems = new boolean[0];
     private boolean mRestoredState = false;
 
@@ -104,7 +105,8 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            mNewValues = (HashSet<String>) savedInstanceState.getSerializable(TAG + ".mNewValues");
+            mNewValues.clear();
+            mNewValues.addAll((Set<String>) savedInstanceState.getSerializable(TAG + ".mNewValues"));
             mSelectedItems = savedInstanceState.getBooleanArray(TAG + ".mSelectedItems");
             mPreferenceChanged = savedInstanceState.getBoolean(TAG + ".mPreferenceChanged");
             mRestoredState = true;

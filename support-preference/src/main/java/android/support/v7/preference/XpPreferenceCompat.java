@@ -56,14 +56,13 @@ public final class XpPreferenceCompat {
      * @see #getPersistedStringSet(Preference, Set)
      */
     public static boolean persistStringSet(@NonNull Preference preference, @NonNull Set<String> values) {
-        if (preference.shouldPersist()) {
-            return false;
+        //noinspection ConstantConditions
+        if (values == null) {
+            throw new IllegalArgumentException("Cannot persist null string set.");
         }
 
-        // Shouldn't store null
-        if (values.equals(getPersistedStringSet(preference, null))) {
-            // It's already there, so the same as persisting
-            return true;
+        if (preference.shouldPersist()) {
+            return false;
         }
 
         PreferenceDataStore dataStore = preference.getPreferenceDataStore();
