@@ -3,6 +3,7 @@ package net.xpece.android.support.preference;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -19,6 +20,9 @@ import java.util.Set;
  */
 public final class SharedPreferencesCompat {
 
+    // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
+    private static final boolean SUPPORTS_JSON_FALLBACK = Build.VERSION.SDK_INT < 21;
+
     /**
      * Stores supplied preference as {@code Set<String>}
      * while overwriting previous JSON array string.
@@ -26,18 +30,13 @@ public final class SharedPreferencesCompat {
      * @param editor Preference editor
      * @param key    Preference key
      * @param values Data set
+     * @deprecated Use {@link SharedPreferences.Editor#putStringSet(String, Set)} directly.
      */
-    public static void putStringSet(@NonNull SharedPreferences.Editor editor, String key, Set<String> values) {
-        while (true) {
-            try {
-                editor.putStringSet(key, values);
-                break;
-            } catch (ClassCastException ex) {
-                // We used to store string sets as JSON array on Android 2.x.
-                // Clear stale JSON string from before system upgrade.
-                editor.remove(key);
-            }
-        }
+    @Deprecated
+    public static void putStringSet(@NonNull SharedPreferences.Editor editor,
+                                    @NonNull String key,
+                                    @NonNull Set<String> values) {
+        editor.putStringSet(key, values);
     }
 
     /**
@@ -48,22 +47,27 @@ public final class SharedPreferencesCompat {
      * @param defaultReturnValue Default value if not found
      * @return Data set
      */
-    public static Set<String> getStringSet(SharedPreferences prefs, String key, Set<String> defaultReturnValue) {
+    @Nullable
+    public static Set<String> getStringSet(@NonNull SharedPreferences prefs,
+                                           @NonNull String key,
+                                           @Nullable Set<String> defaultReturnValue) {
         try {
             return prefs.getStringSet(key, defaultReturnValue);
         } catch (ClassCastException ex) {
             // We used to store string sets as JSON array on Android 2.x.
-            if (Build.VERSION.SDK_INT < 21) {
+            if (SUPPORTS_JSON_FALLBACK) {
                 // If user upgraded from Gingerbread to something higher read the stale JSON string.
                 return getStringSetFromJson(prefs, key, defaultReturnValue);
             } else {
-                // Let's assume the user didn't upgrade from Android 2.x all the way to Lollipop.
                 throw ex;
             }
         }
     }
 
-    private static Set<String> getStringSetFromJson(SharedPreferences prefs, String key, Set<String> defaultReturnValue) {
+    @Nullable
+    private static Set<String> getStringSetFromJson(@NonNull SharedPreferences prefs,
+                                                    @NonNull String key,
+                                                    @Nullable Set<String> defaultReturnValue) {
         final String input = prefs.getString(key, null);
         if (input == null) return defaultReturnValue;
 
@@ -82,6 +86,6 @@ public final class SharedPreferencesCompat {
     }
 
     private SharedPreferencesCompat() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 }
