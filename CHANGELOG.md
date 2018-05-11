@@ -1,5 +1,20 @@
 # Change log
 
+**2.3.0** 2018-05-XX
+- *FIXED:* Properly disable long click listener so a selector doesn't appear on passive items.
+- *FIXED:* SeekBarPreference now properly registers and unregisters its key listener.
+- *FIXED:* SeekBarPreference info text view no longer leaks the activity context.
+- *FIXED:* MultiSelectListPreference persistence:
+  - Storing a new value now correctly overwrites any currently persisted value.
+    Previously it could throw a `ClassCastException`.
+  - Reading now correctly throws a `ClassCastException` if stored value is not a `Set<String>`.
+  - `PreferenceDataStore` is now supported.  
+
+**API Changes**
+
+* While binary compatibility is maintained, nullability annotations were added *everywhere*.
+* Removed long deprecated `ReplaceRoot` screen replacement strategy.
+
 **2.2.0** 2018-04-12
 - *FIXED:* `MultiSelectListPreference` no longer crashes on saved state restoration.
 
