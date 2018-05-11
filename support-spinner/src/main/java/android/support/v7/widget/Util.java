@@ -19,7 +19,7 @@ final class Util {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
         @Override
         protected int[] initialValue() {
-            return new int[]{0};
+            return new int[1];
         }
     };
 
@@ -33,7 +33,7 @@ final class Util {
     }
 
     @Dimension
-    public static float resolveDimension(
+    private static float resolveDimension(
             Context context, @AttrRes int attr, @Dimension float fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
@@ -46,25 +46,25 @@ final class Util {
     }
 
     @Dimension
-    public static int resolveDimensionPixelSize(
+    static int resolveDimensionPixelSize(
             Context context, @AttrRes int attr, @Dimension int fallback) {
         float dimen = resolveDimension(context, attr, fallback);
         return (int) (dimen + 0.5f);
     }
 
     @Dimension
-    public static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
+    private static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    public static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 
     @Dimension
-    public static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
         return (int) (0.5f + dpToPx(context, dp));
     }
 }

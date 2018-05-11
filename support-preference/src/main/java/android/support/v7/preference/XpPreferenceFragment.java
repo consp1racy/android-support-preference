@@ -2,17 +2,13 @@ package android.support.v7.preference;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
 import net.xpece.android.support.preference.EditTextPreference;
@@ -20,6 +16,7 @@ import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarDialogPreference;
+import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
@@ -34,8 +31,6 @@ import java.lang.reflect.Field;
  */
 public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     private static final String TAG = XpPreferenceFragment.class.getSimpleName();
-
-    private static final TypedValue TYPED_VALUE = new TypedValue();
 
     public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
@@ -61,116 +56,16 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         FIELD_STYLED_CONTEXT = f;
     }
 
-    private static void printLeakWarning() {
-        Log.w(TAG, "setUseActivityContext(true) and setRetainInstance(true) causes memory leaks.");
-    }
-
-    private boolean mUseActivityContext = false;
-
-    /**
-     * When use of Activity context is <em>disabled</em> (default) the PreferenceManager context
-     * is created like so:
-     * <ol>
-     * <li>Take Application context (cannot leak)</li>
-     * <li>Get Activity theme resource ID from the manifest</li>
-     * <li>Wrap the Application context with Activity theme</li>
-     * </ol>
-     * When use of Activity context is <em>enabled</em> the PreferenceManager context is created
-     * like so:
-     * <ol>
-     * <li>Take Activity context (can leak)</li>
-     * </ol>
-     * Typically you will never need this option.
-     * <p></p>
-     * In both cases the themed context is wrapped with {@code preferenceTheme}.
-     *
-     * @param useActivityContext Whether to use Activity context.
-     * @see #setRetainInstance(boolean)
-     */
-    protected void setUseActivityContext(final boolean useActivityContext) {
-        mUseActivityContext = useActivityContext;
-        if (mUseActivityContext && getRetainInstance()) {
-            printLeakWarning();
-        }
-    }
-
-    /**
-     * Control whether a fragment instance is retained across Activity
-     * re-creation (such as from a configuration change).  This can only
-     * be used with fragments not in the back stack.  If set, the fragment
-     * lifecycle will be slightly different when an activity is recreated:
-     * <ul>
-     * <li> {@link #onDestroy()} will not be called (but {@link #onDetach()} still
-     * will be, because the fragment is being detached from its current activity).
-     * <li> {@link #onCreate(Bundle)} will not be called since the fragment
-     * is not being re-created.
-     * <li> {@link #onAttach(Activity)} and {@link #onActivityCreated(Bundle)} <b>will</b>
-     * still be called.
-     * </ul>
-     * <p></p>
-     * Retained fragment with {@link #setUseActivityContext(boolean)} set to {@code true} *will*
-     * cause memory leaks.
-     *
-     * @see #setUseActivityContext(boolean)
-     */
-    @Override
-    public void setRetainInstance(final boolean retain) {
-        super.setRetainInstance(retain);
-        if (retain && mUseActivityContext) {
-            printLeakWarning();
-        }
-    }
-
     /**
      * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
      */
     @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    protected final Context resolveStyledContext(@NonNull final ContextThemeWrapper context) {
-        final TypedValue tv = TYPED_VALUE;
-        context.getTheme().resolveAttribute(R.attr.preferenceTheme, tv, true);
-        final int theme = tv.resourceId;
+    private Context resolveStyledContext(@NonNull final Context context) {
+        final int theme = StyledContextProvider.resolveResourceId(context, R.attr.preferenceTheme);
         if (theme == 0) {
             throw new IllegalStateException("Must specify preferenceTheme in theme");
         }
         return new ContextThemeWrapper(context, theme);
-    }
-
-    /**
-     * Provide application scoped context with a theme from supplied activity.
-     *
-     * @see #getActivityThemeResource(Activity)
-     * @see #resolveStyledContext(ContextThemeWrapper)
-     */
-    @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    protected Context newStyledContext(@NonNull final Activity activity) {
-        final int activityThemeId = getActivityThemeResource(activity);
-        final Context app = activity.getApplicationContext();
-        final ContextThemeWrapper themedContext = new ContextThemeWrapper(app, activityThemeId);
-        return resolveStyledContext(themedContext);
-    }
-
-    /**
-     * Extract the effective theme resource ID of the activity.
-     */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @StyleRes
-    protected final int getActivityThemeResource(final @NonNull Activity activity) {
-        try {
-            return activity.getPackageManager()
-                    .getActivityInfo(activity.getComponentName(), 0)
-                    .getThemeResource();
-        } catch (PackageManager.NameNotFoundException ignore) {
-            // This should never happen.
-            throw new RuntimeException(ignore);
-        }
-    }
-
-    // TODO Should this be public API?
-    @NonNull
-    private Context getStyledContext() {
-        return getPreferenceManager().getContext();
     }
 
     private void setStyledContext(@NonNull final Context context) {
@@ -195,6 +90,32 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         return null;
     }
 
+    private void printActivityLeakWarning() {
+        Log.w(TAG, "When using setRetainInstance(true) your Activity instance will leak on configuration change.");
+        Log.w(TAG, "Override onProvideCustomStyledContext() and provide a custom long-lived context.");
+        Log.w(TAG, "You can use methods in " + StyledContextProvider.class + " class.");
+    }
+
+    /**
+     * If you use retained fragment you won't have to re-inflate the preference hierarchy
+     * with each orientation change. On the other hand your original activity context will leak.
+     * <p>
+     * Use this method to provide your own themed long-lived context.
+     *
+     * @return Your own base styled context or {@code null} to use standard activity context.
+     * @see StyledContextProvider#getThemedApplicationContext(Activity)
+     * @see StyledContextProvider#getActivityThemeResource(Activity)
+     */
+    @Nullable
+    protected ContextThemeWrapper onProvideCustomStyledContext() {
+        return null;
+    }
+
+    @NonNull
+    private Context getStyledContext() {
+        return getPreferenceManager().getContext();
+    }
+
     @Override
     public final void onCreatePreferences(@Nullable final Bundle bundle, @Nullable final String s) {
         onCreatePreferences1();
@@ -206,14 +127,16 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         PreferenceManager manager = getPreferenceManager();
         manager.setOnNavigateToScreenListener(null);
 
-        // Use application context styled with activity theme to avoid memory leaks. Or don't.
         final Context styledContext;
-        if (mUseActivityContext) {
-            styledContext = getStyledContext();
-        } else {
-            // noinspection ConstantConditions
-            styledContext = newStyledContext(getActivity());
+        final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
+        if (customStyledContext != null) {
+            styledContext = resolveStyledContext(customStyledContext);
             setStyledContext(styledContext);
+        } else {
+            if (getRetainInstance()) {
+                printActivityLeakWarning();
+            }
+            styledContext = getStyledContext();
         }
 
         // Setup custom Preference Manager

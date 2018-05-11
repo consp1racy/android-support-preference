@@ -17,11 +17,13 @@ import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
@@ -115,9 +117,20 @@ public class SettingsFragment extends XpPreferenceFragment {
         return fragment;
     }
 
+    public SettingsFragment() {
+        setRetainInstance(true);
+    }
+
     @Override
     public String[] getCustomDefaultPackages() {
         return new String[]{BuildConfig.APPLICATION_ID};
+    }
+
+    @Nullable
+    @Override
+    protected ContextThemeWrapper onProvideCustomStyledContext() {
+        // Read the javadocs for instructions why and how to use this feature.
+        return StyledContextProvider.getThemedApplicationContext(requireActivity());
     }
 
     @Override
