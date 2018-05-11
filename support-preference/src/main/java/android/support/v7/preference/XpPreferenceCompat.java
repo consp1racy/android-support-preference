@@ -3,6 +3,7 @@ package android.support.v7.preference;
 import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.view.View;
 import android.widget.ListView;
@@ -38,14 +39,15 @@ import java.util.Set;
 public final class XpPreferenceCompat {
 
     public XpPreferenceCompat() {
+        throw new AssertionError();
     }
 
     /**
      * Attempts to persist a set of Strings to the {@link SharedPreferences}.
      * <p></p>
      * This will check if this Preference is persistent, get an editor from
-     * the {@link android.preference.PreferenceManager}, put in the strings, and check if we should commit (and
-     * commit if so).
+     * the {@link android.preference.PreferenceManager}, put in the strings,
+     * and check if we should commit (and commit if so).
      *
      * @param values The values to persist.
      * @return True if the Preference is persistent. (This is not whether the
@@ -53,7 +55,7 @@ public final class XpPreferenceCompat {
      * will be a batch commit later.)
      * @see #getPersistedStringSet(Preference, Set)
      */
-    public static boolean persistStringSet(Preference preference, Set<String> values) {
+    public static boolean persistStringSet(@NonNull Preference preference, @NonNull Set<String> values) {
         if (preference.shouldPersist()) {
             // Shouldn't store null
             if (values.equals(getPersistedStringSet(preference, null))) {
@@ -83,16 +85,17 @@ public final class XpPreferenceCompat {
      * value.
      * @see #persistStringSet(Preference, Set)
      */
-    public static Set<String> getPersistedStringSet(Preference preference, Set<String> defaultReturnValue) {
+    @Nullable
+    public static Set<String> getPersistedStringSet(@NonNull Preference preference, @Nullable Set<String> defaultReturnValue) {
         if (!preference.shouldPersist()) {
             return defaultReturnValue;
         }
         return SharedPreferencesCompat.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
     }
 
-    private static void tryCommit(Preference preference, @NonNull SharedPreferences.Editor editor) {
+    private static void tryCommit(@NonNull Preference preference, @NonNull SharedPreferences.Editor editor) {
         if (preference.getPreferenceManager().shouldCommit()) {
-            android.support.v4.content.SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+            editor.apply();
         }
     }
 }

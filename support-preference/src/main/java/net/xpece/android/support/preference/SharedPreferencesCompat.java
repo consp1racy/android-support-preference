@@ -1,6 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 /**
  * We used to store string sets as JSON array {@link String} on Android 2.x.
- *
+ * <p>
  * This class allows to read such JSON array as {@code Set<String>} and overwrite it.
  */
 public final class SharedPreferencesCompat {
@@ -23,7 +24,7 @@ public final class SharedPreferencesCompat {
      * while overwriting previous JSON array string.
      *
      * @param editor Preference editor
-     * @param key Preference key
+     * @param key    Preference key
      * @param values Data set
      */
     public static void putStringSet(@NonNull SharedPreferences.Editor editor, String key, Set<String> values) {
@@ -42,8 +43,8 @@ public final class SharedPreferencesCompat {
     /**
      * Reads preference as {@code Set<String>} even when it's stored as JSON array string.
      *
-     * @param prefs Preferences
-     * @param key Preference key
+     * @param prefs              Preferences
+     * @param key                Preference key
      * @param defaultReturnValue Default value if not found
      * @return Data set
      */
@@ -52,8 +53,13 @@ public final class SharedPreferencesCompat {
             return prefs.getStringSet(key, defaultReturnValue);
         } catch (ClassCastException ex) {
             // We used to store string sets as JSON array on Android 2.x.
-            // If user upgraded from Gingerbread to something higher read the stale JSON string.
-            return getStringSetFromJson(prefs, key, defaultReturnValue);
+            if (Build.VERSION.SDK_INT < 21) {
+                // If user upgraded from Gingerbread to something higher read the stale JSON string.
+                return getStringSetFromJson(prefs, key, defaultReturnValue);
+            } else {
+                // Let's assume the user didn't upgrade from Android 2.x all the way to Lollipop.
+                throw ex;
+            }
         }
     }
 

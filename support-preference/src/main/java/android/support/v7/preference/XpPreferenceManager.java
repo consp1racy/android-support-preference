@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.SharedPreferencesCompat;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -106,7 +105,7 @@ public class XpPreferenceManager extends PreferenceManager {
             pm.setSharedPreferencesMode(sharedPreferencesMode);
             pm.inflateFromResource(context, resId, null);
             SharedPreferences.Editor editor = defaultValueSp.edit().putBoolean(KEY_HAS_SET_DEFAULT_VALUES, true);
-            SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+            editor.apply();
         }
     }
 
