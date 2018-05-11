@@ -192,6 +192,16 @@ public abstract class TwoStatePreference extends Preference {
             : (Boolean) defaultValue);
     }
 
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(boolean defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
     /**
      * Sync a summary holder contained within holder's subhierarchy with the correct summary text.
      * @param holder PreferenceViewHolder which holds a reference to the summary view

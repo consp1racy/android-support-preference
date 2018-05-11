@@ -314,13 +314,22 @@ public class SeekBarPreference extends Preference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        setValue(restoreValue ? getPersistedInt(mSeekBarValue)
-                : (Integer) defaultValue);
+        setValue(restoreValue ? getPersistedInt(mSeekBarValue) : (Integer) defaultValue);
     }
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
         return a.getInt(index, 0);
+    }
+
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(int defaultValue) {
+        super.setDefaultValue(defaultValue);
     }
 
     public void setMin(int min) {

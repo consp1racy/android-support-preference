@@ -81,6 +81,16 @@ public class SeekBarDialogPreference extends DialogPreference {
         setProgress(restoreValue ? getPersistedInt(mProgress) : (int) defaultValue);
     }
 
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(int defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
     @Override
     public boolean shouldDisableDependents() {
         return mProgress == 0 || super.shouldDisableDependents();

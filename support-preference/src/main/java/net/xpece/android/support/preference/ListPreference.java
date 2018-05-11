@@ -592,6 +592,16 @@ public class ListPreference extends DialogPreference {
         this.setValue(restoreValue ? this.getPersistedString(this.mValue) : (String) defaultValue);
     }
 
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(@Nullable String defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
     @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {

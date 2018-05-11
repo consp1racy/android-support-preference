@@ -247,6 +247,17 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(@Nullable Uri defaultValue) {
+        if (defaultValue == null) super.setDefaultValue(null);
+        else super.setDefaultValue(defaultValue.toString());
+    }
+
     /**
      * Creates system ringtone picker intent for manual use.
      */

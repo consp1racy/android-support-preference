@@ -139,6 +139,16 @@ public class EditTextPreference extends DialogPreference {
         this.setText(restoreValue ? this.getPersistedString(this.mText) : (String) defaultValue);
     }
 
+    @Deprecated
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
+    public void setDefaultValue(@Nullable String defaultValue) {
+        super.setDefaultValue(defaultValue);
+    }
+
     public boolean shouldDisableDependents() {
         return TextUtils.isEmpty(this.mText) || super.shouldDisableDependents();
     }
