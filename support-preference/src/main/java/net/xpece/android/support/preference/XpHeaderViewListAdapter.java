@@ -17,6 +17,8 @@
 package net.xpece.android.support.preference;
 
 import android.database.DataSetObserver;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import android.widget.WrapperListAdapter;
 
 import java.util.ArrayList;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * ListAdapter used when a ListView has header views. This ListAdapter
  * wraps another one and also keeps track of the header views and their
@@ -34,6 +38,7 @@ import java.util.ArrayList;
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
  */
+@ParametersAreNonnullByDefault
 final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;
@@ -45,15 +50,14 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     // Used as a placeholder in case the provided info views are indeed null.
     // Currently only used by some CTS tests, which may be removed.
-    static final ArrayList<FixedViewInfo> EMPTY_INFO_LIST =
-        new ArrayList<FixedViewInfo>();
+    static final ArrayList<FixedViewInfo> EMPTY_INFO_LIST = new ArrayList<>();
 
     boolean mAreAllFixedViewsSelectable;
 
     private final boolean mIsFilterable;
 
-    public XpHeaderViewListAdapter(ArrayList<FixedViewInfo> headerViewInfos,
-                                   ArrayList<FixedViewInfo> footerViewInfos,
+    public XpHeaderViewListAdapter(@Nullable ArrayList<FixedViewInfo> headerViewInfos,
+                                   @Nullable ArrayList<FixedViewInfo> footerViewInfos,
                                    ListAdapter adapter) {
         mAdapter = adapter;
         mIsFilterable = adapter instanceof Filterable;
@@ -87,7 +91,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return mAdapter == null || mAdapter.isEmpty();
     }
 
-    private boolean areAllListInfosSelectable(ArrayList<FixedViewInfo> infos) {
+    private boolean areAllListInfosSelectable(@Nullable ArrayList<FixedViewInfo> infos) {
         if (infos != null) {
             for (FixedViewInfo info : infos) {
                 if (!info.isSelectable) {
@@ -169,6 +173,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return mFooterViewInfos.get(adjPosition - adapterCount).isSelectable;
     }
 
+    @Nullable
     public Object getItem(int position) {
         // Header (negative positions will throw an IndexOutOfBoundsException)
         int numHeaders = getHeadersCount();
@@ -209,6 +214,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return false;
     }
 
+    @NonNull
     public View getView(int position, View convertView, ViewGroup parent) {
         // Header (negative positions will throw an IndexOutOfBoundsException)
         int numHeaders = getHeadersCount();
@@ -262,6 +268,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         }
     }
 
+    @Nullable
     public Filter getFilter() {
         if (mIsFilterable) {
             return ((Filterable) mAdapter).getFilter();
@@ -269,6 +276,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return null;
     }
 
+    @NonNull
     public ListAdapter getWrappedAdapter() {
         return mAdapter;
     }
@@ -279,9 +287,11 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
      */
     public static class FixedViewInfo {
         /** The view to add to the list */
+        @SuppressWarnings("NullableProblems")
+        @NonNull
         public View view;
         /** The data backing the view. This is returned from {@link ListAdapter#getItem(int)}. */
-        public Object data;
+        @Nullable public Object data;
         /** <code>true</code> if the fixed view should be selectable in the list */
         public boolean isSelectable;
     }

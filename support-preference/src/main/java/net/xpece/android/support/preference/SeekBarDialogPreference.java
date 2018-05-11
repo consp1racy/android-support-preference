@@ -20,11 +20,16 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class SeekBarDialogPreference extends DialogPreference {
     static final String TAG = SeekBarDialogPreference.class.getSimpleName();
 
@@ -32,16 +37,16 @@ public class SeekBarDialogPreference extends DialogPreference {
     private int mPreferredMax = 100;
     private int mPreferredMin = 0;
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_SeekBarDialogPreference);
     }
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs) {
+    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
     }
 
@@ -49,8 +54,8 @@ public class SeekBarDialogPreference extends DialogPreference {
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 
         final boolean hasAspMin = a.hasValue(R.styleable.SeekBarPreference_asp_min);
         if (hasAspMin) {
@@ -71,8 +76,9 @@ public class SeekBarDialogPreference extends DialogPreference {
         a.recycle();
     }
 
+    @NonNull
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
+    protected Integer onGetDefaultValue(TypedArray a, int index) {
         return a.getInt(index, 0);
     }
 
@@ -158,7 +164,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+    protected void onRestoreInstanceState(Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -185,7 +191,7 @@ public class SeekBarDialogPreference extends DialogPreference {
         }
 
         @Override
-        public void writeToParcel(@NonNull Parcel dest, int flags) {
+        public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(progress);
             dest.writeInt(max);
@@ -198,10 +204,12 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
+                    @NonNull
                     public SavedState createFromParcel(Parcel in) {
                         return new SavedState(in);
                     }
 
+                    @NonNull
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }

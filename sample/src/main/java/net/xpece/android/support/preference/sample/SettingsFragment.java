@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -41,8 +42,6 @@ import java.util.Set;
  * @author Eugen on 7. 12. 2015.
  */
 public class SettingsFragment extends XpPreferenceFragment {
-    private static final String TAG = SettingsFragment.class.getSimpleName();
-
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -107,7 +106,8 @@ public class SettingsFragment extends XpPreferenceFragment {
         }
     };
 
-    public static SettingsFragment newInstance(String rootKey) {
+    @NonNull
+    public static SettingsFragment newInstance(@Nullable String rootKey) {
         Bundle args = new Bundle();
         args.putString(SettingsFragment.ARG_PREFERENCE_ROOT, rootKey);
         SettingsFragment fragment = new SettingsFragment();
@@ -182,7 +182,7 @@ public class SettingsFragment extends XpPreferenceFragment {
         // Setup EditTextPreference input field.
         ((EditTextPreference) findPreference("example_text")).setOnEditTextCreatedListener(new EditTextPreference.OnEditTextCreatedListener() {
             @Override
-            public void onEditTextCreated(EditText edit) {
+            public void onEditTextCreated(@NonNull EditText edit) {
                 Context context = edit.getContext();
                 //noinspection RestrictedApi
                 Drawable d = AppCompatDrawableManager.get().getDrawable(context, R.drawable.ic_create_black_24dp);
@@ -252,7 +252,7 @@ public class SettingsFragment extends XpPreferenceFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView listView = getListView();
 
@@ -275,7 +275,7 @@ public class SettingsFragment extends XpPreferenceFragment {
      */
     static class OnLongClickListenerSample implements OnPreferenceLongClickListener {
         @Override
-        public boolean onLongClick(Preference preference, View view) {
+        public boolean onLongClick(@NonNull Preference preference, @NonNull View view) {
             final Toast toast = Toast.makeText(preference.getContext(), "This showcases long click listeners on preferences.", Toast.LENGTH_SHORT);
             toast.show();
             return true;

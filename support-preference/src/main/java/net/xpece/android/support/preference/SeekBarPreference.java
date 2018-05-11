@@ -20,8 +20,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -39,6 +41,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class SeekBarPreference extends Preference {
     static final String TAG = SeekBarPreference.class.getSimpleName();
 
@@ -155,16 +160,16 @@ public class SeekBarPreference extends Preference {
         };
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SeekBarPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SeekBarPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_SeekBarPreference);
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs) {
+    public SeekBarPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarPreferenceStyle);
     }
 
@@ -172,7 +177,7 @@ public class SeekBarPreference extends Preference {
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 
         final boolean hasAspMin = a.hasValue(R.styleable.SeekBarPreference_asp_min);
@@ -212,6 +217,12 @@ public class SeekBarPreference extends Preference {
 
         final SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
 
+        //noinspection ConstantConditions
+        if (seekBar == null) {
+            Log.e(TAG, "SeekBar view is null in onBindViewHolder.");
+            return;
+        }
+
         holder.itemView.setOnKeyListener(buildSeekBarKeyListener(seekBar));
 
         final TextView info = (TextView) holder.findViewById(R.id.seekbar_value);
@@ -221,10 +232,6 @@ public class SeekBarPreference extends Preference {
             bindInfoAnchor(info);
         }
 
-        if (seekBar == null) {
-            Log.e(TAG, "SeekBar view is null in onBindViewHolder.");
-            return;
-        }
         seekBar.setOnSeekBarChangeListener(mSeekBarChangeListener);
         seekBar.setMax(mMax - mMin);
         // If the increment is not zero, use that. Otherwise, use the default mKeyProgressIncrement
@@ -240,7 +247,7 @@ public class SeekBarPreference extends Preference {
         seekBar.setEnabled(isEnabled());
     }
 
-    private void bindInfo(@NonNull TextView info) {
+    private void bindInfo(TextView info) {
         if (!TextUtils.isEmpty(mInfo)) {
             info.setText(mInfo);
             info.setVisibility(View.VISIBLE);
@@ -253,7 +260,7 @@ public class SeekBarPreference extends Preference {
         }
     }
 
-    private void bindInfoAnchor(@NonNull TextView info) {
+    private void bindInfoAnchor(TextView info) {
         try {
             final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) info.getLayoutParams();
             if (mInfoAnchorId != 0) {
@@ -277,6 +284,7 @@ public class SeekBarPreference extends Preference {
         }
     }
 
+    @Nullable
     public CharSequence getInfo() {
         return mInfo;
     }
@@ -304,22 +312,23 @@ public class SeekBarPreference extends Preference {
         }
     }
 
+    @Nullable
     public OnSeekBarChangeListener getOnSeekBarChangeListener() {
         return mUserSeekBarChangeListener;
     }
 
-    public void setOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
+    public void setOnSeekBarChangeListener(@Nullable OnSeekBarChangeListener listener) {
         mUserSeekBarChangeListener = listener;
     }
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        setValue(restoreValue ? getPersistedInt(mSeekBarValue)
-                : (Integer) defaultValue);
+        setValue(restoreValue ? getPersistedInt(mSeekBarValue) : (Integer) defaultValue);
     }
 
+    @NonNull
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
+    protected Integer onGetDefaultValue(TypedArray a, int index) {
         return a.getInt(index, 0);
     }
 
@@ -453,7 +462,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+    protected void onRestoreInstanceState(Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -505,10 +514,12 @@ public class SeekBarPreference extends Preference {
         @SuppressWarnings("unused")
         public static final Creator<SavedState> CREATOR =
                 new Creator<SavedState>() {
+                    @NonNull
                     public SavedState createFromParcel(Parcel in) {
                         return new SavedState(in);
                     }
 
+                    @NonNull
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }

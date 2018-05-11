@@ -1,22 +1,18 @@
 package net.xpece.android.support.preference;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Stack;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Eugen on 08.12.2015.
  */
+@ParametersAreNonnullByDefault
 public abstract class PreferenceScreenNavigationStrategy {
     static final String TAG = PreferenceScreenNavigationStrategy.class.getSimpleName();
 
@@ -67,7 +63,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             mCustomAnimations = false;
         }
 
-        public static boolean onCreatePreferences(PreferenceFragmentCompat f, String rootKey) {
+        public static boolean onCreatePreferences(PreferenceFragmentCompat f, @Nullable String rootKey) {
             if (rootKey != null && !PreferenceScreenNavigationStrategy.DEFAULT_ROOT_KEY.equals(rootKey)) {
                 f.setPreferenceScreen((PreferenceScreen) f.findPreference(rootKey));
                 return true;
@@ -75,7 +71,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             return false;
         }
 
-        private PreferenceFragmentCompat buildFragment(String rootKey) {
+        private PreferenceFragmentCompat buildFragment(@Nullable String rootKey) {
             return mCallbacks.onBuildPreferenceFragment(rootKey);
         }
 
@@ -99,7 +95,8 @@ public abstract class PreferenceScreenNavigationStrategy {
         }
 
         public interface Callbacks {
-            PreferenceFragmentCompat onBuildPreferenceFragment(String rootKey);
+            @NonNull
+            PreferenceFragmentCompat onBuildPreferenceFragment(@Nullable String rootKey);
         }
     }
 }

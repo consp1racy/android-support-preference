@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@ParametersAreNonnullByDefault
 public class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
@@ -50,18 +53,19 @@ public class XpPreferenceManager extends PreferenceManager {
         }
     }
 
-    XpPreferenceManager(@NonNull final Context context, @Nullable final String[] customDefaultPackages) {
+    XpPreferenceManager(final Context context, @Nullable final String[] customDefaultPackages) {
         this(context);
         mCustomDefaultPackages = customDefaultPackages;
     }
 
     @SuppressWarnings("RestrictedApi")
-    XpPreferenceManager(@NonNull final Context context) {
+    XpPreferenceManager(final Context context) {
         super(context);
     }
 
+    @NonNull
     @Override
-    public PreferenceScreen inflateFromResource(@NonNull Context context, int resId, @Nullable PreferenceScreen rootPreferences) {
+    public PreferenceScreen inflateFromResource(final Context context, final int resId, @Nullable PreferenceScreen rootPreferences) {
         setNoCommit(true);
         PreferenceInflater inflater = new XpPreferenceInflater(context, this);
         initPreferenceInflater(inflater);
@@ -71,7 +75,7 @@ public class XpPreferenceManager extends PreferenceManager {
         return rootPreferences;
     }
 
-    private void initPreferenceInflater(PreferenceInflater inflater) {
+    private void initPreferenceInflater(final PreferenceInflater inflater) {
         if (mAllDefaultPackages == null) {
             if (mCustomDefaultPackages == null || mCustomDefaultPackages.length == 0) {
                 mAllDefaultPackages = DEFAULT_PACKAGES;
@@ -85,19 +89,19 @@ public class XpPreferenceManager extends PreferenceManager {
         inflater.setDefaultPackages(mAllDefaultPackages);
     }
 
-    public static void setDefaultValues(@NonNull Context context, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(Context context, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, customDefaultPackages);
     }
 
-    public static void setDefaultValues(@NonNull Context context, int resId, boolean readAgain) {
+    public static void setDefaultValues(Context context, int resId, boolean readAgain) {
         setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, null);
     }
 
-    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain) {
+    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain) {
         setDefaultValues(context, sharedPreferencesName, sharedPreferencesMode, resId, readAgain, null);
     }
 
-    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         SharedPreferences defaultValueSp = context.getSharedPreferences(KEY_HAS_SET_DEFAULT_VALUES, 0);
         if (readAgain || !defaultValueSp.getBoolean(KEY_HAS_SET_DEFAULT_VALUES, false)) {
             XpPreferenceManager pm = new XpPreferenceManager(context, customDefaultPackages);
@@ -109,6 +113,7 @@ public class XpPreferenceManager extends PreferenceManager {
         }
     }
 
+    @NonNull
     private static String getDefaultSharedPreferencesName(Context context) {
         return context.getPackageName() + "_preferences";
     }

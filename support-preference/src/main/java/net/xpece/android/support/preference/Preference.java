@@ -9,14 +9,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcelable;
 import android.preference.PreferenceActivity;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Represents the basic Preference UI building
@@ -39,12 +43,14 @@ import android.widget.ListView;
  * guide.</p>
  * </div>
  */
+@ParametersAreNonnullByDefault
 public class Preference extends android.support.v7.preference.Preference
     implements TintablePreference, CustomIconPreference, ColorableTextPreference, LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
 
+    @SuppressWarnings("WeakerAccess")
     OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
     /**
@@ -72,7 +78,7 @@ public class Preference extends android.support.v7.preference.Preference
      * @see #Preference(Context, AttributeSet)
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public Preference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -97,7 +103,7 @@ public class Preference extends android.support.v7.preference.Preference
      * the view. Can be 0 to not look for defaults.
      * @see #Preference(Context, AttributeSet)
      */
-    public Preference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material);
     }
 
@@ -115,7 +121,7 @@ public class Preference extends android.support.v7.preference.Preference
      * preference.
      * @see #Preference(Context, AttributeSet, int)
      */
-    public Preference(Context context, AttributeSet attrs) {
+    public Preference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.preferenceStyle);
     }
 
@@ -128,7 +134,7 @@ public class Preference extends android.support.v7.preference.Preference
         this(context, null);
     }
 
-    private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    private void init(final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         mPreferenceIconHelper = new PreferenceIconHelper(this);
         mPreferenceIconHelper.loadFromAttributes(attrs, defStyleAttr, defStyleRes);
 
@@ -179,7 +185,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setSupportIcon(final Drawable icon) {
+    public void setSupportIcon(@Nullable final Drawable icon) {
         mPreferenceIconHelper.setIcon(icon);
     }
 
@@ -188,6 +194,7 @@ public class Preference extends android.support.v7.preference.Preference
         mPreferenceIconHelper.setIcon(icon);
     }
 
+    @Nullable
     @Override
     public Drawable getSupportIcon() {
         return mPreferenceIconHelper.getIcon();
@@ -202,7 +209,7 @@ public class Preference extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(@NonNull View v) {
                     return mOnPreferenceLongClickListener.onLongClick(Preference.this, v);
                 }
             });
@@ -225,7 +232,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setTitleTextAppearance(int titleTextAppearance) {
+    public void setTitleTextAppearance(@StyleRes int titleTextAppearance) {
         mPreferenceTextHelper.setTitleTextAppearance(titleTextAppearance);
         notifyChanged();
     }
@@ -243,7 +250,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setSummaryTextAppearance(int summaryTextAppearance) {
+    public void setSummaryTextAppearance(@StyleRes int summaryTextAppearance) {
         mPreferenceTextHelper.setSummaryTextAppearance(summaryTextAppearance);
         notifyChanged();
     }
@@ -269,7 +276,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+    public void setOnPreferenceLongClickListener(@Nullable OnPreferenceLongClickListener listener) {
         if (listener != mOnPreferenceLongClickListener) {
             mOnPreferenceLongClickListener = listener;
             notifyChanged();
@@ -288,7 +295,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull final Parcelable state) {
+    protected void onRestoreInstanceState(final Parcelable state) {
         super.onRestoreInstanceState(state);
     }
 }

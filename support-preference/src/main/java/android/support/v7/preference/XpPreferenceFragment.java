@@ -129,11 +129,13 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
     }
 
+    @NonNull
     @Override
     protected RecyclerView.Adapter onCreateAdapter(@NonNull final PreferenceScreen preferenceScreen) {
         return new XpPreferenceGroupAdapter(preferenceScreen);
     }
 
+    @Nullable
     @Override
     public Fragment getCallbackFragment() {
         return this;

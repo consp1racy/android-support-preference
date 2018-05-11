@@ -17,9 +17,12 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.widget.AbsoluteLayout;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
 
@@ -29,6 +32,7 @@ import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
  * or long-clickable.
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(GROUP_ID)
 @SuppressWarnings("deprecation")
 public class UnPressableAbsoluteLayout extends AbsoluteLayout {
@@ -36,7 +40,7 @@ public class UnPressableAbsoluteLayout extends AbsoluteLayout {
         this(context, null);
     }
 
-    public UnPressableAbsoluteLayout(Context context, AttributeSet attrs) {
+    public UnPressableAbsoluteLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 

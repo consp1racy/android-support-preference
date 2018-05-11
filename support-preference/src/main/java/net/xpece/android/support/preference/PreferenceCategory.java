@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Eugen on 08.03.2016.
  */
+@ParametersAreNonnullByDefault
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
         implements ColorableTextPreference, LongClickablePreference,
         TintablePreference, CustomIconPreference {
@@ -23,16 +29,16 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
 
     OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
-    public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PreferenceCategory(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public PreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PreferenceCategory(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public PreferenceCategory(Context context, AttributeSet attrs) {
+    public PreferenceCategory(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.preferenceCategoryStyle);
     }
 
@@ -40,7 +46,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         mPreferenceTextHelper = new PreferenceTextHelper();
         mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
         mPreferenceIconHelper = new PreferenceIconHelper(this);
@@ -88,8 +94,9 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         return mPreferenceIconHelper.getTintMode();
     }
 
+    @Nullable
     @Override
-    public void setSupportIcon(final Drawable icon) {
+    public void setSupportIcon(@Nullable final Drawable icon) {
         mPreferenceIconHelper.setIcon(icon);
     }
 
@@ -98,6 +105,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         mPreferenceIconHelper.setIcon(icon);
     }
 
+    @Nullable
     @Override
     public Drawable getSupportIcon() {
         return mPreferenceIconHelper.getIcon();
@@ -112,7 +120,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(@NonNull View v) {
                     return mOnPreferenceLongClickListener.onLongClick(PreferenceCategory.this, v);
                 }
             });
@@ -179,7 +187,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+    public void setOnPreferenceLongClickListener(@Nullable OnPreferenceLongClickListener listener) {
         if (listener != mOnPreferenceLongClickListener) {
             mOnPreferenceLongClickListener = listener;
             notifyChanged();

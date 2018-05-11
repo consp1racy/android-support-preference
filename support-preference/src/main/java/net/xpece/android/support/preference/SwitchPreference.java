@@ -20,6 +20,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
@@ -28,11 +33,14 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * A {@link Preference} that provides a two-state toggleable option.
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
+@ParametersAreNonnullByDefault
 public class SwitchPreference extends TwoStatePreference {
     private final Listener mListener = new Listener();
 
@@ -53,7 +61,7 @@ public class SwitchPreference extends TwoStatePreference {
      * defStyleAttr is 0 or can not be found in the theme. Can be 0
      * to not look for defaults.
      */
-    public SwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -67,7 +75,7 @@ public class SwitchPreference extends TwoStatePreference {
      * reference to a style resource that supplies default values for
      * the view. Can be 0 to not look for defaults.
      */
-    public SwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_SwitchPreferenceCompat);
     }
 
@@ -77,7 +85,7 @@ public class SwitchPreference extends TwoStatePreference {
      * @param context The Context that will style this preference
      * @param attrs Style attributes that differ from the default
      */
-    public SwitchPreference(Context context, AttributeSet attrs) {
+    public SwitchPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.switchPreferenceCompatStyle);
     }
 
@@ -90,7 +98,7 @@ public class SwitchPreference extends TwoStatePreference {
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwitchPreferenceCompat, defStyleAttr, defStyleRes);
         setSummaryOn(a.getString(R.styleable.SwitchPreferenceCompat_android_summaryOn));
         setSummaryOff(a.getString(R.styleable.SwitchPreferenceCompat_android_summaryOff));
@@ -101,7 +109,7 @@ public class SwitchPreference extends TwoStatePreference {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         this.syncSummaryView(holder);
         this.syncSwitchView(holder);
@@ -123,7 +131,7 @@ public class SwitchPreference extends TwoStatePreference {
 //    }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private void syncSwitchView(PreferenceViewHolder holder) {
+    private void syncSwitchView(@NonNull final PreferenceViewHolder holder) {
         View switchView = holder.findViewById(android.R.id.switch_widget);
         if (switchView == null) {
             switchView = holder.findViewById(R.id.switchWidget);
@@ -131,7 +139,7 @@ public class SwitchPreference extends TwoStatePreference {
         this.syncSwitchView(switchView);
     }
 
-    private void syncSwitchView(View view) {
+    private void syncSwitchView(@NonNull final View view) {
         if (view instanceof Checkable) {
             final Checkable checkable = (Checkable) view;
             final boolean isChecked = checkable.isChecked();
@@ -167,7 +175,7 @@ public class SwitchPreference extends TwoStatePreference {
      *
      * @param onText Text to display in the on state
      */
-    public void setSwitchTextOn(CharSequence onText) {
+    public void setSwitchTextOn(@Nullable CharSequence onText) {
         mSwitchOn = onText;
         notifyChanged();
     }
@@ -178,7 +186,7 @@ public class SwitchPreference extends TwoStatePreference {
      *
      * @param offText Text to display in the off state
      */
-    public void setSwitchTextOff(CharSequence offText) {
+    public void setSwitchTextOff(@Nullable CharSequence offText) {
         mSwitchOff = offText;
         notifyChanged();
     }
@@ -189,7 +197,7 @@ public class SwitchPreference extends TwoStatePreference {
      *
      * @param resId The text as a string resource ID
      */
-    public void setSwitchTextOn(int resId) {
+    public void setSwitchTextOn(@StringRes int resId) {
         setSwitchTextOn(getContext().getString(resId));
     }
 
@@ -199,13 +207,14 @@ public class SwitchPreference extends TwoStatePreference {
      *
      * @param resId The text as a string resource ID
      */
-    public void setSwitchTextOff(int resId) {
+    public void setSwitchTextOff(@StringRes int resId) {
         setSwitchTextOff(getContext().getString(resId));
     }
 
     /**
      * @return The text that will be displayed on the switch widget in the on state
      */
+    @Nullable
     public CharSequence getSwitchTextOn() {
         return mSwitchOn;
     }
@@ -213,6 +222,7 @@ public class SwitchPreference extends TwoStatePreference {
     /**
      * @return The text that will be displayed on the switch widget in the off state
      */
+    @Nullable
     public CharSequence getSwitchTextOff() {
         return mSwitchOff;
     }

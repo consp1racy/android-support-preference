@@ -3,6 +3,10 @@ package net.xpece.android.support.preference;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
@@ -10,9 +14,12 @@ import android.view.ContextThemeWrapper;
 
 import java.lang.ref.WeakReference;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@ParametersAreNonnullByDefault
 public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     private final WeakReference<DialogPreference> mPreference;
@@ -22,6 +29,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         mPreference = new WeakReference<>(preference);
     }
 
+    @NonNull
     @Override
     public Context getContext() {
         final Context context = super.getContext();
@@ -29,6 +37,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         return new ContextThemeWrapper(context, alertDialogTheme);
     }
 
+    @NonNull
     @Override
     protected DialogPreference getPreference() {
         return mPreference.get();
@@ -36,8 +45,8 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     @SuppressWarnings("RestrictedApi")
     @Override
-    public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        Context context = getContext();
+    public void loadFromAttributes(@Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        final Context context = getContext();
 
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
@@ -76,9 +85,10 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
         }
     }
 
+    @Nullable
     @SuppressWarnings("RestrictedApi")
     @Override
-    protected ColorStateList getTintList(TintTypedArray a, int attr, Context context) {
+    protected ColorStateList getTintList(TintTypedArray a, @AttrRes int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);
 //        csl = withDisabled(csl, context);
         return csl;

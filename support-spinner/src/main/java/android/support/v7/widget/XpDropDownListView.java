@@ -13,6 +13,9 @@ import android.widget.ListAdapter;
 
 import net.xpece.android.support.widget.spinner.R;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 @SuppressLint("ViewConstructor")
 public final class XpDropDownListView extends DropDownListView {
 

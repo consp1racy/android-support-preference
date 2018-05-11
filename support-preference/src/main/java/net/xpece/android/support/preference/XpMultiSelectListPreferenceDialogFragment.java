@@ -3,14 +3,20 @@ package net.xpece.android.support.preference;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@ParametersAreNonnullByDefault
 public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private static final String TAG = XpMultiSelectListPreferenceDialogFragment.class.getSimpleName();
 
@@ -20,10 +26,11 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     boolean[] mSelectedItems = new boolean[0];
     private boolean mRestoredState = false;
 
+    @NonNull
     public static XpMultiSelectListPreferenceDialogFragment newInstance(String key) {
         XpMultiSelectListPreferenceDialogFragment fragment = new XpMultiSelectListPreferenceDialogFragment();
         Bundle b = new Bundle(1);
-        b.putString("key", key);
+        b.putString(ARG_KEY, key);
         fragment.setArguments(b);
         return fragment;
     }
@@ -31,15 +38,21 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     public XpMultiSelectListPreferenceDialogFragment() {
     }
 
+    @Nullable
     public MultiSelectListPreference getMultiSelectListPreference() {
         return (MultiSelectListPreference) getPreference();
+    }
+
+    @NonNull
+    protected MultiSelectListPreference requireMultiSelectListPreference() {
+        return checkPreferenceNotNull(getMultiSelectListPreference(), MultiSelectListPreference.class, this);
     }
 
     @Override
     protected void onPrepareDialogBuilder(final AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        MultiSelectListPreference preference = this.getMultiSelectListPreference();
+        MultiSelectListPreference preference = this.requireMultiSelectListPreference();
 
         final CharSequence[] entries = preference.getEntries();
         final CharSequence[] entryValues = preference.getEntryValues();
@@ -80,7 +93,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
 
     @Override
     public void onDialogClosed(final boolean positiveResult) {
-        MultiSelectListPreference preference = this.getMultiSelectListPreference();
+        MultiSelectListPreference preference = this.requireMultiSelectListPreference();
         if (positiveResult && mPreferenceChanged) {
             final Set<String> values = mNewValues;
             if (preference.callChangeListener(values)) {
@@ -91,7 +104,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull final Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(TAG + ".mNewValues", mNewValues);
@@ -101,7 +114,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
 
     @Override
     @SuppressWarnings("unchecked")
-    public void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {

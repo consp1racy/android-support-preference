@@ -13,11 +13,14 @@ import org.json.JSONException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * We used to store string sets as JSON array {@link String} on Android 2.x.
  * <p>
  * This class allows to read such JSON array as {@code Set<String>} and overwrite it.
  */
+@ParametersAreNonnullByDefault
 public final class SharedPreferencesCompat {
 
     // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
@@ -33,9 +36,9 @@ public final class SharedPreferencesCompat {
      * @deprecated Use {@link SharedPreferences.Editor#putStringSet(String, Set)} directly.
      */
     @Deprecated
-    public static void putStringSet(@NonNull SharedPreferences.Editor editor,
-                                    @NonNull String key,
-                                    @NonNull Set<String> values) {
+    public static void putStringSet(SharedPreferences.Editor editor,
+                                    String key,
+                                    Set<String> values) {
         editor.putStringSet(key, values);
     }
 
@@ -48,8 +51,8 @@ public final class SharedPreferencesCompat {
      * @return Data set
      */
     @Nullable
-    public static Set<String> getStringSet(@NonNull SharedPreferences prefs,
-                                           @NonNull String key,
+    public static Set<String> getStringSet(SharedPreferences prefs,
+                                           String key,
                                            @Nullable Set<String> defaultReturnValue) {
         try {
             return prefs.getStringSet(key, defaultReturnValue);
@@ -65,8 +68,8 @@ public final class SharedPreferencesCompat {
     }
 
     @Nullable
-    private static Set<String> getStringSetFromJson(@NonNull SharedPreferences prefs,
-                                                    @NonNull String key,
+    private static Set<String> getStringSetFromJson(SharedPreferences prefs,
+                                                    String key,
                                                     @Nullable Set<String> defaultReturnValue) {
         final String input = prefs.getString(key, null);
         if (input == null) return defaultReturnValue;

@@ -9,8 +9,11 @@ import android.support.annotation.RestrictTo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static android.support.annotation.Dimension.DP;
 
+@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 final class Util {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
@@ -24,13 +27,14 @@ final class Util {
         throw new AssertionError();
     }
 
+    @NonNull
     private static int[] getTempArray() {
         return TEMP_ARRAY.get();
     }
 
     @Dimension
     public static float resolveDimension(
-            @NonNull Context context, @AttrRes int attr, @Dimension float fallback) {
+            Context context, @AttrRes int attr, @Dimension float fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(tempArray);
@@ -43,24 +47,24 @@ final class Util {
 
     @Dimension
     public static int resolveDimensionPixelSize(
-            @NonNull Context context, @AttrRes int attr, @Dimension int fallback) {
+            Context context, @AttrRes int attr, @Dimension int fallback) {
         float dimen = resolveDimension(context, attr, fallback);
         return (int) (dimen + 0.5f);
     }
 
     @Dimension
-    public static float dpToPx(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    public static int dpToPxOffset(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 
     @Dimension
-    public static int dpToPxSize(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
         return (int) (0.5f + dpToPx(context, dp));
     }
 }

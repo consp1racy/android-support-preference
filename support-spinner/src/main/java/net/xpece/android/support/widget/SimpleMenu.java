@@ -20,9 +20,9 @@ import static net.xpece.android.support.widget.SimpleMenu.WidthMode.WRAP_CONTENT
  * Library consumers don't need to access this.
  */
 @RestrictTo(LIBRARY_GROUP)
-public abstract class SimpleMenu {
+public final class SimpleMenu {
     private SimpleMenu() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 
     /**

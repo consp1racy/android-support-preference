@@ -2,10 +2,13 @@ package net.xpece.android.support.preference;
 
 import android.view.View;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Interface definition for a callback to be invoked when a {@link android.support.v7.preference.Preference} is
  * clicked and held.
  */
+@ParametersAreNonnullByDefault
 public interface OnPreferenceLongClickListener {
     /**
      * Called when a view has been clicked and held.

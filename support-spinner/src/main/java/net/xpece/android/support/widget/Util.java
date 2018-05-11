@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.v7.widget.TintTypedArray;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
@@ -15,6 +17,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  *
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
 final class Util {
@@ -25,20 +28,20 @@ final class Util {
         }
     };
 
+    @NonNull
     private static int[] getTempArray() {
         return TEMP_ARRAY.get();
     }
 
     private Util() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 
     @ColorInt
-    public static int resolveColor(
-            @NonNull Context context, @AttrRes int attr, @ColorInt int fallback) {
+    public static int resolveColor(Context context, @AttrRes int attr, @ColorInt int fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
-        TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, tempArray);
+        final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, tempArray);
         try {
             return ta.getColor(0, fallback);
         } finally {

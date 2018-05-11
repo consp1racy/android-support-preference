@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -67,9 +69,10 @@ public class SettingsActivity extends AppCompatActivity implements
             mSettingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("Settings");
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         // Cross-fading title setup.
@@ -77,6 +80,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
         mTitleSwitcher = new TextSwitcher(mToolbar.getContext());
         mTitleSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @NonNull
             @Override
             public View makeView() {
                 TextView tv = new AppCompatTextView(mToolbar.getContext());
@@ -114,14 +118,14 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home: {
@@ -159,18 +163,19 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onPreferenceStartScreen(final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
+    public boolean onPreferenceStartScreen(@NonNull final PreferenceFragmentCompat preferenceFragmentCompat, @NonNull final PreferenceScreen preferenceScreen) {
         mReplaceFragmentStrategy.onPreferenceStartScreen(getSupportFragmentManager(), preferenceFragmentCompat, preferenceScreen);
         return true;
     }
 
+    @NonNull
     @Override
-    public PreferenceFragmentCompat onBuildPreferenceFragment(final String rootKey) {
+    public PreferenceFragmentCompat onBuildPreferenceFragment(@Nullable final String rootKey) {
         return SettingsFragment.newInstance(rootKey);
     }
 
     @Override
-    public boolean onPreferenceDisplayDialog(PreferenceFragmentCompat preferenceFragmentCompat, Preference preference) {
+    public boolean onPreferenceDisplayDialog(@NonNull PreferenceFragmentCompat preferenceFragmentCompat, @NonNull Preference preference) {
         final String key = preference.getKey();
         DialogFragment f;
         if (preference instanceof ColorPreference) {

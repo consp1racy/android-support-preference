@@ -20,14 +20,19 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A {@link Preference} that displays a list of entries as
@@ -37,22 +42,23 @@ import java.util.Set;
  * This set will contain one or more values from the
  * {@link #setEntryValues(CharSequence[])} array.
  */
+@ParametersAreNonnullByDefault
 public class MultiSelectListPreference extends DialogPreference {
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
 
     private final Set<String> mValues = new HashSet<>();
 
-    public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public MultiSelectListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
     }
 
-    public MultiSelectListPreference(Context context, AttributeSet attrs) {
+    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.multiSelectListPreferenceStyle);
     }
 
@@ -60,7 +66,7 @@ public class MultiSelectListPreference extends DialogPreference {
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
         mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
         mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
@@ -94,6 +100,7 @@ public class MultiSelectListPreference extends DialogPreference {
      *
      * @return The list as an array.
      */
+    @Nullable
     public CharSequence[] getEntries() {
         return mEntries;
     }
@@ -113,7 +120,7 @@ public class MultiSelectListPreference extends DialogPreference {
      * @param entryValuesResId The entry values array as a resource.
      * @see #setEntryValues(CharSequence[])
      */
-    public void setEntryValues(int entryValuesResId) {
+    public void setEntryValues(@ArrayRes int entryValuesResId) {
         setEntryValues(getContext().getResources().getTextArray(entryValuesResId));
     }
 
@@ -122,6 +129,7 @@ public class MultiSelectListPreference extends DialogPreference {
      *
      * @return The array of values.
      */
+    @Nullable
     public CharSequence[] getEntryValues() {
         return mEntryValues;
     }
@@ -144,7 +152,7 @@ public class MultiSelectListPreference extends DialogPreference {
      */
     @NonNull
     public Set<String> getValues() {
-        return mValues;
+        return Collections.unmodifiableSet(mValues);
     }
 
     /**
@@ -153,10 +161,11 @@ public class MultiSelectListPreference extends DialogPreference {
      * @param value The value whose index should be returned.
      * @return The index of the value, or -1 if not found.
      */
-    public int findIndexOfValue(String value) {
-        if (value != null && mEntryValues != null) {
-            for (int i = mEntryValues.length - 1; i >= 0; i--) {
-                if (mEntryValues[i].equals(value)) {
+    public int findIndexOfValue(@Nullable String value) {
+        final CharSequence[] entryValues = getEntryValues();
+        if (value != null && entryValues != null) {
+            for (int i = entryValues.length - 1; i >= 0; --i) {
+                if (value.contentEquals(entryValues[i])) {
                     return i;
                 }
             }
@@ -164,6 +173,7 @@ public class MultiSelectListPreference extends DialogPreference {
         return -1;
     }
 
+    @NonNull
     public boolean[] getSelectedItems() {
         final CharSequence[] entries = mEntryValues;
         final int entryCount = entries.length;
@@ -177,8 +187,9 @@ public class MultiSelectListPreference extends DialogPreference {
         return result;
     }
 
+    @NonNull
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
+    protected Set<String> onGetDefaultValue(TypedArray a, int index) {
         final Set<String> result = new HashSet<>();
         try {
             final CharSequence[] defaultValues = a.getTextArray(index);
@@ -218,7 +229,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+    protected void onRestoreInstanceState(Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -252,10 +263,12 @@ public class MultiSelectListPreference extends DialogPreference {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
             new Parcelable.Creator<SavedState>() {
+                @NonNull
                 public SavedState createFromParcel(Parcel in) {
                     return new SavedState(in);
                 }
 
+                @NonNull
                 public SavedState[] newArray(int size) {
                     return new SavedState[size];
                 }

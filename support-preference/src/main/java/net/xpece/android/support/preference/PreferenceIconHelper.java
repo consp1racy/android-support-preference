@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.widget.TintTypedArray;
@@ -13,9 +17,12 @@ import android.util.AttributeSet;
 
 import java.lang.ref.WeakReference;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author Eugen on 6. 12. 2015.
  */
+@ParametersAreNonnullByDefault
 public class PreferenceIconHelper {
     private static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
@@ -33,6 +40,7 @@ public class PreferenceIconHelper {
     protected boolean mIconTintEnabled = false;
     protected boolean mIconPaddingEnabled = false;
 
+    @NonNull
     public static PreferenceIconHelper setup(Preference pref, @DrawableRes int icon, @ColorRes int tint, boolean padding) {
         PreferenceIconHelper helper = new PreferenceIconHelper(pref);
         helper.setIconPaddingEnabled(padding);
@@ -51,8 +59,8 @@ public class PreferenceIconHelper {
     }
 
     @SuppressWarnings("RestrictedApi")
-    public void loadFromAttributes(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        Context context = getContext();
+    public void loadFromAttributes(@Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        final Context context = getContext();
 
         final TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         for (int i = a.getIndexCount() - 1; i >= 0; i--) {
@@ -78,14 +86,16 @@ public class PreferenceIconHelper {
         }
     }
 
+    @Nullable
     @SuppressWarnings("RestrictedApi")
-    protected ColorStateList getTintList(TintTypedArray a, int attr, Context context) {
+    protected ColorStateList getTintList(TintTypedArray a, @AttrRes int attr, Context context) {
         ColorStateList csl = a.getColorStateList(attr);
         csl = withDisabled(csl, context);
         return csl;
     }
 
-    protected static ColorStateList withDisabled(ColorStateList csl, Context context) {
+    @Nullable
+    protected static ColorStateList withDisabled(@Nullable ColorStateList csl, Context context) {
         if (csl != null && !csl.isStateful()) {
             int color = csl.getDefaultColor();
             int disabledAplha = (int) (Util.resolveFloat(context, android.R.attr.disabledAlpha, 0.5f) * 255);
@@ -94,28 +104,32 @@ public class PreferenceIconHelper {
         return csl;
     }
 
+    @Nullable
     public PorterDuff.Mode getTintMode() {
         return mTintInfo != null ? mTintInfo.mTintMode : null;
     }
 
-    public void setTintMode(PorterDuff.Mode tintMode) {
+    public void setTintMode(@Nullable PorterDuff.Mode tintMode) {
         ensureTintInfo();
         mTintInfo.mTintMode = tintMode;
         applySupportIconTint();
     }
 
+    @Nullable
     public ColorStateList getTintList() {
         return mTintInfo != null ? mTintInfo.mTintList : null;
     }
 
-    public void setTintList(ColorStateList tintList) {
+    public void setTintList(@Nullable ColorStateList tintList) {
         ensureTintInfo();
         mTintInfo.mTintList = withDisabled(tintList, getContext());
         applySupportIconTint();
     }
 
+    @NonNull
     public Context getContext() {return getPreference().getContext();}
 
+    @NonNull
     protected Preference getPreference() {return mPreference.get();}
 
     protected void ensureTintInfo() {
@@ -129,7 +143,7 @@ public class PreferenceIconHelper {
      *
      * @param icon The optional icon for this Preference.
      */
-    public void setIcon(Drawable icon) {
+    public void setIcon(@Nullable Drawable icon) {
         if ((icon == null && mIcon != null) || (icon != null && mIcon != icon)) {
             if (icon != null) {
                 icon.mutate();
@@ -160,7 +174,7 @@ public class PreferenceIconHelper {
      * @param iconResId The icon as a resource ID.
      * @see #setIcon(Drawable)
      */
-    public void setIcon(int iconResId) {
+    public void setIcon(@DrawableRes int iconResId) {
         Context context = getContext();
         Drawable d = Util.getDrawableCompat(context, iconResId);
         setIcon(d);
@@ -173,6 +187,7 @@ public class PreferenceIconHelper {
      * @return The icon.
      * @see #setIcon(Drawable)
      */
+    @Nullable
     public Drawable getIcon() {
         return mIconInternal;
     }
@@ -203,7 +218,8 @@ public class PreferenceIconHelper {
         }
     }
 
-    private Drawable applyIconPadding(Drawable icon) {
+    @Nullable
+    private Drawable applyIconPadding(@Nullable Drawable icon) {
         if (icon != null) {
             int padding = Util.dpToPxOffset(getContext(), 4);
 //            icon = Util.addDrawablePadding(icon, padding);

@@ -29,9 +29,14 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
 import java.util.ArrayList;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
+
 /**
  * Created by Eugen on 07.12.2015.
  */
+@ParametersAreNonnullByDefault
 public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragment
         implements Runnable, AdapterView.OnItemSelectedListener {
 
@@ -141,7 +146,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     public static XpRingtonePreferenceDialogFragment newInstance(String key) {
         XpRingtonePreferenceDialogFragment fragment = new XpRingtonePreferenceDialogFragment();
         Bundle b = new Bundle(1);
-        b.putString("key", key);
+        b.putString(ARG_KEY, key);
         fragment.setArguments(b);
         return fragment;
     }
@@ -231,8 +236,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private void recover(
-            @NonNull final RingtonePreference preference, @NonNull final Throwable ex) {
+    private void recover(final RingtonePreference preference, final Throwable ex) {
         XpSupportPreferencePlugins.onError(ex, "RingtoneManager returned unexpected cursor.");
 
         mCursor = null;
@@ -272,7 +276,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         RingtonePreference preference = requireRingtonePreference();
@@ -350,8 +354,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * @param text Text for the item.
      * @return The position of the inserted item.
      */
-    private int addStaticItem(
-            @NonNull LayoutInflater inflater, @LayoutRes int layout, @NonNull CharSequence text) {
+    private int addStaticItem(LayoutInflater inflater, @LayoutRes int layout, CharSequence text) {
         TextView textView = (TextView) inflater.inflate(layout, null, false);
         textView.setText(text);
 
@@ -363,7 +366,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return mStaticItems.size() - 1;
     }
 
-    private int addDefaultRingtoneItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
+    private int addDefaultRingtoneItem(LayoutInflater inflater, @LayoutRes int layout) {
         switch (mType) {
             case RingtoneManager.TYPE_NOTIFICATION:
                 return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
@@ -418,24 +421,20 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull final Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_CLICKED_POS, mClickedPos);
         outState.putBoolean(KEY_FALLBACK_RINGTONE_PICKER, !getShowsDialog());
     }
 
+    @Nullable
     public RingtonePreference getRingtonePreference() {
         return (RingtonePreference) getPreference();
     }
 
     @NonNull
     protected RingtonePreference requireRingtonePreference() {
-        final RingtonePreference preference = getRingtonePreference();
-        if (preference == null) {
-            final String key = getArguments().getString(ARG_KEY);
-            throw new IllegalStateException("RingtonePreference[" + key + "] not available (yet).");
-        }
-        return preference;
+        return checkPreferenceNotNull(getRingtonePreference(), RingtonePreference.class, this);
     }
 
     @Override

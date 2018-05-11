@@ -1,17 +1,24 @@
 package net.xpece.android.support.preference;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Eugen on 08.03.2016.
  */
+@ParametersAreNonnullByDefault
+@SuppressLint("RestrictedApi")
 public class PreferenceTextHelper {
 
     private boolean mHasTitleTextAppearance = false;
@@ -23,8 +30,8 @@ public class PreferenceTextHelper {
     private boolean mHasSubtitleTextColor = false;
     private ColorStateList mSubtitleTextColor = null;
 
-    public void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
+    public void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         if (ta.hasValue(R.styleable.Preference_titleTextAppearance)) {
             mTitleTextAppearance = ta.getResourceId(R.styleable.Preference_titleTextAppearance, 0);
             mHasTitleTextAppearance = true;
@@ -76,7 +83,7 @@ public class PreferenceTextHelper {
         mHasTitleTextColor = true;
     }
 
-    public void setTitleTextAppearance(int titleTextAppearance) {
+    public void setTitleTextAppearance(@StyleRes int titleTextAppearance) {
         mTitleTextAppearance = titleTextAppearance;
         mHasTitleTextAppearance = true;
     }
@@ -91,7 +98,7 @@ public class PreferenceTextHelper {
         mHasSubtitleTextColor = true;
     }
 
-    public void setSummaryTextAppearance(int summaryTextAppearance) {
+    public void setSummaryTextAppearance(@StyleRes int summaryTextAppearance) {
         mSubtitleTextAppearance = summaryTextAppearance;
         mHasSubtitleTextAppearance = true;
     }

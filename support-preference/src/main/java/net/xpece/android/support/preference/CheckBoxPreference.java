@@ -21,10 +21,16 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.Preference;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A {@link Preference} that provides checkbox widget
@@ -32,18 +38,19 @@ import android.widget.Checkable;
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
+@ParametersAreNonnullByDefault
 public class CheckBoxPreference extends TwoStatePreference {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CheckBoxPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_CheckBoxPreference);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CheckBoxPreference, defStyleAttr, defStyleRes);
         setSummaryOn(a.getString(R.styleable.CheckBoxPreference_android_summaryOn));
         setSummaryOff(a.getString(R.styleable.CheckBoxPreference_android_summaryOff));
@@ -51,7 +58,7 @@ public class CheckBoxPreference extends TwoStatePreference {
         a.recycle();
     }
 
-    public CheckBoxPreference(Context context, AttributeSet attrs) {
+    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.checkBoxPreferenceStyle);
     }
 
@@ -60,7 +67,7 @@ public class CheckBoxPreference extends TwoStatePreference {
     }
 
     @Override
-    public void onBindViewHolder(final PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         View checkboxView = holder.findViewById(android.R.id.checkbox);
@@ -95,7 +102,7 @@ public class CheckBoxPreference extends TwoStatePreference {
 //        syncSummaryView(summaryView);
 //    }
 
-    private void syncCheckboxView(View view) {
+    private void syncCheckboxView(@NonNull View view) {
         if (view instanceof Checkable) {
             ((Checkable) view).setChecked(mChecked);
         }

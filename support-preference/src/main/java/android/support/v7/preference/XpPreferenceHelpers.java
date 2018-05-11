@@ -4,6 +4,8 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -17,10 +19,13 @@ import net.xpece.android.support.preference.PreferenceTextHelper;
 
 import java.util.WeakHashMap;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Eugen on 27.11.2016.
  */
 
+@ParametersAreNonnullByDefault
 public final class XpPreferenceHelpers {
 
     private static final WeakHashMap<Preference, PreferenceTextHelper> PREFERENCE_TEXT_HELPERS = new WeakHashMap<>();
@@ -30,7 +35,7 @@ public final class XpPreferenceHelpers {
 
     private XpPreferenceHelpers() {}
 
-    static void onCreatePreference(final Preference preference, final AttributeSet attrs) {
+    static void onCreatePreference(final Preference preference, @Nullable final AttributeSet attrs) {
         final int defStyleAttr = getDefStyleAttr(preference);
 
         if (!(preference instanceof CustomIconPreference)) {
@@ -53,7 +58,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    private static int getDefStyleAttr(Preference preference) {
+    private static int getDefStyleAttr(final Preference preference) {
         final int defStyleAttr;
         if (preference instanceof PreferenceScreen) {
             defStyleAttr = R.attr.preferenceScreenStyle;
@@ -79,7 +84,7 @@ public final class XpPreferenceHelpers {
             if (hasLongClickListener) {
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public boolean onLongClick(@NonNull View v) {
                         return longClickListener.onLongClick(preference, v);
                     }
                 });
@@ -250,6 +255,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
+    @Nullable
     public static Drawable getSupportIcon(final Preference preference) {
         if (preference instanceof CustomIconPreference) {
             return ((CustomIconPreference) preference).getSupportIcon();
@@ -261,6 +267,7 @@ public final class XpPreferenceHelpers {
         return preference.getIcon();
     }
 
+    @Nullable
     public static void setSupportDialogIcon(final DialogPreference preference, final Drawable icon) {
         if (preference instanceof CustomDialogIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);

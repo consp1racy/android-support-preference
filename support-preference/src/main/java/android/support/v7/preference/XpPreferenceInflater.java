@@ -31,11 +31,14 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * The {@link XpPreferenceInflater} is used to inflate preference hierarchies from
  * XML files.
  */
-class XpPreferenceInflater extends PreferenceInflater {
+@ParametersAreNonnullByDefault
+final class XpPreferenceInflater extends PreferenceInflater {
     private static final String TAG = "XpPreferenceInflater";
 
     private static final Class<?>[] CONSTRUCTOR_SIGNATURE = new Class[]{
@@ -74,6 +77,7 @@ class XpPreferenceInflater extends PreferenceInflater {
      * this is root; otherwise it is the root of
      * the inflated XML file.
      */
+    @NonNull
     @Override
     public Preference inflate(XmlPullParser parser, @Nullable PreferenceGroup root) {
         synchronized (mConstructorArgs) {
@@ -120,10 +124,9 @@ class XpPreferenceInflater extends PreferenceInflater {
         }
     }
 
-    private
     @NonNull
-    PreferenceGroup onMergeRoots(PreferenceGroup givenRoot,
-                                 @NonNull PreferenceGroup xmlRoot) {
+    private PreferenceGroup onMergeRoots(@Nullable PreferenceGroup givenRoot,
+                                         PreferenceGroup xmlRoot) {
         // If we were given a Preferences, use it as the root (ignoring the root
         // Preferences from the XML file).
         if (givenRoot == null) {
@@ -150,8 +153,9 @@ class XpPreferenceInflater extends PreferenceInflater {
      * @param attrs The XML attributes supplied for this instance.
      * @return The newly instantiated item, or null.
      */
-    protected Preference createItem(@NonNull String name, @Nullable String[] prefixes,
-                                    AttributeSet attrs)
+    @Nullable
+    protected Preference createItem(String name, @Nullable String[] prefixes,
+                                    @Nullable AttributeSet attrs)
         throws ClassNotFoundException, InflateException {
         Constructor constructor = CONSTRUCTOR_MAP.get(name);
 
@@ -208,13 +212,15 @@ class XpPreferenceInflater extends PreferenceInflater {
     /**
      * @hide
      */
-    protected Preference onCreateItem(String name, AttributeSet attrs)
+    @Nullable
+    protected Preference onCreateItem(String name, @Nullable AttributeSet attrs)
         throws ClassNotFoundException {
         throw new UnsupportedOperationException();
     }
 
+    @Nullable
     private Preference createItemFromTag(String name,
-                                         AttributeSet attrs) {
+                                         @Nullable AttributeSet attrs) {
         try {
             final Preference item;
 
@@ -249,7 +255,7 @@ class XpPreferenceInflater extends PreferenceInflater {
      * Recursive method used to descend down the xml hierarchy and instantiate
      * items, instantiate their children, and then call onFinishInflate().
      */
-    private void rInflate(XmlPullParser parser, Preference parent, final AttributeSet attrs)
+    private void rInflate(XmlPullParser parser, Preference parent, @Nullable final AttributeSet attrs)
         throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
 

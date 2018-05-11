@@ -22,6 +22,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.ColorUtils;
 
 /**
@@ -35,25 +37,31 @@ public class ColorStateDrawable extends LayerDrawable {
     private int mColor;
     private int mPressed;
 
-    public static Drawable create(Drawable[] layers, int color, int pressed) {
+    @NonNull
+    public static Drawable create(
+            @NonNull final Drawable[] layers,
+            @ColorInt final int color,
+            @ColorInt final int pressed) {
         if (Build.VERSION.SDK_INT >= 21) {
-            LayerDrawable ld = new LayerDrawable(layers);
+            final LayerDrawable ld = new LayerDrawable(layers);
             ld.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            RippleDrawable rd = new RippleDrawable(ColorStateList.valueOf(pressed), ld, null);
-            return rd;
+            return new RippleDrawable(ColorStateList.valueOf(pressed), ld, null);
         } else {
             return new ColorStateDrawable(layers, color, pressed);
         }
     }
 
-    public ColorStateDrawable(Drawable[] layers, int color, int pressed) {
+    public ColorStateDrawable(
+            @NonNull final Drawable[] layers,
+            @ColorInt final int color,
+            @ColorInt final int pressed) {
         super(layers);
         mColor = color;
         mPressed = pressed;
     }
 
     @Override
-    protected boolean onStateChange(int[] states) {
+    protected boolean onStateChange(@NonNull int[] states) {
         boolean pressedOrFocused = false;
         for (int state : states) {
             if (state == android.R.attr.state_pressed || state == android.R.attr.state_focused) {
@@ -72,6 +80,7 @@ public class ColorStateDrawable extends LayerDrawable {
         return super.onStateChange(states);
     }
 
+    @ColorInt
     private int getPressedColor() {
         return ColorUtils.compositeColors(mPressed, mColor);
     }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.RingtoneManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.util.Log;
 
@@ -13,11 +14,14 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Eugen on 14.12.2015.
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 @SuppressLint("PrivateApi")
+@ParametersAreNonnullByDefault
 public final class RingtoneManagerCompat extends RingtoneManager {
     private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 
@@ -52,6 +56,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         }
     }
 
+    @NonNull
     private Cursor getInternalRingtones() {
         try {
             return (Cursor) METHOD_GET_INTERNAL_RINGTONES.invoke(this);
@@ -68,6 +73,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         super(context);
     }
 
+    @NonNull
     @Override
     public Cursor getCursor() {
         try {

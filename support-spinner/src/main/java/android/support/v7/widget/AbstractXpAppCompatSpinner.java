@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v4.view.TintableBackgroundView;
@@ -41,6 +42,8 @@ import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Field;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
@@ -58,6 +61,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  *
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("AppCompatCustomView")
 @TargetApi(23)
@@ -120,7 +124,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * access the current theme, resources, etc.
      * @param attrs The attributes of the XML tag that is inflating the view.
      */
-    public AbstractXpAppCompatSpinner(Context context, AttributeSet attrs) {
+    public AbstractXpAppCompatSpinner(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.spinnerStyle);
     }
 
@@ -135,7 +139,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * reference to a style resource that supplies default values for
      * the view. Can be 0 to not look for defaults.
      */
-    public AbstractXpAppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AbstractXpAppCompatSpinner(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, -1);
     }
 
@@ -155,7 +159,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * @see #MODE_DROPDOWN
      */
     public AbstractXpAppCompatSpinner(
-            Context context, AttributeSet attrs, int defStyleAttr, int mode) {
+            Context context, @Nullable AttributeSet attrs, int defStyleAttr, int mode) {
         this(context, attrs, defStyleAttr, mode, null);
     }
 
@@ -184,8 +188,11 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      */
     @SuppressWarnings("RestrictedApi")
     public AbstractXpAppCompatSpinner(
-            Context context, AttributeSet attrs, int defStyleAttr, int mode,
-            Resources.Theme popupTheme) {
+            Context context,
+            @Nullable AttributeSet attrs,
+            int defStyleAttr,
+            int mode,
+            @Nullable Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr);
 
         if (!sCompatibilityDone) {
@@ -254,6 +261,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
     /**
      * @return the context used to inflate the Spinner's popup or dialog window
      */
+    @NonNull
     @Override
     public Context getPopupContext() {
         if (mPopupContext != null) {
@@ -274,7 +282,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
 
     @Override
     @SuppressWarnings("deprecation")
-    public void setBackgroundDrawable(Drawable background) {
+    public void setBackgroundDrawable(@Nullable Drawable background) {
         super.setBackgroundDrawable(background);
         if (mBackgroundTintHelper != null) {
             mBackgroundTintHelper.onSetBackgroundDrawable(background);
@@ -353,7 +361,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
     }
 
     @Override
-    public void setPrompt(final CharSequence prompt) {
+    public void setPrompt(@Nullable final CharSequence prompt) {
         super.setPrompt(prompt);
         mPrompt = prompt;
     }
@@ -364,6 +372,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         mPrompt = getContext().getText(promptId);
     }
 
+    @Nullable
     @Override
     public CharSequence getPrompt() {
         return mPrompt;

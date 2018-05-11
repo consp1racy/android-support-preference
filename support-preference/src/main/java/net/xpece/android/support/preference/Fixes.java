@@ -2,12 +2,15 @@ package net.xpece.android.support.preference;
 
 import android.view.LayoutInflater;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author Eugen on 7. 12. 2015.
  */
+@ParametersAreNonnullByDefault
 public final class Fixes {
     private Fixes() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 
     /**

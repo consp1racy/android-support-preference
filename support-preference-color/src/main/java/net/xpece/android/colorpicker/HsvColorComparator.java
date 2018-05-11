@@ -17,6 +17,7 @@
 package net.xpece.android.colorpicker;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 
 import java.util.Comparator;
 
@@ -26,7 +27,7 @@ import java.util.Comparator;
 public class HsvColorComparator implements Comparator<Integer> {
 
     @Override
-    public int compare(Integer lhs, Integer rhs) {
+    public int compare(@NonNull Integer lhs, @NonNull Integer rhs) {
         float[] hsv = new float[3];
         Color.colorToHSV(lhs, hsv);
         float hue1 = hsv[0];

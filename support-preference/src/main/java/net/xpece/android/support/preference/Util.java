@@ -14,12 +14,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.preference.Preference;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import static android.support.annotation.Dimension.DP;
-import static android.support.annotation.Dimension.PX;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+import static android.support.annotation.Dimension.DP;
+
+@ParametersAreNonnullByDefault
 final class Util {
     public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     public static final int[] EMPTY_STATE_SET = new int[0];
@@ -32,26 +35,26 @@ final class Util {
     private static final int[] TEMP_ARRAY = new int[1];
 
     private Util() {
-        throw new AssertionError("No instances!");
+        throw new AssertionError();
     }
 
     @Dimension
-    public static float dpToPx(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    public static int dpToPxOffset(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 
     @Dimension
-    public static int dpToPxSize(@NonNull Context context, @Dimension(unit = DP) int dp) {
+    public static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
         return (int) (0.5f + dpToPx(context, dp));
     }
 
-    public static int resolveResourceId(@NonNull Context context, @AttrRes int attr, int fallback) {
+    public static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {
         TEMP_ARRAY[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
         try {
@@ -61,7 +64,7 @@ final class Util {
         }
     }
 
-    public static float resolveFloat(@NonNull Context context, @AttrRes int attr, float fallback) {
+    public static float resolveFloat(Context context, @AttrRes int attr, float fallback) {
         TEMP_ARRAY[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
         try {
@@ -92,7 +95,7 @@ final class Util {
      */
     @Nullable
     public static Drawable getDrawableCompat(
-            @NonNull final Context context, @DrawableRes final int resId) {
+            final Context context, @DrawableRes final int resId) {
         return AppCompatResources.getDrawable(context, resId);
     }
 
@@ -110,7 +113,15 @@ final class Util {
      */
     @NonNull
     public static ColorStateList getColorStateListCompat(
-            @NonNull final Context context, @ColorRes final int resId) {
+            final Context context, @ColorRes final int resId) {
         return AppCompatResources.getColorStateList(context, resId);
+    }
+
+    @NonNull
+    static <T extends Preference> T checkPreferenceNotNull(@Nullable T preference, @NonNull Class<T> klazz, @NonNull XpPreferenceDialogFragment dialog) {
+        if (preference == null) {
+            throw new IllegalStateException(klazz.getSimpleName() + " with key " + dialog.getKeyForDebugging() + " is not attached.");
+        }
+        return preference;
     }
 }

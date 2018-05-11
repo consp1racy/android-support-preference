@@ -16,12 +16,12 @@ public class XpSupportPreferencePlugins {
     }
 
     public static void registerErrorInterceptor(@NonNull ErrorInterceptor interceptor) {
-        checkNotNull(interceptor);
+        requireNotNull(interceptor);
         sErrorInterceptors.add(interceptor);
     }
 
-    public static void unregisterErrorInterceptor(ErrorInterceptor interceptor) {
-        checkNotNull(interceptor);
+    public static void unregisterErrorInterceptor(@NonNull ErrorInterceptor interceptor) {
+        requireNotNull(interceptor);
         sErrorInterceptors.remove(interceptor);
     }
 
@@ -36,7 +36,7 @@ public class XpSupportPreferencePlugins {
         }
     }
 
-    private static void checkNotNull(@Nullable Object o) {
-        if (o == null) throw new NullPointerException();
+    private static void requireNotNull(@Nullable Object o) {
+        if (o == null) throw new IllegalStateException("Expected non-null argument.");
     }
 }

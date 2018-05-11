@@ -24,6 +24,8 @@ import android.animation.TypeEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
 import android.transition.TransitionValues;
@@ -36,6 +38,8 @@ import android.view.animation.AnimationUtils;
 
 import net.xpece.android.support.widget.spinner.R;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * EpicenterClipReveal captures the clip bounds and translation values
  * before and after the scene change and animates between those and the
@@ -43,6 +47,7 @@ import net.xpece.android.support.widget.spinner.R;
  *
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RequiresApi(23)
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public class EpicenterClipReveal extends Visibility {
@@ -63,7 +68,7 @@ public class EpicenterClipReveal extends Visibility {
         mInterpolatorZ = null;
     }
 
-    public EpicenterClipReveal(Context context, AttributeSet attrs) {
+    public EpicenterClipReveal(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         final TypedArray a = context.obtainStyledAttributes(attrs,
@@ -127,7 +132,7 @@ public class EpicenterClipReveal extends Visibility {
 
     @Override
     public Animator onAppear(ViewGroup sceneRoot, View view,
-            TransitionValues startValues, TransitionValues endValues) {
+            TransitionValues startValues, @Nullable TransitionValues endValues) {
         if (endValues == null) {
             return null;
         }
@@ -164,7 +169,7 @@ public class EpicenterClipReveal extends Visibility {
 
     @Override
     public Animator onDisappear(ViewGroup sceneRoot, View view,
-            TransitionValues startValues, TransitionValues endValues) {
+            @Nullable TransitionValues startValues, TransitionValues endValues) {
         if (startValues == null) {
             return null;
         }
@@ -194,6 +199,7 @@ public class EpicenterClipReveal extends Visibility {
                 endZ, endValues, mInterpolatorX, mInterpolatorY, mInterpolatorZ);
     }
 
+    @NonNull
     private Rect getEpicenterOrCenter(Rect bestRect) {
         final Rect epicenter = getEpicenter();
         if (epicenter != null) {
@@ -205,6 +211,7 @@ public class EpicenterClipReveal extends Visibility {
         return new Rect(centerX, centerY, centerX, centerY);
     }
 
+    @NonNull
     private Rect getBestRect(TransitionValues values) {
         final Rect clipRect = (Rect) values.values.get(PROPNAME_CLIP);
         if (clipRect == null) {
@@ -215,8 +222,9 @@ public class EpicenterClipReveal extends Visibility {
 
     private static Animator createRectAnimator(final View view, State startX, State startY,
             float startZ, State endX, State endY, float endZ, TransitionValues endValues,
-            TimeInterpolator interpolatorX, TimeInterpolator interpolatorY,
-            TimeInterpolator interpolatorZ) {
+            @Nullable TimeInterpolator interpolatorX,
+            @Nullable TimeInterpolator interpolatorY,
+            @Nullable TimeInterpolator interpolatorZ) {
         final StateEvaluator evaluator = new StateEvaluator();
 
         final ObjectAnimator animZ = ObjectAnimator.ofFloat(view, View.TRANSLATION_Z, startZ, endZ);

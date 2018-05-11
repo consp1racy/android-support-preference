@@ -16,11 +16,15 @@
 
 package net.xpece.android.colorpicker;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +33,14 @@ import android.widget.ProgressBar;
 import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import net.xpece.android.support.preference.color.R;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to
  * select a specific color swatch, which invokes a listener.
  */
 @Deprecated
+@ParametersAreNonnullByDefault
 public class ColorPickerDialog extends DialogFragment implements OnColorSelectedListener {
 
     protected AlertDialog mAlertDialog;
@@ -61,14 +68,16 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         // Empty constructor required for dialog fragments.
     }
 
-    public static ColorPickerDialog newInstance(int titleResId, int[] colors, int selectedColor,
+    @NonNull
+    @SuppressWarnings("deprecation")
+    public static ColorPickerDialog newInstance(@StringRes int titleResId, @ColorInt @NonNull int[] colors, @ColorInt int selectedColor,
                                                 int columns, @ColorPickerPalette.SwatchSize int size) {
         ColorPickerDialog ret = new ColorPickerDialog();
         ret.initialize(titleResId, colors, selectedColor, columns, size);
         return ret;
     }
 
-    public void initialize(int titleResId, int[] colors, int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
+    public void initialize(int titleResId, @ColorInt @NonNull int[] colors, @ColorInt int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
         setArguments(titleResId, columns, size);
         setColors(colors, selectedColor);
     }
@@ -81,12 +90,12 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         setArguments(bundle);
     }
 
-    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
+    public void setOnColorSelectedListener(@Nullable OnColorSelectedListener listener) {
         mListener = listener;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -98,19 +107,21 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
 
         if (savedInstanceState != null) {
             mColors = savedInstanceState.getIntArray(KEY_COLORS);
-            mSelectedColor = (Integer) savedInstanceState.getSerializable(KEY_SELECTED_COLOR);
+            mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
             mColorContentDescriptions = savedInstanceState.getStringArray(
                 KEY_COLOR_CONTENT_DESCRIPTIONS);
         }
     }
 
+    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final Activity activity = getActivity();
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.color_picker_dialog, null);
-        mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
-        mPalette = (ColorPickerPalette) view.findViewById(R.id.color_picker);
+        @SuppressLint("InflateParams")
+        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.color_picker_dialog, null);
+        mProgress = view.findViewById(android.R.id.progress);
+        mPalette = view.findViewById(R.id.color_picker);
         mPalette.init(mSize, mColumns, this);
 
         if (mColors != null) {
@@ -126,7 +137,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
     }
 
     @Override
-    public void onColorSelected(int color) {
+    public void onColorSelected(@ColorInt int color) {
         if (mListener != null) {
             mListener.onColorSelected(color);
         }
@@ -161,7 +172,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
-    public void setColors(int[] colors, int selectedColor) {
+    public void setColors(@ColorInt int[] colors, @ColorInt int selectedColor) {
         if (mColors != colors || mSelectedColor != selectedColor) {
             mColors = colors;
             mSelectedColor = selectedColor;
@@ -169,14 +180,14 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
-    public void setColors(int[] colors) {
+    public void setColors(@ColorInt int[] colors) {
         if (mColors != colors) {
             mColors = colors;
             refreshPalette();
         }
     }
 
-    public void setSelectedColor(int color) {
+    public void setSelectedColor(@ColorInt int color) {
         if (mSelectedColor != color) {
             mSelectedColor = color;
             refreshPalette();
@@ -196,19 +207,21 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
+    @ColorInt @Nullable
     public int[] getColors() {
         return mColors;
     }
 
+    @ColorInt
     public int getSelectedColor() {
         return mSelectedColor;
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull final Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntArray(KEY_COLORS, mColors);
-        outState.putSerializable(KEY_SELECTED_COLOR, mSelectedColor);
+        outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);
         outState.putStringArray(KEY_COLOR_CONTENT_DESCRIPTIONS, mColorContentDescriptions);
     }
 }

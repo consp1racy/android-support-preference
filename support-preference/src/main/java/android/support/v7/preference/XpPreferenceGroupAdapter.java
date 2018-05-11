@@ -5,15 +5,18 @@ import android.view.ViewGroup;
 
 import net.xpece.android.support.preference.ColorableTextPreference;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author Eugen on 17. 3. 2016.
  */
+@ParametersAreNonnullByDefault
 @SuppressWarnings("RestrictedApi")
-class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
+final class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
 
     private static final int OFFSET = 0xffff;
 
-    public XpPreferenceGroupAdapter(@NonNull final PreferenceGroup preferenceGroup) {
+    public XpPreferenceGroupAdapter(final PreferenceGroup preferenceGroup) {
         super(preferenceGroup);
     }
 
@@ -44,7 +47,7 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
     }
 
     @Override
-    public void onViewRecycled(@NonNull final PreferenceViewHolder holder) {
+    public void onViewRecycled(final PreferenceViewHolder holder) {
         super.onViewRecycled(holder);
 
         // Clear key listener from SeekBarPreference.
@@ -53,12 +56,12 @@ class XpPreferenceGroupAdapter extends PreferenceGroupAdapter {
 
     @NonNull
     @Override
-    public PreferenceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PreferenceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return super.onCreateViewHolder(parent, viewType % OFFSET);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PreferenceViewHolder holder, int position) {
+    public void onBindViewHolder(PreferenceViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
         final Preference preference = getItem(position);

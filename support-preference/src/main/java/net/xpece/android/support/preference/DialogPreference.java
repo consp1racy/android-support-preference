@@ -21,19 +21,24 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
+@ParametersAreNonnullByDefault
 public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
     implements TintablePreference, TintableDialogPreference,
     CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference,
@@ -43,18 +48,19 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     private PreferenceIconHelper mPreferenceIconHelper;
     private DialogPreferenceIconHelper mDialogPreferenceIconHelper;
 
+    @SuppressWarnings("WeakerAccess")
     OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
-    public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public DialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
     }
 
-    public DialogPreference(Context context, AttributeSet attrs) {
+    public DialogPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
@@ -62,7 +68,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
         this(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         mPreferenceIconHelper = new PreferenceIconHelper(this);
         mPreferenceIconHelper.loadFromAttributes(attrs, defStyleAttr, defStyleRes);
 
@@ -114,7 +120,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     }
 
     @Override
-    public void setSupportDialogIcon(final Drawable icon) {
+    public void setSupportDialogIcon(@Nullable final Drawable icon) {
         mDialogPreferenceIconHelper.setIcon(icon);
     }
 
@@ -123,13 +129,14 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
         mDialogPreferenceIconHelper.setIcon(icon);
     }
 
+    @Nullable
     @Override
     public Drawable getSupportDialogIcon() {
         return mDialogPreferenceIconHelper.getIcon();
     }
 
     @Override
-    public void setSupportIcon(final Drawable icon) {
+    public void setSupportIcon(@Nullable final Drawable icon) {
         mPreferenceIconHelper.setIcon(icon);
     }
 
@@ -138,6 +145,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
         mPreferenceIconHelper.setIcon(icon);
     }
 
+    @Nullable
     @Override
     public Drawable getSupportIcon() {
         return mPreferenceIconHelper.getIcon();
@@ -196,7 +204,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(@NonNull View v) {
                     return mOnPreferenceLongClickListener.onLongClick(DialogPreference.this, v);
                 }
             });
@@ -263,7 +271,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     }
 
     @Override
-    public void setOnPreferenceLongClickListener(OnPreferenceLongClickListener listener) {
+    public void setOnPreferenceLongClickListener(@Nullable OnPreferenceLongClickListener listener) {
         if (listener != mOnPreferenceLongClickListener) {
             mOnPreferenceLongClickListener = listener;
             notifyChanged();
@@ -283,7 +291,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull final Parcelable state) {
+    protected void onRestoreInstanceState(final Parcelable state) {
         super.onRestoreInstanceState(state);
     }
 }

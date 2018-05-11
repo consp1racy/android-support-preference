@@ -16,12 +16,15 @@
 
 package net.xpece.android.support.preference;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +34,14 @@ import net.xpece.android.colorpicker.ColorPickerPalette;
 import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import net.xpece.android.support.preference.color.R;
 
+import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
+
 /**
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to
  * select a specific color swatch, which invokes a listener.
  */
-public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCompat
-    implements OnColorSelectedListener {
+public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
+        implements OnColorSelectedListener {
 
     //    protected static final String KEY_COLORS = "colors";
 //    protected static final String KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
@@ -51,31 +56,35 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
     private ColorPickerPalette mPalette;
     private ProgressBar mProgress;
 
-    public static boolean onPreferenceDisplayDialog(PreferenceFragmentCompat preferenceFragment, android.support.v7.preference.Preference preference) {
+    public static boolean onPreferenceDisplayDialog(
+            @NonNull final PreferenceFragmentCompat preferenceFragment,
+            @NonNull final android.support.v7.preference.Preference preference) {
         if (preference instanceof ColorPreference) {
             final String key = preference.getKey();
-            DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);
+            final DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);
             f.setTargetFragment(preferenceFragment, 0);
-            f.show(preferenceFragment.getFragmentManager(), key);
+            final FragmentManager fm = preferenceFragment.getFragmentManager();
+            assert fm != null;
+            f.show(fm, key);
             return true;
         }
         return false;
     }
 
-    public static XpColorPreferenceDialogFragment newInstance(String key) {
+    @NonNull
+    public static XpColorPreferenceDialogFragment newInstance(@NonNull final String key) {
         XpColorPreferenceDialogFragment fragment = new XpColorPreferenceDialogFragment();
         Bundle b = new Bundle(1);
-        b.putString("key", key);
+        b.putString(ARG_KEY, key);
         fragment.setArguments(b);
         return fragment;
     }
 
     public XpColorPreferenceDialogFragment() {
-        // Empty constructor required for dialog fragments.
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
@@ -83,24 +92,25 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
 //            mColorContentDescriptions = savedInstanceState.getTextArray(KEY_COLOR_CONTENT_DESCRIPTIONS);
         } else {
-            ColorPreference pref = getColorPreference();
+            ColorPreference pref = requireColorPreference();
             mSelectedColor = pref.getColor();
         }
     }
 
+    @NonNull
     @Override
-    protected View onCreateDialogView(final Context context) {
-        final ColorPreference colorPreference = getColorPreference();
+    protected View onCreateDialogView(@NonNull final Context context) {
+        final ColorPreference colorPreference = requireColorPreference();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.color_picker_dialog, null);
-        mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
-        mPalette = (ColorPickerPalette) view.findViewById(R.id.color_picker);
+        @SuppressLint("InflateParams") final View view = LayoutInflater.from(context).inflate(R.layout.color_picker_dialog, null);
+        mProgress = view.findViewById(android.R.id.progress);
+        mPalette = view.findViewById(R.id.color_picker);
 
-        int size = colorPreference.getSwatchSize();
-        int columns = colorPreference.getColumnCount();
+        final int size = colorPreference.getSwatchSize();
+        final int columns = colorPreference.getColumnCount();
         mPalette.init(size, columns, this);
 
-        int[] colors = colorPreference.getColorValues();
+        final int[] colors = colorPreference.getColorValues();
         if (colors != null) {
             showPaletteView();
         }
@@ -123,20 +133,26 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
+    @Nullable
     public ColorPreference getColorPreference() {
         return (ColorPreference) getPreference();
     }
 
+    @NonNull
+    protected ColorPreference requireColorPreference() {
+        return checkPreferenceNotNull(getColorPreference(), ColorPreference.class, this);
+    }
+
     @Override
-    protected void onBindDialogView(final View view) {
+    protected void onBindDialogView(@NonNull final View view) {
         super.onBindDialogView(view);
     }
 
     @Override
-    public void onColorSelected(int color) {
+    public void onColorSelected(@ColorInt int color) {
         if (getTargetFragment() instanceof OnColorSelectedListener) {
             final OnColorSelectedListener listener =
-                (OnColorSelectedListener) getTargetFragment();
+                    (OnColorSelectedListener) getTargetFragment();
             listener.onColorSelected(color);
         }
 
@@ -152,7 +168,7 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
             dismiss();
         } else if (redraw) {
             // Redraw palette to show checkmark on newly selected color before dismissing.
-            mPalette.drawPalette(getColorPreference().getColorValues(), mSelectedColor);
+            mPalette.drawPalette(requireColorPreference().getColorValues(), mSelectedColor);
         }
     }
 
@@ -172,7 +188,7 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
     }
 
     private void refreshPalette() {
-        ColorPreference pref = getColorPreference();
+        ColorPreference pref = requireColorPreference();
         int[] colors = pref.getColorValues();
         CharSequence[] names = pref.getColorNames();
         if (mPalette != null && colors != null) {
@@ -180,6 +196,7 @@ public class XpColorPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
+    @ColorInt
     public int getSelectedColor() {
         return mSelectedColor;
     }

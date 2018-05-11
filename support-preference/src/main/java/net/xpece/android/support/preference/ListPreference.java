@@ -12,11 +12,13 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
@@ -37,6 +39,8 @@ import net.xpece.android.support.widget.XpListPopupWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
@@ -51,6 +55,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  * @attr name asp_menuMode
  * @attr name popupTheme
  */
+@ParametersAreNonnullByDefault
 public class ListPreference extends DialogPreference {
     private static final String TAG = ListPreference.class.getSimpleName();
 
@@ -88,7 +93,7 @@ public class ListPreference extends DialogPreference {
     private Context mPopupContext;
 
     @SuppressWarnings("RestrictedApi")
-    public ListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
         this.mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
@@ -119,11 +124,11 @@ public class ListPreference extends DialogPreference {
         }
     }
 
-    public ListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public ListPreference(Context context, AttributeSet attrs) {
+    public ListPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.listPreferenceStyle);
     }
 
@@ -188,6 +193,7 @@ public class ListPreference extends DialogPreference {
     /**
      * @return The context used to inflate the ListPreference's simple menu.
      */
+    @NonNull
     public Context getPopupContext() {
         return mPopupContext;
     }
@@ -325,6 +331,7 @@ public class ListPreference extends DialogPreference {
         popup.show();
 
         final ListView list = popup.getListView();
+        assert list != null;
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         list.setTextAlignment(anchor.getTextAlignment());
         list.setTextDirection(anchor.getTextDirection());
@@ -438,6 +445,7 @@ public class ListPreference extends DialogPreference {
      *
      * @return The list as an array.
      */
+    @Nullable
     public CharSequence[] getEntries() {
         return this.mEntries;
     }
@@ -470,6 +478,7 @@ public class ListPreference extends DialogPreference {
      *
      * @return The array of values.
      */
+    @Nullable
     public CharSequence[] getEntryValues() {
         return this.mEntryValues;
     }
@@ -501,6 +510,7 @@ public class ListPreference extends DialogPreference {
      *
      * @return the summary with appropriate string substitution
      */
+    @Nullable
     public CharSequence getSummary() {
         CharSequence entry = this.getEntry();
         return this.mSummary == null ? super.getSummary() : String.format(this.mSummary, entry == null ? "" : entry);
@@ -515,7 +525,7 @@ public class ListPreference extends DialogPreference {
      *
      * @param summary The summary for the preference.
      */
-    public void setSummary(CharSequence summary) {
+    public void setSummary(@Nullable CharSequence summary) {
         super.setSummary(summary);
         if (summary == null && this.mSummary != null) {
             this.mSummary = null;
@@ -544,6 +554,7 @@ public class ListPreference extends DialogPreference {
      *
      * @return The value of the key.
      */
+    @Nullable
     public String getValue() {
         return this.mValue;
     }
@@ -553,6 +564,7 @@ public class ListPreference extends DialogPreference {
      *
      * @return The entry corresponding to the current value, or null.
      */
+    @Nullable
     public CharSequence getEntry() {
         final int index = this.getValueIndex();
         final CharSequence[] entries = getEntries();
@@ -565,16 +577,15 @@ public class ListPreference extends DialogPreference {
      * @param value The value whose index should be returned.
      * @return The index of the value, or -1 if not found.
      */
-    public int findIndexOfValue(String value) {
+    public int findIndexOfValue(@Nullable String value) {
         final CharSequence[] entryValues = getEntryValues();
         if (value != null && entryValues != null) {
             for (int i = entryValues.length - 1; i >= 0; --i) {
-                if (value.equals(entryValues[i])) {
+                if (value.contentEquals(entryValues[i])) {
                     return i;
                 }
             }
         }
-
         return -1;
     }
 
@@ -582,13 +593,15 @@ public class ListPreference extends DialogPreference {
         return this.findIndexOfValue(this.mValue);
     }
 
+    @Nullable
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
+    protected String onGetDefaultValue(TypedArray a, int index) {
         return a.getString(index);
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    @SuppressWarnings("ConstantConditions")
+    protected void onSetInitialValue(boolean restoreValue, @Nullable Object defaultValue) {
         this.setValue(restoreValue ? this.getPersistedString(this.mValue) : (String) defaultValue);
     }
 
@@ -608,7 +621,7 @@ public class ListPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Parcelable state) {
+    protected void onRestoreInstanceState(Parcelable state) {
         if (state.getClass().equals(ListPreference.SavedState.class)) {
             SavedState myState = (SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
@@ -667,10 +680,12 @@ public class ListPreference extends DialogPreference {
         boolean simpleMenuShowing;
         String value;
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @NonNull
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
 
+            @NonNull
             public SavedState[] newArray(int size) {
                 return new SavedState[size];
             }
@@ -682,7 +697,7 @@ public class ListPreference extends DialogPreference {
             this.simpleMenuShowing = source.readInt() != 0;
         }
 
-        public void writeToParcel(@NonNull Parcel dest, int flags) {
+        public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(this.value);
             dest.writeInt(this.simpleMenuShowing ? 1 : 0);

@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DimenRes;
+import android.support.annotation.Dimension;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceGroup;
@@ -16,9 +19,14 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.TypedValue;
 import android.view.View;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static android.support.annotation.Dimension.DP;
+
 /**
  * Use this class to add dividers between {@link Preference} items.
  */
+@ParametersAreNonnullByDefault
 public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     private boolean mDrawTop = false;
@@ -31,7 +39,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     private int mPadding;
 
-    public PreferenceDividerDecoration(final Drawable divider, final int dividerHeight) {
+    public PreferenceDividerDecoration(@Nullable final Drawable divider, @Dimension final int dividerHeight) {
         mDivider = divider;
         mDividerHeight = dividerHeight;
     }
@@ -62,6 +70,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param drawTop
      * @return
      */
+    @NonNull
     public PreferenceDividerDecoration drawTop(final boolean drawTop) {
         mDrawTop = drawTop;
         return this;
@@ -77,6 +86,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param drawBottom
      * @return
      */
+    @NonNull
     public PreferenceDividerDecoration drawBottom(final boolean drawBottom) {
         mDrawBottom = drawBottom;
         return this;
@@ -92,6 +102,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param drawBetweenItems
      * @return
      */
+    @NonNull
     public PreferenceDividerDecoration drawBetweenItems(final boolean drawBetweenItems) {
         mDrawBetweenItems = drawBetweenItems;
         return this;
@@ -107,6 +118,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param drawBetweenCategories
      * @return
      */
+    @NonNull
     public PreferenceDividerDecoration drawBetweenCategories(final boolean drawBetweenCategories) {
         mDrawBetweenCategories = drawBetweenCategories;
         return this;
@@ -122,7 +134,8 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param padding Padding above and below a divider in pixels.
      * @return
      */
-    public PreferenceDividerDecoration padding(final int padding) {
+    @NonNull
+    public PreferenceDividerDecoration padding(@Dimension final int padding) {
         mPadding = padding;
         return this;
     }
@@ -134,7 +147,8 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @param paddingDp Padding above and below a divider in dips.
      * @return
      */
-    public PreferenceDividerDecoration paddingDp(final Context context, final float paddingDp) {
+    @NonNull
+    public PreferenceDividerDecoration paddingDp(final Context context, @Dimension(unit = DP) final float paddingDp) {
         int paddingPx = (int) TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, paddingDp, context.getResources().getDisplayMetrics());
         return padding(paddingPx);

@@ -1,16 +1,14 @@
 package android.support.v7.preference;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceActivity;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
-import android.view.View;
-import android.widget.ListView;
 
 import net.xpece.android.support.preference.SharedPreferencesCompat;
 
 import java.util.Set;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This class provides methods that can be used to retrieve and store String sets
@@ -24,6 +22,7 @@ import java.util.Set;
  * {@link net.xpece.android.support.preference.MultiSelectListPreference} on Android 2.x
  * you don't need these methods.
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class XpPreferenceCompat {
 
@@ -44,8 +43,7 @@ public final class XpPreferenceCompat {
      * will be a batch commit later.)
      * @see #getPersistedStringSet(Preference, Set)
      */
-    public static boolean persistStringSet(@NonNull Preference preference,
-                                           @NonNull Set<String> values) {
+    public static boolean persistStringSet(Preference preference, Set<String> values) {
         //noinspection ConstantConditions
         if (values == null) {
             throw new IllegalArgumentException("Cannot persist null string set.");
@@ -91,8 +89,7 @@ public final class XpPreferenceCompat {
      * @see #persistStringSet(Preference, Set)
      */
     @Nullable
-    public static Set<String> getPersistedStringSet(@NonNull Preference preference,
-                                                    @Nullable Set<String> defaultReturnValue) {
+    public static Set<String> getPersistedStringSet(Preference preference, @Nullable Set<String> defaultReturnValue) {
         if (!preference.shouldPersist()) {
             return defaultReturnValue;
         }
@@ -105,8 +102,7 @@ public final class XpPreferenceCompat {
         return SharedPreferencesCompat.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
     }
 
-    private static void tryCommit(@NonNull Preference preference,
-                                  @NonNull SharedPreferences.Editor editor) {
+    private static void tryCommit(Preference preference, SharedPreferences.Editor editor) {
         if (preference.getPreferenceManager().shouldCommit()) {
             editor.apply();
         }

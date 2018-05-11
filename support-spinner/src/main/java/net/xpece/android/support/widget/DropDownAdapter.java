@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * <p>Wrapper class for an Adapter. Transforms the embedded Adapter instance
  * into a ListAdapter.</p>
  *
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
@@ -64,6 +67,7 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
         return mAdapter == null ? 0 : mAdapter.getCount();
     }
 
+    @Nullable
     @Override
     public Object getItem(int position) {
         return mAdapter == null ? null : mAdapter.getItem(position);
@@ -74,13 +78,15 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
         return mAdapter == null ? -1 : mAdapter.getItemId(position);
     }
 
+    @Nullable
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, ViewGroup parent) {
         return getDropDownView(position, convertView, parent);
     }
 
+    @Nullable
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getDropDownView(int position, @Nullable View convertView, ViewGroup parent) {
         return (mAdapter == null) ? null
             : mAdapter.getDropDownView(position, convertView, parent);
     }

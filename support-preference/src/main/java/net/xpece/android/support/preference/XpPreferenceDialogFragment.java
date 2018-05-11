@@ -2,22 +2,29 @@ package net.xpece.android.support.preference;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Created by Eugen on 26.03.2016.
  */
+@ParametersAreNonnullByDefault
 public abstract class XpPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
 
+    @NonNull
     @Override
     protected View onCreateDialogView(Context context) {
         Context context2 = new AlertDialog.Builder(context).getContext();
@@ -51,5 +58,17 @@ public abstract class XpPreferenceDialogFragment extends PreferenceDialogFragmen
             // Else, just let super handle it
             super.setupDialog(dialog, style);
         }
+    }
+
+    @Nullable
+    @Override
+    public DialogPreference getPreference() {
+        return super.getPreference();
+    }
+
+    @NonNull
+    @SuppressWarnings("ConstantConditions")
+    String getKeyForDebugging() {
+        return getArguments().getString(ARG_KEY);
     }
 }

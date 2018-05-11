@@ -651,7 +651,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      *
      * @param selector List selector drawable to use in the popup.
      */
-    public void setListSelector(Drawable selector) {
+    public void setListSelector(@Nullable Drawable selector) {
         mDropDownListHighlight = selector;
         mListMeasureDirty = true;
     }
@@ -767,7 +767,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param bounds anchor-relative bounds
      */
     @RestrictTo(LIBRARY_GROUP)
-    public void setEpicenterBounds(Rect bounds) {
+    public void setEpicenterBounds(@Nullable Rect bounds) {
         mEpicenterBounds = bounds;
     }
 
@@ -939,7 +939,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param clickListener Listener to register
      * @see ListView#setOnItemClickListener(AdapterView.OnItemClickListener)
      */
-    public void setOnItemClickListener(AdapterView.OnItemClickListener clickListener) {
+    public void setOnItemClickListener(@Nullable AdapterView.OnItemClickListener clickListener) {
         mItemClickListener = clickListener;
         final XpDropDownListView list = mDropDownList;
         if (list != null) {
@@ -953,7 +953,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param selectedListener Listener to register.
      * @see ListView#setOnItemSelectedListener(AdapterView.OnItemSelectedListener)
      */
-    public void setOnItemSelectedListener(AdapterView.OnItemSelectedListener selectedListener) {
+    public void setOnItemSelectedListener(@Nullable AdapterView.OnItemSelectedListener selectedListener) {
         mItemSelectedListener = selectedListener;
         final XpDropDownListView list = mDropDownList;
         if (list != null) {
@@ -1327,7 +1327,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      *
      * @param listener Listener that will be notified when the popup is dismissed.
      */
-    public void setOnDismissListener(PopupWindow.OnDismissListener listener) {
+    public void setOnDismissListener(@Nullable PopupWindow.OnDismissListener listener) {
         mPopup.setOnDismissListener(listener);
     }
 
@@ -1397,7 +1397,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 //    }
 
     private void setSelectionOverAnchor(
-            final XpDropDownListView list, final int position, final int offsetY) {
+            @NonNull final XpDropDownListView list, final int position, final int offsetY) {
         // Assuming all items have the same height.
         final int itemHeight = getSelectedItemViewHeight(position);
 
@@ -1422,7 +1422,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         ensureSelectionAtBottomVisible(list, position);
     }
 
-    private void ensureSelectionAtBottomVisible(final XpDropDownListView list,
+    private void ensureSelectionAtBottomVisible(@NonNull final XpDropDownListView list,
                                                 final int selectionAdapterPosition) {
 
         list.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -1672,7 +1672,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     @NonNull
-    XpDropDownListView createDropDownListView(final Context context, final boolean hijackFocus) {
+    XpDropDownListView createDropDownListView(@NonNull final Context context, final boolean hijackFocus) {
         final XpDropDownListView listView = new XpDropDownListView(context, hijackFocus);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         return listView;
@@ -1860,8 +1860,10 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * @param src the view on which the resulting listener will be set
      * @return a touch listener that controls drag-to-open behavior
      */
-    public OnTouchListener createDragToOpenListener(View src) {
+    @NonNull
+    public OnTouchListener createDragToOpenListener(@NonNull View src) {
         return new ForwardingListener(src) {
+            @NonNull
             @Override
             public AbstractXpListPopupWindow getPopup() {
                 return AbstractXpListPopupWindow.this;
@@ -2140,7 +2142,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(@NonNull View v, @NonNull MotionEvent event) {
             final int action = event.getAction();
             final int x = (int) event.getX();
             final int y = (int) event.getY();
@@ -2177,7 +2179,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
     }
 
-    private void setEpicenterBoundsInternal(Rect epicenterBounds) {
+    private void setEpicenterBoundsInternal(@Nullable Rect epicenterBounds) {
         if (sSetEpicenterBoundsMethod != null) {
             try {
                 sSetEpicenterBoundsMethod.invoke(mPopup, epicenterBounds);
@@ -2187,7 +2189,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
-    private int getMaxAvailableHeight(View anchor, boolean ignoreBottomDecorations) {
+    private int getMaxAvailableHeight(@NonNull View anchor, boolean ignoreBottomDecorations) {
         final View bounds = mDropDownBoundsView;
         if (bounds != null) {
             int returnedHeight = bounds.getHeight();
@@ -2206,7 +2208,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     private int getWindowFrame(
-            final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
+            @NonNull final View anchor, final boolean ignoreBottomDecorations, final Rect out) {
         int bottomDecorations = 0;
         anchor.getWindowVisibleDisplayFrame(out);
 //        if (ignoreBottomDecorations) {
@@ -2218,14 +2220,14 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         return bottomDecorations;
     }
 
-    private void getLocationInWindow(View anchor, @Size(2) int[] out) {
+    private void getLocationInWindow(@NonNull View anchor, @NonNull @Size(2) int[] out) {
         anchor.getLocationInWindow(out);
     }
 
     /**
      * @param out Margins relative to left, top, right and bottom of the window.
      */
-    private void getBoundsInWindow(Rect out) {
+    private void getBoundsInWindow(@NonNull Rect out) {
         final View bounds = mDropDownBoundsView;
         if (bounds != null) {
             bounds.getWindowVisibleDisplayFrame(mTempRect);

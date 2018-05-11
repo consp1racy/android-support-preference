@@ -284,7 +284,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(final DialogInterface dialog, final int which) {
+            public void onClick(@NonNull final DialogInterface dialog, final int which) {
                 setSelection(which);
                 if (getOnItemClickListener() != null) {
                     performItemClick(null, which, getItemIdAtPosition(which));
