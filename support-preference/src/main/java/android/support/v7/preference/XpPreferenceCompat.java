@@ -55,10 +55,14 @@ public final class XpPreferenceCompat {
             return false;
         }
 
-        // Shouldn't store null
-        if (values.equals(getPersistedStringSet(preference, null))) {
-            // It's already there, so the same as persisting
-            return true;
+        try {
+            // Shouldn't store null
+            if (values.equals(getPersistedStringSet(preference, null))) {
+                // It's already there, so the same as persisting
+                return true;
+            }
+        } catch (ClassCastException ignore) {
+            // We were checking for equality or null. We got a different type. Overwrite that.
         }
 
         PreferenceDataStore dataStore = preference.getPreferenceDataStore();
@@ -66,7 +70,7 @@ public final class XpPreferenceCompat {
             dataStore.putStringSet(preference.getKey(), values);
         } else {
             SharedPreferences.Editor editor = preference.getPreferenceManager().getEditor();
-            SharedPreferencesCompat.putStringSet(editor, preference.getKey(), values);
+            editor.putStringSet(preference.getKey(), values);
             tryCommit(preference, editor);
         }
         return true;

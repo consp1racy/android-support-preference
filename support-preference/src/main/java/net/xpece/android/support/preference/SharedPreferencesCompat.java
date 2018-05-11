@@ -20,6 +20,7 @@ import java.util.Set;
  */
 public final class SharedPreferencesCompat {
 
+    // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
     private static final boolean SUPPORTS_JSON_FALLBACK = Build.VERSION.SDK_INT < 21;
 
     /**
@@ -29,28 +30,13 @@ public final class SharedPreferencesCompat {
      * @param editor Preference editor
      * @param key    Preference key
      * @param values Data set
+     * @deprecated Use {@link SharedPreferences.Editor#putStringSet(String, Set)} directly.
      */
+    @Deprecated
     public static void putStringSet(@NonNull SharedPreferences.Editor editor,
                                     @NonNull String key,
                                     @NonNull Set<String> values) {
-        while (true) {
-            try {
-                editor.putStringSet(key, values);
-                break;
-            } catch (ClassCastException ex) {
-                if (SUPPORTS_JSON_FALLBACK) {
-                    // We used to store string sets as JSON array on Android 2.x.
-                    // Clear stale JSON string from before system upgrade.
-                    // This may hide some client code errors:
-                    // * multiple preferences of different type with same key
-                    // * assigning wrong default value type
-                    editor.remove(key);
-                } else {
-                    // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
-                    throw ex;
-                }
-            }
-        }
+        editor.putStringSet(key, values);
     }
 
     /**
@@ -73,7 +59,6 @@ public final class SharedPreferencesCompat {
                 // If user upgraded from Gingerbread to something higher read the stale JSON string.
                 return getStringSetFromJson(prefs, key, defaultReturnValue);
             } else {
-                // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
                 throw ex;
             }
         }
