@@ -8,7 +8,12 @@
   - Storing a new value now correctly overwrites any currently persisted value.
     Previously it could throw a `ClassCastException`.
   - Reading now correctly throws a `ClassCastException` if stored value is not a `Set<String>`.
-  - `PreferenceDataStore` is now supported.  
+  - `PreferenceDataStore` is now supported.
+- *NEW!* New API for using a long-lived themed context with the preference fragment.
+  - This will prevent memory leaks when using retained preference fragments. Retained fragments
+  don't reinflate the preference hierarchy on each configuration change which prevents jank.
+  - Override `XpPreferenceFragment#onProvideCustomStyledContext` and return an application context
+    with an activity theme overlay. Use utility methods in the `StyledContextProvider` class.
 
 **API Changes**
 
