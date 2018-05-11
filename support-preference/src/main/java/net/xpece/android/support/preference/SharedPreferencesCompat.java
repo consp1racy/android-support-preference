@@ -20,6 +20,8 @@ import java.util.Set;
  */
 public final class SharedPreferencesCompat {
 
+    private static final boolean SUPPORTS_JSON_FALLBACK = Build.VERSION.SDK_INT < 21;
+
     /**
      * Stores supplied preference as {@code Set<String>}
      * while overwriting previous JSON array string.
@@ -36,13 +38,17 @@ public final class SharedPreferencesCompat {
                 editor.putStringSet(key, values);
                 break;
             } catch (ClassCastException ex) {
-                // We used to store string sets as JSON array on Android 2.x.
-                // Clear stale JSON string from before system upgrade.
-                // This may hide some client code errors:
-                // * multiple preferences of different type with same key
-                // * assigning wrong default value type
-                // TODO Verify it's JSON first? and rethrow the original exception.
-                editor.remove(key);
+                if (SUPPORTS_JSON_FALLBACK) {
+                    // We used to store string sets as JSON array on Android 2.x.
+                    // Clear stale JSON string from before system upgrade.
+                    // This may hide some client code errors:
+                    // * multiple preferences of different type with same key
+                    // * assigning wrong default value type
+                    editor.remove(key);
+                } else {
+                    // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
+                    throw ex;
+                }
             }
         }
     }
@@ -63,11 +69,11 @@ public final class SharedPreferencesCompat {
             return prefs.getStringSet(key, defaultReturnValue);
         } catch (ClassCastException ex) {
             // We used to store string sets as JSON array on Android 2.x.
-            if (Build.VERSION.SDK_INT < 21) {
+            if (SUPPORTS_JSON_FALLBACK) {
                 // If user upgraded from Gingerbread to something higher read the stale JSON string.
                 return getStringSetFromJson(prefs, key, defaultReturnValue);
             } else {
-                // Let's assume the user didn't upgrade from Android 2.x all the way to Lollipop.
+                // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.
                 throw ex;
             }
         }

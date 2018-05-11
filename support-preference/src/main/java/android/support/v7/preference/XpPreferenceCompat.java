@@ -13,29 +13,18 @@ import net.xpece.android.support.preference.SharedPreferencesCompat;
 import java.util.Set;
 
 /**
- * Represents the basic Preference UI building
- * block displayed by a {@link PreferenceActivity} in the form of a
- * {@link ListView}. This class provides the {@link View} to be displayed in
- * the activity and associates with a {@link SharedPreferences} to
- * store/retrieve the preference data.
- * <p>
- * When specifying a preference hierarchy in XML, each element can point to a
- * subclass of {@link XpPreferenceCompat}, similar to the view hierarchy and layouts.
- * <p>
- * This class contains a {@code key} that will be used as the key into the
- * {@link SharedPreferences}. It is up to the subclass to decide how to store
- * the value.
- * <p></p>
- * <div class="special reference">
- * <h3>Developer Guides</h3>
- * <p>For information about building a settings UI with Preferences,
- * read the <a href="{@docRoot}guide/topics/ui/settings.html">Settings</a>
- * guide.</p>
- * </div>
+ * This class provides methods that can be used to retrieve and store String sets
+ * from and to Preferences even on Android 2.x.
  *
- * @hide
+ * String sets were stored as JSON array on Android 2.x and these methods are required
+ * to upgrade JSON to String set once the user runs the app after upgrading to a newer
+ * version of Android.
+ *
+ * If your app never supported Android 2.x or you never used
+ * {@link net.xpece.android.support.preference.MultiSelectListPreference} on Android 2.x
+ * you don't need these methods.
  */
-@RestrictTo(RestrictTo.Scope.GROUP_ID)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class XpPreferenceCompat {
 
     public XpPreferenceCompat() {
@@ -55,7 +44,8 @@ public final class XpPreferenceCompat {
      * will be a batch commit later.)
      * @see #getPersistedStringSet(Preference, Set)
      */
-    public static boolean persistStringSet(@NonNull Preference preference, @NonNull Set<String> values) {
+    public static boolean persistStringSet(@NonNull Preference preference,
+                                           @NonNull Set<String> values) {
         //noinspection ConstantConditions
         if (values == null) {
             throw new IllegalArgumentException("Cannot persist null string set.");
@@ -63,6 +53,12 @@ public final class XpPreferenceCompat {
 
         if (preference.shouldPersist()) {
             return false;
+        }
+
+        // Shouldn't store null
+        if (values.equals(getPersistedStringSet(preference, null))) {
+            // It's already there, so the same as persisting
+            return true;
         }
 
         PreferenceDataStore dataStore = preference.getPreferenceDataStore();
@@ -91,7 +87,8 @@ public final class XpPreferenceCompat {
      * @see #persistStringSet(Preference, Set)
      */
     @Nullable
-    public static Set<String> getPersistedStringSet(@NonNull Preference preference, @Nullable Set<String> defaultReturnValue) {
+    public static Set<String> getPersistedStringSet(@NonNull Preference preference,
+                                                    @Nullable Set<String> defaultReturnValue) {
         if (!preference.shouldPersist()) {
             return defaultReturnValue;
         }
@@ -104,7 +101,8 @@ public final class XpPreferenceCompat {
         return SharedPreferencesCompat.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
     }
 
-    private static void tryCommit(@NonNull Preference preference, @NonNull SharedPreferences.Editor editor) {
+    private static void tryCommit(@NonNull Preference preference,
+                                  @NonNull SharedPreferences.Editor editor) {
         if (preference.getPreferenceManager().shouldCommit()) {
             editor.apply();
         }
