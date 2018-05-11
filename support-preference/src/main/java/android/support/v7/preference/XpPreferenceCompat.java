@@ -57,18 +57,24 @@ public final class XpPreferenceCompat {
      */
     public static boolean persistStringSet(@NonNull Preference preference, @NonNull Set<String> values) {
         if (preference.shouldPersist()) {
-            // Shouldn't store null
-            if (values.equals(getPersistedStringSet(preference, null))) {
-                // It's already there, so the same as persisting
-                return true;
-            }
+            return false;
+        }
 
+        // Shouldn't store null
+        if (values.equals(getPersistedStringSet(preference, null))) {
+            // It's already there, so the same as persisting
+            return true;
+        }
+
+        PreferenceDataStore dataStore = preference.getPreferenceDataStore();
+        if (dataStore != null) {
+            dataStore.putStringSet(preference.getKey(), values);
+        } else {
             SharedPreferences.Editor editor = preference.getPreferenceManager().getEditor();
             SharedPreferencesCompat.putStringSet(editor, preference.getKey(), values);
             tryCommit(preference, editor);
-            return true;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -79,8 +85,8 @@ public final class XpPreferenceCompat {
      * from the {@link android.preference.PreferenceManager}, and get the value.
      *
      * @param defaultReturnValue The default value to return if either the
-     * Preference is not persistent or the Preference is not in the
-     * shared preferences.
+     *                           Preference is not persistent or the Preference is not in the
+     *                           shared preferences.
      * @return The value from the SharedPreferences or the default return
      * value.
      * @see #persistStringSet(Preference, Set)
@@ -90,6 +96,12 @@ public final class XpPreferenceCompat {
         if (!preference.shouldPersist()) {
             return defaultReturnValue;
         }
+
+        PreferenceDataStore dataStore = preference.getPreferenceDataStore();
+        if (dataStore != null) {
+            return dataStore.getStringSet(preference.getKey(), defaultReturnValue);
+        }
+
         return SharedPreferencesCompat.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
     }
 
