@@ -24,39 +24,50 @@ import static android.support.annotation.Dimension.DP;
 
 @ParametersAreNonnullByDefault
 final class Util {
-    public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
-    public static final int[] EMPTY_STATE_SET = new int[0];
+    static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
+    static final int[] EMPTY_STATE_SET = new int[0];
 
-    public static final int[][] DISABLED_STATE_LIST = new int[][]{
+    private static final int[][] DISABLED_STATE_LIST = new int[][]{
             DISABLED_STATE_SET,
             EMPTY_STATE_SET
     };
 
-    private static final int[] TEMP_ARRAY = new int[1];
+    private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
+        @Override
+        protected int[] initialValue() {
+            return new int[1];
+        }
+    };
+
+    @NonNull
+    private static int[] getTempArray() {
+        return TEMP_ARRAY.get();
+    }
 
     private Util() {
         throw new AssertionError();
     }
 
     @Dimension
-    public static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
+    private static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    public static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 
     @Dimension
-    public static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
         return (int) (0.5f + dpToPx(context, dp));
     }
 
-    public static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {
-        TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+    static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {
+        final int[] tempArray = getTempArray();
+        tempArray[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(tempArray);
         try {
             return ta.getResourceId(0, fallback);
         } finally {
@@ -64,9 +75,10 @@ final class Util {
         }
     }
 
-    public static float resolveFloat(Context context, @AttrRes int attr, float fallback) {
-        TEMP_ARRAY[0] = attr;
-        TypedArray ta = context.obtainStyledAttributes(TEMP_ARRAY);
+    static float resolveFloat(Context context, @AttrRes int attr, float fallback) {
+        final int[] tempArray = getTempArray();
+        tempArray[0] = attr;
+        TypedArray ta = context.obtainStyledAttributes(tempArray);
         try {
             return ta.getFloat(0, fallback);
         } finally {
@@ -75,7 +87,7 @@ final class Util {
     }
 
     @NonNull
-    public static ColorStateList withDisabled(
+    static ColorStateList withDisabled(
             @ColorInt int color, @IntRange(from = 0x0, to = 0xFF) int disabledAlpha) {
         int disabledColor = ColorUtils.setAlphaComponent(color, disabledAlpha);
         return new ColorStateList(DISABLED_STATE_LIST, new int[]{disabledColor, color});
@@ -94,7 +106,7 @@ final class Util {
      *                                                         does not exist.
      */
     @Nullable
-    public static Drawable getDrawableCompat(
+    static Drawable getDrawableCompat(
             final Context context, @DrawableRes final int resId) {
         return AppCompatResources.getDrawable(context, resId);
     }
@@ -112,7 +124,7 @@ final class Util {
      *                                                         does not exist.
      */
     @NonNull
-    public static ColorStateList getColorStateListCompat(
+    static ColorStateList getColorStateListCompat(
             final Context context, @ColorRes final int resId) {
         return AppCompatResources.getColorStateList(context, resId);
     }

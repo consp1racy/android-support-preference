@@ -1,5 +1,6 @@
 package android.support.v7.preference;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,12 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
 import net.xpece.android.support.preference.MultiSelectListPreference;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SeekBarDialogPreference;
+import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpListPreferenceDialogFragment;
 import net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment;
@@ -31,16 +35,45 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final Field FIELD_PREFERENCE_MANAGER;
+    private static final Field FIELD_STYLED_CONTEXT;
 
     static {
-        Field preferenceManager = null;
+        Field f = null;
         try {
-            preferenceManager = PreferenceFragmentCompat.class.getDeclaredField("mPreferenceManager");
-            preferenceManager.setAccessible(true);
+            f = PreferenceFragmentCompat.class.getDeclaredField("mPreferenceManager");
+            f.setAccessible(true);
         } catch (NoSuchFieldException e) {
             XpSupportPreferencePlugins.onError(e, "mPreferenceManager not available.");
         }
-        FIELD_PREFERENCE_MANAGER = preferenceManager;
+        FIELD_PREFERENCE_MANAGER = f;
+
+        try {
+            f = PreferenceFragmentCompat.class.getDeclaredField("mStyledContext");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            XpSupportPreferencePlugins.onError(e, "mStyledContext not available.");
+        }
+        FIELD_STYLED_CONTEXT = f;
+    }
+
+    /**
+     * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
+     */
+    @NonNull
+    private Context resolveStyledContext(@NonNull final Context context) {
+        final int theme = StyledContextProvider.resolveResourceId(context, R.attr.preferenceTheme);
+        if (theme == 0) {
+            throw new IllegalStateException("Must specify preferenceTheme in theme");
+        }
+        return new ContextThemeWrapper(context, theme);
+    }
+
+    private void setStyledContext(@NonNull final Context context) {
+        try {
+            FIELD_STYLED_CONTEXT.set(this, context);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private void setPreferenceManager(@NonNull final PreferenceManager manager) {
@@ -50,6 +83,37 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
             // This should never happen.
             throw new IllegalStateException(e);
         }
+    }
+
+    @Nullable
+    public String[] getCustomDefaultPackages() {
+        return null;
+    }
+
+    private void printActivityLeakWarning() {
+        Log.w(TAG, "When using setRetainInstance(true) your Activity instance will leak on configuration change.");
+        Log.w(TAG, "Override onProvideCustomStyledContext() and provide a custom long-lived context.");
+        Log.w(TAG, "You can use methods in " + StyledContextProvider.class + " class.");
+    }
+
+    /**
+     * If you use retained fragment you won't have to re-inflate the preference hierarchy
+     * with each orientation change. On the other hand your original activity context will leak.
+     * <p>
+     * Use this method to provide your own themed long-lived context.
+     *
+     * @return Your own base styled context or {@code null} to use standard activity context.
+     * @see StyledContextProvider#getThemedApplicationContext(Activity)
+     * @see StyledContextProvider#getActivityThemeResource(Activity)
+     */
+    @Nullable
+    protected ContextThemeWrapper onProvideCustomStyledContext() {
+        return null;
+    }
+
+    @NonNull
+    private Context getStyledContext() {
+        return getPreferenceManager().getContext();
     }
 
     @Override
@@ -63,23 +127,25 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         PreferenceManager manager = getPreferenceManager();
         manager.setOnNavigateToScreenListener(null);
 
+        final Context styledContext;
+        final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
+        if (customStyledContext != null) {
+            styledContext = resolveStyledContext(customStyledContext);
+            setStyledContext(styledContext);
+        } else {
+            if (getRetainInstance()) {
+                printActivityLeakWarning();
+            }
+            styledContext = getStyledContext();
+        }
+
         // Setup custom Preference Manager
-        manager = new XpPreferenceManager(getStyledContext(), getCustomDefaultPackages());
+        manager = new XpPreferenceManager(styledContext, getCustomDefaultPackages());
         setPreferenceManager(manager);
         manager.setOnNavigateToScreenListener(this);
     }
 
-    @Nullable
-    public String[] getCustomDefaultPackages() {
-        return null;
-    }
-
     public abstract void onCreatePreferences2(@Nullable final Bundle savedInstanceState, @Nullable final String rootKey);
-
-    @NonNull
-    private Context getStyledContext() {
-        return getPreferenceManager().getContext();
-    }
 
     @Override
     public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
@@ -111,9 +177,9 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
                     final boolean canPlayDefault = ringtonePreference.canPlayDefaultRingtone(context);
                     final boolean canShowSelectedTitle = ringtonePreference.canShowSelectedRingtoneTitle(context);
                     if ((!canPlayDefault || !canShowSelectedTitle) &&
-                        ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
+                            ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
                         ringtonePreference.getOnFailedToReadRingtoneListener()
-                            .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
+                                .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
                         return;
                     } else {
                         f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
