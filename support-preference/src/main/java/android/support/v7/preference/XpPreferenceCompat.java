@@ -51,7 +51,7 @@ public final class XpPreferenceCompat {
             throw new IllegalArgumentException("Cannot persist null string set.");
         }
 
-        if (preference.shouldPersist()) {
+        if (!preference.shouldPersist()) {
             return false;
         }
 
