@@ -6,6 +6,7 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <net.xpece.android.support.preference.sample.FontSizeListPreference
+        style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"
         android:defaultValue="180"
         android:entries="@array/pref_sync_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
@@ -13,9 +14,10 @@
         android:key="sync_frequency"
         android:title="@string/pref_title_sync_frequency"
         app:asp_iconPaddingEnabled="false"
-        app:asp_menuMode="simple_menu"
+        app:asp_simpleMenuWidthMode="match_constraint"
         app:subtitleTextColor="@color/primary"
-        app:titleTextColor="@color/primary_dark"/>
+        app:titleTextColor="@color/primary_dark" />
+        <!--android:adjustViewBounds="true"-->
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->

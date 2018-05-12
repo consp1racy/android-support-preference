@@ -361,9 +361,9 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             list.ensureListPaddingResolved();
             int preferredHorizontalOffset;
             if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
-                preferredHorizontalOffset = -(v.getPaddingLeft() + list.getListPaddingLeft() + getPaddingLeft());
+                preferredHorizontalOffset = -(v.getPaddingLeft() + list.getListPaddingLeft() - getPaddingLeft());
             } else {
-                preferredHorizontalOffset = v.getPaddingRight() + list.getListPaddingRight() + getPaddingRight();
+                preferredHorizontalOffset = v.getPaddingRight() + list.getListPaddingRight() - getPaddingRight();
             }
             popup.setHorizontalOffset(preferredHorizontalOffset);
         }

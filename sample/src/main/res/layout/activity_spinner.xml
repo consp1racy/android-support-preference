@@ -111,6 +111,8 @@
                 <android.support.v4.widget.Space
                     android:layout_width="16dp"
                     android:layout_height="0dp"/>
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
 
                 <net.xpece.android.support.widget.XpAppCompatSpinner
                     style="@style/Widget.Asp.Spinner.Underlined"
