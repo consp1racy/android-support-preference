@@ -6,7 +6,7 @@
         <item name="android:paddingEnd">36dp</item>
     </style>
 
-    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+    <style name="Base.Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Api23</item>
         <item name="android:popupElevation">@dimen/asp_popup_menu_z</item>
         <item name="android:popupEnterTransition" tools:ignore="NewApi">@transition/asp_popup_window_enter</item>

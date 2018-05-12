@@ -74,9 +74,11 @@
         <item name="android:spinnerMode">dialog</item>
     </style>
 
-    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
-        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Holo</item>
+    <style name="Base.Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Material</item>
     </style>
+
+    <style name="Widget.Asp.ListPopupWindow" parent="Base.Widget.Asp.ListPopupWindow"/>
 
     <style name="ThemeOverlay.Asp.Spinner" parent="">
         <item name="android:spinnerItemStyle">@style/Widget.Asp.TextView.SpinnerItem</item>
