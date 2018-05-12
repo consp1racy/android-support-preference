@@ -36,6 +36,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 /**
  * The {@link XpPreferenceInflater} is used to inflate preference hierarchies from
  * XML files.
+ *
+ * This subclass exists so we can inject
+ * {@link XpPreferenceHelpers#onCreatePreference(Preference, AttributeSet)} at the right time
+ * because it also needs to have access to XML attributes.
  */
 @ParametersAreNonnullByDefault
 final class XpPreferenceInflater extends PreferenceInflater {
@@ -153,10 +157,10 @@ final class XpPreferenceInflater extends PreferenceInflater {
      * @param attrs The XML attributes supplied for this instance.
      * @return The newly instantiated item, or null.
      */
-    @Nullable
-    protected Preference createItem(String name, @Nullable String[] prefixes,
-                                    @Nullable AttributeSet attrs)
-        throws ClassNotFoundException, InflateException {
+    @NonNull
+    private Preference createItem(String name, @Nullable String[] prefixes,
+                                  AttributeSet attrs)
+            throws ClassNotFoundException, InflateException {
         Constructor constructor = CONSTRUCTOR_MAP.get(name);
 
         try {
@@ -209,18 +213,16 @@ final class XpPreferenceInflater extends PreferenceInflater {
         }
     }
 
-    /**
-     * @hide
-     */
+    @Deprecated
     @Nullable
-    protected Preference onCreateItem(String name, @Nullable AttributeSet attrs)
+    protected Preference onCreateItem(String name, AttributeSet attrs)
         throws ClassNotFoundException {
         throw new UnsupportedOperationException();
     }
 
-    @Nullable
+    @NonNull
     private Preference createItemFromTag(String name,
-                                         @Nullable AttributeSet attrs) {
+                                         AttributeSet attrs) {
         try {
             final Preference item;
 
@@ -255,7 +257,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
      * Recursive method used to descend down the xml hierarchy and instantiate
      * items, instantiate their children, and then call onFinishInflate().
      */
-    private void rInflate(XmlPullParser parser, Preference parent, @Nullable final AttributeSet attrs)
+    private void rInflate(XmlPullParser parser, Preference parent, final AttributeSet attrs)
         throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
 
