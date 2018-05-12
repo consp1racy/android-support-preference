@@ -174,7 +174,23 @@
                     android:layout_marginRight="-4dp"
                     android:entries="@array/states"
                     android:theme="@style/ThemeOverlay.Asp.Spinner"
-                    app:asp_simpleMenuMaxItemCount="4"/>
+                    app:asp_simpleMenuMaxItemCount="4" />
+
+                <net.xpece.android.support.widget.XpAppCompatSpinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="-4dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="-4dp"
+                    android:layout_marginStart="16dp"
+                    android:entries="@array/states"
+                    android:theme="@style/ThemeOverlay.Asp.Spinner"
+                    app:asp_simpleMenuMaxItemCount="4" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/states" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -55,6 +55,7 @@
         <item name="asp_simpleMenuMaxWidth">fit_screen</item>
         <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
         <item name="android:paddingRight">28dp</item>
+        <item name="android:minHeight">48dp</item>
         <item name="android:spinnerMode">dialog</item>
     </style>
 
@@ -69,6 +70,7 @@
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
         <item name="asp_simpleMenuMaxWidth">fit_screen</item>
+        <item name="android:minHeight">48dp</item>
         <item name="android:spinnerMode">dialog</item>
     </style>
 
