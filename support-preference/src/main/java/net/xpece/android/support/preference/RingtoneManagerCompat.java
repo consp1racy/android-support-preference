@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.util.Log;
@@ -25,25 +26,33 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class RingtoneManagerCompat extends RingtoneManager {
     private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 
+    private static final boolean IS_AT_MOST_P = Build.VERSION.SDK_INT < 28
+            && !"P".equals(Build.VERSION.CODENAME);
+
+    // Access to RingtoneManager private fields and methods is blacklisted in Android P.
     private static final Field FIELD_CURSOR;
     private static final Method METHOD_GET_INTERNAL_RINGTONES;
 
     static {
         Field cursor = null;
-        try {
-            cursor = RingtoneManager.class.getDeclaredField("mCursor");
-            cursor.setAccessible(true);
-        } catch (Exception e) {
-            XpSupportPreferencePlugins.onError(e, "mCursor not available.");
+        if (IS_AT_MOST_P) {
+            try {
+                cursor = RingtoneManager.class.getDeclaredField("mCursor");
+                cursor.setAccessible(true);
+            } catch (Exception e) {
+                XpSupportPreferencePlugins.onError(e, "mCursor not available.");
+            }
         }
         FIELD_CURSOR = cursor;
 
         Method getInternalRingtones = null;
-        try {
-            getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
-            getInternalRingtones.setAccessible(true);
-        } catch (Exception e) {
-            XpSupportPreferencePlugins.onError(e, "getInternalRingtones not available.");
+        if (IS_AT_MOST_P) {
+            try {
+                getInternalRingtones = RingtoneManager.class.getDeclaredMethod("getInternalRingtones");
+                getInternalRingtones.setAccessible(true);
+            } catch (Exception e) {
+                XpSupportPreferencePlugins.onError(e, "getInternalRingtones not available.");
+            }
         }
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
     }
@@ -79,6 +88,11 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         try {
             return super.getCursor();
         } catch (SecurityException ex) {
+            if (!IS_AT_MOST_P) {
+                // We can do no workaround on Android P+.
+                throw ex;
+            }
+
             Log.w(TAG, "No READ_EXTERNAL_STORAGE permission, ignoring ringtones on ext storage");
             if (getIncludeDrm()) {
                 Log.w(TAG, "DRM ringtones are ignored.");
