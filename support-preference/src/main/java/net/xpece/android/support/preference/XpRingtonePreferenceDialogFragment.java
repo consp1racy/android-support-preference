@@ -525,7 +525,15 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             }
 
             if (ringtone != null) {
-                ringtone.play();
+                try {
+                    ringtone.play();
+                } catch (NullPointerException ex) {
+                    XpSupportPreferencePlugins.onError(ex, "RingtoneManager produced a Ringtone with null Uri.");
+                    // https://github.com/consp1racy/android-support-preference/issues/105
+                    // RingtoneManager can produce Ringtones with null Uri. Attempts to play fail.
+                    mCurrentRingtone = null;
+                    ringtone.stop();
+                }
             }
         } catch (SecurityException ex) {
             // Don't play the inaccessible default ringtone.
