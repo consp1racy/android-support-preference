@@ -32,6 +32,7 @@ import android.support.annotation.RestrictTo;
 import android.support.v4.view.TintableBackgroundView;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
+import net.xpece.android.support.widget.XpAppCompatSpinner;
 import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Field;
@@ -66,15 +68,18 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 @SuppressLint("AppCompatCustomView")
 @TargetApi(23)
 public abstract class AbstractXpAppCompatSpinner extends Spinner implements TintableBackgroundView {
+    private static final String TAG = XpAppCompatSpinner.class.getSimpleName();
 
     private static final boolean IS_AT_LEAST_K = Build.VERSION.SDK_INT >= 19;
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
+    private static final boolean IS_AT_MOST_P = Build.VERSION.SDK_INT < 28
+            && !"P".equals(Build.VERSION.CODENAME);
 
     private static final Field FIELD_FORWARDING_LISTENER;
 
     static {
         Field f = null;
-        if (IS_AT_LEAST_K) {
+        if (IS_AT_LEAST_K && IS_AT_MOST_P) {
             try {
                 f = Spinner.class.getDeclaredField("mForwardingListener");
                 f.setAccessible(true);
@@ -231,16 +236,28 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         }
         mPrompt = a.getText(R.styleable.Spinner_android_prompt);
 
-        a.recycle();
-
         if (IS_AT_LEAST_K) {
-            // Disable native forwarding listener.
-            try {
-                FIELD_FORWARDING_LISTENER.set(this, null);
-            } catch (Exception e) {
-                e.printStackTrace();
+            final int realMode;
+            if (mode == -1) {
+                realMode = a.getInt(R.styleable.Spinner_android_spinnerMode, MODE_DIALOG);
+            } else {
+                realMode = mode;
+            }
+            final boolean hasForwardingListener = realMode != MODE_DIALOG;
+            if (hasForwardingListener) {
+                Log.w(TAG, "Use android:spinnerMode=\"dialog\" to disable native forwarding listener.");
+                if (IS_AT_MOST_P) {
+                    // Disable native forwarding listener.
+                    try {
+                        FIELD_FORWARDING_LISTENER.set(this, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
+
+        a.recycle();
     }
 
     public static void setEntries(final Spinner spinner, @ArrayRes final int entriesResId) {

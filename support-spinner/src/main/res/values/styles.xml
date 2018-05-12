@@ -55,6 +55,7 @@
         <item name="asp_simpleMenuMaxWidth">fit_screen</item>
         <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
         <item name="android:paddingRight">28dp</item>
+        <item name="android:spinnerMode">dialog</item>
     </style>
 
     <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
@@ -68,6 +69,7 @@
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
         <item name="asp_simpleMenuMaxWidth">fit_screen</item>
+        <item name="android:spinnerMode">dialog</item>
     </style>
 
     <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
@@ -79,6 +81,7 @@
         <item name="spinnerDropDownItemStyle">@style/Widget.Asp.DropDownItem.Spinner</item>
         <item name="dropDownListViewStyle">@style/Widget.Asp.ListView.DropDown</item>
         <item name="listPopupWindowStyle">@style/Widget.Asp.ListPopupWindow</item>
+        <item name="android:spinnerStyle">@style/Widget.Asp.Spinner</item>
     </style>
 
 </resources>

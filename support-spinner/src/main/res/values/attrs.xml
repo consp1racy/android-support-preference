@@ -24,6 +24,10 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="Spinner">
+        <attr name="android:spinnerMode"/>
+    </declare-styleable>
+
     <declare-styleable name="XpAppCompatSpinner">
         <attr name="asp_spinnerMode" format="enum">
             <enum name="adaptive" value="0"/>
