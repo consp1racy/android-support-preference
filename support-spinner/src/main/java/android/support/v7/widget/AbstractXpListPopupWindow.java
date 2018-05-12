@@ -1046,14 +1046,18 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         final int screenRight = windowRight - (marginsRight - backgroundRight) - boundsRight;
         final int screenLeft = windowLeft + (marginsLeft - backgroundLeft) + boundsLeft;
+        final int screenBottom = windowBottom - (marginsBottom - backgroundBottom) - boundsBottom;
+        final int screenTop = windowTop + (marginsTop - backgroundTop) + boundsTop;
+
         final int screenWidth = screenRight - screenLeft;
+        final int screenHeight = screenBottom - screenTop;
 
-        int maxHeight = getMaxAvailableHeight(mDropDownAnchorView, noInputMethod) + backgroundTop + backgroundBottom;
-        int availableHeight = maxHeight;
-        availableHeight -= marginsTop - backgroundTop;
-        availableHeight -= marginsBottom - backgroundBottom;
+        // Preferred popup height.
+        int preferredHeight = getMaxAvailableHeight(mDropDownAnchorView, noInputMethod) + backgroundTop + backgroundBottom;
+        preferredHeight -= marginsTop - backgroundTop;
+        preferredHeight -= marginsBottom - backgroundBottom;
 
-        int limitHeight = Math.min(windowHeight, availableHeight);
+        final int limitHeight = Math.min(screenHeight, preferredHeight);
 
         final int heightSpec;
         if (mDropDownHeight == MATCH_PARENT) {
@@ -1064,46 +1068,16 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             heightSpec = Math.min(mDropDownHeight, limitHeight);
         }
 
-        final int screenBottom = windowBottom - (marginsBottom - backgroundBottom) - boundsBottom;
-        final int screenTop = windowTop + (marginsTop - backgroundTop) + boundsTop;
-
-        {
-            // Position within bounds.
-
-            final int popupTop = anchorBottom + verticalOffset;
-            final int popupBottom = popupTop + heightSpec;
-            final int popupHeight = popupBottom - popupTop;
-
-            if (popupBottom > screenBottom) {
-                verticalOffset -= (popupBottom - screenBottom);
-            } else if (popupTop < screenTop) {
-                verticalOffset += (screenTop - popupTop);
-            }
-        }
-
-        {
-            // Account for background padding.
-
-            final int popupTop = anchorBottom + verticalOffset;
-            final int popupBottom = popupTop + heightSpec;
-            final int popupHeight = popupBottom - popupTop;
-
-            if (windowBottom < popupBottom) {
-                int diff = Math.abs(windowBottom - popupBottom);
-                verticalOffset -= diff;
-            } else if (windowTop > popupTop) {
-                int diff = Math.abs(windowTop - popupTop);
-                verticalOffset += diff;
-            }
-        }
-
 //        verticalOffset -= bottomDecorations;
 
-        // TODO Optimize vertical position calculation.
-        // These line only exists so we can reuse the old calculation
-        // which relied on showAsDropDown instead of showAtLocation.
-        // showAsDropDown required the popup background in viewport. TODO Remove that limitation.
+        // Preferred vertical offset is counted from the bottom of the anchor view.
         verticalOffset += anchorTop + anchorHeight;
+
+        if (verticalOffset < screenTop) {
+            verticalOffset = screenTop;
+        } else if (verticalOffset + heightSpec > screenBottom) {
+            verticalOffset = screenBottom - heightSpec;
+        }
 
         if (leftAligned) {
             horizontalOffset += anchorLeft - backgroundLeft;
@@ -2181,9 +2155,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         getWindowFrame(anchor, ignoreBottomDecorations, mTempRect);
         int returnedHeight = mTempRect.height();
         returnedHeight -= getBackgroundVerticalPadding();
-
-        // 1 dp extra as part of 25 dp status bar. Prevents 1 dp scrolling when landscape 360dp.
-        if (Build.VERSION.SDK_INT < 23) returnedHeight += Util.dpToPxSize(mContext, 1);
 
         return returnedHeight;
     }

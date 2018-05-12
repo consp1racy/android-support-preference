@@ -372,9 +372,11 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 //        popup.setDropDownGravity(Gravity.LEFT);
 //        popup.setMaxWidth(XpListPopupWindow.MATCH_CONSTRAINT);
 //        popup.setWidth(1347);
-//        marginV = Util.dpToPxOffset(context, 0);
-//        popup.setMarginBottom(marginV);
-//        popup.setMarginTop(marginV);
+//        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
+//        popup.setMarginBottom(margin);
+//        popup.setMarginTop(margin);
+//        popup.setMarginLeft(margin);
+//        popup.setMarginRight(margin);
 
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
