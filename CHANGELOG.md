@@ -9,6 +9,9 @@
     Previously it could throw a `ClassCastException`.
   - Reading now correctly throws a `ClassCastException` if stored value is not a `Set<String>`.
   - `PreferenceDataStore` is now supported.
+- *FIXED:* The library is now compatible with Android P preview.
+  - RingtonePreference dialog shows ringtones.
+  - XpAppCompatSpinner doesn't crash.
 - *NEW!* New API for using a long-lived themed context with the preference fragment.
   - This will prevent memory leaks when using retained preference fragments. Retained fragments
   don't reinflate the preference hierarchy on each configuration change which prevents jank.
