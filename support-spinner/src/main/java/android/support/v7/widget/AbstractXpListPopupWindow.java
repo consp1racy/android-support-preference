@@ -25,6 +25,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.AttrRes;
+import android.support.annotation.Dimension;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
@@ -800,10 +802,15 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     @Deprecated
+    @Dimension
     public float getPreferredWidthUnit() {
         return mDropDownPreferredWidthUnit;
     }
 
+    /**
+     * @return Min width unit size.
+     */
+    @Dimension
     public float getWidthUnit() {
         return mDropDownPreferredWidthUnit;
     }
@@ -841,8 +848,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
+    /**
+     * @see #setWidthUnit(float)
+     */
     @Deprecated
-    public void setPreferredWidthUnit(float unit) {
+    public void setPreferredWidthUnit(@Dimension float unit) {
         setWidthUnit(unit);
     }
 
@@ -856,7 +866,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * </ul>
      * @see #WIDTH_WRAP_CONTENT_UNIT
      */
-    public void setWidthUnit(float widthUnit) {
+    public void setWidthUnit(@Dimension float widthUnit) {
         if (widthUnit < 0) {
             throw new IllegalArgumentException("widthUnit must be a dimension greater than zero.");
         }
@@ -990,6 +1000,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * Show the popup list. If the list is already showing, this method
      * will do nothing.
      */
+    @MainThread
     @Override
     public void show() {
         final int height;
@@ -1343,14 +1354,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
-//    @Deprecated
-//    private static void setSelectionWithPaddingTop(@NonNull final XpDropDownListView list, final int position) {
-//        // getListPaddingTop returns zero when popup is invoked for the first time
-//        // and when it's invoked after making a selection in previous invokation.
-//        final int realOffsetY = list.getPaddingTop() + list.mSelectionTopPadding - list.getListPaddingTop();
-//        list.setSelectionFromTop(position, realOffsetY);
-//    }
-
     private void setSelectionOverAnchor(
             @NonNull final XpDropDownListView list, final int position, final int offsetY) {
         // Assuming all items have the same height.
@@ -1426,7 +1429,13 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     private int mMeasuredSelectedItemPosition = -1;
 
     /**
-     * @return Measured vertical offset for popup window.
+     * Get cached preferred vertical offset of popup window top from anchor bottom so that selected
+     * item in the popup window is drawn precisely over the anchor.
+     *
+     * To get meaningful data the value must first be computed by
+     * {@link #measurePreferredVerticalOffset(int)}.
+     *
+     * @return Cached measured vertical offset for popup window.
      * @see #measurePreferredVerticalOffset(int)
      * @see #getMeasuredSelectedItemViewHeight()
      */
@@ -1435,6 +1444,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
+     * To get meaningful data the value must first be computed by
+     * {@link #measurePreferredVerticalOffset(int)}.
+     *
      * @return Measured height of selected item view.
      * @see #measurePreferredVerticalOffset(int)
      * @see #getMeasuredPreferredVerticalOffset()
@@ -1444,8 +1456,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
-     * Measures popup offset and selected item scroll offset
-     * for selected item to be positioned exactly over anchor.
+     * Compute preferred vertical offset of popup window top from anchor bottom so that selected
+     * item in the popup window is drawn precisely over the anchor. It also calculates selected
+     * item view height.
      *
      * @param position Which item is supposed to be selected, and preferably aligned over anchor.
      * @see #getMeasuredPreferredVerticalOffset()
@@ -1814,7 +1827,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      *
      * @param src the view on which the resulting listener will be set
      * @return a touch listener that controls drag-to-open behavior
+     * @deprecated This feature is currently not supported.
      */
+    @Deprecated
     @NonNull
     public OnTouchListener createDragToOpenListener(@NonNull View src) {
         return new ForwardingListener(src) {
