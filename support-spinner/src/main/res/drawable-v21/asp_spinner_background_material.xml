@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2014 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2014 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,26 +15,26 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:gravity="right|center_vertical"
-        android:right="2dp">
+        android:gravity="right|center_vertical">
+        <!--android:right="2dp">-->
         <selector>
             <item android:state_enabled="false">
                 <nine-patch
                     android:alpha="?android:disabledAlpha"
                     android:src="@drawable/abc_spinner_mtrl_am_alpha"
-                    android:tint="?colorControlNormal"/>
+                    android:tint="?colorControlNormal" />
             </item>
             <item
                 android:state_focused="false"
                 android:state_pressed="false">
                 <nine-patch
                     android:src="@drawable/abc_spinner_mtrl_am_alpha"
-                    android:tint="?colorControlNormal"/>
+                    android:tint="?colorControlNormal" />
             </item>
             <item>
                 <nine-patch
                     android:src="@drawable/abc_spinner_mtrl_am_alpha"
-                    android:tint="?colorControlActivated"/>
+                    android:tint="?colorControlActivated" />
             </item>
         </selector>
     </item>

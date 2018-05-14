@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
-        <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
-        <item name="android:paddingEnd">36dp</item>
+    <style name="Base.Widget.Asp.Spinner" parent="@style/Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/asp_spinner_background_material</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingRight">24dp</item>
     </style>
 
-    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+    <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
+        <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
+        <item name="android:paddingEnd">28dp</item>
+        <item name="android:paddingRight">28dp</item>
+    </style>
+
+    <style name="Base.Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Material</item>
         <item name="android:popupElevation">@dimen/asp_popup_menu_z</item>
     </style>

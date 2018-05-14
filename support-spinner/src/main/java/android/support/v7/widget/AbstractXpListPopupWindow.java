@@ -25,6 +25,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.AttrRes;
+import android.support.annotation.Dimension;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
@@ -800,10 +802,15 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     @Deprecated
+    @Dimension
     public float getPreferredWidthUnit() {
         return mDropDownPreferredWidthUnit;
     }
 
+    /**
+     * @return Min width unit size.
+     */
+    @Dimension
     public float getWidthUnit() {
         return mDropDownPreferredWidthUnit;
     }
@@ -841,8 +848,11 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
+    /**
+     * @see #setWidthUnit(float)
+     */
     @Deprecated
-    public void setPreferredWidthUnit(float unit) {
+    public void setPreferredWidthUnit(@Dimension float unit) {
         setWidthUnit(unit);
     }
 
@@ -856,7 +866,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * </ul>
      * @see #WIDTH_WRAP_CONTENT_UNIT
      */
-    public void setWidthUnit(float widthUnit) {
+    public void setWidthUnit(@Dimension float widthUnit) {
         if (widthUnit < 0) {
             throw new IllegalArgumentException("widthUnit must be a dimension greater than zero.");
         }
@@ -990,11 +1000,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      * Show the popup list. If the list is already showing, this method
      * will do nothing.
      */
+    @MainThread
     @Override
     public void show() {
-//        final int height = buildDropDown();
-//        final int widthSpec = getListWidthSpec();
-
         final int height;
         if (mDropDownList == null || mListMeasureDirty) {
             height = buildDropDown();
@@ -1020,6 +1028,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         int verticalOffset = mDropDownVerticalOffset;
         int horizontalOffset = mDropDownHorizontalOffset;
 
+        final boolean rightAligned = GravityCompat.getAbsoluteGravity(getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, mLayoutDirection) == Gravity.RIGHT;
+        final boolean leftAligned = !rightAligned;
+
         final int anchorWidth = mDropDownAnchorView.getWidth();
         final int anchorHeight = mDropDownAnchorView.getHeight();
 
@@ -1028,13 +1039,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final int anchorRight = anchorLeft + anchorWidth;
         final int anchorTop = mTempLocation[1];
         final int anchorBottom = anchorTop + anchorHeight;
-
-        final boolean rightAligned = GravityCompat.getAbsoluteGravity(getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, mLayoutDirection) == Gravity.RIGHT;
-        if (rightAligned) {
-            horizontalOffset += anchorWidth - widthSpec - (marginsRight - backgroundRight);
-        } else {
-            horizontalOffset += (marginsLeft - backgroundLeft);
-        }
 
         final int bottomDecorations = getWindowFrame(mDropDownAnchorView, noInputMethod, mTempRect);
         final int windowLeft = mTempRect.left;
@@ -1053,37 +1057,18 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
         final int screenRight = windowRight - (marginsRight - backgroundRight) - boundsRight;
         final int screenLeft = windowLeft + (marginsLeft - backgroundLeft) + boundsLeft;
+        final int screenBottom = windowBottom - (marginsBottom - backgroundBottom) - boundsBottom;
+        final int screenTop = windowTop + (marginsTop - backgroundTop) + boundsTop;
+
         final int screenWidth = screenRight - screenLeft;
+        final int screenHeight = screenBottom - screenTop;
 
-        if (!rightAligned && windowWidth < anchorLeft + horizontalOffset + widthSpec) {
-            // When right aligned due to insufficient space ignore negative horizontal offset.
-            horizontalOffset = mDropDownHorizontalOffset < 0 ? 0 : mDropDownHorizontalOffset;
-            horizontalOffset -= widthSpec - (windowWidth - anchorLeft);
-            horizontalOffset -= marginsRight - backgroundRight;
-        } else if (rightAligned && 0 > anchorLeft + horizontalOffset) {
-            // When left aligned due to insufficient space ignore positive horizontal offset.
-            horizontalOffset = mDropDownHorizontalOffset > 0 ? 0 : mDropDownHorizontalOffset;
-            horizontalOffset -= anchorLeft;
-            horizontalOffset += marginsLeft - backgroundLeft;
-        }
+        // Preferred popup height.
+        int preferredHeight = getMaxAvailableHeight(mDropDownAnchorView, noInputMethod) + backgroundTop + backgroundBottom;
+        preferredHeight -= marginsTop - backgroundTop;
+        preferredHeight -= marginsBottom - backgroundBottom;
 
-        // Width spec should always be resolved to concrete value. widthSpec > 0;
-        if (windowWidth < widthSpec + horizontalOffset + anchorLeft) {
-            int diff = Math.abs(windowWidth - (widthSpec + horizontalOffset + anchorLeft));
-            horizontalOffset -= diff;
-        } else if (0 > anchorLeft + horizontalOffset) {
-            int diff = Math.abs(horizontalOffset + anchorLeft);
-            horizontalOffset += diff;
-        }
-
-        int maxHeight = getMaxAvailableHeight(mDropDownAnchorView, noInputMethod) + backgroundTop + backgroundBottom;
-        int availableHeight = maxHeight;
-//        availableHeight -= Math.max(0, marginsTop - backgroundTop);
-//        availableHeight -= Math.max(0, marginsBottom - backgroundBottom);
-        availableHeight -= marginsTop - backgroundTop;
-        availableHeight -= marginsBottom - backgroundBottom;
-
-        int limitHeight = Math.min(windowHeight, availableHeight);
+        final int limitHeight = Math.min(screenHeight, preferredHeight);
 
         final int heightSpec;
         if (mDropDownHeight == MATCH_PARENT) {
@@ -1094,47 +1079,28 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             heightSpec = Math.min(mDropDownHeight, limitHeight);
         }
 
-        final int screenBottom = windowBottom - (marginsBottom - backgroundBottom) - boundsBottom;
-        final int screenTop = windowTop + (marginsTop - backgroundTop) + boundsTop;
-
-        {
-            // Position within bounds.
-
-            final int popupTop = anchorBottom + verticalOffset;
-            final int popupBottom = popupTop + heightSpec;
-            final int popupHeight = popupBottom - popupTop;
-
-            if (popupBottom > screenBottom) {
-                verticalOffset -= (popupBottom - screenBottom);
-            } else if (popupTop < screenTop) {
-                verticalOffset += (screenTop - popupTop);
-            }
-        }
-
-        {
-            // Account for background padding.
-
-            final int popupTop = anchorBottom + verticalOffset;
-            final int popupBottom = popupTop + heightSpec;
-            final int popupHeight = popupBottom - popupTop;
-
-            if (windowBottom < popupBottom) {
-                int diff = Math.abs(windowBottom - popupBottom);
-                verticalOffset -= diff;
-            } else if (windowTop > popupTop) {
-                int diff = Math.abs(windowTop - popupTop);
-                verticalOffset += diff;
-            }
-        }
-
 //        verticalOffset -= bottomDecorations;
-//        verticalOffset += Util.dpToPxOffset(mContext, 8);
 
-        // TODO Optimize position calculation.
-        // These two lines only exist so we can reuse the old calculation
-        // which relied on showAsDropDown instead of showAtLocation.
+        // Preferred vertical offset is counted from the bottom of the anchor view.
         verticalOffset += anchorTop + anchorHeight;
-        horizontalOffset += anchorLeft; // TODO RTL is broken. Spinner sample is broken.
+
+        if (verticalOffset < screenTop) {
+            verticalOffset = screenTop;
+        } else if (verticalOffset + heightSpec > screenBottom) {
+            verticalOffset = screenBottom - heightSpec;
+        }
+
+        if (leftAligned) {
+            horizontalOffset += anchorLeft - backgroundLeft;
+        } else {
+            horizontalOffset += anchorRight - widthSpec + backgroundRight;
+        }
+
+        if (horizontalOffset < screenLeft) {
+            horizontalOffset = screenLeft;
+        } else if (horizontalOffset + widthSpec > screenRight) {
+            horizontalOffset = screenRight - widthSpec;
+        }
 
         if (mPopup.isShowing()) {
             mPopup.setOutsideTouchable(!mForceIgnoreOutsideTouch && !mDropDownAlwaysVisible);
@@ -1388,14 +1354,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         }
     }
 
-//    @Deprecated
-//    private static void setSelectionWithPaddingTop(@NonNull final XpDropDownListView list, final int position) {
-//        // getListPaddingTop returns zero when popup is invoked for the first time
-//        // and when it's invoked after making a selection in previous invokation.
-//        final int realOffsetY = list.getPaddingTop() + list.mSelectionTopPadding - list.getListPaddingTop();
-//        list.setSelectionFromTop(position, realOffsetY);
-//    }
-
     private void setSelectionOverAnchor(
             @NonNull final XpDropDownListView list, final int position, final int offsetY) {
         // Assuming all items have the same height.
@@ -1471,7 +1429,13 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     private int mMeasuredSelectedItemPosition = -1;
 
     /**
-     * @return Measured vertical offset for popup window.
+     * Get cached preferred vertical offset of popup window top from anchor bottom so that selected
+     * item in the popup window is drawn precisely over the anchor.
+     *
+     * To get meaningful data the value must first be computed by
+     * {@link #measurePreferredVerticalOffset(int)}.
+     *
+     * @return Cached measured vertical offset for popup window.
      * @see #measurePreferredVerticalOffset(int)
      * @see #getMeasuredSelectedItemViewHeight()
      */
@@ -1480,6 +1444,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
+     * To get meaningful data the value must first be computed by
+     * {@link #measurePreferredVerticalOffset(int)}.
+     *
      * @return Measured height of selected item view.
      * @see #measurePreferredVerticalOffset(int)
      * @see #getMeasuredPreferredVerticalOffset()
@@ -1489,8 +1456,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     }
 
     /**
-     * Measures popup offset and selected item scroll offset
-     * for selected item to be positioned exactly over anchor.
+     * Compute preferred vertical offset of popup window top from anchor bottom so that selected
+     * item in the popup window is drawn precisely over the anchor. It also calculates selected
+     * item view height.
      *
      * @param position Which item is supposed to be selected, and preferably aligned over anchor.
      * @see #getMeasuredPreferredVerticalOffset()
@@ -1859,7 +1827,9 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      *
      * @param src the view on which the resulting listener will be set
      * @return a touch listener that controls drag-to-open behavior
+     * @deprecated This feature is currently not supported.
      */
+    @Deprecated
     @NonNull
     public OnTouchListener createDragToOpenListener(@NonNull View src) {
         return new ForwardingListener(src) {
@@ -2200,9 +2170,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         getWindowFrame(anchor, ignoreBottomDecorations, mTempRect);
         int returnedHeight = mTempRect.height();
         returnedHeight -= getBackgroundVerticalPadding();
-
-        // 1 dp extra as part of 25 dp status bar. Prevents 1 dp scrolling when landscape 360dp.
-        if (Build.VERSION.SDK_INT < 23) returnedHeight += Util.dpToPxSize(mContext, 1);
 
         return returnedHeight;
     }

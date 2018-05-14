@@ -83,4 +83,9 @@
     <style name="Popup" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@drawable/popup</item>
     </style>
+
+    <!--<style name="Base.Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">-->
+        <!--<item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Holo</item>-->
+    <!--</style>-->
+
 </resources>

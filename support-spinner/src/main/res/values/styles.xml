@@ -49,21 +49,28 @@
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
 
-    <style name="Widget.Asp.Spinner" parent="@style/Widget.AppCompat.Spinner">
+    <style name="Base.Widget.Asp.Spinner" parent="@style/Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/asp_spinner_background_material</item>
+        <item name="backgroundTint">@color/abc_tint_spinner</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">24dp</item>
+        <!-- 16 + 8 + 6, should be 16 + 8 + 8, too bad. Minus 8. -->
+    </style>
+
+    <style name="Widget.Asp.Spinner" parent="Base.Widget.Asp.Spinner">
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
         <item name="asp_simpleMenuMaxWidth">fit_screen</item>
-        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
-        <item name="android:paddingRight">28dp</item>
         <item name="android:minHeight">48dp</item>
         <item name="android:spinnerMode">dialog</item>
     </style>
 
     <style name="Base.Widget.Asp.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
-        <!--<item name="android:background">@drawable/asp_spinner_textfield_background_material</item>-->
-        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">34dp</item>
-        <item name="android:paddingRight">34dp</item>
-        <!-- 16 + 8 + 6 + 4, should be 16 + 8 + 8 + 4, too bad. -->
+        <item name="android:background">@drawable/asp_spinner_textfield_background_material</item>
+        <item name="backgroundTint">@color/abc_tint_spinner</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">28dp</item>
+        <item name="android:paddingRight">28dp</item>
+        <!-- 16 + 8 + 6 + 4, should be 16 + 8 + 8 + 4, too bad. Minus 8. -->
     </style>
 
     <style name="Widget.Asp.Spinner.Underlined" parent="@style/Base.Widget.Asp.Spinner.Underlined">
@@ -74,9 +81,11 @@
         <item name="android:spinnerMode">dialog</item>
     </style>
 
-    <style name="Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
-        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Holo</item>
+    <style name="Base.Widget.Asp.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupAnimationStyle">@style/Animation.Asp.Popup.Material</item>
     </style>
+
+    <style name="Widget.Asp.ListPopupWindow" parent="Base.Widget.Asp.ListPopupWindow"/>
 
     <style name="ThemeOverlay.Asp.Spinner" parent="">
         <item name="android:spinnerItemStyle">@style/Widget.Asp.TextView.SpinnerItem</item>
