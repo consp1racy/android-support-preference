@@ -15,18 +15,17 @@
 -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-            android:paddingEnd="32dp"
-            android:paddingLeft="0dp"
+            android:paddingEnd="24dp"
             android:paddingMode="stack"
-            android:paddingRight="0dp"
             android:paddingStart="0dp">
+        <!--android:width="24dp"-->
     <item
-        android:width="24dp"
+        android:width="20dp"
         android:drawable="@drawable/asp_control_background_40dp_material"
         android:gravity="end|fill_vertical"/>
 
+        <!--android:end="2dp"-->
     <item
-        android:end="2dp"
         android:gravity="end|center_vertical">
         <nine-patch
             android:src="@drawable/abc_spinner_mtrl_am_alpha"

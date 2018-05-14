@@ -340,6 +340,16 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
         popup.setMaxItemCount(mSimpleMenuMaxItemCount);
 
+        // Testing.
+//        popup.setDropDownGravity(Gravity.RIGHT);
+//        popup.setMaxWidth(XpListPopupWindow.MATCH_CONSTRAINT);
+//        popup.setWidth(1347);
+//        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
+//        popup.setMarginBottom(margin);
+//        popup.setMarginTop(margin);
+//        popup.setMarginLeft(margin);
+//        popup.setMarginRight(margin);
+
         if (!force) {
             // If we're not forced to show popup window measure the items...
             boolean hasMultiLineItems = popup.hasMultilineItems();
@@ -356,27 +366,18 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         final XpDropDownListView list = popup.getListView();
         assert list != null;
 
-        View v = adapter.getView(0, null, this);
-        if (v != null) {
+        final View view = adapter.getView(0, null, this); // In dropdown.
+        final View spinnerItemView = getSelectedView(); // In spinner.
+        if (view != null && spinnerItemView != null) {
             list.ensureListPaddingResolved();
             int preferredHorizontalOffset;
             if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
-                preferredHorizontalOffset = -(v.getPaddingLeft() + list.getListPaddingLeft() - getPaddingLeft());
+                preferredHorizontalOffset = -(view.getPaddingLeft() + list.getListPaddingLeft() - this.getPaddingLeft() - spinnerItemView.getPaddingLeft());
             } else {
-                preferredHorizontalOffset = v.getPaddingRight() + list.getListPaddingRight() - getPaddingRight();
+                preferredHorizontalOffset = view.getPaddingRight() + list.getListPaddingRight() - this.getPaddingRight() - spinnerItemView.getPaddingRight();
             }
             popup.setHorizontalOffset(preferredHorizontalOffset);
         }
-
-        // Testing.
-//        popup.setDropDownGravity(Gravity.LEFT);
-//        popup.setMaxWidth(XpListPopupWindow.MATCH_CONSTRAINT);
-//        popup.setWidth(1347);
-//        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
-//        popup.setMarginBottom(margin);
-//        popup.setMarginTop(margin);
-//        popup.setMarginLeft(margin);
-//        popup.setMarginRight(margin);
 
         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
