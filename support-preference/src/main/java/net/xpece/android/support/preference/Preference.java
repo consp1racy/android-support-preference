@@ -20,8 +20,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Represents the basic Preference UI building
  * block displayed by a {@link PreferenceActivity} in the form of a
@@ -43,9 +41,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * guide.</p>
  * </div>
  */
-@ParametersAreNonnullByDefault
 public class Preference extends android.support.v7.preference.Preference
-    implements TintablePreference, CustomIconPreference, ColorableTextPreference, LongClickablePreference {
+        implements TintablePreference, CustomIconPreference, ColorableTextPreference, LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;
@@ -63,18 +60,18 @@ public class Preference extends android.support.v7.preference.Preference
      * style to modify all of the base preference attributes as well as the
      * {@link android.preference.CheckBoxPreference} class's attributes.
      *
-     * @param context The Context this is associated with, through which it can
-     * access the current theme, resources,
-     * {@link SharedPreferences}, etc.
-     * @param attrs The attributes of the XML tag that is inflating the
-     * preference.
+     * @param context      The Context this is associated with, through which it can
+     *                     access the current theme, resources,
+     *                     {@link SharedPreferences}, etc.
+     * @param attrs        The attributes of the XML tag that is inflating the
+     *                     preference.
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
-     * @param defStyleRes A resource identifier of a style resource that
-     * supplies default values for the view, used only if
-     * defStyleAttr is 0 or can not be found in the theme. Can be 0
-     * to not look for defaults.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
+     * @param defStyleRes  A resource identifier of a style resource that
+     *                     supplies default values for the view, used only if
+     *                     defStyleAttr is 0 or can not be found in the theme. Can be 0
+     *                     to not look for defaults.
      * @see #Preference(Context, AttributeSet)
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -93,14 +90,14 @@ public class Preference extends android.support.v7.preference.Preference
      * style to modify all of the base preference attributes as well as the
      * {@link android.preference.CheckBoxPreference} class's attributes.
      *
-     * @param context The Context this is associated with, through which it can
-     * access the current theme, resources,
-     * {@link SharedPreferences}, etc.
-     * @param attrs The attributes of the XML tag that is inflating the
-     * preference.
+     * @param context      The Context this is associated with, through which it can
+     *                     access the current theme, resources,
+     *                     {@link SharedPreferences}, etc.
+     * @param attrs        The attributes of the XML tag that is inflating the
+     *                     preference.
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
      * @see #Preference(Context, AttributeSet)
      */
     public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
@@ -115,10 +112,10 @@ public class Preference extends android.support.v7.preference.Preference
      * Context's Theme and the given AttributeSet.
      *
      * @param context The Context this is associated with, through which it can
-     * access the current theme, resources, {@link SharedPreferences},
-     * etc.
-     * @param attrs The attributes of the XML tag that is inflating the
-     * preference.
+     *                access the current theme, resources, {@link SharedPreferences},
+     *                etc.
+     * @param attrs   The attributes of the XML tag that is inflating the
+     *                preference.
      * @see #Preference(Context, AttributeSet, int)
      */
     public Preference(Context context, @Nullable AttributeSet attrs) {
@@ -209,7 +206,7 @@ public class Preference extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(@NonNull View v) {
+                public boolean onLongClick(View v) {
                     return mOnPreferenceLongClickListener.onLongClick(Preference.this, v);
                 }
             });

@@ -32,8 +32,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A {@link Preference} that displays a list of entries as
  * a dialog.
@@ -42,7 +40,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * This set will contain one or more values from the
  * {@link #setEntryValues(CharSequence[])} array.
  */
-@ParametersAreNonnullByDefault
 public class MultiSelectListPreference extends DialogPreference {
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
@@ -262,16 +259,16 @@ public class MultiSelectListPreference extends DialogPreference {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
-            new Parcelable.Creator<SavedState>() {
-                @NonNull
-                public SavedState createFromParcel(Parcel in) {
-                    return new SavedState(in);
-                }
+                new Parcelable.Creator<SavedState>() {
+                    @NonNull
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-                @NonNull
-                public SavedState[] newArray(int size) {
-                    return new SavedState[size];
-                }
-            };
+                    @NonNull
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

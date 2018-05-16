@@ -12,12 +12,9 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Created by Eugen on 08.03.2016.
  */
-@ParametersAreNonnullByDefault
 @SuppressLint("RestrictedApi")
 public class PreferenceTextHelper {
 

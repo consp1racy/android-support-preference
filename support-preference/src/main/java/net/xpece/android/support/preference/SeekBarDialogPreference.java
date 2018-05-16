@@ -27,9 +27,6 @@ import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class SeekBarDialogPreference extends DialogPreference {
     static final String TAG = SeekBarDialogPreference.class.getSimpleName();
 

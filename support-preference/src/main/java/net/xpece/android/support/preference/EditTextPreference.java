@@ -33,19 +33,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-@ParametersAreNonnullByDefault
 public class EditTextPreference extends DialogPreference {
 
     private String mText;
 
-    @LayoutRes private int mEditTextLayout;
+    @LayoutRes
+    private int mEditTextLayout;
 
     private OnEditTextCreatedListener mOnEditTextCreatedListener;
 

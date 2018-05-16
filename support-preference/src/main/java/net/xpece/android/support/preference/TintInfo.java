@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
  * @author Eugen on 6. 12. 2015.
  */
 final class TintInfo {
-    @Nullable public ColorStateList mTintList;
+    @Nullable
+    public ColorStateList mTintList;
     @Nullable
     public PorterDuff.Mode mTintMode;
 }

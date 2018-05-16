@@ -33,14 +33,11 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A {@link Preference} that provides a two-state toggleable option.
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
-@ParametersAreNonnullByDefault
 public class SwitchPreference extends TwoStatePreference {
     private final Listener mListener = new Listener();
 
@@ -51,15 +48,15 @@ public class SwitchPreference extends TwoStatePreference {
     /**
      * Construct a new SwitchPreference with the given style options.
      *
-     * @param context The Context that will style this preference
-     * @param attrs Style attributes that differ from the default
+     * @param context      The Context that will style this preference
+     * @param attrs        Style attributes that differ from the default
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
-     * @param defStyleRes A resource identifier of a style resource that
-     * supplies default values for the view, used only if
-     * defStyleAttr is 0 or can not be found in the theme. Can be 0
-     * to not look for defaults.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
+     * @param defStyleRes  A resource identifier of a style resource that
+     *                     supplies default values for the view, used only if
+     *                     defStyleAttr is 0 or can not be found in the theme. Can be 0
+     *                     to not look for defaults.
      */
     public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -69,11 +66,11 @@ public class SwitchPreference extends TwoStatePreference {
     /**
      * Construct a new SwitchPreference with the given style options.
      *
-     * @param context The Context that will style this preference
-     * @param attrs Style attributes that differ from the default
+     * @param context      The Context that will style this preference
+     * @param attrs        Style attributes that differ from the default
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
      */
     public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Material_SwitchPreferenceCompat);
@@ -83,7 +80,7 @@ public class SwitchPreference extends TwoStatePreference {
      * Construct a new SwitchPreference with the given style options.
      *
      * @param context The Context that will style this preference
-     * @param attrs Style attributes that differ from the default
+     * @param attrs   Style attributes that differ from the default
      */
     public SwitchPreference(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.switchPreferenceCompatStyle);

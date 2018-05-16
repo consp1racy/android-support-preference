@@ -13,14 +13,11 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
 
 /**
  * @author Eugen on 7. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragment
         implements View.OnKeyListener {
 

@@ -19,14 +19,11 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.TypedValue;
 import android.view.View;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.Dimension.DP;
 
 /**
  * Use this class to add dividers between {@link Preference} items.
  */
-@ParametersAreNonnullByDefault
 public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     private boolean mDrawTop = false;
@@ -150,7 +147,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
     @NonNull
     public PreferenceDividerDecoration paddingDp(final Context context, @Dimension(unit = DP) final float paddingDp) {
         int paddingPx = (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, paddingDp, context.getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_DIP, paddingDp, context.getResources().getDisplayMetrics());
         return padding(paddingPx);
     }
 
@@ -182,26 +179,26 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         } else if (adapterPosition == 0) {
             final Preference nextPreference = adapter.getItem(adapterPosition + 1);
             if ((nextPreference instanceof PreferenceCategory && mDrawBetweenCategories) ||
-                (!(preference instanceof PreferenceCategory) && mDrawBetweenItems)) {
+                    (!(preference instanceof PreferenceCategory) && mDrawBetweenItems)) {
                 bottomPadding = mPadding + mDividerHeight;
             }
             if (mDrawTop) topPadding += mDividerHeight;
         } else if (adapterPosition == adapterCount - 1) {
             final Preference previousPreference = adapter.getItem(adapterPosition - 1);
             if ((preference instanceof PreferenceCategory && mDrawBetweenCategories) ||
-                (!(previousPreference instanceof PreferenceCategory) && mDrawBetweenItems)) {
+                    (!(previousPreference instanceof PreferenceCategory) && mDrawBetweenItems)) {
                 topPadding = mPadding;
             }
             if (mDrawBottom) bottomPadding += mDividerHeight;
         } else {
             final Preference previousPreference = adapter.getItem(adapterPosition - 1);
             if ((preference instanceof PreferenceCategory && mDrawBetweenCategories) ||
-                (!(previousPreference instanceof PreferenceCategory) && mDrawBetweenItems)) {
+                    (!(previousPreference instanceof PreferenceCategory) && mDrawBetweenItems)) {
                 topPadding = mPadding;
             }
             final Preference nextPreference = adapter.getItem(adapterPosition + 1);
             if ((nextPreference instanceof PreferenceCategory && mDrawBetweenCategories) ||
-                (!(preference instanceof PreferenceCategory) && mDrawBetweenItems)) {
+                    (!(preference instanceof PreferenceCategory) && mDrawBetweenItems)) {
                 bottomPadding = mPadding + mDividerHeight;
             }
         }
@@ -236,7 +233,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
             }
 
             if (preference instanceof PreferenceGroup
-                && !(preference instanceof PreferenceScreen)) {
+                    && !(preference instanceof PreferenceScreen)) {
                 if (mDrawBetweenCategories) {
                     if (!skipNextAboveDivider) {
                         final int decoratedTop = parent.getLayoutManager().getDecoratedTop(child);

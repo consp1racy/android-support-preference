@@ -29,14 +29,11 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
 import java.util.ArrayList;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
 
 /**
  * Created by Eugen on 07.12.2015.
  */
-@ParametersAreNonnullByDefault
 public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragment
         implements Runnable, AdapterView.OnItemSelectedListener {
 
@@ -576,7 +573,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     private static class DummyAlertDialog extends AlertDialog {
-        DummyAlertDialog(@NonNull Context context) {
+        DummyAlertDialog(Context context) {
             super(context);
         }
     }

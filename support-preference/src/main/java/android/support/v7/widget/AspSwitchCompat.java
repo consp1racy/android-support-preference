@@ -17,29 +17,27 @@
 package android.support.v7.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Works around https://code.google.com/p/android/issues/detail?id=196652.
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
 public class AspSwitchCompat extends SwitchCompat {
     private boolean isInSetChecked = false;
 
-    public AspSwitchCompat(Context context) {
+    public AspSwitchCompat(@NonNull Context context) {
         super(context);
     }
 
-    public AspSwitchCompat(Context context, @Nullable AttributeSet attrs) {
+    public AspSwitchCompat(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AspSwitchCompat(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AspSwitchCompat(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

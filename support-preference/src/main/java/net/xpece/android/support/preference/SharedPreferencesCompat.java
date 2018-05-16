@@ -2,7 +2,6 @@ package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
@@ -13,14 +12,11 @@ import org.json.JSONException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * We used to store string sets as JSON array {@link String} on Android 2.x.
  * <p>
  * This class allows to read such JSON array as {@code Set<String>} and overwrite it.
  */
-@ParametersAreNonnullByDefault
 public final class SharedPreferencesCompat {
 
     // Let's assume the user didn't upgrade from Android 2 all the way to Lollipop.

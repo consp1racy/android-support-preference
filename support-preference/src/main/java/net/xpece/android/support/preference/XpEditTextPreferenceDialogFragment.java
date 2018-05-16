@@ -14,11 +14,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.EditText;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
 
-@ParametersAreNonnullByDefault
 public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private EditText mEditText;
 
@@ -68,7 +65,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
         ViewGroup container = dialogView.findViewById(R.id.edittext_container);
         if (container != null) {
             container.addView(editText, ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 

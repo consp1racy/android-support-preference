@@ -18,11 +18,8 @@ import android.support.v7.preference.Preference;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.Dimension.DP;
 
-@ParametersAreNonnullByDefault
 final class Util {
     static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     static final int[] EMPTY_STATE_SET = new int[0];

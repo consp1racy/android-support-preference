@@ -9,14 +9,11 @@ import android.support.v7.app.AlertDialog;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
 
 /**
  * @author Eugen on 6. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     private static final String TAG = XpMultiSelectListPreferenceDialogFragment.class.getSimpleName();
 
@@ -58,22 +55,22 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
         final CharSequence[] entryValues = preference.getEntryValues();
         if (entries == null || entryValues == null) {
             throw new IllegalStateException(
-                "MultiSelectListPreference requires an entries array and " +
-                    "an entryValues array.");
+                    "MultiSelectListPreference requires an entries array and " +
+                            "an entryValues array.");
         }
 
         setupSelectedItems(preference);
         builder.setMultiChoiceItems(entries, mSelectedItems,
-            new DialogInterface.OnMultiChoiceClickListener() {
-                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    mSelectedItems[which] = isChecked;
-                    if (isChecked) {
-                        mPreferenceChanged |= mNewValues.add(entryValues[which].toString());
-                    } else {
-                        mPreferenceChanged |= mNewValues.remove(entryValues[which].toString());
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mSelectedItems[which] = isChecked;
+                        if (isChecked) {
+                            mPreferenceChanged |= mNewValues.add(entryValues[which].toString());
+                        } else {
+                            mPreferenceChanged |= mNewValues.remove(entryValues[which].toString());
+                        }
                     }
-                }
-            });
+                });
 
         setupInitialValues(preference);
     }

@@ -15,8 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.util.Log;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Ringtone provides a quick method for playing a ringtone, notification, or
  * other similar types of sounds.
@@ -38,7 +36,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @see RingtoneManager
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public class SafeRingtone {
     private static final String TAG = SafeRingtone.class.getSimpleName();

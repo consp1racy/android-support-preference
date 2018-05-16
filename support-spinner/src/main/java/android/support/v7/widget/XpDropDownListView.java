@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -13,9 +14,6 @@ import android.widget.ListAdapter;
 
 import net.xpece.android.support.widget.spinner.R;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 @SuppressLint("ViewConstructor")
 public final class XpDropDownListView extends DropDownListView {
 
@@ -32,7 +30,7 @@ public final class XpDropDownListView extends DropDownListView {
      *
      * @param context this view's context
      */
-    XpDropDownListView(final Context context, final boolean hijackFocus) {
+    XpDropDownListView(@NonNull final Context context, final boolean hijackFocus) {
         super(context, hijackFocus);
 
         if (Build.VERSION.SDK_INT < 21) {

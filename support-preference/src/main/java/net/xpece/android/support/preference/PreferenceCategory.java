@@ -14,12 +14,9 @@ import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Created by Eugen on 08.03.2016.
  */
-@ParametersAreNonnullByDefault
 public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
         implements ColorableTextPreference, LongClickablePreference,
         TintablePreference, CustomIconPreference {
@@ -120,7 +117,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(@NonNull View v) {
+                public boolean onLongClick(View v) {
                     return mOnPreferenceLongClickListener.onLongClick(PreferenceCategory.this, v);
                 }
             });

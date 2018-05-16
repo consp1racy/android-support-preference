@@ -47,7 +47,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RequiresApi(23)
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public class EpicenterClipReveal extends Visibility {

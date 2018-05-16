@@ -17,7 +17,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
 final class Util {

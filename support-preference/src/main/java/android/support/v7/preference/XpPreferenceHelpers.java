@@ -6,6 +6,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -25,7 +26,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * Created by Eugen on 27.11.2016.
  */
 
-@ParametersAreNonnullByDefault
 public final class XpPreferenceHelpers {
 
     private static final WeakHashMap<Preference, PreferenceTextHelper> PREFERENCE_TEXT_HELPERS = new WeakHashMap<>();
@@ -35,7 +35,7 @@ public final class XpPreferenceHelpers {
 
     private XpPreferenceHelpers() {}
 
-    static void onCreatePreference(final Preference preference, @Nullable final AttributeSet attrs) {
+    static void onCreatePreference(@NonNull final Preference preference, @Nullable final AttributeSet attrs) {
         final int defStyleAttr = getDefStyleAttr(preference);
 
         if (!(preference instanceof CustomIconPreference)) {
@@ -58,7 +58,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    private static int getDefStyleAttr(final Preference preference) {
+    private static int getDefStyleAttr(@NonNull final Preference preference) {
         final int defStyleAttr;
         if (preference instanceof PreferenceScreen) {
             defStyleAttr = R.attr.preferenceScreenStyle;
@@ -72,7 +72,7 @@ public final class XpPreferenceHelpers {
         return defStyleAttr;
     }
 
-    static void onBindViewHolder(final Preference preference, final PreferenceViewHolder holder) {
+    static void onBindViewHolder(@NonNull final Preference preference, @NonNull final PreferenceViewHolder holder) {
         final PreferenceTextHelper textHelper = PREFERENCE_TEXT_HELPERS.get(preference);
         if (textHelper != null) {
             textHelper.onBindViewHolder(holder);
@@ -95,7 +95,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setTitleTextColor(Preference preference, ColorStateList titleTextColor) {
+    public static void setTitleTextColor(@NonNull Preference preference, @NonNull ColorStateList titleTextColor) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setTitleTextColor(titleTextColor);
             preference.notifyChanged();
@@ -110,7 +110,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setTitleTextColor(Preference preference, @ColorInt int titleTextColor) {
+    public static void setTitleTextColor(@NonNull Preference preference, @ColorInt int titleTextColor) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setTitleTextColor(titleTextColor);
             preference.notifyChanged();
@@ -125,7 +125,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setTitleTextAppearance(Preference preference, int titleTextAppearance) {
+    public static void setTitleTextAppearance(@NonNull Preference preference, @StyleRes int titleTextAppearance) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setTitleTextAppearance(titleTextAppearance);
             preference.notifyChanged();
@@ -140,7 +140,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setSummaryTextColor(Preference preference, ColorStateList summaryTextColor) {
+    public static void setSummaryTextColor(@NonNull Preference preference, @NonNull ColorStateList summaryTextColor) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setSummaryTextColor(summaryTextColor);
             preference.notifyChanged();
@@ -155,7 +155,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setSummaryTextColor(Preference preference, @ColorInt int summaryTextColor) {
+    public static void setSummaryTextColor(@NonNull Preference preference, @ColorInt int summaryTextColor) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setSummaryTextColor(summaryTextColor);
             preference.notifyChanged();
@@ -170,7 +170,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setSummaryTextAppearance(Preference preference, int summaryTextAppearance) {
+    public static void setSummaryTextAppearance(@NonNull Preference preference, @StyleRes int summaryTextAppearance) {
         if (preference instanceof ColorableTextPreference) {
             ((ColorableTextPreference) preference).setSummaryTextAppearance(summaryTextAppearance);
             preference.notifyChanged();
@@ -185,7 +185,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static boolean hasTitleTextColor(Preference preference) {
+    public static boolean hasTitleTextColor(@NonNull Preference preference) {
         if (preference instanceof ColorableTextPreference) {
             return ((ColorableTextPreference) preference).hasTitleTextColor();
         }
@@ -196,7 +196,7 @@ public final class XpPreferenceHelpers {
         return false;
     }
 
-    public static boolean hasSummaryTextColor(Preference preference) {
+    public static boolean hasSummaryTextColor(@NonNull Preference preference) {
         if (preference instanceof ColorableTextPreference) {
             return ((ColorableTextPreference) preference).hasSummaryTextColor();
         }
@@ -207,7 +207,7 @@ public final class XpPreferenceHelpers {
         return false;
     }
 
-    public static boolean hasTitleTextAppearance(Preference preference) {
+    public static boolean hasTitleTextAppearance(@NonNull Preference preference) {
         if (preference instanceof ColorableTextPreference) {
             return ((ColorableTextPreference) preference).hasTitleTextAppearance();
         }
@@ -218,7 +218,7 @@ public final class XpPreferenceHelpers {
         return false;
     }
 
-    public static boolean hasSummaryTextAppearance(Preference preference) {
+    public static boolean hasSummaryTextAppearance(@NonNull Preference preference) {
         if (preference instanceof ColorableTextPreference) {
             return ((ColorableTextPreference) preference).hasSummaryTextAppearance();
         }
@@ -229,7 +229,7 @@ public final class XpPreferenceHelpers {
         return false;
     }
 
-    public static void setSupportIcon(final Preference preference, final Drawable icon) {
+    public static void setSupportIcon(@NonNull final Preference preference, final Drawable icon) {
         if (preference instanceof CustomIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
         } else {
@@ -242,7 +242,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setSupportIcon(final Preference preference, @DrawableRes final int icon) {
+    public static void setSupportIcon(@NonNull final Preference preference, @DrawableRes final int icon) {
         if (preference instanceof CustomIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
         } else {
@@ -256,7 +256,7 @@ public final class XpPreferenceHelpers {
     }
 
     @Nullable
-    public static Drawable getSupportIcon(final Preference preference) {
+    public static Drawable getSupportIcon(@NonNull final Preference preference) {
         if (preference instanceof CustomIconPreference) {
             return ((CustomIconPreference) preference).getSupportIcon();
         }
@@ -267,8 +267,7 @@ public final class XpPreferenceHelpers {
         return preference.getIcon();
     }
 
-    @Nullable
-    public static void setSupportDialogIcon(final DialogPreference preference, final Drawable icon) {
+    public static void setSupportDialogIcon(@NonNull final DialogPreference preference, @Nullable final Drawable icon) {
         if (preference instanceof CustomDialogIconPreference) {
             ((CustomIconPreference) preference).setSupportIcon(icon);
         } else {
@@ -281,7 +280,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static void setSupportDialogIcon(final DialogPreference preference, @DrawableRes final int icon) {
+    public static void setSupportDialogIcon(@NonNull final DialogPreference preference, @DrawableRes final int icon) {
         if (preference instanceof CustomDialogIconPreference) {
             ((CustomDialogIconPreference) preference).setSupportDialogIcon(icon);
         } else {
@@ -294,7 +293,8 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static Drawable getSupportDialogIcon(final DialogPreference preference) {
+    @Nullable
+    public static Drawable getSupportDialogIcon(@NonNull final DialogPreference preference) {
         if (preference instanceof CustomDialogIconPreference) {
             return ((CustomDialogIconPreference) preference).getSupportDialogIcon();
         }
@@ -305,7 +305,7 @@ public final class XpPreferenceHelpers {
         return preference.getDialogIcon();
     }
 
-    public static void setOnPreferenceLongClickListener(final Preference preference, final OnPreferenceLongClickListener listener) {
+    public static void setOnPreferenceLongClickListener(@NonNull final Preference preference, @Nullable final OnPreferenceLongClickListener listener) {
         final OnPreferenceLongClickListener oldListener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
         if (listener != oldListener) {
             PREFERENCE_LONG_CLICK_LISTENERS.put(preference, listener);
@@ -313,7 +313,7 @@ public final class XpPreferenceHelpers {
         }
     }
 
-    public static boolean hasOnPreferenceLongClickListener(final Preference preference) {
+    public static boolean hasOnPreferenceLongClickListener(@NonNull final Preference preference) {
         final OnPreferenceLongClickListener listener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
         return listener != null;
     }

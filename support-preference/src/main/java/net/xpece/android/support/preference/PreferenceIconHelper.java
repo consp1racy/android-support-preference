@@ -17,12 +17,9 @@ import android.util.AttributeSet;
 
 import java.lang.ref.WeakReference;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * @author Eugen on 6. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 public class PreferenceIconHelper {
     private static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
 
@@ -127,10 +124,14 @@ public class PreferenceIconHelper {
     }
 
     @NonNull
-    public Context getContext() {return getPreference().getContext();}
+    public Context getContext() {
+        return getPreference().getContext();
+    }
 
     @NonNull
-    protected Preference getPreference() {return mPreference.get();}
+    protected Preference getPreference() {
+        return mPreference.get();
+    }
 
     protected void ensureTintInfo() {
         if (mTintInfo == null) {

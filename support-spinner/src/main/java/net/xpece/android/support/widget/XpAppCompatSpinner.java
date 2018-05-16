@@ -57,22 +57,30 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     @IntDef({SPINNER_MODE_ADAPTIVE, SPINNER_MODE_DIALOG, SPINNER_MODE_DROPDOWN})
     @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
-    @interface SpinnerMode {}
+    @interface SpinnerMode {
+    }
 
     /**
      * Simple dialog is shown instead of simple popup,
      * when there are multiline items.
      */
     public static final int SPINNER_MODE_ADAPTIVE = 0;
-    /** Always show as simple dialog. */
+    /**
+     * Always show as simple dialog.
+     */
     public static final int SPINNER_MODE_DIALOG = 1;
-    /** Always show as simple popup. */
+    /**
+     * Always show as simple popup.
+     */
     public static final int SPINNER_MODE_DROPDOWN = 2;
 
-    @SpinnerMode private int mSpinnerMode;
+    @SpinnerMode
+    private int mSpinnerMode;
     private float mSimpleMenuWidthUnit;
-    @SimpleMenu.MaxWidth private int mSimpleMenuMaxWidth;
-    @SimpleMenu.WidthMode private int mSimpleMenuWidthMode;
+    @SimpleMenu.MaxWidth
+    private int mSimpleMenuMaxWidth;
+    @SimpleMenu.WidthMode
+    private int mSimpleMenuWidthMode;
     private int mSimpleMenuMaxItemCount = -1;
 
     private XpListPopupWindow mPopup;
@@ -190,13 +198,13 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     /**
      * @param widthUnit When {@link #setSimpleMenuWidthMode(int)}
-     * is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
-     * popup width will be
-     * <ul>
-     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
-     * <li>at least as wide as {@code widthUnit * 1.5},</li>
-     * <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
-     * </ul>
+     *                  is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
+     *                  popup width will be
+     *                  <ul>
+     *                  <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     *                  <li>at least as wide as {@code widthUnit * 1.5},</li>
+     *                  <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
+     *                  </ul>
      * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
      */
     public void setSimpleMenuWidthUnit(float widthUnit) {

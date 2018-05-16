@@ -16,7 +16,7 @@ import static net.xpece.android.support.widget.SimpleMenu.WidthMode.WRAP_CONTENT
 
 /**
  * Class containing constants related to simple menu.
- *
+ * <p>
  * Library consumers don't need to access this.
  */
 @RestrictTo(LIBRARY_GROUP)
@@ -32,9 +32,13 @@ public final class SimpleMenu {
     @RestrictTo(LIBRARY_GROUP)
     @Retention(RetentionPolicy.SOURCE)
     public @interface MaxWidth {
-        /** Popup menu width is limited by screen width. */
+        /**
+         * Popup menu width is limited by screen width.
+         */
         int FIT_SCREEN = AbstractXpListPopupWindow.MAX_WIDTH_FIT_SCREEN;
-        /** Popup menu width is limited by anchor width. */
+        /**
+         * Popup menu width is limited by anchor width.
+         */
         int FIT_ANCHOR = AbstractXpListPopupWindow.MAX_WIDTH_FIT_ANCHOR;
     }
 
@@ -45,7 +49,9 @@ public final class SimpleMenu {
     @RestrictTo(LIBRARY_GROUP)
     @Retention(RetentionPolicy.SOURCE)
     public @interface WidthMode {
-        /** Popup menu width is only limited by {@code maxWidth}. */
+        /**
+         * Popup menu width is only limited by {@code maxWidth}.
+         */
         int MATCH_CONSTRAINT = AbstractXpListPopupWindow.WIDTH_MATCH_CONSTRAINT;
         /**
          * Popup menu width is

@@ -52,7 +52,7 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     }
 
     public ColorPickerSwatch(
-            @NonNull final Context context,
+            final Context context,
             @ColorInt final int color,
             final boolean checked,
             final OnColorSelectedListener listener) {
@@ -86,7 +86,7 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     }
 
     @Override
-    public void onClick(@NonNull View v) {
+    public void onClick(View v) {
         if (mOnColorSelectedListener != null) {
             mOnColorSelectedListener.onColorSelected(mColor);
         }

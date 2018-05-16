@@ -39,8 +39,6 @@ import net.xpece.android.support.widget.XpListPopupWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
@@ -55,7 +53,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  * @attr name asp_menuMode
  * @attr name popupTheme
  */
-@ParametersAreNonnullByDefault
 public class ListPreference extends DialogPreference {
     private static final String TAG = ListPreference.class.getSimpleName();
 
@@ -73,17 +70,21 @@ public class ListPreference extends DialogPreference {
     @IntDef({MENU_MODE_DIALOG, MENU_MODE_SIMPLE_ADAPTIVE, MENU_MODE_SIMPLE_DIALOG, MENU_MODE_SIMPLE_MENU})
     @RestrictTo(LIBRARY)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface MenuMode {}
+    public @interface MenuMode {
+    }
 
     public static final int MENU_MODE_DIALOG = 0;
     public static final int MENU_MODE_SIMPLE_DIALOG = 1;
     public static final int MENU_MODE_SIMPLE_MENU = 2;
     public static final int MENU_MODE_SIMPLE_ADAPTIVE = 3;
 
-    @MenuMode private int mMenuMode;
+    @MenuMode
+    private int mMenuMode;
     private float mSimpleMenuWidthUnit;
-    @SimpleMenu.MaxWidth private int mSimpleMenuMaxWidth;
-    @SimpleMenu.WidthMode private int mSimpleMenuWidthMode;
+    @SimpleMenu.MaxWidth
+    private int mSimpleMenuMaxWidth;
+    @SimpleMenu.WidthMode
+    private int mSimpleMenuWidthMode;
     private int mSimpleMenuMaxItemCount = -1;
 
     boolean mSimpleMenuShowing;
@@ -225,13 +226,13 @@ public class ListPreference extends DialogPreference {
 
     /**
      * @param widthUnit When {@link #setSimpleMenuWidthMode(int)}
-     * is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
-     * popup width will be
-     * <ul>
-     * <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
-     * <li>at least as wide as {@code widthUnit * 1.5},</li>
-     * <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
-     * </ul>
+     *                  is set to {@link SimpleMenu.WidthMode#WRAP_CONTENT_UNIT}
+     *                  popup width will be
+     *                  <ul>
+     *                  <li>at least as wide as its content rounded up to a multiple of {@code widthUnit},</li>
+     *                  <li>at least as wide as {@code widthUnit * 1.5},</li>
+     *                  <li>limited by {@link #setSimpleMenuMaxWidth(int)}.</li>
+     *                  </ul>
      * @see SimpleMenu.WidthMode#WRAP_CONTENT_UNIT
      */
     public void setSimpleMenuWidthUnit(float widthUnit) {
@@ -375,7 +376,8 @@ public class ListPreference extends DialogPreference {
         if (SUPPORTS_ON_WINDOW_ATTACH_LISTENER) {
             return new ViewTreeObserver.OnWindowAttachListener() {
                 @Override
-                public void onWindowAttached() {}
+                public void onWindowAttached() {
+                }
 
                 @Override
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)

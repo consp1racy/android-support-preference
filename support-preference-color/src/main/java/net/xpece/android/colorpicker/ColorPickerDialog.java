@@ -40,7 +40,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * select a specific color swatch, which invokes a listener.
  */
 @Deprecated
-@ParametersAreNonnullByDefault
 public class ColorPickerDialog extends DialogFragment implements OnColorSelectedListener {
 
     protected AlertDialog mAlertDialog;
@@ -70,14 +69,14 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
 
     @NonNull
     @SuppressWarnings("deprecation")
-    public static ColorPickerDialog newInstance(@StringRes int titleResId, @ColorInt @NonNull int[] colors, @ColorInt int selectedColor,
+    public static ColorPickerDialog newInstance(@StringRes int titleResId, @ColorInt int[] colors, @ColorInt int selectedColor,
                                                 int columns, @ColorPickerPalette.SwatchSize int size) {
         ColorPickerDialog ret = new ColorPickerDialog();
         ret.initialize(titleResId, colors, selectedColor, columns, size);
         return ret;
     }
 
-    public void initialize(int titleResId, @ColorInt @NonNull int[] colors, @ColorInt int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
+    public void initialize(int titleResId, @ColorInt int[] colors, @ColorInt int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
         setArguments(titleResId, columns, size);
         setColors(colors, selectedColor);
     }

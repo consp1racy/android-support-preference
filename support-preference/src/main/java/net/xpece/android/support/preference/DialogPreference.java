@@ -31,18 +31,15 @@ import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A base class for {@link Preference} objects that are
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-@ParametersAreNonnullByDefault
 public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
-    implements TintablePreference, TintableDialogPreference,
-    CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference,
-    LongClickablePreference {
+        implements TintablePreference, TintableDialogPreference,
+        CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference,
+        LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;
     private PreferenceIconHelper mPreferenceIconHelper;

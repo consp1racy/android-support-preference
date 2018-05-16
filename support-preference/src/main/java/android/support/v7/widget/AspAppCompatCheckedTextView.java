@@ -17,38 +17,35 @@
 package android.support.v7.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 @Deprecated
-@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public class AspAppCompatCheckedTextView extends AppCompatCheckedTextView {
     private static final String TAG = AspAppCompatCheckedTextView.class.getSimpleName();
 
-    public AspAppCompatCheckedTextView(Context context) {
+    public AspAppCompatCheckedTextView(@NonNull Context context) {
         super(context);
         Log.w(TAG, "This class is deprecated and will be removed.");
     }
 
-    public AspAppCompatCheckedTextView(Context context, @Nullable AttributeSet attrs) {
+    public AspAppCompatCheckedTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         Log.w(TAG, "This class is deprecated and will be removed.");
     }
 
-    public AspAppCompatCheckedTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AspAppCompatCheckedTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         Log.w(TAG, "This class is deprecated and will be removed.");
     }
 
-    @Deprecated
     @RequiresApi(21)
-    public AspAppCompatCheckedTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AspAppCompatCheckedTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         this(context, attrs, defStyleAttr);
         Log.w(TAG, "defStyleRes parameter is ignored.");
     }

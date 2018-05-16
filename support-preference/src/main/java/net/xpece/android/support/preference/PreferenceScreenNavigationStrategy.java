@@ -7,18 +7,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Created by Eugen on 08.12.2015.
  */
-@ParametersAreNonnullByDefault
 public abstract class PreferenceScreenNavigationStrategy {
     static final String TAG = PreferenceScreenNavigationStrategy.class.getSimpleName();
 
     public static final String DEFAULT_ROOT_KEY = TAG + ".ROOT";
 
-    protected PreferenceScreenNavigationStrategy() {}
+    protected PreferenceScreenNavigationStrategy() {
+    }
 
     /**
      * This will replace the whole preference fragment while putting it on the backstack.
@@ -36,11 +34,11 @@ public abstract class PreferenceScreenNavigationStrategy {
         private final Callbacks mCallbacks;
 
         /**
-         * @param callbacks Callbacks responsible for creating a new preference fragment based on a root preference key.
-         * @param animEnter Enter animation resource ID.
-         * @param animExit Exit animation resource ID.
+         * @param callbacks    Callbacks responsible for creating a new preference fragment based on a root preference key.
+         * @param animEnter    Enter animation resource ID.
+         * @param animExit     Exit animation resource ID.
          * @param animPopEnter Enter animation resource ID when popped from backstack.
-         * @param animPopExit Enter animation resource ID when popped from backstack.
+         * @param animPopExit  Enter animation resource ID when popped from backstack.
          */
         public ReplaceFragment(Callbacks callbacks, final int animEnter, final int animExit, final int animPopEnter, final int animPopExit) {
             mCallbacks = callbacks;
@@ -78,9 +76,9 @@ public abstract class PreferenceScreenNavigationStrategy {
         /**
          * Call this inside {@link android.support.v7.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallback#onPreferenceStartScreen(PreferenceFragmentCompat, PreferenceScreen)}.
          *
-         * @param fragmentManager Fragment manager form activity or calling fragment
+         * @param fragmentManager          Fragment manager form activity or calling fragment
          * @param preferenceFragmentCompat The old preference fragment about to be replaced.
-         * @param preferenceScreen The new root of preference hierarchy.
+         * @param preferenceScreen         The new root of preference hierarchy.
          */
         public void onPreferenceStartScreen(final FragmentManager fragmentManager, final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
             final String key = preferenceScreen.getKey();
@@ -90,8 +88,8 @@ public abstract class PreferenceScreenNavigationStrategy {
                 ft.setCustomAnimations(mAnimEnter, mAnimExit, mAnimPopEnter, mAnimPopExit);
             }
             ft.replace(preferenceFragmentCompat.getId(), f, preferenceFragmentCompat.getTag())
-                .addToBackStack(key)
-                .commit();
+                    .addToBackStack(key)
+                    .commit();
         }
 
         public interface Callbacks {

@@ -22,17 +22,15 @@ import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.widget.AbsoluteLayout;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
 
 /**
  * Custom AbsoluteLayout that does not propagate the pressed state down to its children.
  * By default, the pressed state is propagated to all the children that are not clickable
  * or long-clickable.
+ *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(GROUP_ID)
 @SuppressWarnings("deprecation")
 public class UnPressableAbsoluteLayout extends AbsoluteLayout {

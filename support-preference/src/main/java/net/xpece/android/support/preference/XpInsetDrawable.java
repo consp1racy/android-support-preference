@@ -5,13 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Before Lollipop insets didn't count to intrinsic size. This class aims to fix this issue.
+ *
  * @author Eugen on 7. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 final class XpInsetDrawable extends InsetDrawable {
     private static final boolean NEEDS_FIXING = Build.VERSION.SDK_INT < 21;
 

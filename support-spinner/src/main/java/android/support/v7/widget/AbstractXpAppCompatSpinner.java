@@ -25,6 +25,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,8 +46,6 @@ import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Field;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
@@ -63,7 +62,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("AppCompatCustomView")
 @TargetApi(23)
@@ -92,7 +90,9 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
 
     private AppCompatBackgroundHelper mBackgroundTintHelper;
 
-    /** Context used to inflate the popup window or dialog. */
+    /**
+     * Context used to inflate the popup window or dialog.
+     */
     private Context mPopupContext;
 
     private CharSequence mPrompt;
@@ -101,9 +101,9 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * Construct a new spinner with the given context's theme.
      *
      * @param context The Context the view is running in, through which it can
-     * access the current theme, resources, etc.
+     *                access the current theme, resources, etc.
      */
-    public AbstractXpAppCompatSpinner(Context context) {
+    public AbstractXpAppCompatSpinner(@NonNull Context context) {
         this(context, null);
     }
 
@@ -113,12 +113,12 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * {@link #MODE_DIALOG} or {@link #MODE_DROPDOWN}.
      *
      * @param context The Context the view is running in, through which it can
-     * access the current theme, resources, etc.
-     * @param mode Constant describing how the user will select choices from the spinner.
+     *                access the current theme, resources, etc.
+     * @param mode    Constant describing how the user will select choices from the spinner.
      * @see #MODE_DIALOG
      * @see #MODE_DROPDOWN
      */
-    public AbstractXpAppCompatSpinner(Context context, int mode) {
+    public AbstractXpAppCompatSpinner(@NonNull Context context, int mode) {
         this(context, null, R.attr.spinnerStyle, mode);
     }
 
@@ -126,10 +126,10 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * Construct a new spinner with the given context's theme and the supplied attribute set.
      *
      * @param context The Context the view is running in, through which it can
-     * access the current theme, resources, etc.
-     * @param attrs The attributes of the XML tag that is inflating the view.
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    public AbstractXpAppCompatSpinner(Context context, @Nullable AttributeSet attrs) {
+    public AbstractXpAppCompatSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.spinnerStyle);
     }
 
@@ -137,14 +137,15 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * Construct a new spinner with the given context's theme, the supplied attribute set,
      * and default style attribute.
      *
-     * @param context The Context the view is running in, through which it can
-     * access the current theme, resources, etc.
-     * @param attrs The attributes of the XML tag that is inflating the view.
+     * @param context      The Context the view is running in, through which it can
+     *                     access the current theme, resources, etc.
+     * @param attrs        The attributes of the XML tag that is inflating the view.
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
      */
-    public AbstractXpAppCompatSpinner(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AbstractXpAppCompatSpinner(
+            @NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, -1);
     }
 
@@ -153,18 +154,18 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * and default style. <code>mode</code> may be one of {@link #MODE_DIALOG} or
      * {@link #MODE_DROPDOWN} and determines how the user will select choices from the spinner.
      *
-     * @param context The Context the view is running in, through which it can
-     * access the current theme, resources, etc.
-     * @param attrs The attributes of the XML tag that is inflating the view.
+     * @param context      The Context the view is running in, through which it can
+     *                     access the current theme, resources, etc.
+     * @param attrs        The attributes of the XML tag that is inflating the view.
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default values for
-     * the view. Can be 0 to not look for defaults.
-     * @param mode Constant describing how the user will select choices from the spinner.
+     *                     reference to a style resource that supplies default values for
+     *                     the view. Can be 0 to not look for defaults.
+     * @param mode         Constant describing how the user will select choices from the spinner.
      * @see #MODE_DIALOG
      * @see #MODE_DROPDOWN
      */
     public AbstractXpAppCompatSpinner(
-            Context context, @Nullable AttributeSet attrs, int defStyleAttr, int mode) {
+            @NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, int mode) {
         this(context, attrs, defStyleAttr, mode, null);
     }
 
@@ -174,28 +175,28 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
      * or {@link #MODE_DROPDOWN}), and the context against which the popup
      * should be inflated.
      *
-     * @param context The context against which the view is inflated, which
-     * provides access to the current theme, resources, etc.
-     * @param attrs The attributes of the XML tag that is inflating the view.
+     * @param context      The context against which the view is inflated, which
+     *                     provides access to the current theme, resources, etc.
+     * @param attrs        The attributes of the XML tag that is inflating the view.
      * @param defStyleAttr An attribute in the current theme that contains a
-     * reference to a style resource that supplies default
-     * values for the view. Can be 0 to not look for
-     * defaults.
-     * @param mode Constant describing how the user will select choices from
-     * the spinner.
-     * @param popupTheme The theme against which the dialog or dropdown popup
-     * should be inflated. May be {@code null} to use the
-     * view theme. If set, this will override any value
-     * specified by
-     * {@link R.styleable#Spinner_popupTheme}.
+     *                     reference to a style resource that supplies default
+     *                     values for the view. Can be 0 to not look for
+     *                     defaults.
+     * @param mode         Constant describing how the user will select choices from
+     *                     the spinner.
+     * @param popupTheme   The theme against which the dialog or dropdown popup
+     *                     should be inflated. May be {@code null} to use the
+     *                     view theme. If set, this will override any value
+     *                     specified by
+     *                     {@link R.styleable#Spinner_popupTheme}.
      * @see #MODE_DIALOG
      * @see #MODE_DROPDOWN
      */
     @SuppressWarnings("RestrictedApi")
     public AbstractXpAppCompatSpinner(
-            Context context,
+            @NonNull Context context,
             @Nullable AttributeSet attrs,
-            int defStyleAttr,
+            @AttrRes int defStyleAttr,
             int mode,
             @Nullable Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr);
@@ -260,7 +261,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         a.recycle();
     }
 
-    public static void setEntries(final Spinner spinner, @ArrayRes final int entriesResId) {
+    public static void setEntries(@NonNull final Spinner spinner, @ArrayRes final int entriesResId) {
         final Context context = spinner.getContext();
         final CharSequence[] entries = context.getResources().getTextArray(entriesResId);
         final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
@@ -268,7 +269,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
         spinner.setAdapter(adapter);
     }
 
-    public static void setEntries(final Spinner spinner, final CharSequence[] entries) {
+    public static void setEntries(@NonNull final Spinner spinner, @NonNull final CharSequence[] entries) {
         final Context context = spinner.getContext();
         final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
         adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
@@ -373,7 +374,7 @@ public abstract class AbstractXpAppCompatSpinner extends Spinner implements Tint
     }
 
     @Override
-    public boolean onTouchEvent(final MotionEvent event) {
+    public boolean onTouchEvent(@NonNull final MotionEvent event) {
         return super.onTouchEvent(event);
     }
 

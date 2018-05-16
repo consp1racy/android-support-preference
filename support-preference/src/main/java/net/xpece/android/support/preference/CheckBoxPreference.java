@@ -30,15 +30,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A {@link Preference} that provides checkbox widget
  * functionality.
  * <p></p>
  * This preference will store a boolean into the SharedPreferences.
  */
-@ParametersAreNonnullByDefault
 public class CheckBoxPreference extends TwoStatePreference {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
@@ -67,7 +64,7 @@ public class CheckBoxPreference extends TwoStatePreference {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
+    public void onBindViewHolder(final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         View checkboxView = holder.findViewById(android.R.id.checkbox);
@@ -101,10 +98,10 @@ public class CheckBoxPreference extends TwoStatePreference {
 //        View summaryView = view.findViewById(android.R.id.summary);
 //        syncSummaryView(summaryView);
 //    }
-
-    private void syncCheckboxView(@NonNull View view) {
-        if (view instanceof Checkable) {
-            ((Checkable) view).setChecked(mChecked);
-        }
-    }
+//
+//    private void syncCheckboxView(View view) {
+//        if (view instanceof Checkable) {
+//            ((Checkable) view).setChecked(mChecked);
+//        }
+//    }
 }

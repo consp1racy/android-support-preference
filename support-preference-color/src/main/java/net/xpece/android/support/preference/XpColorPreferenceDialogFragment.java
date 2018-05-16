@@ -57,8 +57,8 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     private ProgressBar mProgress;
 
     public static boolean onPreferenceDisplayDialog(
-            @NonNull final PreferenceFragmentCompat preferenceFragment,
-            @NonNull final android.support.v7.preference.Preference preference) {
+            final PreferenceFragmentCompat preferenceFragment,
+            final android.support.v7.preference.Preference preference) {
         if (preference instanceof ColorPreference) {
             final String key = preference.getKey();
             final DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);
@@ -72,7 +72,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     }
 
     @NonNull
-    public static XpColorPreferenceDialogFragment newInstance(@NonNull final String key) {
+    public static XpColorPreferenceDialogFragment newInstance(final String key) {
         XpColorPreferenceDialogFragment fragment = new XpColorPreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -99,7 +99,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
 
     @NonNull
     @Override
-    protected View onCreateDialogView(@NonNull final Context context) {
+    protected View onCreateDialogView(final Context context) {
         final ColorPreference colorPreference = requireColorPreference();
 
         @SuppressLint("InflateParams") final View view = LayoutInflater.from(context).inflate(R.layout.color_picker_dialog, null);
@@ -144,7 +144,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     }
 
     @Override
-    protected void onBindDialogView(@NonNull final View view) {
+    protected void onBindDialogView(final View view) {
         super.onBindDialogView(view);
     }
 
@@ -202,7 +202,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull final Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putIntArray(KEY_COLORS, mColors);
         outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);

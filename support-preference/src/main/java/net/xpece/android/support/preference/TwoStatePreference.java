@@ -32,14 +32,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Common base class for preferences that have two selectable states, persist a
  * boolean value in SharedPreferences, and may have dependent preferences that are
  * enabled/disabled based on the current state.
  */
-@ParametersAreNonnullByDefault
 public abstract class TwoStatePreference extends Preference {
 
     private CharSequence mSummaryOn;
@@ -202,6 +199,7 @@ public abstract class TwoStatePreference extends Preference {
 
     /**
      * Sync a summary holder contained within holder's subhierarchy with the correct summary text.
+     *
      * @param holder PreferenceViewHolder which holds a reference to the summary view
      */
     protected void syncSummaryView(PreferenceViewHolder holder) {
@@ -295,16 +293,16 @@ public abstract class TwoStatePreference extends Preference {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
-            new Parcelable.Creator<SavedState>() {
-                @NonNull
-                public SavedState createFromParcel(Parcel in) {
-                    return new SavedState(in);
-                }
+                new Parcelable.Creator<SavedState>() {
+                    @NonNull
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-                @NonNull
-                public SavedState[] newArray(int size) {
-                    return new SavedState[size];
-                }
-            };
+                    @NonNull
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

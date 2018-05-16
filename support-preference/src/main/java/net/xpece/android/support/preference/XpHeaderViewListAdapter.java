@@ -29,8 +29,6 @@ import android.widget.WrapperListAdapter;
 
 import java.util.ArrayList;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * ListAdapter used when a ListView has header views. This ListAdapter
  * wraps another one and also keeps track of the header views and their
@@ -38,7 +36,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * <p>This is intended as a base class; you will probably not need to
  * use this class directly in your own code.
  */
-@ParametersAreNonnullByDefault
 final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     private final ListAdapter mAdapter;
@@ -75,8 +72,8 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         }
 
         mAreAllFixedViewsSelectable =
-            areAllListInfosSelectable(mHeaderViewInfos)
-                && areAllListInfosSelectable(mFooterViewInfos);
+                areAllListInfosSelectable(mHeaderViewInfos)
+                        && areAllListInfosSelectable(mFooterViewInfos);
     }
 
     public int getHeadersCount() {
@@ -109,8 +106,8 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
                 mHeaderViewInfos.remove(i);
 
                 mAreAllFixedViewsSelectable =
-                    areAllListInfosSelectable(mHeaderViewInfos)
-                        && areAllListInfosSelectable(mFooterViewInfos);
+                        areAllListInfosSelectable(mHeaderViewInfos)
+                                && areAllListInfosSelectable(mFooterViewInfos);
 
                 return true;
             }
@@ -126,8 +123,8 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
                 mFooterViewInfos.remove(i);
 
                 mAreAllFixedViewsSelectable =
-                    areAllListInfosSelectable(mHeaderViewInfos)
-                        && areAllListInfosSelectable(mFooterViewInfos);
+                        areAllListInfosSelectable(mHeaderViewInfos)
+                                && areAllListInfosSelectable(mFooterViewInfos);
 
                 return true;
             }
@@ -286,13 +283,20 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
      * or a footer at the bottom.
      */
     public static class FixedViewInfo {
-        /** The view to add to the list */
+        /**
+         * The view to add to the list
+         */
         @SuppressWarnings("NullableProblems")
         @NonNull
         public View view;
-        /** The data backing the view. This is returned from {@link ListAdapter#getItem(int)}. */
-        @Nullable public Object data;
-        /** <code>true</code> if the fixed view should be selectable in the list */
+        /**
+         * The data backing the view. This is returned from {@link ListAdapter#getItem(int)}.
+         */
+        @Nullable
+        public Object data;
+        /**
+         * <code>true</code> if the fixed view should be selectable in the list
+         */
         public boolean isSelectable;
     }
 

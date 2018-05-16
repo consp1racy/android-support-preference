@@ -14,14 +14,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Created by Eugen on 26.03.2016.
  */
-@ParametersAreNonnullByDefault
 public abstract class XpPreferenceDialogFragment extends PreferenceDialogFragmentCompat {
 
     @NonNull
@@ -47,8 +44,8 @@ public abstract class XpPreferenceDialogFragment extends PreferenceDialogFragmen
             switch (style) {
                 case STYLE_NO_INPUT:
                     dialog.getWindow().addFlags(
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     // fall through...
                 case STYLE_NO_FRAME:
                 case STYLE_NO_TITLE:

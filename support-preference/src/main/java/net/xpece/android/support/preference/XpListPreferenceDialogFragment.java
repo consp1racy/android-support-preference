@@ -10,14 +10,11 @@ import android.widget.SpinnerAdapter;
 
 import net.xpece.android.support.widget.DropDownAdapter;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
 
 /**
  * @author Eugen on 28. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     int mClickedDialogEntryIndex;
 

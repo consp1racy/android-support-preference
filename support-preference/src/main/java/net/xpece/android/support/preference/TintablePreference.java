@@ -21,7 +21,6 @@ public interface TintablePreference {
      * mutate the drawable and apply the specified tint and tint mode.
      *
      * @param tint the tint to apply, may be {@code null} to clear tint
-     *
      * @see #getSupportIconTintList()
      */
     void setSupportIconTintList(@Nullable ColorStateList tint);
@@ -50,7 +49,7 @@ public interface TintablePreference {
      * drawable, if specified.
      *
      * @return the blending mode used to apply the tint to the icon
-     *         drawable
+     * drawable
      */
     @Nullable
     PorterDuff.Mode getSupportIconTintMode();

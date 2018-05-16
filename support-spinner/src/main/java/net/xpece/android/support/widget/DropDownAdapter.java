@@ -21,7 +21,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;

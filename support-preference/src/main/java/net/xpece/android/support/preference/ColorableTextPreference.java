@@ -4,12 +4,9 @@ import android.content.res.ColorStateList;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleRes;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Created by Eugen on 08.03.2016.
  */
-@ParametersAreNonnullByDefault
 public interface ColorableTextPreference {
     void setTitleTextColor(ColorStateList titleTextColor);
 

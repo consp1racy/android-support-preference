@@ -32,8 +32,6 @@ import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
  * The chosen ringtone's URI will be persisted as a string.
@@ -46,7 +44,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * <p/>
  * See https://code.google.com/p/android/issues/detail?id=183255.
  */
-@ParametersAreNonnullByDefault
 public class RingtonePreference extends DialogPreference {
     private static final String TAG = "RingtonePreference";
 

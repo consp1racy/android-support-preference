@@ -15,14 +15,11 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Created by Eugen on 14.12.2015.
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 @SuppressLint("PrivateApi")
-@ParametersAreNonnullByDefault
 public final class RingtoneManagerCompat extends RingtoneManager {
     private static final String TAG = RingtoneManagerCompat.class.getSimpleName();
 

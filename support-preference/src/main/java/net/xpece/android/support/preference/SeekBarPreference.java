@@ -41,9 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class SeekBarPreference extends Preference {
     static final String TAG = SeekBarPreference.class.getSimpleName();
 
@@ -375,7 +372,7 @@ public class SeekBarPreference extends Preference {
      * Sets the increment amount on the SeekBar for each arrow key press.
      *
      * @param seekBarIncrement The amount to increment or decrement when the user presses an
-     * arrow key.
+     *                         arrow key.
      */
     public final void setSeekBarIncrement(int seekBarIncrement) {
         if (seekBarIncrement != mSeekBarIncrement) {

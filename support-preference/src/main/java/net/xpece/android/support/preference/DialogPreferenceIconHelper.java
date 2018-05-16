@@ -14,12 +14,9 @@ import android.view.ContextThemeWrapper;
 
 import java.lang.ref.WeakReference;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * @author Eugen on 6. 12. 2015.
  */
-@ParametersAreNonnullByDefault
 public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     private final WeakReference<DialogPreference> mPreference;

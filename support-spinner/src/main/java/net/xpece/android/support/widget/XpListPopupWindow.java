@@ -14,7 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * @see android.support.v7.widget.ListPopupWindow
  * @see android.widget.ListPopupWindow
  */
-@ParametersAreNonnullByDefault
 public class XpListPopupWindow extends AbstractXpListPopupWindow {
     public XpListPopupWindow(final Context context) {
         super(context);

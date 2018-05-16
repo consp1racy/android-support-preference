@@ -39,7 +39,7 @@ public interface TintableDialogPreference {
      * drawable. The default mode is {@link PorterDuff.Mode#SRC_IN}.
      *
      * @param tintMode the blending mode used to apply the tint, may be
-     * {@code null} to clear tint
+     *                 {@code null} to clear tint
      * @see #getSupportDialogIconTintMode()
      */
     void setSupportDialogIconTintMode(@Nullable PorterDuff.Mode tintMode);

@@ -10,8 +10,6 @@ import android.support.annotation.StyleRes;
 import android.support.v7.preference.XpPreferenceFragment;
 import android.view.ContextThemeWrapper;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Utilities that help you extract activity theme and apply it onto a long-lived context
  * such as the application context. This will prevent activity leaks when you use retained
@@ -20,7 +18,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @see XpPreferenceFragment#onProvideCustomStyledContext()
  */
-@ParametersAreNonnullByDefault
 public final class StyledContextProvider {
     private StyledContextProvider() {
         throw new AssertionError();
