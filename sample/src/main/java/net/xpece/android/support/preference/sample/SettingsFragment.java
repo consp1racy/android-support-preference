@@ -130,7 +130,7 @@ public class SettingsFragment extends XpPreferenceFragment {
     @Override
     protected ContextThemeWrapper onProvideCustomStyledContext() {
         // Read the javadocs for instructions why and how to use this feature.
-        return StyledContextProvider.getThemedApplicationContext(requireActivity());
+        return StyledContextProvider.getThemedApplicationContext(getActivity());
     }
 
     @Override

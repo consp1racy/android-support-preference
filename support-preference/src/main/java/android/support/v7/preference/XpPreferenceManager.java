@@ -11,7 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Eugen on 6. 12. 2015.
@@ -32,7 +34,19 @@ public class XpPreferenceManager extends PreferenceManager {
         }
         METHOD_SET_NO_COMMIT = setNoCommit;
 
-        DEFAULT_PACKAGES = new String[]{"net.xpece.android.support.preference.", "android.support.v14.preference.", "android.support.v7.preference."};
+        final Set<String> defaultPackages = new HashSet<>();
+        defaultPackages.add(net.xpece.android.support.preference.Preference.class.getPackage().getName() + ".");
+        // Support the AndroidX relocated classes.
+        defaultPackages.add(android.support.v7.preference.Preference.class.getPackage().getName() + ".");
+        try {
+            defaultPackages.add(android.support.v14.preference.SwitchPreference.class.getPackage().getName() + ".");
+        } catch (NoClassDefFoundError ignore) {
+            // preference-v14 is an optional dependency; classes were merged in 27.0.0.
+        }
+        // For backwards compatibility. Someone may have put their classes in these packages.
+        defaultPackages.add("android.support.v7.preference.");
+        defaultPackages.add("android.support.v14.preference.");
+        DEFAULT_PACKAGES = defaultPackages.toArray(new String[defaultPackages.size()]);
     }
 
     private String[] mCustomDefaultPackages;
