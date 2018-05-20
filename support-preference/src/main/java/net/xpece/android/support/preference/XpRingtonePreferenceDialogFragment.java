@@ -472,6 +472,12 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         mHandler.postDelayed(this, delayMs);
     }
 
+    @NonNull
+    private <T> T checkNotNull(final @Nullable T thing, final @NonNull String name) {
+        if (thing == null) throw new IllegalStateException(name + " was null.");
+        return thing;
+    }
+
     public void run() {
         stopAnyPlayingRingtone();
         if (mSampleRingtonePos == mSilentPos) {
@@ -484,8 +490,9 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             if (mSampleRingtonePos == mDefaultRingtonePos) {
                 if (mDefaultRingtone == null) {
                     try {
+                        checkNotNull(mUriForDefaultItem, "mUriForDefaultItem");
                         mDefaultRingtone = RingtoneManager.getRingtone(getContext(), mUriForDefaultItem);
-                    } catch (SecurityException ex) {
+                    } catch (SecurityException | IllegalStateException ex) {
                         XpSupportPreferencePlugins.onError(ex, "Failed to create default Ringtone from " + mUriForDefaultItem + ".");
                     }
                 }
@@ -501,8 +508,9 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
             } else if (mSampleRingtonePos == mUnknownPos) {
                 if (mUnknownRingtone == null) {
                     try {
+                        checkNotNull(mExistingUri, "mExistingUri");
                         mUnknownRingtone = RingtoneManager.getRingtone(getContext(), mExistingUri);
-                    } catch (SecurityException ex) {
+                    } catch (SecurityException | IllegalStateException ex) {
                         XpSupportPreferencePlugins.onError(ex, "Failed to create unknown Ringtone from " + mExistingUri + ".");
                     }
                 }
