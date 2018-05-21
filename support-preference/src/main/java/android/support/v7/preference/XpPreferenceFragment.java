@@ -2,11 +2,15 @@ package android.support.v7.preference;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -131,7 +135,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
         if (customStyledContext != null) {
             styledContext = resolveStyledContext(customStyledContext);
-            setStyledContext(styledContext);
+            setStyledContext(ActivityAwareContext.wrapIfNecessary(styledContext, this));
         } else {
             if (getRetainInstance()) {
                 printActivityLeakWarning();
@@ -211,5 +215,64 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     public void onDestroy() {
         super.onDestroy();
         setPreferenceScreen(null);
+    }
+
+    /**
+     * This allows to start activities from application context without the
+     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} flag.
+     */
+    private static class ActivityAwareContext extends ContextWrapper {
+
+        /**
+         * If supplied context is derived from an activity it returns the supplied context.
+         * Otherwise {@code startActivity} calls will be routed to {@code fragment.getActivity()}.
+         * @param base A context.
+         * @param fragment A fragment for obtaining host activity.
+         * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
+         */
+        static Context wrapIfNecessary(final Context base, final Fragment fragment) {
+            for (Context i = base; i instanceof ContextWrapper; i = ((ContextWrapper) i).getBaseContext()) {
+                if (i instanceof Activity) return base;
+            }
+            return new ActivityAwareContext(base, fragment);
+        }
+
+        private final Fragment mFragment;
+
+        private ActivityAwareContext(final Context base, final Fragment fragment) {
+            super(base);
+            mFragment = fragment;
+        }
+
+        @NonNull
+        private FragmentActivity getActivity() {
+            final FragmentActivity activity = mFragment.getActivity();
+            if (activity == null) {
+                throw new IllegalStateException(mFragment + " is not attached to activity.");
+            }
+            return activity;
+        }
+
+        @Override
+        public void startActivities(final Intent[] intents) {
+            getActivity().startActivities(intents);
+        }
+
+        @Override
+        @RequiresApi(16)
+        public void startActivities(final Intent[] intents, @Nullable final Bundle options) {
+            getActivity().startActivities(intents, options);
+        }
+
+        @Override
+        public void startActivity(final Intent intent) {
+            getActivity().startActivity(intent);
+        }
+
+        @Override
+        @RequiresApi(16)
+        public void startActivity(final Intent intent, @Nullable final Bundle options) {
+            getActivity().startActivity(intent, options);
+        }
     }
 }
