@@ -1,9 +1,11 @@
-package android.support.v7.preference;
+package net.xpece.android.support.preference;
 
 import android.support.annotation.NonNull;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceGroup;
+import android.support.v7.preference.PreferenceGroupAdapter;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.view.ViewGroup;
-
-import net.xpece.android.support.preference.ColorableTextPreference;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

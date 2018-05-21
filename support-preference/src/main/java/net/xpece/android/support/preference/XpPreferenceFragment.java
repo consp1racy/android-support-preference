@@ -2,59 +2,267 @@ package net.xpece.android.support.preference;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.ContextWrapper;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 
-/**
- * Shows a hierarchy of {@link Preference} objects as
- * lists. These preferences will
- * automatically save to {@link SharedPreferences} as the user interacts with
- * them. To retrieve an instance of {@link SharedPreferences} that the
- * preference hierarchy in this fragment will use, call
- * {@link XpPreferenceManager#getDefaultSharedPreferences(Context)}
- * with a context in the same package as this fragment.
- * <p>
- * Furthermore, the preferences shown will follow the visual style of system
- * preferences. It is easy to create a hierarchy of preferences (that can be
- * shown on multiple screens) via XML. For these reasons, it is recommended to
- * use this fragment (as a superclass) to deal with preferences in applications.
- * <p>
- * A {@link PreferenceScreen} object should be at the top of the preference
- * hierarchy. Furthermore, subsequent {@link PreferenceScreen} in the hierarchy
- * denote a screen break--that is the preferences contained within subsequent
- * {@link PreferenceScreen} should be shown on another screen. The preference
- * framework handles this by calling {@link #onNavigateToScreen(PreferenceScreen)}.
- * <p>
- * The preference hierarchy can be formed in multiple ways:
- * <li> From an XML file specifying the hierarchy
- * <li> From different {@link Activity Activities} that each specify its own
- * preferences in an XML file via {@link Activity} meta-data
- * <li> From an object hierarchy rooted with {@link PreferenceScreen}
- * <p>
- * To inflate from XML, use the {@link #addPreferencesFromResource(int)}. The
- * root element should be a {@link PreferenceScreen}. Subsequent elements can point
- * to actual {@link Preference} subclasses. As mentioned above, subsequent
- * {@link PreferenceScreen} in the hierarchy will result in the screen break.
- * <p>
- * To specify an object hierarchy rooted with {@link PreferenceScreen}, use
- * {@link #setPreferenceScreen(PreferenceScreen)}.
- * <p>
- * As a convenience, this fragment implements a click listener for any
- * preference in the current hierarchy, see
- * {@link #onPreferenceTreeClick(Preference)}.
- *
- * <div class="special reference">
- * <h3>Developer Guides</h3>
- * <p>For information about using {@code PreferenceFragment},
- * read the <a href="{@docRoot}guide/topics/ui/settings.html">Settings</a>
- * guide.</p>
- * </div>
- *
- * @see Preference
- * @see PreferenceScreen
- */
-@SuppressWarnings("deprecation")
-public abstract class XpPreferenceFragment
-        extends android.support.v7.preference.XpPreferenceFragment {
+import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
+
+import java.lang.reflect.Field;
+
+public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
+    private static final String TAG = XpPreferenceFragment.class.getSimpleName();
+
+    public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
+
+    private static final Field FIELD_PREFERENCE_MANAGER;
+    private static final Field FIELD_STYLED_CONTEXT;
+
+    static {
+        Field f = null;
+        try {
+            f = PreferenceFragmentCompat.class.getDeclaredField("mPreferenceManager");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            XpSupportPreferencePlugins.onError(e, "mPreferenceManager not available.");
+        }
+        FIELD_PREFERENCE_MANAGER = f;
+
+        try {
+            f = PreferenceFragmentCompat.class.getDeclaredField("mStyledContext");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            XpSupportPreferencePlugins.onError(e, "mStyledContext not available.");
+        }
+        FIELD_STYLED_CONTEXT = f;
+    }
+
+    /**
+     * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
+     */
+    @NonNull
+    private Context resolveStyledContext(@NonNull final Context context) {
+        final int theme = StyledContextProvider.resolveResourceId(context, R.attr.preferenceTheme);
+        if (theme == 0) {
+            throw new IllegalStateException("Must specify preferenceTheme in theme");
+        }
+        return new ContextThemeWrapper(context, theme);
+    }
+
+    private void setStyledContext(@NonNull final Context context) {
+        try {
+            FIELD_STYLED_CONTEXT.set(this, context);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    private void setPreferenceManager(@NonNull final PreferenceManager manager) {
+        try {
+            FIELD_PREFERENCE_MANAGER.set(this, manager);
+        } catch (IllegalAccessException e) {
+            // This should never happen.
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @Nullable
+    public String[] getCustomDefaultPackages() {
+        return null;
+    }
+
+    private void printActivityLeakWarning() {
+        Log.w(TAG, "When using setRetainInstance(true) your Activity instance will leak on configuration change.");
+        Log.w(TAG, "Override onProvideCustomStyledContext() and provide a custom long-lived context.");
+        Log.w(TAG, "You can use methods in " + StyledContextProvider.class + " class.");
+    }
+
+    /**
+     * If you use retained fragment you won't have to re-inflate the preference hierarchy
+     * with each orientation change. On the other hand your original activity context will leak.
+     * <p>
+     * Use this method to provide your own themed long-lived context.
+     *
+     * @return Your own base styled context or {@code null} to use standard activity context.
+     * @see StyledContextProvider#getThemedApplicationContext(Activity)
+     * @see StyledContextProvider#getActivityThemeResource(Activity)
+     */
+    @Nullable
+    protected ContextThemeWrapper onProvideCustomStyledContext() {
+        return null;
+    }
+
+    @NonNull
+    private Context getStyledContext() {
+        return getPreferenceManager().getContext();
+    }
+
+    @Override
+    public final void onCreatePreferences(@Nullable final Bundle bundle, @Nullable final String s) {
+        onCreatePreferences1();
+        onCreatePreferences2(bundle, s);
+    }
+
+    void onCreatePreferences1() {
+        // Clear the original Preference Manager
+        PreferenceManager manager = getPreferenceManager();
+        manager.setOnNavigateToScreenListener(null);
+
+        final Context styledContext;
+        final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
+        if (customStyledContext != null) {
+            styledContext = resolveStyledContext(customStyledContext);
+            setStyledContext(ActivityAwareContext.wrapIfNecessary(styledContext, this));
+        } else {
+            if (getRetainInstance()) {
+                printActivityLeakWarning();
+            }
+            styledContext = getStyledContext();
+        }
+
+        // Setup custom Preference Manager
+        manager = new XpPreferenceManager(styledContext, getCustomDefaultPackages());
+        setPreferenceManager(manager);
+        manager.setOnNavigateToScreenListener(this);
+    }
+
+    public abstract void onCreatePreferences2(@Nullable final Bundle savedInstanceState, @Nullable final String rootKey);
+
+    @Override
+    public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
+        boolean handled = false;
+
+        // This has to be done first. Doubled call in super :(
+        if (this.getCallbackFragment() instanceof PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) {
+            handled = ((PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) this.getCallbackFragment()).onPreferenceDisplayDialog(this, preference);
+        }
+        if (!handled && this.getActivity() instanceof PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) {
+            handled = ((PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) this.getActivity()).onPreferenceDisplayDialog(this, preference);
+        }
+
+        // Handling custom preferences.
+        if (!handled) {
+            if (this.getFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
+                DialogFragment f;
+                if (preference instanceof EditTextPreference) {
+                    f = XpEditTextPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof ListPreference) {
+                    f = XpListPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof MultiSelectListPreference) {
+                    f = XpMultiSelectListPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof SeekBarDialogPreference) {
+                    f = XpSeekBarPreferenceDialogFragment.newInstance(preference.getKey());
+                } else if (preference instanceof RingtonePreference) {
+                    final RingtonePreference ringtonePreference = (RingtonePreference) preference;
+                    final Context context = ringtonePreference.getContext();
+                    final boolean canPlayDefault = ringtonePreference.canPlayDefaultRingtone(context);
+                    final boolean canShowSelectedTitle = ringtonePreference.canShowSelectedRingtoneTitle(context);
+                    if ((!canPlayDefault || !canShowSelectedTitle) &&
+                            ringtonePreference.getOnFailedToReadRingtoneListener() != null) {
+                        ringtonePreference.getOnFailedToReadRingtoneListener()
+                                .onFailedToReadRingtone(ringtonePreference, canPlayDefault, canShowSelectedTitle);
+                        return;
+                    } else {
+                        f = XpRingtonePreferenceDialogFragment.newInstance(preference.getKey());
+                    }
+                } else {
+                    super.onDisplayPreferenceDialog(preference);
+                    return;
+                }
+
+                f.setTargetFragment(this, 0);
+                f.show(this.getFragmentManager(), DIALOG_FRAGMENT_TAG);
+            }
+        }
+    }
+
+    @NonNull
+    @Override
+    protected RecyclerView.Adapter onCreateAdapter(@NonNull final PreferenceScreen preferenceScreen) {
+        return new XpPreferenceGroupAdapter(preferenceScreen);
+    }
+
+    @Nullable
+    @Override
+    public Fragment getCallbackFragment() {
+        return this;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        setPreferenceScreen(null);
+    }
+
+    /**
+     * This allows to start activities from application context without the
+     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} flag.
+     */
+    private static class ActivityAwareContext extends ContextWrapper {
+
+        /**
+         * If supplied context is derived from an activity it returns the supplied context.
+         * Otherwise {@code startActivity} calls will be routed to {@code fragment.getActivity()}.
+         * @param base A context.
+         * @param fragment A fragment for obtaining host activity.
+         * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
+         */
+        static Context wrapIfNecessary(final Context base, final Fragment fragment) {
+            for (Context i = base; i instanceof ContextWrapper; i = ((ContextWrapper) i).getBaseContext()) {
+                if (i instanceof Activity) return base;
+            }
+            return new ActivityAwareContext(base, fragment);
+        }
+
+        private final Fragment mFragment;
+
+        private ActivityAwareContext(final Context base, final Fragment fragment) {
+            super(base);
+            mFragment = fragment;
+        }
+
+        @NonNull
+        private FragmentActivity getActivity() {
+            final FragmentActivity activity = mFragment.getActivity();
+            if (activity == null) {
+                throw new IllegalStateException(mFragment + " is not attached to activity.");
+            }
+            return activity;
+        }
+
+        @Override
+        public void startActivities(final Intent[] intents) {
+            getActivity().startActivities(intents);
+        }
+
+        @Override
+        @RequiresApi(16)
+        public void startActivities(final Intent[] intents, @Nullable final Bundle options) {
+            getActivity().startActivities(intents, options);
+        }
+
+        @Override
+        public void startActivity(final Intent intent) {
+            getActivity().startActivity(intent);
+        }
+
+        @Override
+        @RequiresApi(16)
+        public void startActivity(final Intent intent, @Nullable final Bundle options) {
+            getActivity().startActivity(intent, options);
+        }
+    }
 }

@@ -25,7 +25,6 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
-import android.support.v7.preference.XpPreferenceCompat;
 import android.util.AttributeSet;
 
 import java.util.Collections;
@@ -141,7 +140,7 @@ public class MultiSelectListPreference extends DialogPreference {
         mValues.clear();
         mValues.addAll(values);
 
-        XpPreferenceCompat.persistStringSet(this, values);
+        XpPreference.persistStringSet(this, values);
     }
 
     /**
@@ -207,7 +206,7 @@ public class MultiSelectListPreference extends DialogPreference {
         // Values are never null here. Preference class code has checks against it.
         // We either restore value, and if not found it falls back to non-null mValues,
         // or we don't restore value and this method is only called when defaultValue is not null.
-        setValues(restoreValue ? XpPreferenceCompat.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
+        setValues(restoreValue ? XpPreference.getPersistedStringSet(this, mValues) : (Set<String>) defaultValue);
     }
 
     @Nullable

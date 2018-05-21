@@ -7,7 +7,6 @@ import android.support.annotation.AnyRes;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
-import android.support.v7.preference.XpPreferenceFragment;
 import android.view.ContextThemeWrapper;
 
 /**

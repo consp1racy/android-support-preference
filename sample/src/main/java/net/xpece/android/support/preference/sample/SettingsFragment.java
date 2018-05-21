@@ -11,7 +11,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -35,6 +34,7 @@ import net.xpece.android.support.preference.SafeRingtone;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.XpPreferenceFragment;
+import net.xpece.android.support.preference.XpPreferenceHelpers;
 import net.xpece.android.support.preference.XpSharedPreferences;
 
 import java.util.HashSet;

@@ -28,7 +28,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.preference.XpPreferenceFragment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
