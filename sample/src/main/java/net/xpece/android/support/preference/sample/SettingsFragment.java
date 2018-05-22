@@ -11,7 +11,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.XpPreferenceFragment;
 import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.EditTextPreference;
 import net.xpece.android.support.preference.ListPreference;
@@ -35,7 +33,9 @@ import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SafeRingtone;
 import net.xpece.android.support.preference.SeekBarPreference;
-import net.xpece.android.support.preference.SharedPreferencesCompat;
+import net.xpece.android.support.preference.StyledContextProvider;
+import net.xpece.android.support.preference.XpPreferenceFragment;
+import net.xpece.android.support.preference.XpSharedPreferences;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -247,7 +247,7 @@ public class SettingsFragment extends XpPreferenceFragment {
         // current value.
         final String key = preference.getKey();
         if (preference instanceof MultiSelectListPreference) {
-            Set<String> summary = SharedPreferencesCompat.getStringSet(
+            Set<String> summary = XpSharedPreferences.getStringSet(
                     PreferenceManager.getDefaultSharedPreferences(preference.getContext()),
                     key,
                     new HashSet<String>());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -16,8 +17,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Eugen on 6. 12. 2015.
+ * @deprecated This class will be moved to a different package. Use the public API in
+ * {@link net.xpece.android.support.preference.XpPreferenceManager}.
  */
+@Deprecated
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@SuppressWarnings("DeprecatedIsStillUsed")
 public class XpPreferenceManager extends PreferenceManager {
 
     private static final Method METHOD_SET_NO_COMMIT;
@@ -115,6 +120,7 @@ public class XpPreferenceManager extends PreferenceManager {
     public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         SharedPreferences defaultValueSp = context.getSharedPreferences(KEY_HAS_SET_DEFAULT_VALUES, 0);
         if (readAgain || !defaultValueSp.getBoolean(KEY_HAS_SET_DEFAULT_VALUES, false)) {
+            //noinspection deprecation
             XpPreferenceManager pm = new XpPreferenceManager(context, customDefaultPackages);
             pm.setSharedPreferencesName(sharedPreferencesName);
             pm.setSharedPreferencesMode(sharedPreferencesMode);

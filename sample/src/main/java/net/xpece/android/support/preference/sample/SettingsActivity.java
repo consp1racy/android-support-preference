@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.XpPreferenceManager;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,6 +27,7 @@ import android.widget.ViewSwitcher;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;
+import net.xpece.android.support.preference.XpPreferenceManager;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

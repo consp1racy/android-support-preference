@@ -31,9 +31,12 @@ import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 import java.lang.reflect.Field;
 
 /**
- * @author Eugen on 6. 12. 2015.
+ * @deprecated Use {@link net.xpece.android.support.preference.XpPreferenceFragment}
  */
+@Deprecated
+@SuppressWarnings("DeprecatedIsStillUsed")
 public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
+    @SuppressWarnings("deprecation")
     private static final String TAG = XpPreferenceFragment.class.getSimpleName();
 
     public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
@@ -144,6 +147,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
 
         // Setup custom Preference Manager
+        //noinspection deprecation
         manager = new XpPreferenceManager(styledContext, getCustomDefaultPackages());
         setPreferenceManager(manager);
         manager.setOnNavigateToScreenListener(this);

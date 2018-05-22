@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 
-import net.xpece.android.support.preference.SharedPreferencesCompat;
+import net.xpece.android.support.preference.MultiSelectListPreference;
+import net.xpece.android.support.preference.XpSharedPreferences;
 
 import java.util.Set;
 
@@ -18,10 +19,14 @@ import java.util.Set;
  * version of Android.
  * <p>
  * If your app never supported Android 2.x or you never used
- * {@link net.xpece.android.support.preference.MultiSelectListPreference} on Android 2.x
+ * {@link MultiSelectListPreference} on Android 2.x
  * you don't need these methods.
+ *
+ * @deprecated Use {@link net.xpece.android.support.preference.XpPreference}
  */
+@Deprecated
 @RestrictTo(RestrictTo.Scope.LIBRARY)
+@SuppressWarnings("DeprecatedIsStillUsed")
 public final class XpPreferenceCompat {
 
     public XpPreferenceCompat() {
@@ -32,7 +37,7 @@ public final class XpPreferenceCompat {
      * Attempts to persist a set of Strings to the {@link SharedPreferences}.
      * <p></p>
      * This will check if this Preference is persistent, get an editor from
-     * the {@link android.preference.PreferenceManager}, put in the strings,
+     * the {@link PreferenceManager}, put in the strings,
      * and check if we should commit (and commit if so).
      *
      * @param values The values to persist.
@@ -77,11 +82,11 @@ public final class XpPreferenceCompat {
      * {@link SharedPreferences}.
      * <p></p>
      * This will check if this Preference is persistent, get the SharedPreferences
-     * from the {@link android.preference.PreferenceManager}, and get the value.
+     * from the {@link PreferenceManager}, and get the value.
      *
      * @param defaultReturnValue The default value to return if either the
-     *                           Preference is not persistent or the Preference is not in the
-     *                           shared preferences.
+     * Preference is not persistent or the Preference is not in the
+     * shared preferences.
      * @return The value from the SharedPreferences or the default return
      * value.
      * @see #persistStringSet(Preference, Set)
@@ -97,7 +102,7 @@ public final class XpPreferenceCompat {
             return dataStore.getStringSet(preference.getKey(), defaultReturnValue);
         }
 
-        return SharedPreferencesCompat.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
+        return XpSharedPreferences.getStringSet(preference.getSharedPreferences(), preference.getKey(), defaultReturnValue);
     }
 
     private static void tryCommit(@NonNull Preference preference, @NonNull SharedPreferences.Editor editor) {

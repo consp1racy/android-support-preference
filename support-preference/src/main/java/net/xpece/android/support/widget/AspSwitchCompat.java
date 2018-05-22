@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package android.support.v7.widget;
+package net.xpece.android.support.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
 /**
  * Works around https://code.google.com/p/android/issues/detail?id=196652.
  */
-@Deprecated
 @RestrictTo(RestrictTo.Scope.GROUP_ID)
-public class AspSwitchCompat extends net.xpece.android.support.widget.AspSwitchCompat {
+public class AspSwitchCompat extends SwitchCompat {
+    private boolean isInSetChecked = false;
 
     public AspSwitchCompat(@NonNull Context context) {
         super(context);
@@ -39,5 +40,20 @@ public class AspSwitchCompat extends net.xpece.android.support.widget.AspSwitchC
 
     public AspSwitchCompat(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        isInSetChecked = true;
+        super.setChecked(checked);
+        isInSetChecked = false;
+    }
+
+    @Override
+    public boolean isShown() {
+        if (isInSetChecked) {
+            return getVisibility() == VISIBLE;
+        }
+        return super.isShown();
     }
 }
