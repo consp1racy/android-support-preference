@@ -23,9 +23,9 @@ import java.util.WeakHashMap;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Created by Eugen on 27.11.2016.
+ * @deprecated Use public API at {@link net.xpece.android.support.preference.XpPreferenceHelpers}.
  */
-
+@Deprecated
 @ParametersAreNonnullByDefault
 @SuppressWarnings("DeprecatedIsStillUsed")
 public final class XpPreferenceHelpers {
@@ -356,6 +356,7 @@ public final class XpPreferenceHelpers {
     public static void setDialogIcon(final DialogPreference preference, @DrawableRes final int icon) {
     }
 
+    @Nullable
     @SuppressWarnings("deprecation")
     public static Drawable getDialogIcon(final DialogPreference preference) {
         return getSupportDialogIcon(preference);
