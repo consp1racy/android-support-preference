@@ -33,6 +33,8 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
@@ -47,6 +49,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
  * <li>Uses material theme when displaying simple popup menu or simple dialog.</li>
  * </ul>
  */
+@ParametersAreNonnullByDefault
 @TargetApi(23)
 public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
     private static final String TAG = XpAppCompatSpinner.class.getSimpleName();

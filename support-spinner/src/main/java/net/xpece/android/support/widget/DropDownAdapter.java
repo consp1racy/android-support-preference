@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v7.widget.ThemedSpinnerAdapter;
@@ -21,6 +20,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @hide
  */
+@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;

@@ -19,6 +19,9 @@ import android.animation.TimeInterpolator;
 import android.support.annotation.RequiresApi;
 import android.view.animation.PathInterpolator;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 @RequiresApi(21)
 class TransitionConstants {
     static final TimeInterpolator LINEAR_OUT_SLOW_IN = new PathInterpolator(0, 0, 0.2f, 1);

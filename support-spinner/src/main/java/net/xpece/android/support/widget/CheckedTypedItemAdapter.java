@@ -34,6 +34,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * </ul>
  * Additionally checked items will be highlighted.
  */
+@ParametersAreNonnullByDefault
 public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements ThemedSpinnerAdapter {
 
     private static final int[] DISABLED_STATE_SET = {-android.R.attr.state_enabled};
