@@ -12,7 +12,6 @@ import android.preference.PreferenceActivity;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
@@ -101,7 +100,7 @@ public class Preference extends android.support.v7.preference.Preference
      * @see #Preference(Context, AttributeSet)
      */
     public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material);
     }
 
     /**

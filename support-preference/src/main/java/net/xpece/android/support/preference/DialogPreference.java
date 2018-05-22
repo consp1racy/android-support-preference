@@ -54,7 +54,7 @@ public abstract class DialogPreference extends android.support.v7.preference.Dia
     }
 
     public DialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference);
     }
 
     public DialogPreference(Context context, @Nullable AttributeSet attrs) {

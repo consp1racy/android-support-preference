@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PreferenceThemeOverlay.Material">
-        <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
-        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
+    <!-- @deprecated -->
+    <style name="PreferenceThemeOverlay.Material" parent="PreferenceThemeOverlay.Asp.Material"/>
+
+    <style name="PreferenceThemeOverlay.Asp"/>
+
+    <style name="PreferenceThemeOverlay.Asp.Material">
+        <item name="preferenceFragmentStyle">@style/PreferenceFragment.Asp</item>
+        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Asp.Material</item>
 
         <!-- Groups -->
-        <item name="preferenceCategoryStyle">@style/Preference.Material.Category</item>
-        <item name="preferenceInformationStyle">@style/Preference.Material.Information</item>
-        <item name="preferenceScreenStyle">@style/Preference.Material.PreferenceScreen</item>
+        <item name="preferenceCategoryStyle">@style/Preference.Asp.Material.Category</item>
+        <item name="preferenceInformationStyle">@style/Preference.Asp.Material.Information</item>
+        <item name="preferenceScreenStyle">@style/Preference.Asp.Material.PreferenceScreen</item>
 
         <!-- Standard Preferences -->
-        <item name="preferenceStyle">@style/Preference.Material</item>
-        <item name="checkBoxPreferenceStyle">@style/Preference.Material.CheckBoxPreference</item>
-        <item name="dialogPreferenceStyle">@style/Preference.Material.DialogPreference</item>
+        <item name="preferenceStyle">@style/Preference.Asp.Material</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Asp.Material.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Asp.Material.DialogPreference</item>
         <item name="editTextPreferenceStyle">
-            @style/Preference.Material.DialogPreference.EditTextPreference
+            @style/Preference.Asp.Material.DialogPreference.EditTextPreference
         </item>
-        <item name="switchPreferenceCompatStyle">@style/Preference.Material.SwitchPreferenceCompat
+        <item name="switchPreferenceCompatStyle">@style/Preference.Asp.Material.SwitchPreferenceCompat
         </item>
 
         <!-- Custom Preferences -->
         <item name="ringtonePreferenceStyle">
-            @style/Preference.Material.DialogPreference.RingtonePreference
+            @style/Preference.Asp.Material.DialogPreference.RingtonePreference
         </item>
-        <item name="seekBarPreferenceStyle">@style/Preference.Material.SeekBarPreference</item>
+        <item name="seekBarPreferenceStyle">@style/Preference.Asp.Material.SeekBarPreference</item>
         <item name="seekBarDialogPreferenceStyle">
-            @style/Preference.Material.DialogPreference.SeekBarDialogPreference
+            @style/Preference.Asp.Material.DialogPreference.SeekBarDialogPreference
         </item>
 
         <item name="listPreferenceStyle">
-            @style/Preference.Material.DialogPreference.ListPreference
+            @style/Preference.Asp.Material.DialogPreference.ListPreference
         </item>
         <item name="multiSelectListPreferenceStyle">
-            @style/Preference.Material.DialogPreference.MultiSelectListPreference
+            @style/Preference.Asp.Material.DialogPreference.MultiSelectListPreference
         </item>
 
         <!-- This will possibly be introduced by appcompat-v7 in the future. -->

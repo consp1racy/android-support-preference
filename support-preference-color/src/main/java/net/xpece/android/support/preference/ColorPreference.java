@@ -12,7 +12,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.preference.PreferenceViewHolder;
@@ -88,7 +87,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     public ColorPreference(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_ColorPreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_ColorPreference);
     }
 
     public ColorPreference(final Context context, @Nullable final AttributeSet attrs) {

@@ -40,7 +40,7 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_SeekBarDialogPreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_SeekBarDialogPreference);
     }
 
     public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs) {

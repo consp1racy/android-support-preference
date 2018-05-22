@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material" parent="Preference.Asp.Material"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.PreferenceScreen" parent="Preference.Asp.Material.PreferenceScreen"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.Information" parent="Preference.Asp.Material.Information"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.Category" parent="Preference.Asp.Material.Category"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.CheckBoxPreference" parent="Preference.Asp.Material.CheckBoxPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.SwitchPreferenceCompat" parent="Preference.Asp.Material.SwitchPreferenceCompat"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference" parent="Preference.Asp.Material.DialogPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.YesNoPreference" parent="Preference.Asp.Material.DialogPreference.YesNoPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.EditTextPreference" parent="Preference.Asp.Material.DialogPreference.EditTextPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.SeekBarDialogPreference" parent="Preference.Asp.Material.DialogPreference.SeekBarDialogPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.SeekBarPreference" parent="Preference.Asp.Material.SeekBarPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.MultiSelectListPreference" parent="Preference.Asp.Material.DialogPreference.MultiSelectListPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.ListPreference" parent="Preference.Asp.Material.DialogPreference.ListPreference"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu" parent="Preference.Asp.Material.DialogPreference.ListPreference.SimpleMenu"/>
+
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.RingtonePreference" parent="Preference.Asp.Material.DialogPreference.RingtonePreference"/>
+
+</resources>

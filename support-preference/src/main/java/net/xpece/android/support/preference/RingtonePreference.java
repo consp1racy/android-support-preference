@@ -59,7 +59,7 @@ public class RingtonePreference extends DialogPreference {
     }
 
     public RingtonePreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_RingtonePreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_RingtonePreference);
     }
 
     public RingtonePreference(Context context, @Nullable AttributeSet attrs) {

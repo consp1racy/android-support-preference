@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Preference.Material.DialogPreference.ColorPreference">
+    <!-- @deprecated -->
+    <style name="Preference.Material.DialogPreference.ColorPreference" parent="Preference.Asp.Material.DialogPreference.ColorPreference"/>
+
+    <style name="Preference.Asp.Material.DialogPreference.ColorPreference">
         <item name="android:widgetLayout">@layout/asp_preference_widget_image</item>
         <item name="android:positiveButtonText">@null</item>
         <item name="android:negativeButtonText">@null</item>

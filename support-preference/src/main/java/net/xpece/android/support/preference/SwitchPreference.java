@@ -73,7 +73,7 @@ public class SwitchPreference extends TwoStatePreference {
      *                     the view. Can be 0 to not look for defaults.
      */
     public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_SwitchPreferenceCompat);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_SwitchPreferenceCompat);
     }
 
     /**

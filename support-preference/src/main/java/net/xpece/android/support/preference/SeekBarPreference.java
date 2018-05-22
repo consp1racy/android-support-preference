@@ -163,7 +163,7 @@ public class SeekBarPreference extends Preference {
     }
 
     public SeekBarPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_SeekBarPreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_SeekBarPreference);
     }
 
     public SeekBarPreference(Context context, @Nullable AttributeSet attrs) {

@@ -1,32 +1,32 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="Preference.Material" parent="">
+    <style name="Preference.Asp.Material" parent="">
         <item name="android:layout">@layout/asp_preference</item>
         <item name="asp_tint">?asp_preferenceIconTint</item>
         <item name="asp_iconPaddingEnabled">true</item>
     </style>
 
-    <style name="Preference.Material.PreferenceScreen"/>
+    <style name="Preference.Asp.Material.PreferenceScreen"/>
 
-    <style name="Preference.Material.Information">
+    <style name="Preference.Asp.Material.Information">
         <!--<item name="android:layout">@layout/preference_information_material</item>-->
         <item name="android:layout">@layout/asp_preference</item>
         <item name="android:enabled">false</item>
         <item name="android:shouldDisableView">false</item>
     </style>
 
-    <style name="Preference.Material.Category">
+    <style name="Preference.Asp.Material.Category">
         <item name="android:layout">@layout/asp_preference_category</item>
         <!-- The title should not dim if the category is disabled, instead only the preference children should dim. -->
         <item name="android:shouldDisableView">false</item>
         <item name="android:selectable">false</item>
     </style>
 
-    <style name="Preference.Material.CheckBoxPreference">
+    <style name="Preference.Asp.Material.CheckBoxPreference">
         <item name="android:widgetLayout">@layout/asp_preference_widget_checkbox</item>
     </style>
 
-    <style name="Preference.Material.SwitchPreferenceCompat">
+    <style name="Preference.Asp.Material.SwitchPreferenceCompat">
         <item name="android:widgetLayout">@layout/asp_preference_widget_switch</item>
         <item name="android:textOn">@string/capital_on</item>
         <item name="android:textOff">@string/capital_off</item>
@@ -34,11 +34,11 @@
         <!--<item name="android:textOff">@null</item>-->
     </style>
 
-    <!--<style name="Preference.Material.SeekBarPreference">-->
+    <!--<style name="Preference.Asp.Material.SeekBarPreference">-->
     <!--<item name="android:layout">@layout/preference_widget_seekbar_material</item>-->
     <!--</style>-->
 
-    <style name="Preference.Material.DialogPreference">
+    <style name="Preference.Asp.Material.DialogPreference">
         <item name="android:positiveButtonText">@android:string/ok</item>
         <item name="android:negativeButtonText">@android:string/cancel</item>
 
@@ -46,30 +46,30 @@
         <item name="asp_dialogIconPaddingEnabled">true</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.YesNoPreference">
+    <style name="Preference.Asp.Material.DialogPreference.YesNoPreference">
         <item name="android:positiveButtonText">@android:string/yes</item>
         <item name="android:negativeButtonText">@android:string/no</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.EditTextPreference">
+    <style name="Preference.Asp.Material.DialogPreference.EditTextPreference">
         <item name="android:dialogLayout">@layout/asp_preference_dialog_edittext</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.SeekBarDialogPreference">
+    <style name="Preference.Asp.Material.DialogPreference.SeekBarDialogPreference">
         <item name="android:dialogLayout">@layout/asp_seekbar_dialog</item>
     </style>
 
-    <style name="Preference.Material.SeekBarPreference">
+    <style name="Preference.Asp.Material.SeekBarPreference">
         <item name="android:layout">@layout/asp_preference_seekbar</item>
         <!--<item name="asp_adjustable">true</item>-->
         <!--<item name="asp_showSeekBarValue">true</item>-->
         <item name="asp_infoAnchor">@android:id/summary</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.MultiSelectListPreference">
+    <style name="Preference.Asp.Material.DialogPreference.MultiSelectListPreference">
     </style>
 
-    <style name="Preference.Material.DialogPreference.ListPreference">
+    <style name="Preference.Asp.Material.DialogPreference.ListPreference">
         <item name="android:positiveButtonText">@null</item>
         <item name="android:negativeButtonText">@null</item>
         <item name="android:adjustViewBounds">true</item>
@@ -77,19 +77,19 @@
         <item name="asp_simpleMenuMaxWidth">fit_anchor</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.ListPreference.SimpleMenu">
+    <style name="Preference.Asp.Material.DialogPreference.ListPreference.SimpleMenu">
         <item name="asp_menuMode">simple_adaptive</item>
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
     </style>
 
-    <style name="Preference.Material.DialogPreference.RingtonePreference">
+    <style name="Preference.Asp.Material.DialogPreference.RingtonePreference">
         <item name="android:ringtoneType">ringtone</item>
         <item name="android:showSilent">true</item>
         <item name="android:showDefault">true</item>
     </style>
 
-    <style name="PreferenceFragmentList.Material" parent="">
+    <style name="PreferenceFragmentList.Asp.Material" parent="">
         <item name="android:background">?selectableItemBackground</item>
         <item name="paddingStart">0dp</item>
         <item name="paddingEnd">0dp</item>
@@ -97,11 +97,9 @@
         <!--<item name="android:paddingBottom">8dp</item>-->
     </style>
 
-    <!--<style name="TextAppearance.Material.Preference.Title" parent="TextAppearance.AppCompat.Subhead">-->
-    <!--</style>-->
-
-    <!--<style name="TextAppearance.Material.Preference.Summary" parent="TextAppearance.AppCompat.Body1">-->
-    <!--<item name="android:textColor">?android:textColorSecondary</item>-->
-    <!--</style>-->
-
+    <style name="PreferenceFragment.Asp">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:divider">?divider</item>
+    </style>
 </resources>

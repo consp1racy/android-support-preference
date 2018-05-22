@@ -53,7 +53,7 @@ public class EditTextPreference extends DialogPreference {
     }
 
     public EditTextPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.Preference_Material_DialogPreference_EditTextPreference);
+        this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_EditTextPreference);
     }
 
     public EditTextPreference(Context context, @Nullable AttributeSet attrs) {
