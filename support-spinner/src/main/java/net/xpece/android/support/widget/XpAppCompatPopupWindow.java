@@ -1,4 +1,4 @@
-package android.support.v7.widget;
+package net.xpece.android.support.widget;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
@@ -26,7 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressLint("PrivateApi")
-class XpAppCompatPopupWindow extends AppCompatPopupWindow {
+public class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     private static final String TAG = XpAppCompatPopupWindow.class.getSimpleName();
 
     private static final int ATTR_POPUP_ENTER_TRANSITION = 0x0101051f;

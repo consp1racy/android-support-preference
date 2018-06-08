@@ -57,6 +57,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import net.xpece.android.support.widget.XpAppCompatPopupWindow;
 import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Method;
