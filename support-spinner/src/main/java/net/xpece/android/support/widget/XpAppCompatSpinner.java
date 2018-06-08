@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import android.support.annotation.StyleRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AbstractXpAppCompatSpinner;
 import android.support.v7.widget.XpDropDownListView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -91,6 +91,21 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
 
     private OnClickListener mOnClickListener;
 
+    public static void setEntries(@NonNull final Spinner spinner, @ArrayRes final int entriesResId) {
+        final Context context = spinner.getContext();
+        final CharSequence[] entries = context.getResources().getTextArray(entriesResId);
+        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
+        adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    public static void setEntries(@NonNull final Spinner spinner, @NonNull final CharSequence[] entries) {
+        final Context context = spinner.getContext();
+        final CheckedTypedItemAdapter<CharSequence> adapter = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, entries);
+        adapter.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
     public XpAppCompatSpinner(@NonNull final Context context) {
         this(context, null);
     }
@@ -103,7 +118,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             @NonNull final Context context, @Nullable final AttributeSet attrs,
             @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, R.style.Widget_Asp_Spinner);
+        init(context, attrs, defStyleAttr,0);
     }
 
     private void init(
