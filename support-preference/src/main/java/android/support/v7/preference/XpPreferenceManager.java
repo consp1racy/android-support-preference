@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class XpPreferenceManager extends PreferenceManager {
         }
         METHOD_SET_NO_COMMIT = setNoCommit;
 
-        final Set<String> defaultPackages = new HashSet<>();
+        final Set<String> defaultPackages = new LinkedHashSet<>(); // Preserve order.
         defaultPackages.add(net.xpece.android.support.preference.Preference.class.getPackage().getName() + ".");
         // Support the AndroidX relocated classes.
         defaultPackages.add(android.support.v7.preference.Preference.class.getPackage().getName() + ".");
