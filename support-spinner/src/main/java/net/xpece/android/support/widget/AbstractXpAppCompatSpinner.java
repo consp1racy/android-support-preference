@@ -99,7 +99,11 @@ abstract class AbstractXpAppCompatSpinner extends AppCompatSpinner {
      */
     @Override
     public Context getPopupContext() {
-        return mPopupContext;
+        if (mPopupContext != null ) {
+            return mPopupContext;
+        } else {
+            return super.getPopupContext();
+        }
     }
 
     @Override
