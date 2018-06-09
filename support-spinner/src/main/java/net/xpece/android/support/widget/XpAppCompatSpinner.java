@@ -15,7 +15,6 @@ import android.support.annotation.StyleRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.XpDropDownListView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -118,7 +117,7 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
             @NonNull final Context context, @Nullable final AttributeSet attrs,
             @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr,0);
+        init(context, attrs, defStyleAttr, 0);
     }
 
     private void init(

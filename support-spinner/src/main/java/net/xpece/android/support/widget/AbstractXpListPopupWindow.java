@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.support.v7.widget;
+package net.xpece.android.support.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -38,6 +38,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ListViewCompat;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.view.menu.ShowableListMenu;
+import android.support.v7.widget.ForwardingListener;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
@@ -57,7 +58,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import net.xpece.android.support.widget.XpAppCompatPopupWindow;
 import net.xpece.android.support.widget.spinner.R;
 
 import java.lang.reflect.Method;
@@ -78,7 +78,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  */
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
-public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
+abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     private static final String TAG = AbstractXpListPopupWindow.class.getSimpleName();
     private static final boolean DEBUG = false;
 
@@ -952,7 +952,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     public void setOnItemClickListener(@Nullable AdapterView.OnItemClickListener clickListener) {
         mItemClickListener = clickListener;
-        final XpDropDownListView list = mDropDownList;
+        XpDropDownListView list = mDropDownList;
         if (list != null) {
             list.setOnItemClickListener(clickListener);
         }
@@ -1346,7 +1346,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     void setSelection(int position, int offsetY) {
         final XpDropDownListView list = mDropDownList;
         if (isShowing() && list != null) {
-            list.setListSelectionHidden(false);
+//            list.setListSelectionHidden(false);
             setSelectionOverAnchor(list, position, offsetY);
 
             if (list.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
@@ -1540,8 +1540,8 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         final XpDropDownListView list = mDropDownList;
         if (list != null) {
             // WARNING: Please read the comment where mListSelectionHidden is declared
-            list.setListSelectionHidden(true);
-            //list.hideSelector();
+//            list.setListSelectionHidden(true);
+//            list.hideSelector();
             list.requestLayout();
         }
     }
@@ -1642,7 +1642,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
 
     @NonNull
     XpDropDownListView createDropDownListView(@NonNull final Context context, final boolean hijackFocus) {
-        final XpDropDownListView listView = new XpDropDownListView(context, hijackFocus);
+        final XpDropDownListView listView = new XpDropDownListView(context);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         return listView;
     }
@@ -1655,158 +1655,6 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     void setListItemExpandMax(int max) {
         mListItemExpandMaximum = max;
-    }
-
-    /**
-     * Filter key down events. By forwarding key down events to this function,
-     * views using non-modal ListPopupWindow can have it handle key selection of items.
-     *
-     * @param keyCode keyCode param passed to the host view's onKeyDown
-     * @param event event param passed to the host view's onKeyDown
-     * @return true if the event was handled, false if it was ignored.
-     * @see #setModal(boolean)
-     * @see #onKeyUp(int, KeyEvent)
-     */
-    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
-        // when the drop down is shown, we drive it directly
-        if (isShowing()) {
-            // the key events are forwarded to the list in the drop down view
-            // note that ListView handles space but we don't want that to happen
-            // also if selection is not currently in the drop down, then don't
-            // let center or enter presses go there since that would cause it
-            // to select one of its items
-            if (keyCode != KeyEvent.KEYCODE_SPACE
-                    && (mDropDownList.getSelectedItemPosition() >= 0
-                    || !isConfirmKey(keyCode))) {
-                int curIndex = mDropDownList.getSelectedItemPosition();
-                boolean consumed;
-
-                final boolean below = !mPopup.isAboveAnchor();
-
-                final ListAdapter adapter = mAdapter;
-
-                boolean allEnabled;
-                int firstItem = Integer.MAX_VALUE;
-                int lastItem = Integer.MIN_VALUE;
-
-                if (adapter != null) {
-                    allEnabled = adapter.areAllItemsEnabled();
-                    firstItem = allEnabled ? 0 :
-                            mDropDownList.lookForSelectablePosition(0, true);
-                    lastItem = allEnabled ? adapter.getCount() - 1 :
-                            mDropDownList.lookForSelectablePosition(adapter.getCount() - 1, false);
-                }
-
-                if ((below && keyCode == KeyEvent.KEYCODE_DPAD_UP && curIndex <= firstItem) ||
-                        (!below && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && curIndex >= lastItem)) {
-                    // When the selection is at the top, we block the key
-                    // event to prevent focus from moving.
-                    clearListSelection();
-                    mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-                    show();
-                    return true;
-                } else {
-                    // WARNING: Please read the comment where mListSelectionHidden
-                    //          is declared
-                    mDropDownList.setListSelectionHidden(false);
-                }
-
-                consumed = mDropDownList.onKeyDown(keyCode, event);
-                if (DEBUG) Log.v(TAG, "Key down: code=" + keyCode + " list consumed=" + consumed);
-
-                if (consumed) {
-                    // If it handled the key event, then the user is
-                    // navigating in the list, so we should put it in front.
-                    mPopup.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
-                    // Here's a little trick we need to do to make sure that
-                    // the list view is actually showing its focus indicator,
-                    // by ensuring it has focus and getting its window out
-                    // of touch mode.
-                    mDropDownList.requestFocusFromTouch();
-                    show();
-
-                    switch (keyCode) {
-                        // avoid passing the focus from the text view to the
-                        // next component
-                        case KeyEvent.KEYCODE_ENTER:
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_DPAD_DOWN:
-                        case KeyEvent.KEYCODE_DPAD_UP:
-                            return true;
-                    }
-                } else {
-                    if (below && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                        // when the selection is at the bottom, we block the
-                        // event to avoid going to the next focusable widget
-                        if (curIndex == lastItem) {
-                            return true;
-                        }
-                    } else if (!below && keyCode == KeyEvent.KEYCODE_DPAD_UP &&
-                            curIndex == firstItem) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Filter key down events. By forwarding key up events to this function,
-     * views using non-modal ListPopupWindow can have it handle key selection of items.
-     *
-     * @param keyCode keyCode param passed to the host view's onKeyUp
-     * @param event event param passed to the host view's onKeyUp
-     * @return true if the event was handled, false if it was ignored.
-     * @see #setModal(boolean)
-     */
-    public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
-        if (isShowing() && mDropDownList.getSelectedItemPosition() >= 0) {
-            boolean consumed = mDropDownList.onKeyUp(keyCode, event);
-            if (consumed && isConfirmKey(keyCode)) {
-                // if the list accepts the key events and the key event was a click, the text view
-                // gets the selected item from the drop down as its content
-                dismiss();
-            }
-            return consumed;
-        }
-        return false;
-    }
-
-    /**
-     * Filter pre-IME key events. By forwarding {@link View#onKeyPreIme(int, KeyEvent)}
-     * events to this function, views using ListPopupWindow can have it dismiss the popup
-     * when the back key is pressed.
-     *
-     * @param keyCode keyCode param passed to the host view's onKeyPreIme
-     * @param event event param passed to the host view's onKeyPreIme
-     * @return true if the event was handled, false if it was ignored.
-     * @see #setModal(boolean)
-     */
-    public boolean onKeyPreIme(int keyCode, @NonNull KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && isShowing()) {
-            // special case for the back key, we do not even try to send it
-            // to the drop down list but instead, consume it immediately
-            final View anchorView = mDropDownAnchorView;
-            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
-                KeyEvent.DispatcherState state = anchorView.getKeyDispatcherState();
-                if (state != null) {
-                    state.startTracking(event, this);
-                }
-                return true;
-            } else if (event.getAction() == KeyEvent.ACTION_UP) {
-                KeyEvent.DispatcherState state = anchorView.getKeyDispatcherState();
-                if (state != null) {
-                    state.handleUpEvent(event);
-                }
-                if (event.isTracking() && !event.isCanceled()) {
-                    dismiss();
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -1890,7 +1738,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
                         XpDropDownListView dropDownList = mDropDownList;
 
                         if (dropDownList != null) {
-                            dropDownList.setListSelectionHidden(false);
+//                            dropDownList.setListSelectionHidden(false);
                         }
                     }
                 }

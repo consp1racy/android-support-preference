@@ -2,7 +2,6 @@ package net.xpece.android.support.widget;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.RestrictTo;
-import android.support.v7.widget.AbstractXpListPopupWindow;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

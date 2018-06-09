@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.AttrRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
-import android.support.v7.widget.AbstractXpListPopupWindow;
 import android.util.AttributeSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;

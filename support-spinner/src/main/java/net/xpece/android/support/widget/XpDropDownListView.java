@@ -1,4 +1,4 @@
-package android.support.v7.widget;
+package net.xpece.android.support.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,11 +11,13 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import net.xpece.android.support.widget.spinner.R;
 
 @SuppressLint("ViewConstructor")
-public final class XpDropDownListView extends DropDownListView {
+final class XpDropDownListView extends ListView {
+    public static final int NO_POSITION = -1;
 
     private static final int[] ATTRS = new int[]{android.R.attr.clipToPadding};
 
@@ -30,8 +32,9 @@ public final class XpDropDownListView extends DropDownListView {
      *
      * @param context this view's context
      */
-    XpDropDownListView(@NonNull final Context context, final boolean hijackFocus) {
-        super(context, hijackFocus);
+    XpDropDownListView(@NonNull final Context context) {
+        super(context, null, R.attr.dropDownListViewStyle);
+        setCacheColorHint(0); // Transparent, since the background drawable could be anything.
 
         if (Build.VERSION.SDK_INT < 21) {
             // For the love of god clipToPadding just cannot be read on the first try on Android 4.
