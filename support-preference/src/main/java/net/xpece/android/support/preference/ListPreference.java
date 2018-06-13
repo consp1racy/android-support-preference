@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StyleRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
@@ -252,7 +253,6 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuMaxItemCount = simpleMenuMaxItemCount;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private boolean showAsPopup(final View anchor, final boolean force) {
         if (getEntries() == null || getEntryValues() == null) {
             throw new IllegalStateException("ListPreference requires an entries array and an entryValues array.");
@@ -334,8 +334,10 @@ public class ListPreference extends DialogPreference {
         final ListView list = popup.getListView();
         assert list != null;
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        list.setTextAlignment(anchor.getTextAlignment());
-        list.setTextDirection(anchor.getTextDirection());
+        if (Build.VERSION.SDK_INT >= 17) {
+            list.setTextAlignment(anchor.getTextAlignment());
+            list.setTextDirection(anchor.getTextDirection());
+        }
 
         popup.setSelection(position);
 
