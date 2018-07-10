@@ -32,7 +32,7 @@ public class PreferenceIconHelper {
     protected Drawable mIconInternal;
     protected Drawable mIcon;
 
-    protected TintInfo mTintInfo = null;
+    TintInfo mTintInfo = null;
 
     protected boolean mIconTintEnabled = false;
     protected boolean mIconPaddingEnabled = false;
