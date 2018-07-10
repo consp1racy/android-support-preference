@@ -39,6 +39,10 @@ android {
     }
 }
 
+configurations {
+    metalava
+}
+
 dependencies {
     compileOnly "com.android.support:support-annotations:$supportLibVersionAnnotations"
 
@@ -46,6 +50,16 @@ dependencies {
     api "com.android.support:preference-v7:$supportLibVersion"
 
     implementation project(':support-spinner')
+
+    // Metalava isn't released yet. Check in its jar and explicitly track its transitive deps.
+    metalava rootProject.files('metalava.jar')
+    metalava 'com.android.tools.external.org-jetbrains:uast:26.2.0-alpha16'
+    metalava 'com.android.tools.external.com-intellij:intellij-core:26.2.0-alpha16'
+    metalava 'com.android.tools.lint:lint-api:26.2.0-alpha16'
+    metalava 'com.android.tools.lint:lint-checks:26.2.0-alpha16'
+    metalava 'com.android.tools.lint:lint-gradle:26.2.0-alpha16'
+    metalava 'com.android.tools.lint:lint:26.2.0-alpha16'
+    metalava 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.41'
 }
 
 repositories {
@@ -65,3 +79,74 @@ group = rootProject.GROUP_ID
 version = rootProject.VERSION_NAME
 
 apply from: rootProject.file('android-release.gradle')
+
+import com.android.build.gradle.api.BaseVariant
+
+def variantClasspath(BaseVariant variant) {
+    return (android.bootClasspath + variant.compileConfiguration.incoming.artifactView { config ->
+        config.attributes { container ->
+            container.attribute(Attribute.of("artifactType", String.class), "jar")
+        }
+    }.artifacts.artifacts.collect {
+        if (it.file.name == "full.jar") {
+            new File(it.file.parentFile, "classes.jar")
+        } else {
+            it.file
+        }
+    }).join(File.pathSeparator)
+}
+
+android.libraryVariants.all { variant ->
+    // TODO eliminate variants https://issuetracker.google.com/issues/62201427
+    if (variant.buildType.isDebuggable()) {
+        return
+    }
+
+    task updateApi(type: JavaExec) {
+        inputs.dir('src/main/java')
+        outputs.file('api/current.txt')
+
+        classpath = configurations.metalava
+        main = 'com.android.tools.metalava.Driver'
+
+        doFirst {
+            args = [
+                '--no-banner',
+                '--source-path', 'src/main/java',
+                '--compatible-output=no',
+                '--omit-common-packages=yes',
+                '--output-kotlin-nulls=yes',
+                '--hide', 'HiddenSuperclass',
+                '--hide', 'DeprecationMismatch',
+                '--classpath', variantClasspath(variant),
+                '--api', 'api/current.txt'
+            ]
+        }
+    }
+
+    task checkApi(type: JavaExec) {
+        inputs.file('api/current.txt')
+        inputs.dir('src/main/java')
+        outputs.file('api/current.txt')
+
+        classpath = configurations.metalava
+        main = 'com.android.tools.metalava.Driver'
+
+        doFirst {
+            args = [
+                '--no-banner',
+                '--source-path', 'src/main/java',
+                '--compatible-output=no',
+                '--omit-common-packages=yes',
+                '--output-kotlin-nulls=yes',
+                '--input-kotlin-nulls=yes',
+                '--hide', 'HiddenSuperclass',
+                '--hide', 'DeprecationMismatch',
+                '--classpath', variantClasspath(variant),
+                '--check-compatibility',
+                '--previous-api', 'api/current.txt'
+            ]
+        }
+    }
+    check.dependsOn checkApi
+}
