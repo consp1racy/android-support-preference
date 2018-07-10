@@ -140,5 +140,5 @@ android.libraryVariants.all { variant ->
             ]
         }
     }
-    check.dependsOn checkApi
+//    check.dependsOn checkApi
 }
