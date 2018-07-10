@@ -451,7 +451,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         mLayoutDirection = TextUtilsCompat.getLayoutDirectionFromLocale(locale);
 
         // Margin is the space reserved for shadow.
-        int defaultMargin = Util.dpToPxOffset(context, 8);
+        int defaultMargin = XpSpinnerUtil.dpToPxOffset(context, 8);
         if (b.hasValue(R.styleable.XpListPopupWindow_android_layout_margin)) {
             int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_margin, defaultMargin);
             mMargins.bottom = margin;
@@ -1522,7 +1522,7 @@ public abstract class AbstractXpListPopupWindow implements ShowableListMenu {
         if (selectedItemHeight >= 0 && beforeSelectedItemHeight >= 0) {
             offset = -(beforeSelectedItemHeight + (viewHeightAdjustedHalf - selectedItemHeight / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         } else {
-            final int height = Util.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
+            final int height = XpSpinnerUtil.resolveDimensionPixelSize(context, R.attr.dropdownListPreferredItemHeight, 0);
             offset = -(height * (position + 1) + (viewHeightAdjustedHalf - height / 2) + dropDownListViewPaddingTop + backgroundPaddingTop);
         }
 

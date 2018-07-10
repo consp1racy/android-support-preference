@@ -13,14 +13,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
- * Created by Eugen on 13. 5. 2015.
- *
  * @hide
  */
 @ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
-final class Util {
+final class XpSpinnerUtil {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
         @Override
         protected int[] initialValue() {
@@ -33,7 +31,7 @@ final class Util {
         return TEMP_ARRAY.get();
     }
 
-    private Util() {
+    private XpSpinnerUtil() {
         throw new AssertionError();
     }
 

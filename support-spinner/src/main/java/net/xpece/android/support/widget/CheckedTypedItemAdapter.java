@@ -217,7 +217,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
 
     @NonNull
     private Drawable createCheckedBackgroundDrawable(Context context) {
-        final int highlight = Util.resolveColor(context, R.attr.colorControlHighlight, 0);
+        final int highlight = XpSpinnerUtil.resolveColor(context, R.attr.colorControlHighlight, 0);
         final int[][] states = new int[4][];
         final Drawable[] drawables = new Drawable[4];
         int i = 0;

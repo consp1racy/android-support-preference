@@ -1,5 +1,6 @@
 package android.support.v7.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AttrRes;
@@ -12,10 +13,15 @@ import android.util.TypedValue;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static android.support.annotation.Dimension.DP;
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
+/**
+ * @hide
+ */
 @ParametersAreNonnullByDefault
-@RestrictTo(RestrictTo.Scope.LIBRARY)
-final class Util {
+@RestrictTo(LIBRARY)
+@SuppressLint("RestrictedApi")
+final class XpSpinnerUtil {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {
         @Override
         protected int[] initialValue() {
@@ -23,7 +29,7 @@ final class Util {
         }
     };
 
-    private Util() {
+    private XpSpinnerUtil() {
         throw new AssertionError();
     }
 
