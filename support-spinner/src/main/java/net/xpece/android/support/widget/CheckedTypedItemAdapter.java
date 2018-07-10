@@ -118,13 +118,14 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         return view;
     }
 
+    @Nullable
     @Override
     public Resources.Theme getDropDownViewTheme() {
         return mDropDownHelper.getDropDownViewTheme();
     }
 
     @Override
-    public void setDropDownViewTheme(final Resources.Theme theme) {
+    public void setDropDownViewTheme(@Nullable final Resources.Theme theme) {
         mDropDownHelper.setDropDownViewTheme(theme);
     }
 

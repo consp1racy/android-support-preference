@@ -17,6 +17,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static android.support.annotation.Dimension.DP;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
+/**
+ * @hide
+ */
 @ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
