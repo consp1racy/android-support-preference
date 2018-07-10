@@ -143,6 +143,13 @@ android.libraryVariants.all { variant ->
                 '--input-kotlin-nulls=yes',
                 '--hide', 'HiddenSuperclass',
                 '--hide', 'DeprecationMismatch',
+                '--hide', 'AddedPackage',
+                '--hide', 'AddedClass',
+                '--hide', 'AddedMethod',
+//                '--hide', 'ChangedDeprecated',
+//                '--hide', 'ChangedAbstract',
+//                '--hide', 'ChangedValue',
+//                '--hide', 'InvalidNullConversion', //@ParametersAreNonNullByDefault is unsupported.
                 '--classpath', variantClasspath(variant),
                 '--check-compatibility',
                 '--previous-api', 'api/current.txt'
