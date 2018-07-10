@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -21,7 +20,6 @@ import java.util.Set;
  * {@link net.xpece.android.support.preference.XpPreferenceManager}.
  */
 @Deprecated
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @SuppressWarnings("DeprecatedIsStillUsed")
 public class XpPreferenceManager extends PreferenceManager {
 
