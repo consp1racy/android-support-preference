@@ -28,6 +28,7 @@ import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
+import android.widget.CompoundButton;
 
 /**
  * A {@link Preference} that provides checkbox widget
@@ -36,6 +37,8 @@ import android.widget.Checkable;
  * This preference will store a boolean into the SharedPreferences.
  */
 public class CheckBoxPreference extends TwoStatePreference {
+    private final Listener mListener = new Listener();
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -65,15 +68,7 @@ public class CheckBoxPreference extends TwoStatePreference {
     @Override
     public void onBindViewHolder(final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-
-        View checkboxView = holder.findViewById(android.R.id.checkbox);
-        if (checkboxView == null) {
-            checkboxView = holder.findViewById(R.id.checkbox);
-        }
-        if (checkboxView instanceof Checkable) {
-            ((Checkable) checkboxView).setChecked(mChecked);
-        }
-
+        syncCheckboxView(holder);
         syncSummaryView(holder);
     }
 
@@ -97,10 +92,40 @@ public class CheckBoxPreference extends TwoStatePreference {
 //        View summaryView = view.findViewById(android.R.id.summary);
 //        syncSummaryView(summaryView);
 //    }
-//
-//    private void syncCheckboxView(View view) {
-//        if (view instanceof Checkable) {
-//            ((Checkable) view).setChecked(mChecked);
-//        }
-//    }
+
+    private void syncCheckboxView(final PreferenceViewHolder holder) {
+        View checkboxView = holder.findViewById(android.R.id.checkbox);
+        if (checkboxView == null) {
+            checkboxView = holder.findViewById(R.id.checkbox);
+        }
+        syncCheckboxView(checkboxView);
+    }
+
+    private void syncCheckboxView(View view) {
+        if (view instanceof CompoundButton) {
+            ((CompoundButton) view).setOnCheckedChangeListener(null);
+        }
+        if (view instanceof Checkable) {
+            ((Checkable) view).setChecked(mChecked);
+        }
+        if (view instanceof CompoundButton) {
+            ((CompoundButton) view).setOnCheckedChangeListener(mListener);
+        }
+    }
+
+    private class Listener implements CompoundButton.OnCheckedChangeListener {
+        Listener() {
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (!callChangeListener(isChecked)) {
+                // Listener didn't like it, change it back.
+                // CompoundButton will make sure we don't recurse.
+                buttonView.setChecked(!isChecked);
+                return;
+            }
+            CheckBoxPreference.this.setChecked(isChecked);
+        }
+    }
 }
