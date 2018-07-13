@@ -1,6 +1,9 @@
 # Change log
 
 **2.3.0** 2018-05-XX
+
+**Support Preference**
+
 - *FIXED:* Properly disable long click listener so a selector doesn't appear on passive items.
 - *FIXED:* SeekBarPreference now properly registers and unregisters its key listener.
 - *FIXED:* SeekBarPreference info text view no longer leaks the activity context.
@@ -12,22 +15,28 @@
 - *FIXED:* The library is now compatible with Android P preview.
   - RingtonePreference dialog shows ringtones.
   - XpAppCompatSpinner doesn't crash.
-- *FIXED:* Revised logic for sizing and positioning of popup windows. See behavior changes.
-  Popups should now correctly show when not using ListPreference or underlined Spinner.
-- *FIXED:* Drop down indicator now has consistent position in plain and underlined Spinner. 
-  See behavior changes.
+- *FIXED:* `SeekBarPreference` now treats null default value as zero.
+- *FIXED:* `TwoStatePreference` now treats null default value as false.
+- *FIXED:* `CheckBoxPreference` now correctly reverts check box state if preference change listener returned false.
 - *NEW!* New API for using a long-lived themed context with the preference fragment.
   - This will prevent memory leaks when using retained preference fragments. Retained fragments
   don't reinflate the preference hierarchy on each configuration change which prevents jank.
   - Override `XpPreferenceFragment#onProvideCustomStyledContext` and return an application context
     with an activity theme overlay. Use utility methods in the `StyledContextProvider` class.
 
+**Support Spinner**
+
+- *FIXED:* Revised logic for sizing and positioning of popup windows. See behavior changes.
+  Popups should now correctly show when not using ListPreference or underlined Spinner.
+- *FIXED:* Drop down indicator now has consistent position in plain and underlined Spinner. 
+  See behavior changes.
+
 **API Changes**
 
 * While binary compatibility is maintained, nullability annotations were added *everywhere*.
-* Removed long deprecated `ReplaceRoot` screen replacement strategy.
 
 **Behavior Changes**
+
 * Popup grow animation has been replaced with Material fade in animation on Android 4.
   This looks better since the popup and selected item are now displayed precisely over
   the emitting view. If you want the previous behavior put this code in your `styles.xml`:
