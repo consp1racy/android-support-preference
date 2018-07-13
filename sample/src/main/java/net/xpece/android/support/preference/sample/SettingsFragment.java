@@ -33,11 +33,13 @@ import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SafeRingtone;
 import net.xpece.android.support.preference.SeekBarPreference;
 import net.xpece.android.support.preference.StyledContextProvider;
+import net.xpece.android.support.preference.TwoStatePreference;
 import net.xpece.android.support.preference.XpPreferenceFragment;
 import net.xpece.android.support.preference.XpPreferenceHelpers;
 import net.xpece.android.support.preference.XpSharedPreferences;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -98,7 +100,13 @@ public class SettingsFragment extends XpPreferenceFragment {
                         ringtone.stop();
                     }
                 }
-
+            } else if (preference instanceof TwoStatePreference){
+                // Fail 50% of the time.
+                final boolean success = new Random().nextBoolean();
+                if (!success) {
+                    Toast.makeText(preference.getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                }
+                return success;
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
@@ -172,6 +180,11 @@ public class SettingsFragment extends XpPreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         bindPreferenceSummaryToValue(findPreference("notif_content"));
         bindPreferenceSummaryToValue(findPreference("notif_color"));
+
+        // Test checked state restoration.
+        findPreference("example_checkbox").setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        findPreference("notifications_new_message").setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        findPreference("notifications_new_message_vibrate").setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
         // Setup SeekBarPreference "info" text field.
         final SeekBarPreference volume2 = (SeekBarPreference) findPreference("notifications_new_message_volume2");

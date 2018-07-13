@@ -4,6 +4,7 @@
     <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus tincidunt nisi nec finibus.</string>
     <string name="github">GitHub</string>
     <string name="reset">Reset</string>
+    <string name="try_again">Try again</string>
 
     <string-array name="colors_material_names">
         <item>Red</item>

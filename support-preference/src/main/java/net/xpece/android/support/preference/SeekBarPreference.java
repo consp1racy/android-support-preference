@@ -320,6 +320,9 @@ public class SeekBarPreference extends Preference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        if (defaultValue == null) {
+            defaultValue = 0;
+        }
         setValue(restoreValue ? getPersistedInt(mSeekBarValue) : (Integer) defaultValue);
     }
 
