@@ -69,14 +69,21 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
+    @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        this.mEditText = view.findViewById(android.R.id.edit);
-        if (this.mEditText == null) {
-            throw new IllegalStateException("Dialog view must contain an EditText with id @android:id/edit");
-        } else {
-            this.mEditText.setText(this.requireEditTextPreference().getText());
+
+        mEditText = view.findViewById(android.R.id.edit);
+        mEditText.requestFocus();
+
+        if (mEditText == null) {
+            throw new IllegalStateException("Dialog view must contain an EditText with id" +
+                    " @android:id/edit");
         }
+
+        mEditText.setText(requireEditTextPreference().getText());
+        // Place cursor at the end
+        mEditText.setSelection(mEditText.getText().length());
     }
 
     @Nullable
