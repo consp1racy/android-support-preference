@@ -45,7 +45,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
             EditTextPreference preference = this.requireEditTextPreference();
             editText = preference.createEditText(context);
         }
-        ViewParent oldParent = editText.getParent();
+        final ViewParent oldParent = editText.getParent();
         if (oldParent != view) {
             if (oldParent != null) {
                 ((ViewGroup) oldParent).removeView(editText);
@@ -64,8 +64,16 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
     private void onAddEditTextToDialogView(View dialogView, EditText editText) {
         ViewGroup container = dialogView.findViewById(R.id.edittext_container);
         if (container != null) {
-            container.addView(editText, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            final ViewGroup.LayoutParams lp = editText.getLayoutParams();
+            if (lp == null) {
+                container.addView(editText, ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+            } else {
+                container.addView(editText, lp);
+            }
+        } else {
+            throw new IllegalStateException("EditTextPreference dialog layout needs to contain" +
+                    " a layout with id @id/edittext_container.");
         }
     }
 
