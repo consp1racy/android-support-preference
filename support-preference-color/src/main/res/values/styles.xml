@@ -10,4 +10,8 @@
         <item name="android:negativeButtonText">@null</item>
     </style>
 
+    <style name="Preference.Asp.Material.Inset.DialogPreference.ColorPreference" parent="Preference.Asp.Material.DialogPreference.ColorPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
 </resources>

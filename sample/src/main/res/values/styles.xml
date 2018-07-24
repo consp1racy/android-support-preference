@@ -21,16 +21,15 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
 
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
-
-        <!--<item name="colorPreferenceStyle">-->
-        <!--@style/Preference.Material.DialogPreference.ColorPreference-->
-        <!--</item>-->
-
         <!--<item name="android:textAppearanceMedium">?textAppearanceListItem</item>-->
         <item name="android:textAppearanceMedium">@style/TextAppearance.AppCompat.Subhead</item>
         <item name="android:textAppearanceMediumInverse">
             @style/TextAppearance.AppCompat.Subhead.Inverse
+        </item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Asp.Material.Inset</item>
+        <item name="colorPreferenceStyle">
+        @style/Preference.Asp.Material.Inset.DialogPreference.ColorPreference
         </item>
 
         <item name="asp_preferenceIconTint">?colorAccent</item>

@@ -15,12 +15,38 @@
 -->
 
 <!-- Layout used for PreferenceCategory in a PreferenceActivity. -->
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingLeft="?listPreferredItemPaddingLeft"
+    android:paddingRight="?listPreferredItemPaddingRight">
     <!-- Do not flatten. This allows hiding preference categories with empty title. -->
+
+    <FrameLayout
+        android:id="@+id/icon_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginStart="-4dp"
+        android:minWidth="48dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="48dp"
+            android:maxWidth="48dp"
+            android:scaleType="fitStart"
+            android:visibility="gone"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible"/>
+    </FrameLayout>
 
     <TextView
         android:id="@android:id/title"
@@ -29,11 +55,9 @@
         android:gravity="center_vertical"
         android:minHeight="48dp"
         android:paddingBottom="16dip"
-        android:paddingLeft="?listPreferredItemPaddingLeft"
-        android:paddingRight="?listPreferredItemPaddingRight"
         android:paddingTop="16dip"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="?colorAccent"
         tools:ignore="RtlHardcoded"/>
-</FrameLayout>
+</LinearLayout>

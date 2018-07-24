@@ -34,10 +34,6 @@
         <!--<item name="android:textOff">@null</item>-->
     </style>
 
-    <!--<style name="Preference.Asp.Material.SeekBarPreference">-->
-    <!--<item name="android:layout">@layout/preference_widget_seekbar_material</item>-->
-    <!--</style>-->
-
     <style name="Preference.Asp.Material.DialogPreference">
         <item name="android:positiveButtonText">@android:string/ok</item>
         <item name="android:negativeButtonText">@android:string/cancel</item>

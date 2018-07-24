@@ -23,6 +23,15 @@
   don't reinflate the preference hierarchy on each configuration change which prevents jank.
   - Override `XpPreferenceFragment#onProvideCustomStyledContext` and return an application context
     with an activity theme overlay. Use utility methods in the `StyledContextProvider` class.
+- *NEW!* Preference theme with text aligned with activity title.
+
+```xml
+<item name="preferenceTheme">@style/PreferenceThemeOverlay.Asp.Material.Inset</item>
+<!-- Add if you use ColorPreference. -->
+<item name="colorPreferenceStyle">
+    @style/Preference.Asp.Material.Inset.DialogPreference.ColorPreference
+</item>
+```
 
 ### Support Spinner
 
