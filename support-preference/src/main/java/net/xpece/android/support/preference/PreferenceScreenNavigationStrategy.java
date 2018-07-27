@@ -49,7 +49,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          * @param animPopEnter Enter animation resource ID when popped from backstack.
          * @param animPopExit  Enter animation resource ID when popped from backstack.
          */
-        public ReplaceFragment(Callbacks callbacks, final int animEnter, final int animExit, final int animPopEnter, final int animPopExit) {
+        public ReplaceFragment(@NonNull Callbacks callbacks, final int animEnter, final int animExit, final int animPopEnter, final int animPopExit) {
             mCallbacks = callbacks;
             mAnimEnter = animEnter;
             mAnimExit = animExit;
@@ -61,7 +61,7 @@ public abstract class PreferenceScreenNavigationStrategy {
         /**
          * @param callbacks Callbacks responsible for creating a new preference fragment based on a root preference key.
          */
-        public ReplaceFragment(Callbacks callbacks) {
+        public ReplaceFragment(@NonNull Callbacks callbacks) {
             mCallbacks = callbacks;
             mAnimEnter = 0;
             mAnimExit = 0;
@@ -70,7 +70,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             mCustomAnimations = false;
         }
 
-        public static boolean onCreatePreferences(PreferenceFragmentCompat f, @Nullable String rootKey) {
+        public static boolean onCreatePreferences(@NonNull PreferenceFragmentCompat f, @Nullable String rootKey) {
             if (rootKey != null && !PreferenceScreenNavigationStrategy.DEFAULT_ROOT_KEY.equals(rootKey)) {
                 f.setPreferenceScreen((PreferenceScreen) f.findPreference(rootKey));
                 return true;
@@ -89,7 +89,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          * @param preferenceFragmentCompat The old preference fragment about to be replaced.
          * @param preferenceScreen         The new root of preference hierarchy.
          */
-        public void onPreferenceStartScreen(final FragmentManager fragmentManager, final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
+        public void onPreferenceStartScreen(final @NonNull FragmentManager fragmentManager, final @NonNull PreferenceFragmentCompat preferenceFragmentCompat, final @NonNull PreferenceScreen preferenceScreen) {
             final String key = preferenceScreen.getKey();
             PreferenceFragmentCompat f = buildFragment(key);
             FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -124,11 +124,12 @@ public abstract class PreferenceScreenNavigationStrategy {
         private final Stack<String> mStack = new Stack<>();
         private final HashMap<String, Pair<Integer, Integer>> mScrollPositions = new HashMap<>();
 
-        public ReplaceRoot(PreferenceFragmentCompat fragment, Callbacks callbacks) {
+        public ReplaceRoot(@NonNull PreferenceFragmentCompat fragment, @NonNull Callbacks callbacks) {
             mFragment = fragment;
             mCallbacks = callbacks;
         }
 
+        @NonNull
         public Callbacks getCallbacks() {
             return mCallbacks;
         }
@@ -138,7 +139,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          *
          * @param callbacks
          */
-        public void setCallbacks(Callbacks callbacks) {
+        public void setCallbacks(@NonNull Callbacks callbacks) {
             mCallbacks = callbacks;
         }
 
@@ -147,7 +148,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          *
          * @param savedInstanceState
          */
-        public void onCreatePreferences(Bundle savedInstanceState) {
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState) {
             mRoot = mFragment.getPreferenceScreen();
             if (mRoot.getKey() == null) {
                 mRoot.setKey(DEFAULT_ROOT_KEY); // Non-null key!
@@ -187,7 +188,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             outState.putSerializable(TAG + ".mScrollPositions", mScrollPositions);
         }
 
-        private void navigateToPreferenceScreen(PreferenceScreen preference, boolean forward) {
+        private void navigateToPreferenceScreen(@NonNull PreferenceScreen preference, boolean forward) {
             if (preference.getKey() == null) {
                 throw new IllegalArgumentException("PreferenceScreen needs a non-null key.");
             }
@@ -235,7 +236,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             }
         }
 
-        private void navigateToPreferenceScreen(PreferenceScreen preference) {
+        private void navigateToPreferenceScreen(@NonNull PreferenceScreen preference) {
             if (preference.getKey() == null) {
                 throw new IllegalArgumentException("PreferenceScreen needs a non-null key.");
             }
@@ -253,7 +254,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          *
          * @param preference
          */
-        public void onPreferenceScreenClick(PreferenceScreen preference) {
+        public void onPreferenceScreenClick(@NonNull PreferenceScreen preference) {
             mStack.push(preference.getKey()); // Store new screen key.
                 navigateToPreferenceScreen(preference, true);
         }
@@ -275,7 +276,7 @@ public abstract class PreferenceScreenNavigationStrategy {
         }
 
         public interface Callbacks {
-            void onNavigateToPreferenceScreen(PreferenceScreen preferenceScreen);
+            void onNavigateToPreferenceScreen(@NonNull PreferenceScreen preferenceScreen);
         }
     }
 }

@@ -22,7 +22,7 @@ public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
     }
 
     @NonNull
-    public static XpListPreferenceDialogFragment newInstance(String key) {
+    public static XpListPreferenceDialogFragment newInstance(@NonNull String key) {
         XpListPreferenceDialogFragment fragment = new XpListPreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -40,7 +40,7 @@ public class XpListPreferenceDialogFragment extends XpPreferenceDialogFragment {
         return checkPreferenceNotNull(getListPreference(), ListPreference.class, this);
     }
 
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
         final ListPreference preference = this.requireListPreference();
         final boolean simple = preference.isSimple();

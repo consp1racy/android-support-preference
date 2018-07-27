@@ -17,6 +17,7 @@
 package android.support.v7.widget;
 
 import android.content.Context;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
@@ -37,7 +38,7 @@ public class AspSwitchCompat extends net.xpece.android.support.widget.AspSwitchC
         super(context, attrs);
     }
 
-    public AspSwitchCompat(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AspSwitchCompat(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 }

@@ -38,7 +38,7 @@ public final class XpPreference {
      * will be a batch commit later.)
      * @see #getPersistedStringSet(Preference, Set)
      */
-    public static boolean persistStringSet(Preference preference, @NonNull Set<String> values) {
+    public static boolean persistStringSet(@NonNull Preference preference, @NonNull Set<String> values) {
         return XpPreferenceCompat.persistStringSet(preference, values);
     }
 
@@ -57,7 +57,7 @@ public final class XpPreference {
      * @see #persistStringSet(Preference, Set)
      */
     @Nullable
-    public static Set<String> getPersistedStringSet(Preference preference, @Nullable Set<String> defaultReturnValue) {
+    public static Set<String> getPersistedStringSet(@NonNull Preference preference, @Nullable Set<String> defaultReturnValue) {
         return XpPreferenceCompat.getPersistedStringSet(preference, defaultReturnValue);
     }
 

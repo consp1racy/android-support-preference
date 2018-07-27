@@ -127,7 +127,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 /*
                  * On item clicked
                  */
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(@NonNull DialogInterface dialog, int which) {
                     // Save the position of most recently clicked item
                     mClickedPos = which;
 
@@ -140,7 +140,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     private boolean mActivityCreated = false;
 
     @NonNull
-    public static XpRingtonePreferenceDialogFragment newInstance(String key) {
+    public static XpRingtonePreferenceDialogFragment newInstance(@NonNull String key) {
         XpRingtonePreferenceDialogFragment fragment = new XpRingtonePreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -233,7 +233,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private void recover(final RingtonePreference preference, final Throwable ex) {
+    private void recover(final @NonNull RingtonePreference preference, final @NonNull Throwable ex) {
         XpSupportPreferencePlugins.onError(ex, "RingtoneManager returned unexpected cursor.");
 
         mCursor = null;
@@ -273,7 +273,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         RingtonePreference preference = requireRingtonePreference();
@@ -351,7 +351,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
      * @param text Text for the item.
      * @return The position of the inserted item.
      */
-    private int addStaticItem(LayoutInflater inflater, @LayoutRes int layout, CharSequence text) {
+    private int addStaticItem(@NonNull LayoutInflater inflater, @LayoutRes int layout, CharSequence text) {
         TextView textView = (TextView) inflater.inflate(layout, null, false);
         textView.setText(text);
 
@@ -363,7 +363,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         return mStaticItems.size() - 1;
     }
 
-    private int addDefaultRingtoneItem(LayoutInflater inflater, @LayoutRes int layout) {
+    private int addDefaultRingtoneItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
         switch (mType) {
             case RingtoneManager.TYPE_NOTIFICATION:
                 return addStaticItem(inflater, layout, RingtonePreference.getNotificationSoundDefaultString(getContext()));
@@ -374,11 +374,11 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    private int addSilentItem(LayoutInflater inflater, @LayoutRes int layout) {
+    private int addSilentItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
         return addStaticItem(inflater, layout, RingtonePreference.getRingtoneSilentString(getContext()));
     }
 
-    private int addUnknownItem(LayoutInflater inflater, @LayoutRes int layout) {
+    private int addUnknownItem(@NonNull LayoutInflater inflater, @LayoutRes int layout) {
         return addStaticItem(inflater, layout, RingtonePreference.getRingtoneUnknownString(getContext()));
     }
 
@@ -390,12 +390,12 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(@NonNull AdapterView<?> parent, @NonNull View view, int position, long id) {
         playRingtone(position, DELAY_MS_SELECTION_PLAYED);
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(@NonNull AdapterView<?> parent) {
         // No-op.
     }
 
@@ -418,7 +418,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_CLICKED_POS, mClickedPos);
         outState.putBoolean(KEY_FALLBACK_RINGTONE_PICKER, !getShowsDialog());
@@ -581,7 +581,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     private static class DummyAlertDialog extends AlertDialog {
-        DummyAlertDialog(Context context) {
+        DummyAlertDialog(@NonNull Context context) {
             super(context);
         }
     }

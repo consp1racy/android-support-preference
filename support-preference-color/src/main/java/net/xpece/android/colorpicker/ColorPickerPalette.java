@@ -73,11 +73,11 @@ public class ColorPickerPalette extends TableLayout {
     private int mSelectedColor;
     private CharSequence[] mColorContentDescriptions;
 
-    public ColorPickerPalette(Context context, @Nullable AttributeSet attrs) {
+    public ColorPickerPalette(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ColorPickerPalette(Context context) {
+    public ColorPickerPalette(@NonNull Context context) {
         super(context);
     }
 
@@ -236,7 +236,7 @@ public class ColorPickerPalette extends TableLayout {
      * Appends a swatch to the end of the row for even-numbered rows (starting with row 0),
      * to the beginning of a row for odd-numbered rows.
      */
-    private static void addSwatchToRow(TableRow row, View swatch, int rowNumber) {
+    private static void addSwatchToRow(@NonNull TableRow row, @NonNull View swatch, int rowNumber) {
         if (rowNumber % 2 == 0) {
             row.addView(swatch);
         } else {
@@ -252,7 +252,7 @@ public class ColorPickerPalette extends TableLayout {
      */
     private void setSwatchDescription(
             int rowNumber, int index, int rowElements, boolean selected,
-            View swatch, @Nullable CharSequence[] contentDescriptions, int numColumns) {
+            @NonNull View swatch, @Nullable CharSequence[] contentDescriptions, int numColumns) {
         CharSequence description;
         if (contentDescriptions != null && contentDescriptions.length > index) {
             description = contentDescriptions[index];

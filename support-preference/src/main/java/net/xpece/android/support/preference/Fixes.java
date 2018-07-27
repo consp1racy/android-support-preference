@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 
 /**
@@ -20,7 +21,7 @@ public final class Fixes {
      * @param layoutInflater Layout inflater that should automatically inflate fixed widgets
      */
     @Deprecated
-    public static void updateLayoutInflaterFactory(LayoutInflater layoutInflater) {
+    public static void updateLayoutInflaterFactory(@NonNull LayoutInflater layoutInflater) {
         // No-op.
     }
 }

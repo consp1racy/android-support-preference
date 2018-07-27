@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StyleRes;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
@@ -95,7 +94,7 @@ public class ListPreference extends DialogPreference {
     private Context mPopupContext;
 
     @SuppressWarnings("RestrictedApi")
-    public ListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
         this.mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
@@ -126,15 +125,15 @@ public class ListPreference extends DialogPreference {
         }
     }
 
-    public ListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public ListPreference(Context context, @Nullable AttributeSet attrs) {
+    public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.listPreferenceStyle);
     }
 
-    public ListPreference(Context context) {
+    public ListPreference(@NonNull Context context) {
         this(context, null);
     }
 
@@ -169,7 +168,7 @@ public class ListPreference extends DialogPreference {
 
     @SuppressWarnings("RestrictedApi")
     @Override
-    protected void performClick(View view) {
+    protected void performClick(@NonNull View view) {
         switch (mMenuMode) {
             case MENU_MODE_SIMPLE_ADAPTIVE:
                 boolean shown = false;
@@ -253,7 +252,7 @@ public class ListPreference extends DialogPreference {
         mSimpleMenuMaxItemCount = simpleMenuMaxItemCount;
     }
 
-    private boolean showAsPopup(final View anchor, final boolean force) {
+    private boolean showAsPopup(final @NonNull View anchor, final boolean force) {
         if (getEntries() == null || getEntryValues() == null) {
             throw new IllegalStateException("ListPreference requires an entries array and an entryValues array.");
         }
@@ -351,7 +350,7 @@ public class ListPreference extends DialogPreference {
      * @return
      */
     @NonNull
-    public SpinnerAdapter buildSimpleDialogAdapter(final Context context) {
+    public SpinnerAdapter buildSimpleDialogAdapter(final @NonNull Context context) {
         return buildAdapter(context, R.layout.asp_select_dialog_item);
     }
 
@@ -364,17 +363,17 @@ public class ListPreference extends DialogPreference {
      * @return
      */
     @NonNull
-    public SpinnerAdapter buildSimpleMenuAdapter(final Context context) {
+    public SpinnerAdapter buildSimpleMenuAdapter(final @NonNull Context context) {
         return buildAdapter(context, R.layout.asp_simple_spinner_dropdown_item);
     }
 
     @NonNull
-    private SpinnerAdapter buildAdapter(final Context context, @LayoutRes final int layout) {
+    private SpinnerAdapter buildAdapter(final @NonNull Context context, @LayoutRes final int layout) {
         return new CheckedTypedItemAdapter<>(context, layout, android.R.id.text1, getEntries());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private Object preventPopupWindowLeak(final View anchor, final XpListPopupWindow popup) {
+    private Object preventPopupWindowLeak(final @NonNull View anchor, final @NonNull XpListPopupWindow popup) {
         if (SUPPORTS_ON_WINDOW_ATTACH_LISTENER) {
             return new ViewTreeObserver.OnWindowAttachListener() {
                 @Override
@@ -428,7 +427,7 @@ public class ListPreference extends DialogPreference {
      * @param entries The entries.
      * @see #setEntryValues(CharSequence[])
      */
-    public void setEntries(CharSequence[] entries) {
+    public void setEntries(@NonNull CharSequence[] entries) {
         this.mEntries = entries;
     }
 
@@ -461,7 +460,7 @@ public class ListPreference extends DialogPreference {
      *
      * @param entryValues The array to be used as values to save for the preference.
      */
-    public void setEntryValues(CharSequence[] entryValues) {
+    public void setEntryValues(@NonNull CharSequence[] entryValues) {
         this.mEntryValues = entryValues;
     }
 
@@ -493,7 +492,7 @@ public class ListPreference extends DialogPreference {
      *
      * @param value The value to set for the key.
      */
-    public void setValue(String value) {
+    public void setValue(@NonNull String value) {
         boolean changed = !TextUtils.equals(this.mValue, value);
         if (changed || !this.mValueSet) {
             this.mValue = value;
@@ -599,7 +598,7 @@ public class ListPreference extends DialogPreference {
 
     @Nullable
     @Override
-    protected String onGetDefaultValue(TypedArray a, int index) {
+    protected String onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getString(index);
     }
 
@@ -625,7 +624,7 @@ public class ListPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (state.getClass().equals(ListPreference.SavedState.class)) {
             SavedState myState = (SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
@@ -639,7 +638,7 @@ public class ListPreference extends DialogPreference {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         if (mSimpleMenuShowing) {
@@ -685,7 +684,7 @@ public class ListPreference extends DialogPreference {
         String value;
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
             @NonNull
-            public SavedState createFromParcel(Parcel in) {
+            public SavedState createFromParcel(@NonNull Parcel in) {
                 return new SavedState(in);
             }
 
@@ -695,19 +694,19 @@ public class ListPreference extends DialogPreference {
             }
         };
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             this.value = source.readString();
             this.simpleMenuShowing = source.readInt() != 0;
         }
 
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(this.value);
             dest.writeInt(this.simpleMenuShowing ? 1 : 0);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
     }

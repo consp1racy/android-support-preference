@@ -26,24 +26,24 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
 
     OnPreferenceLongClickListener mOnPreferenceLongClickListener;
 
-    public PreferenceCategory(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public PreferenceCategory(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public PreferenceCategory(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public PreferenceCategory(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public PreferenceCategory(Context context, @Nullable AttributeSet attrs) {
+    public PreferenceCategory(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.preferenceCategoryStyle);
     }
 
-    public PreferenceCategory(Context context) {
+    public PreferenceCategory(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         mPreferenceTextHelper = new PreferenceTextHelper();
         mPreferenceTextHelper.init(context, attrs, defStyleAttr, defStyleRes);
         mPreferenceIconHelper = new PreferenceIconHelper(this);
@@ -109,7 +109,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
 
@@ -128,7 +128,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setTitleTextColor(ColorStateList titleTextColor) {
+    public void setTitleTextColor(@NonNull ColorStateList titleTextColor) {
         mPreferenceTextHelper.setTitleTextColor(titleTextColor);
         notifyChanged();
     }
@@ -140,13 +140,13 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setTitleTextAppearance(int titleTextAppearance) {
+    public void setTitleTextAppearance(@StyleRes int titleTextAppearance) {
         mPreferenceTextHelper.setTitleTextAppearance(titleTextAppearance);
         notifyChanged();
     }
 
     @Override
-    public void setSummaryTextColor(ColorStateList summaryTextColor) {
+    public void setSummaryTextColor(@NonNull ColorStateList summaryTextColor) {
         mPreferenceTextHelper.setSummaryTextColor(summaryTextColor);
         notifyChanged();
     }
@@ -158,7 +158,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setSummaryTextAppearance(int summaryTextAppearance) {
+    public void setSummaryTextAppearance(@StyleRes int summaryTextAppearance) {
         mPreferenceTextHelper.setSummaryTextAppearance(summaryTextAppearance);
         notifyChanged();
     }

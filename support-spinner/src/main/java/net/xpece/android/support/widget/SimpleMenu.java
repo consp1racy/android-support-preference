@@ -7,8 +7,6 @@ import android.support.v7.widget.AbstractXpListPopupWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 import static net.xpece.android.support.widget.SimpleMenu.MaxWidth.FIT_ANCHOR;
 import static net.xpece.android.support.widget.SimpleMenu.MaxWidth.FIT_SCREEN;
@@ -21,7 +19,6 @@ import static net.xpece.android.support.widget.SimpleMenu.WidthMode.WRAP_CONTENT
  * <p>
  * Library consumers don't need to access this.
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY_GROUP)
 public final class SimpleMenu {
     private SimpleMenu() {

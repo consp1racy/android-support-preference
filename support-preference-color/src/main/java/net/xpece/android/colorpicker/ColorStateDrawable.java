@@ -39,7 +39,7 @@ public class ColorStateDrawable extends LayerDrawable {
 
     @NonNull
     public static Drawable create(
-            final Drawable[] layers,
+            @NonNull final Drawable[] layers,
             @ColorInt final int color,
             @ColorInt final int pressed) {
         if (Build.VERSION.SDK_INT >= 21) {
@@ -52,7 +52,7 @@ public class ColorStateDrawable extends LayerDrawable {
     }
 
     public ColorStateDrawable(
-            final Drawable[] layers,
+            @NonNull final Drawable[] layers,
             @ColorInt final int color,
             @ColorInt final int pressed) {
         super(layers);
@@ -61,7 +61,7 @@ public class ColorStateDrawable extends LayerDrawable {
     }
 
     @Override
-    protected boolean onStateChange(int[] states) {
+    protected boolean onStateChange(@NonNull int[] states) {
         boolean pressedOrFocused = false;
         for (int state : states) {
             if (state == android.R.attr.state_pressed || state == android.R.attr.state_focused) {

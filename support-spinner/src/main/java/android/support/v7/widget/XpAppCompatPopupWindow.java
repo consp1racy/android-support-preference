@@ -22,9 +22,6 @@ import android.widget.PopupWindow;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 @SuppressLint("PrivateApi")
 class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     private static final String TAG = XpAppCompatPopupWindow.class.getSimpleName();
@@ -89,7 +86,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     private final Context mApplicationContext;
 
     public XpAppCompatPopupWindow(
-            Context context,
+            @NonNull Context context,
             @Nullable AttributeSet attrs,
             @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -98,7 +95,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     }
 
     public XpAppCompatPopupWindow(
-            Context context,
+            @NonNull Context context,
             @Nullable AttributeSet attrs,
             @AttrRes int defStyleAttr,
             @StyleRes int defStyleRes) {
@@ -109,7 +106,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
 
     @SuppressLint({"RestrictedApi", "ResourceType"})
     private void init(
-            Context context,
+            @NonNull Context context,
             @Nullable AttributeSet attrs,
             @AttrRes int defStyleAttr,
             @StyleRes int defStyleRes) {
@@ -132,13 +129,13 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     }
 
     @Override
-    public void showAtLocation(View anchor, int gravity, int x, int y) {
+    public void showAtLocation(final @NonNull View anchor, int gravity, int x, int y) {
         super.showAtLocation(anchor, gravity, x, y);
         setAnchorInternal(anchor);
     }
 
     @TargetApi(23)
-    private void setAnchorInternal(final View anchor) {
+    private void setAnchorInternal(final @NonNull View anchor) {
         if (SHOULD_FIX_TRANSITION) {
             setAnchorMarshmallow(anchor);
         } else {
@@ -146,7 +143,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
         }
     }
 
-    private void setAnchorLegacy(final View anchor) {
+    private void setAnchorLegacy(final @NonNull View anchor) {
         try {
             sAnchorField.set(this, new WeakReference<>(anchor));
         } catch (Exception e) {
@@ -155,7 +152,7 @@ class XpAppCompatPopupWindow extends AppCompatPopupWindow {
     }
 
     @RequiresApi(23)
-    private void setAnchorMarshmallow(final View anchor) {
+    private void setAnchorMarshmallow(final @NonNull View anchor) {
         final View anchorRoot = anchor.getRootView();
         final boolean isAnchorRootAttached = ViewCompat.isAttachedToWindow(anchorRoot);
 

@@ -23,7 +23,7 @@ public abstract class XpPreferenceDialogFragment extends PreferenceDialogFragmen
 
     @NonNull
     @Override
-    protected View onCreateDialogView(Context context) {
+    protected View onCreateDialogView(@NonNull Context context) {
         Context context2 = new AlertDialog.Builder(context).getContext();
 //        Context context2 = new AlertDialog.Builder(context, getTheme()).getContext();
         return super.onCreateDialogView(context2);

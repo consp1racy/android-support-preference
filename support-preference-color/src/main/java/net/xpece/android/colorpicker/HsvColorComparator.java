@@ -27,7 +27,7 @@ import java.util.Comparator;
 public class HsvColorComparator implements Comparator<Integer> {
 
     @Override
-    public int compare(Integer lhs, Integer rhs) {
+    public int compare(@NonNull Integer lhs, @NonNull Integer rhs) {
         float[] hsv = new float[3];
         Color.colorToHSV(lhs, hsv);
         float hue1 = hsv[0];

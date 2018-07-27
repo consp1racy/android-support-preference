@@ -24,7 +24,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     private boolean mRestoredState = false;
 
     @NonNull
-    public static XpMultiSelectListPreferenceDialogFragment newInstance(String key) {
+    public static XpMultiSelectListPreferenceDialogFragment newInstance(@NonNull String key) {
         XpMultiSelectListPreferenceDialogFragment fragment = new XpMultiSelectListPreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -46,7 +46,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     }
 
     @Override
-    protected void onPrepareDialogBuilder(final AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(final @NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         MultiSelectListPreference preference = this.requireMultiSelectListPreference();
@@ -75,13 +75,13 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
         setupInitialValues(preference);
     }
 
-    private void setupSelectedItems(final MultiSelectListPreference preference) {
+    private void setupSelectedItems(final @NonNull MultiSelectListPreference preference) {
         if (!mRestoredState) {
             mSelectedItems = preference.getSelectedItems();
         }
     }
 
-    private void setupInitialValues(final MultiSelectListPreference preference) {
+    private void setupInitialValues(final @NonNull MultiSelectListPreference preference) {
         if (!mRestoredState) {
             mNewValues.clear();
             mNewValues.addAll(preference.getValues());
@@ -101,7 +101,7 @@ public class XpMultiSelectListPreferenceDialogFragment extends XpPreferenceDialo
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(TAG + ".mNewValues", mNewValues);

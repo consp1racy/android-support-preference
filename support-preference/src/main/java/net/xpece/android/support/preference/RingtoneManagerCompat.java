@@ -54,7 +54,7 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         METHOD_GET_INTERNAL_RINGTONES = getInternalRingtones;
     }
 
-    private void setCursor(Cursor cursor) {
+    private void setCursor(@NonNull Cursor cursor) {
         try {
             FIELD_CURSOR.set(this, cursor);
         } catch (Exception e) {
@@ -71,11 +71,11 @@ public final class RingtoneManagerCompat extends RingtoneManager {
         }
     }
 
-    public RingtoneManagerCompat(Activity activity) {
+    public RingtoneManagerCompat(@NonNull Activity activity) {
         super(activity);
     }
 
-    public RingtoneManagerCompat(Context context) {
+    public RingtoneManagerCompat(@NonNull Context context) {
         super(context);
     }
 

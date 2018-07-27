@@ -55,7 +55,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
 
     public XpHeaderViewListAdapter(@Nullable ArrayList<FixedViewInfo> headerViewInfos,
                                    @Nullable ArrayList<FixedViewInfo> footerViewInfos,
-                                   ListAdapter adapter) {
+                                   @NonNull ListAdapter adapter) {
         mAdapter = adapter;
         mIsFilterable = adapter instanceof Filterable;
 
@@ -99,7 +99,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return true;
     }
 
-    public boolean removeHeader(View v) {
+    public boolean removeHeader(@NonNull View v) {
         for (int i = 0; i < mHeaderViewInfos.size(); i++) {
             FixedViewInfo info = mHeaderViewInfos.get(i);
             if (info.view == v) {
@@ -116,7 +116,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return false;
     }
 
-    public boolean removeFooter(View v) {
+    public boolean removeFooter(@NonNull View v) {
         for (int i = 0; i < mFooterViewInfos.size(); i++) {
             FixedViewInfo info = mFooterViewInfos.get(i);
             if (info.view == v) {
@@ -212,7 +212,7 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
     }
 
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // Header (negative positions will throw an IndexOutOfBoundsException)
         int numHeaders = getHeadersCount();
         if (position < numHeaders) {
@@ -253,13 +253,13 @@ final class XpHeaderViewListAdapter implements WrapperListAdapter, Filterable {
         return 1;
     }
 
-    public void registerDataSetObserver(DataSetObserver observer) {
+    public void registerDataSetObserver(@NonNull DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.registerDataSetObserver(observer);
         }
     }
 
-    public void unregisterDataSetObserver(DataSetObserver observer) {
+    public void unregisterDataSetObserver(@NonNull DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.unregisterDataSetObserver(observer);
         }

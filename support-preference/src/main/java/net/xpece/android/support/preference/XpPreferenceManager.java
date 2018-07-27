@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 
@@ -17,19 +18,19 @@ import android.support.annotation.XmlRes;
 @SuppressWarnings("deprecation")
 public abstract class XpPreferenceManager {
 
-    public static void setDefaultValues(Context context, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(@NonNull Context context, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         android.support.v7.preference.XpPreferenceManager.setDefaultValues(context, resId, readAgain, customDefaultPackages);
     }
 
-    public static void setDefaultValues(Context context, @XmlRes int resId, boolean readAgain) {
+    public static void setDefaultValues(@NonNull Context context, @XmlRes int resId, boolean readAgain) {
         android.support.v7.preference.XpPreferenceManager.setDefaultValues(context, resId, readAgain);
     }
 
-    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain) {
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain) {
         android.support.v7.preference.XpPreferenceManager.setDefaultValues(context, sharedPreferencesName, sharedPreferencesMode, resId, readAgain);
     }
 
-    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         android.support.v7.preference.XpPreferenceManager.setDefaultValues(context, sharedPreferencesName, sharedPreferencesMode, resId, readAgain, customDefaultPackages);
     }
 
@@ -41,7 +42,8 @@ public abstract class XpPreferenceManager {
      * @return A SharedPreferences instance that can be used to retrieve and
      *         listen to values of the preferences.
      */
-    public static SharedPreferences getDefaultSharedPreferences(Context context) {
+    @NonNull
+    public static SharedPreferences getDefaultSharedPreferences(@NonNull Context context) {
         return android.support.v7.preference.XpPreferenceManager.getDefaultSharedPreferences(context);
     }
 }

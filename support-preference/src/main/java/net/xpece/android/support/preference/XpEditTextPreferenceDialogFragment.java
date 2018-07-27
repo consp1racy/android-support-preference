@@ -23,7 +23,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @NonNull
-    public static XpEditTextPreferenceDialogFragment newInstance(String key) {
+    public static XpEditTextPreferenceDialogFragment newInstance(@NonNull String key) {
         XpEditTextPreferenceDialogFragment fragment = new XpEditTextPreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -33,7 +33,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
 
     @NonNull
     @Override
-    protected View onCreateDialogView(Context context) {
+    protected View onCreateDialogView(@NonNull Context context) {
         View view = super.onCreateDialogView(context);
         context = view.getContext();
 
@@ -61,7 +61,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
      *
      * @param dialogView The dialog view.
      */
-    private void onAddEditTextToDialogView(View dialogView, EditText editText) {
+    private void onAddEditTextToDialogView(@NonNull View dialogView, @NonNull EditText editText) {
         ViewGroup container = dialogView.findViewById(R.id.edittext_container);
         if (container != null) {
             final ViewGroup.LayoutParams lp = editText.getLayoutParams();
@@ -78,7 +78,7 @@ public class XpEditTextPreferenceDialogFragment extends XpPreferenceDialogFragme
     }
 
     @Override
-    protected void onBindDialogView(View view) {
+    protected void onBindDialogView(@NonNull View view) {
         super.onBindDialogView(view);
 
         mEditText = view.findViewById(android.R.id.edit);

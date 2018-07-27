@@ -54,19 +54,19 @@ public class SafeRingtone {
     private Ringtone mRingtone;
 
     @NonNull
-    public static SafeRingtone obtain(Context context, @Nullable Uri uri) {
+    public static SafeRingtone obtain(@NonNull Context context, @Nullable Uri uri) {
         return new SafeRingtone(context.getApplicationContext(), uri);
     }
 
     @NonNull
     @SuppressWarnings("deprecation")
-    public static SafeRingtone obtain(Context context, @Nullable Uri uri, int streamType) {
+    public static SafeRingtone obtain(@NonNull Context context, @Nullable Uri uri, int streamType) {
         final SafeRingtone ringtone = new SafeRingtone(context.getApplicationContext(), uri);
         ringtone.setStreamType(streamType);
         return ringtone;
     }
 
-    private static void peek(Context context, Uri uri) {
+    private static void peek(@NonNull Context context, @NonNull Uri uri) {
         if (Settings.AUTHORITY.equals(uri.getAuthority())) {
             final int type = RingtoneManager.getDefaultType(uri);
             // This can throw a SecurityException.
@@ -87,7 +87,7 @@ public class SafeRingtone {
         }
     }
 
-    public static boolean canPlay(Context context, @Nullable Uri uri) {
+    public static boolean canPlay(@NonNull Context context, @Nullable Uri uri) {
         if (uri == null) {
             // We can't play silence.
             return false;
@@ -103,7 +103,7 @@ public class SafeRingtone {
         }
     }
 
-    public static boolean canGetTitle(Context context, @Nullable Uri uri) {
+    public static boolean canGetTitle(@NonNull Context context, @Nullable Uri uri) {
         if (uri == null) {
             // We can display "None".
             return true;
@@ -119,7 +119,7 @@ public class SafeRingtone {
         }
     }
 
-    private SafeRingtone(final Context context, @Nullable final Uri uri) {
+    private SafeRingtone(final @NonNull Context context, @Nullable final Uri uri) {
         mContext = context;
         mUri = uri;
     }

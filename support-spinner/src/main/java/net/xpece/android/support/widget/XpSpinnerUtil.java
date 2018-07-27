@@ -8,14 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.v7.widget.TintTypedArray;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
 final class XpSpinnerUtil {
@@ -36,7 +33,7 @@ final class XpSpinnerUtil {
     }
 
     @ColorInt
-    public static int resolveColor(Context context, @AttrRes int attr, @ColorInt int fallback) {
+    public static int resolveColor(@NonNull Context context, @AttrRes int attr, @ColorInt int fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, tempArray);

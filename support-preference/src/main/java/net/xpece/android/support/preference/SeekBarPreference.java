@@ -209,7 +209,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    public void onBindViewHolder(final PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         final SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
@@ -462,7 +462,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);

@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 /**
  * Before Lollipop insets didn't count to intrinsic size. This class aims to fix this issue.
@@ -15,7 +16,7 @@ final class XpInsetDrawable extends InsetDrawable {
 
     private final Rect mInset = new Rect();
 
-    public static InsetDrawable create(final Drawable drawable, final int insetLeft, final int insetTop, final int insetRight, final int insetBottom) {
+    public static InsetDrawable create(final @NonNull Drawable drawable, final int insetLeft, final int insetTop, final int insetRight, final int insetBottom) {
         if (NEEDS_FIXING) {
             return new XpInsetDrawable(drawable, insetLeft, insetTop, insetRight, insetBottom);
         } else {
@@ -23,7 +24,7 @@ final class XpInsetDrawable extends InsetDrawable {
         }
     }
 
-    public static InsetDrawable create(final Drawable drawable, final int inset) {
+    public static InsetDrawable create(final @NonNull Drawable drawable, final int inset) {
         if (NEEDS_FIXING) {
             return new XpInsetDrawable(drawable, inset);
         } else {
@@ -31,12 +32,12 @@ final class XpInsetDrawable extends InsetDrawable {
         }
     }
 
-    private XpInsetDrawable(final Drawable drawable, final int inset) {
+    private XpInsetDrawable(final @NonNull Drawable drawable, final int inset) {
         super(drawable, inset);
         mInset.set(inset, inset, inset, inset);
     }
 
-    private XpInsetDrawable(final Drawable drawable, final int insetLeft, final int insetTop, final int insetRight, final int insetBottom) {
+    private XpInsetDrawable(final @NonNull Drawable drawable, final int insetLeft, final int insetTop, final int insetRight, final int insetBottom) {
         super(drawable, insetLeft, insetTop, insetRight, insetBottom);
         mInset.set(insetLeft, insetTop, insetRight, insetBottom);
     }

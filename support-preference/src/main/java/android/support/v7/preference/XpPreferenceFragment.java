@@ -234,7 +234,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
          * @param fragment A fragment for obtaining host activity.
          * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
          */
-        static Context wrapIfNecessary(final Context base, final Fragment fragment) {
+        static Context wrapIfNecessary(final @NonNull Context base, final @NonNull Fragment fragment) {
             for (Context i = base; i instanceof ContextWrapper; i = ((ContextWrapper) i).getBaseContext()) {
                 if (i instanceof Activity) return base;
             }
@@ -243,7 +243,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
 
         private final Fragment mFragment;
 
-        private ActivityAwareContext(final Context base, final Fragment fragment) {
+        private ActivityAwareContext(final @NonNull Context base, final @NonNull Fragment fragment) {
             super(base);
             mFragment = fragment;
         }
@@ -258,24 +258,24 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         }
 
         @Override
-        public void startActivities(final Intent[] intents) {
+        public void startActivities(final @NonNull Intent[] intents) {
             getActivity().startActivities(intents);
         }
 
         @Override
         @RequiresApi(16)
-        public void startActivities(final Intent[] intents, @Nullable final Bundle options) {
+        public void startActivities(final @NonNull Intent[] intents, @Nullable final Bundle options) {
             getActivity().startActivities(intents, options);
         }
 
         @Override
-        public void startActivity(final Intent intent) {
+        public void startActivity(final @NonNull Intent intent) {
             getActivity().startActivity(intent);
         }
 
         @Override
         @RequiresApi(16)
-        public void startActivity(final Intent intent, @Nullable final Bundle options) {
+        public void startActivity(final @NonNull Intent intent, @Nullable final Bundle options) {
             getActivity().startActivity(intent, options);
         }
     }

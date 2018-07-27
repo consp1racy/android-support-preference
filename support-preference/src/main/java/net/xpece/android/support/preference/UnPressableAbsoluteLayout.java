@@ -17,6 +17,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.util.AttributeSet;
@@ -34,11 +35,11 @@ import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
 @RestrictTo(GROUP_ID)
 @SuppressWarnings("deprecation")
 public class UnPressableAbsoluteLayout extends AbsoluteLayout {
-    public UnPressableAbsoluteLayout(Context context) {
+    public UnPressableAbsoluteLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public UnPressableAbsoluteLayout(Context context, @Nullable AttributeSet attrs) {
+    public UnPressableAbsoluteLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 

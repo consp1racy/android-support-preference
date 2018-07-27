@@ -31,8 +31,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * The {@link XpPreferenceInflater} is used to inflate preference hierarchies from
  * XML files.
@@ -41,7 +39,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * {@link XpPreferenceHelpers#onCreatePreference(Preference, AttributeSet)} at the right time
  * because it also needs to have access to XML attributes.
  */
-@ParametersAreNonnullByDefault
 final class XpPreferenceInflater extends PreferenceInflater {
     private static final String TAG = "XpPreferenceInflater";
 
@@ -57,7 +54,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
     private static final String INTENT_TAG_NAME = "intent";
     private static final String EXTRA_TAG_NAME = "extra";
 
-    public XpPreferenceInflater(Context context, PreferenceManager preferenceManager) {
+    public XpPreferenceInflater(@NonNull Context context, @NonNull PreferenceManager preferenceManager) {
         super(context, preferenceManager);
         mPreferenceManager = preferenceManager;
     }
@@ -83,7 +80,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
      */
     @NonNull
     @Override
-    public Preference inflate(XmlPullParser parser, @Nullable PreferenceGroup root) {
+    public Preference inflate(@NonNull XmlPullParser parser, @Nullable PreferenceGroup root) {
         synchronized (mConstructorArgs) {
             final AttributeSet attrs = Xml.asAttributeSet(parser);
             mConstructorArgs[0] = getContext();
@@ -130,7 +127,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
 
     @NonNull
     private PreferenceGroup onMergeRoots(@Nullable PreferenceGroup givenRoot,
-                                         PreferenceGroup xmlRoot) {
+                                         @NonNull PreferenceGroup xmlRoot) {
         // If we were given a Preferences, use it as the root (ignoring the root
         // Preferences from the XML file).
         if (givenRoot == null) {
@@ -158,8 +155,8 @@ final class XpPreferenceInflater extends PreferenceInflater {
      * @return The newly instantiated item, or null.
      */
     @NonNull
-    private Preference createItem(String name, @Nullable String[] prefixes,
-                                  AttributeSet attrs)
+    private Preference createItem(@NonNull String name, @Nullable String[] prefixes,
+                                  @NonNull AttributeSet attrs)
             throws ClassNotFoundException, InflateException {
         Constructor constructor = CONSTRUCTOR_MAP.get(name);
 
@@ -215,14 +212,14 @@ final class XpPreferenceInflater extends PreferenceInflater {
 
     @Deprecated
     @Nullable
-    protected Preference onCreateItem(String name, AttributeSet attrs)
+    protected Preference onCreateItem(@NonNull String name, @NonNull AttributeSet attrs)
         throws ClassNotFoundException {
         throw new UnsupportedOperationException();
     }
 
     @NonNull
-    private Preference createItemFromTag(String name,
-                                         AttributeSet attrs) {
+    private Preference createItemFromTag(@NonNull String name,
+                                         @NonNull AttributeSet attrs) {
         try {
             final Preference item;
 
@@ -257,7 +254,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
      * Recursive method used to descend down the xml hierarchy and instantiate
      * items, instantiate their children, and then call onFinishInflate().
      */
-    private void rInflate(XmlPullParser parser, Preference parent, final AttributeSet attrs)
+    private void rInflate(@NonNull XmlPullParser parser, @NonNull Preference parent, final @NonNull AttributeSet attrs)
         throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
 
@@ -304,7 +301,7 @@ final class XpPreferenceInflater extends PreferenceInflater {
 
     }
 
-    private static void skipCurrentTag(XmlPullParser parser)
+    private static void skipCurrentTag(@NonNull XmlPullParser parser)
         throws XmlPullParserException, IOException {
         int outerDepth = parser.getDepth();
         int type;

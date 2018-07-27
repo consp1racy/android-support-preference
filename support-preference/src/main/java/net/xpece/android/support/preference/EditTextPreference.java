@@ -47,24 +47,24 @@ public class EditTextPreference extends DialogPreference {
 
     private OnEditTextCreatedListener mOnEditTextCreatedListener;
 
-    public EditTextPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public EditTextPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_EditTextPreference);
     }
 
-    public EditTextPreference(Context context, @Nullable AttributeSet attrs) {
+    public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.editTextPreferenceStyle);
     }
 
-    public EditTextPreference(Context context) {
+    public EditTextPreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPreference, defStyleAttr, defStyleRes);
         mEditTextLayout = a.getResourceId(R.styleable.EditTextPreference_asp_editTextLayout, 0);
         a.recycle();
@@ -87,7 +87,7 @@ public class EditTextPreference extends DialogPreference {
      * @return
      */
     @NonNull
-    public EditText createEditText(Context context) {
+    public EditText createEditText(@NonNull Context context) {
         final EditText editText;
 
         if (mEditTextLayout == 0) {
@@ -139,7 +139,7 @@ public class EditTextPreference extends DialogPreference {
 
     @Nullable
     @Override
-    protected String onGetDefaultValue(TypedArray a, int index) {
+    protected String onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getString(index);
     }
 
@@ -166,7 +166,7 @@ public class EditTextPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (state.getClass().equals(EditTextPreference.SavedState.class)) {
             EditTextPreference.SavedState myState = (EditTextPreference.SavedState) state;
             super.onRestoreInstanceState(myState.getSuperState());
@@ -180,7 +180,7 @@ public class EditTextPreference extends DialogPreference {
         String text;
         public static final Creator<EditTextPreference.SavedState> CREATOR = new Creator<EditTextPreference.SavedState>() {
             @NonNull
-            public EditTextPreference.SavedState createFromParcel(Parcel in) {
+            public EditTextPreference.SavedState createFromParcel(@NonNull Parcel in) {
                 return new EditTextPreference.SavedState(in);
             }
 
@@ -190,22 +190,22 @@ public class EditTextPreference extends DialogPreference {
             }
         };
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             this.text = source.readString();
         }
 
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(this.text);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
     }
 
     public interface OnEditTextCreatedListener {
-        void onEditTextCreated(EditText edit);
+        void onEditTextCreated(@NonNull EditText edit);
     }
 }

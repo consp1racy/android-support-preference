@@ -3,7 +3,9 @@ package net.xpece.android.support.preference;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v4.widget.TextViewCompat;
@@ -27,7 +29,7 @@ public class PreferenceTextHelper {
     private boolean mHasSubtitleTextColor = false;
     private ColorStateList mSubtitleTextColor = null;
 
-    public void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Preference, defStyleAttr, defStyleRes);
         if (ta.hasValue(R.styleable.Preference_titleTextAppearance)) {
             mTitleTextAppearance = ta.getResourceId(R.styleable.Preference_titleTextAppearance, 0);
@@ -48,7 +50,7 @@ public class PreferenceTextHelper {
         ta.recycle();
     }
 
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         TextView titleView = (TextView) holder.findViewById(android.R.id.title);
         if (titleView != null) {
             if (mHasTitleTextAppearance) {
@@ -70,7 +72,7 @@ public class PreferenceTextHelper {
         }
     }
 
-    public void setTitleTextColor(ColorStateList titleTextColor) {
+    public void setTitleTextColor(@NonNull ColorStateList titleTextColor) {
         mTitleTextColor = titleTextColor;
         mHasTitleTextColor = true;
     }
@@ -85,7 +87,7 @@ public class PreferenceTextHelper {
         mHasTitleTextAppearance = true;
     }
 
-    public void setSummaryTextColor(ColorStateList summaryTextColor) {
+    public void setSummaryTextColor(@NonNull ColorStateList summaryTextColor) {
         mSubtitleTextColor = summaryTextColor;
         mHasSubtitleTextColor = true;
     }

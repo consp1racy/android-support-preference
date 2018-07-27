@@ -46,24 +46,24 @@ public class MultiSelectListPreference extends DialogPreference {
 
     private final Set<String> mValues = new HashSet<>();
 
-    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public MultiSelectListPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public MultiSelectListPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference);
     }
 
-    public MultiSelectListPreference(Context context, @Nullable AttributeSet attrs) {
+    public MultiSelectListPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.multiSelectListPreferenceStyle);
     }
 
-    public MultiSelectListPreference(Context context) {
+    public MultiSelectListPreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ListPreference, defStyleAttr, defStyleRes);
         mEntries = a.getTextArray(R.styleable.ListPreference_android_entries);
         mEntryValues = a.getTextArray(R.styleable.ListPreference_android_entryValues);
@@ -80,7 +80,7 @@ public class MultiSelectListPreference extends DialogPreference {
      * @param entries The entries.
      * @see #setEntryValues(CharSequence[])
      */
-    public void setEntries(CharSequence[] entries) {
+    public void setEntries(@NonNull CharSequence[] entries) {
         mEntries = entries;
     }
 
@@ -88,7 +88,7 @@ public class MultiSelectListPreference extends DialogPreference {
      * @param entriesResId The entries array as a resource.
      * @see #setEntries(CharSequence[])
      */
-    public void setEntries(int entriesResId) {
+    public void setEntries(@ArrayRes int entriesResId) {
         setEntries(getContext().getResources().getTextArray(entriesResId));
     }
 
@@ -109,7 +109,7 @@ public class MultiSelectListPreference extends DialogPreference {
      *
      * @param entryValues The array to be used as values to save for the preference.
      */
-    public void setEntryValues(CharSequence[] entryValues) {
+    public void setEntryValues(@NonNull CharSequence[] entryValues) {
         mEntryValues = entryValues;
     }
 
@@ -186,7 +186,7 @@ public class MultiSelectListPreference extends DialogPreference {
 
     @NonNull
     @Override
-    protected Set<String> onGetDefaultValue(TypedArray a, int index) {
+    protected Set<String> onGetDefaultValue(@NonNull TypedArray a, int index) {
         final Set<String> result = new HashSet<>();
         try {
             final CharSequence[] defaultValues = a.getTextArray(index);
@@ -203,7 +203,7 @@ public class MultiSelectListPreference extends DialogPreference {
 
     @Override
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restoreValue, @Nullable Object defaultValue) {
         // Values are never null here. Preference class code has checks against it.
         // We either restore value, and if not found it falls back to non-null mValues,
         // or we don't restore value and this method is only called when defaultValue is not null.
@@ -226,7 +226,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -241,19 +241,19 @@ public class MultiSelectListPreference extends DialogPreference {
     private static class SavedState extends BaseSavedState {
         Set<String> values;
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             values = new HashSet<>();
             String[] strings = source.createStringArray();
             Collections.addAll(values, strings);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeStringArray(values.toArray(new String[values.size()]));
         }
@@ -261,7 +261,7 @@ public class MultiSelectListPreference extends DialogPreference {
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
                     @NonNull
-                    public SavedState createFromParcel(Parcel in) {
+                    public SavedState createFromParcel(@NonNull Parcel in) {
                         return new SavedState(in);
                     }
 

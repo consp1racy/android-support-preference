@@ -85,7 +85,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
     @Nullable
     @SuppressWarnings("RestrictedApi")
     @Override
-    protected ColorStateList getTintList(TintTypedArray a, @AttrRes int attr, Context context) {
+    protected ColorStateList getTintList(@NonNull TintTypedArray a, @AttrRes int attr, @NonNull Context context) {
         ColorStateList csl = a.getColorStateList(attr);
 //        csl = withDisabled(csl, context);
         return csl;

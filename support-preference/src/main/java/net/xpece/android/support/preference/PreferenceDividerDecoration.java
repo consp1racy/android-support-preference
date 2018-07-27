@@ -41,13 +41,13 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         mDividerHeight = dividerHeight;
     }
 
-    public PreferenceDividerDecoration(final Context context, @DrawableRes final int divider, @DimenRes final int dividerHeight) {
+    public PreferenceDividerDecoration(final @NonNull Context context, @DrawableRes final int divider, @DimenRes final int dividerHeight) {
         mDivider = Util.getDrawableCompat(context, divider);
         mDividerHeight = context.getResources().getDimensionPixelSize(dividerHeight);
     }
 
     @SuppressWarnings("RestrictedApi")
-    public PreferenceDividerDecoration(final Context context) {
+    public PreferenceDividerDecoration(final @NonNull Context context) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, null, new int[]{R.attr.dividerHorizontal});
         mDivider = a.getDrawable(0);
         a.recycle();
@@ -145,7 +145,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
      * @return
      */
     @NonNull
-    public PreferenceDividerDecoration paddingDp(final Context context, @Dimension(unit = DP) final float paddingDp) {
+    public PreferenceDividerDecoration paddingDp(final @NonNull Context context, @Dimension(unit = DP) final float paddingDp) {
         int paddingPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, paddingDp, context.getResources().getDisplayMetrics());
         return padding(paddingPx);
@@ -153,7 +153,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     @SuppressWarnings("RestrictedApi")
     @Override
-    public void getItemOffsets(final Rect outRect, final View view, final RecyclerView parent, final RecyclerView.State state) {
+    public void getItemOffsets(final @NonNull Rect outRect, final @NonNull View view, final @NonNull RecyclerView parent, final @NonNull RecyclerView.State state) {
         if (mDivider == null || mDividerHeight == 0) {
             outRect.setEmpty();
             return;
@@ -207,7 +207,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
 
     @SuppressWarnings("RestrictedApi")
     @Override
-    public void onDrawOver(final Canvas c, final RecyclerView parent, final RecyclerView.State state) {
+    public void onDrawOver(final @NonNull Canvas c, final @NonNull RecyclerView parent, final @NonNull RecyclerView.State state) {
         if (mDivider == null || mDividerHeight == 0) return;
 
         int left = parent.getPaddingLeft();
@@ -262,7 +262,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    private void drawAbove(final Canvas c, final int left, final int right, final View child, final int decoratedTop) {
+    private void drawAbove(final @NonNull Canvas c, final int left, final int right, final @NonNull View child, final int decoratedTop) {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
         final int top = decoratedTop - params.topMargin - mDividerHeight;
         final int bottom = top + mDividerHeight;
@@ -270,7 +270,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         mDivider.draw(c);
     }
 
-    private void drawBottom(final Canvas c, final int left, final int right, final View child, final int decoratedBottom) {
+    private void drawBottom(final @NonNull Canvas c, final int left, final int right, final @NonNull View child, final int decoratedBottom) {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
         final int top = decoratedBottom + params.bottomMargin - mDividerHeight;
         final int bottom = top + mDividerHeight;

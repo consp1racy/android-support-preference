@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -52,10 +53,10 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     }
 
     public ColorPickerSwatch(
-            final Context context,
+            @NonNull final Context context,
             @ColorInt final int color,
             final boolean checked,
-            final OnColorSelectedListener listener) {
+            @Nullable final OnColorSelectedListener listener) {
         super(context);
         mColor = color;
         mOnColorSelectedListener = listener;
@@ -86,7 +87,7 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         if (mOnColorSelectedListener != null) {
             mOnColorSelectedListener.onColorSelected(mColor);
         }

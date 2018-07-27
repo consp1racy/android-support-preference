@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -14,5 +15,5 @@ public interface OnPreferenceLongClickListener {
      * @param view       The view that was clicked and held.
      * @return true if the callback consumed the long click, false otherwise.
      */
-    boolean onLongClick(android.support.v7.preference.Preference preference, View view);
+    boolean onLongClick(@NonNull android.support.v7.preference.Preference preference, @NonNull View view);
 }

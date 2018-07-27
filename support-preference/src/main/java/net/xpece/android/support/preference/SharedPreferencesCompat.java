@@ -1,6 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Set;
@@ -24,9 +25,9 @@ public final class SharedPreferencesCompat {
      * @deprecated Use {@link SharedPreferences.Editor#putStringSet(String, Set)} directly.
      */
     @Deprecated
-    public static void putStringSet(SharedPreferences.Editor editor,
-                                    String key,
-                                    Set<String> values) {
+    public static void putStringSet(@NonNull SharedPreferences.Editor editor,
+                                    @NonNull String key,
+                                    @NonNull Set<String> values) {
         XpSharedPreferences.putStringSet(editor, key, values);
     }
 
@@ -39,8 +40,8 @@ public final class SharedPreferencesCompat {
      * @return Data set
      */
     @Nullable
-    public static Set<String> getStringSet(SharedPreferences prefs,
-                                           String key,
+    public static Set<String> getStringSet(@NonNull SharedPreferences prefs,
+                                           @NonNull String key,
                                            @Nullable Set<String> defaultReturnValue) {
         return XpSharedPreferences.getStringSet(prefs, key, defaultReturnValue);
     }
