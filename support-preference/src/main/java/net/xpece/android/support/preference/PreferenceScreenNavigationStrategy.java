@@ -40,7 +40,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          * @param animPopEnter Enter animation resource ID when popped from backstack.
          * @param animPopExit Enter animation resource ID when popped from backstack.
          */
-        public ReplaceFragment(Callbacks callbacks, final int animEnter, final int animExit, final int animPopEnter, final int animPopExit) {
+        public ReplaceFragment(@NonNull Callbacks callbacks, final int animEnter, final int animExit, final int animPopEnter, final int animPopExit) {
             mCallbacks = callbacks;
             mAnimEnter = animEnter;
             mAnimExit = animExit;
@@ -52,7 +52,7 @@ public abstract class PreferenceScreenNavigationStrategy {
         /**
          * @param callbacks Callbacks responsible for creating a new preference fragment based on a root preference key.
          */
-        public ReplaceFragment(Callbacks callbacks) {
+        public ReplaceFragment(@NonNull Callbacks callbacks) {
             mCallbacks = callbacks;
             mAnimEnter = 0;
             mAnimExit = 0;
@@ -61,7 +61,7 @@ public abstract class PreferenceScreenNavigationStrategy {
             mCustomAnimations = false;
         }
 
-        public static boolean onCreatePreferences(PreferenceFragmentCompat f, @Nullable String rootKey) {
+        public static boolean onCreatePreferences(@NonNull PreferenceFragmentCompat f, @Nullable String rootKey) {
             if (rootKey != null && !PreferenceScreenNavigationStrategy.DEFAULT_ROOT_KEY.equals(rootKey)) {
                 f.setPreferenceScreen((PreferenceScreen) f.findPreference(rootKey));
                 return true;
@@ -80,7 +80,7 @@ public abstract class PreferenceScreenNavigationStrategy {
          * @param preferenceFragmentCompat The old preference fragment about to be replaced.
          * @param preferenceScreen The new root of preference hierarchy.
          */
-        public void onPreferenceStartScreen(final FragmentManager fragmentManager, final PreferenceFragmentCompat preferenceFragmentCompat, final PreferenceScreen preferenceScreen) {
+        public void onPreferenceStartScreen(final @NonNull FragmentManager fragmentManager, final @NonNull PreferenceFragmentCompat preferenceFragmentCompat, final @NonNull PreferenceScreen preferenceScreen) {
             final String key = preferenceScreen.getKey();
             PreferenceFragmentCompat f = buildFragment(key);
             FragmentTransaction ft = fragmentManager.beginTransaction();

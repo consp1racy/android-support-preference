@@ -52,4 +52,37 @@
         <item name="dropDownListViewStyle">@style/Widget.Asp.ListView.DropDown</item>
         <item name="listPopupWindowStyle">@style/Widget.Asp.ListPopupWindow</item>
     </style>
+
+    <style name="PreferenceThemeOverlay.Asp.Material.Inset">
+        <!-- Groups -->
+        <item name="preferenceCategoryStyle">@style/Preference.Asp.Material.Inset.Category</item>
+        <item name="preferenceInformationStyle">@style/Preference.Asp.Material.Inset.Information</item>
+        <item name="preferenceScreenStyle">@style/Preference.Asp.Material.Inset.PreferenceScreen</item>
+
+        <!-- Standard Preferences -->
+        <item name="preferenceStyle">@style/Preference.Asp.Material.Inset</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.Asp.Material.Inset.CheckBoxPreference</item>
+        <item name="dialogPreferenceStyle">@style/Preference.Asp.Material.Inset.DialogPreference</item>
+        <item name="editTextPreferenceStyle">
+            @style/Preference.Asp.Material.Inset.DialogPreference.EditTextPreference
+        </item>
+        <item name="switchPreferenceCompatStyle">@style/Preference.Asp.Material.Inset.SwitchPreferenceCompat
+        </item>
+
+        <!-- Custom Preferences -->
+        <item name="ringtonePreferenceStyle">
+            @style/Preference.Asp.Material.Inset.DialogPreference.RingtonePreference
+        </item>
+        <item name="seekBarPreferenceStyle">@style/Preference.Asp.Material.Inset.SeekBarPreference</item>
+        <item name="seekBarDialogPreferenceStyle">
+            @style/Preference.Asp.Material.Inset.DialogPreference.SeekBarDialogPreference
+        </item>
+
+        <item name="listPreferenceStyle">
+            @style/Preference.Asp.Material.Inset.DialogPreference.ListPreference
+        </item>
+        <item name="multiSelectListPreferenceStyle">
+            @style/Preference.Asp.Material.Inset.DialogPreference.MultiSelectListPreference
+        </item>
+    </style>
 </resources>

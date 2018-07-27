@@ -47,6 +47,7 @@ public class SeekBarPreference extends Preference {
     // A filthy hack so we can update info text while dragging seek bar thumb.
     private static final Map<SeekBarPreference, Set<TextView>> sInfoViews = new WeakHashMap<>();
 
+    @NonNull
     private Set<TextView> getInfoViews() {
         Set<TextView> infoViews = sInfoViews.get(this);
         if (infoViews == null) {
@@ -56,7 +57,7 @@ public class SeekBarPreference extends Preference {
         return infoViews;
     }
 
-    private void replaceInfoView(final TextView infoView) {
+    private void replaceInfoView(final @NonNull TextView infoView) {
         boolean added = false;
         for (Map.Entry<SeekBarPreference, Set<TextView>> entry : sInfoViews.entrySet()) {
             // First traverse already existing mappings and reassign the view to correct preference.
@@ -94,7 +95,7 @@ public class SeekBarPreference extends Preference {
      */
     private final OnSeekBarChangeListener mSeekBarChangeListener = new OnSeekBarChangeListener() {
         @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        public void onProgressChanged(@NonNull SeekBar seekBar, int progress, boolean fromUser) {
             if (fromUser && !mTrackingTouch) {
                 syncValueInternal(seekBar);
             }
@@ -104,7 +105,7 @@ public class SeekBarPreference extends Preference {
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+        public void onStartTrackingTouch(@NonNull SeekBar seekBar) {
             mTrackingTouch = true;
             if (mUserSeekBarChangeListener != null) {
                 mUserSeekBarChangeListener.onStartTrackingTouch(seekBar);
@@ -112,7 +113,7 @@ public class SeekBarPreference extends Preference {
         }
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
+        public void onStopTrackingTouch(@NonNull SeekBar seekBar) {
             mTrackingTouch = false;
             if (seekBar.getProgress() + mMin != mSeekBarValue) {
                 syncValueInternal(seekBar);
@@ -128,10 +129,10 @@ public class SeekBarPreference extends Preference {
      * adjustable} attribute is set to true; it transfers the key presses to the SeekBar
      * to be handled accordingly.
      */
-    private View.OnKeyListener buildSeekBarKeyListener(final SeekBar seekBar) {
+    private View.OnKeyListener buildSeekBarKeyListener(final @NonNull SeekBar seekBar) {
         return new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public boolean onKey(@NonNull View v, int keyCode, @NonNull KeyEvent event) {
                 if (event.getAction() != KeyEvent.ACTION_DOWN) {
                     return false;
                 }
@@ -157,24 +158,24 @@ public class SeekBarPreference extends Preference {
         };
     }
 
-    public SeekBarPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public SeekBarPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public SeekBarPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public SeekBarPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_SeekBarPreference);
     }
 
-    public SeekBarPreference(Context context, @Nullable AttributeSet attrs) {
+    public SeekBarPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarPreferenceStyle);
     }
 
-    public SeekBarPreference(Context context) {
+    public SeekBarPreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 
         final boolean hasAspMin = a.hasValue(R.styleable.SeekBarPreference_asp_min);
@@ -209,7 +210,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    public void onBindViewHolder(final PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         final SeekBar seekBar = (SeekBar) holder.findViewById(R.id.seekbar);
@@ -244,7 +245,7 @@ public class SeekBarPreference extends Preference {
         seekBar.setEnabled(isEnabled());
     }
 
-    private void bindInfo(TextView info) {
+    private void bindInfo(@NonNull TextView info) {
         if (!TextUtils.isEmpty(mInfo)) {
             info.setText(mInfo);
             info.setVisibility(View.VISIBLE);
@@ -257,7 +258,7 @@ public class SeekBarPreference extends Preference {
         }
     }
 
-    private void bindInfoAnchor(TextView info) {
+    private void bindInfoAnchor(@NonNull TextView info) {
         try {
             final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) info.getLayoutParams();
             if (mInfoAnchorId != 0) {
@@ -319,7 +320,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restoreValue, @Nullable Object defaultValue) {
         if (defaultValue == null) {
             defaultValue = 0;
         }
@@ -328,7 +329,7 @@ public class SeekBarPreference extends Preference {
 
     @NonNull
     @Override
-    protected Integer onGetDefaultValue(TypedArray a, int index) {
+    protected Integer onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getInt(index, 0);
     }
 
@@ -432,7 +433,7 @@ public class SeekBarPreference extends Preference {
      * Persist the seekBar's progress value if callChangeListener
      * returns true, otherwise set the seekBar's progress to the stored value
      */
-    void syncValueInternal(SeekBar seekBar) {
+    void syncValueInternal(@NonNull SeekBar seekBar) {
         int progress = seekBar.getProgress();
         if (progress != mSeekBarValue - mMin) {
             if (callChangeListener(progress)) {
@@ -462,7 +463,7 @@ public class SeekBarPreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -488,7 +489,7 @@ public class SeekBarPreference extends Preference {
         int max;
         int min;
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
 
             // Restore the click counter
@@ -498,7 +499,7 @@ public class SeekBarPreference extends Preference {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
 
             // Save the click counter
@@ -507,7 +508,7 @@ public class SeekBarPreference extends Preference {
             dest.writeInt(min);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
 
@@ -515,7 +516,7 @@ public class SeekBarPreference extends Preference {
         public static final Creator<SavedState> CREATOR =
                 new Creator<SavedState>() {
                     @NonNull
-                    public SavedState createFromParcel(Parcel in) {
+                    public SavedState createFromParcel(@NonNull Parcel in) {
                         return new SavedState(in);
                     }
 

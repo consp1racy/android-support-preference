@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v7.widget.ThemedSpinnerAdapter;
@@ -12,15 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * <p>Wrapper class for an Adapter. Transforms the embedded Adapter instance
  * into a ListAdapter.</p>
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     private static final boolean IS_AT_LEAST_M = Build.VERSION.SDK_INT >= 23;
@@ -79,13 +77,13 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
 
     @Nullable
     @Override
-    public View getView(int position, @Nullable View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return getDropDownView(position, convertView, parent);
     }
 
     @Nullable
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return (mAdapter == null) ? null
             : mAdapter.getDropDownView(position, convertView, parent);
     }
@@ -96,14 +94,14 @@ public class DropDownAdapter implements ListAdapter, SpinnerAdapter {
     }
 
     @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
+    public void registerDataSetObserver(@NonNull DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.registerDataSetObserver(observer);
         }
     }
 
     @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
+    public void unregisterDataSetObserver(@NonNull DataSetObserver observer) {
         if (mAdapter != null) {
             mAdapter.unregisterDataSetObserver(observer);
         }

@@ -12,6 +12,7 @@ import android.preference.PreferenceActivity;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
@@ -74,7 +75,7 @@ public class Preference extends android.support.v7.preference.Preference
      * @see #Preference(Context, AttributeSet)
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public Preference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -99,7 +100,7 @@ public class Preference extends android.support.v7.preference.Preference
      *                     the view. Can be 0 to not look for defaults.
      * @see #Preference(Context, AttributeSet)
      */
-    public Preference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public Preference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material);
     }
 
@@ -117,7 +118,7 @@ public class Preference extends android.support.v7.preference.Preference
      *                preference.
      * @see #Preference(Context, AttributeSet, int)
      */
-    public Preference(Context context, @Nullable AttributeSet attrs) {
+    public Preference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.preferenceStyle);
     }
 
@@ -126,11 +127,11 @@ public class Preference extends android.support.v7.preference.Preference
      *
      * @param context The Context in which to store Preference values.
      */
-    public Preference(Context context) {
+    public Preference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(final Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
+    private void init(final @NonNull Context context, @Nullable final AttributeSet attrs, @AttrRes final int defStyleAttr, @StyleRes final int defStyleRes) {
         mPreferenceIconHelper = new PreferenceIconHelper(this);
         mPreferenceIconHelper.loadFromAttributes(attrs, defStyleAttr, defStyleRes);
 
@@ -197,7 +198,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         mPreferenceTextHelper.onBindViewHolder(holder);
 
@@ -205,7 +206,7 @@ public class Preference extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(@NonNull View v) {
                     return mOnPreferenceLongClickListener.onLongClick(Preference.this, v);
                 }
             });
@@ -216,7 +217,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setTitleTextColor(ColorStateList titleTextColor) {
+    public void setTitleTextColor(@NonNull ColorStateList titleTextColor) {
         mPreferenceTextHelper.setTitleTextColor(titleTextColor);
         notifyChanged();
     }
@@ -234,7 +235,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    public void setSummaryTextColor(ColorStateList summaryTextColor) {
+    public void setSummaryTextColor(@NonNull ColorStateList summaryTextColor) {
         mPreferenceTextHelper.setSummaryTextColor(summaryTextColor);
         notifyChanged();
     }
@@ -291,7 +292,7 @@ public class Preference extends android.support.v7.preference.Preference
     }
 
     @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
+    protected void onRestoreInstanceState(final @NonNull Parcelable state) {
         super.onRestoreInstanceState(state);
     }
 }

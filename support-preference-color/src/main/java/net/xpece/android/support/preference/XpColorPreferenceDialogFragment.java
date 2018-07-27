@@ -57,8 +57,8 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     private ProgressBar mProgress;
 
     public static boolean onPreferenceDisplayDialog(
-            final PreferenceFragmentCompat preferenceFragment,
-            final android.support.v7.preference.Preference preference) {
+            final @NonNull PreferenceFragmentCompat preferenceFragment,
+            final @NonNull android.support.v7.preference.Preference preference) {
         if (preference instanceof ColorPreference) {
             final String key = preference.getKey();
             final DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);
@@ -99,7 +99,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
 
     @NonNull
     @Override
-    protected View onCreateDialogView(final Context context) {
+    protected View onCreateDialogView(final @NonNull Context context) {
         final ColorPreference colorPreference = requireColorPreference();
 
         @SuppressLint("InflateParams") final View view = LayoutInflater.from(context).inflate(R.layout.color_picker_dialog, null);
@@ -144,7 +144,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     }
 
     @Override
-    protected void onBindDialogView(final View view) {
+    protected void onBindDialogView(final @NonNull View view) {
         super.onBindDialogView(view);
     }
 
@@ -202,7 +202,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putIntArray(KEY_COLORS, mColors);
         outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);

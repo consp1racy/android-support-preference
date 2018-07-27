@@ -1,6 +1,7 @@
 package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.v7.preference.Preference;
@@ -19,7 +20,7 @@ import java.util.Set;
  * version of Android.
  * <p>
  * If your app never supported Android 2.x or you never used
- * {@link net.xpece.android.support.preference.MultiSelectListPreference} on Android 2.x
+ * {@link MultiSelectListPreference} on Android 2.x
  * you don't need these methods.
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -60,7 +61,7 @@ public final class XpPreference {
      * will be a batch commit later.)
      * @see #getPersistedStringSet(Preference, Set)
      */
-    public static boolean persistStringSet(final Preference preference, final Set<String> values) {
+    public static boolean persistStringSet(final @NonNull Preference preference, final @NonNull Set<String> values) {
         //noinspection ConstantConditions
         if (values == null) {
             throw new IllegalArgumentException("Cannot persist null string set.");
@@ -107,7 +108,7 @@ public final class XpPreference {
      */
     @Nullable
     public static Set<String> getPersistedStringSet(
-            final Preference preference, @Nullable final Set<String> defaultReturnValue) {
+            final @NonNull Preference preference, @Nullable final Set<String> defaultReturnValue) {
         if (!shouldPersist(preference)) {
             return defaultReturnValue;
         }
@@ -121,7 +122,7 @@ public final class XpPreference {
     }
 
     private static void tryCommit(
-            final Preference preference, final SharedPreferences.Editor editor) {
+            final @NonNull Preference preference, final @NonNull SharedPreferences.Editor editor) {
         if (XpPreferenceManagerCompat.shouldCommit(preference.getPreferenceManager())) {
             editor.apply();
         }
@@ -136,7 +137,7 @@ public final class XpPreference {
      * @return {@code true} if it should persist the value
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private static boolean shouldPersist(final Preference p) {
+    private static boolean shouldPersist(final @NonNull Preference p) {
         return p.getPreferenceManager() != null && p.isPersistent() && p.hasKey();
     }
 
@@ -147,7 +148,7 @@ public final class XpPreference {
      * @param preferenceManager The PreferenceManager of the hierarchy.
      */
     static void onAttachedToHierarchy(
-            final Preference preference, final PreferenceManager preferenceManager) {
+            final @NonNull Preference preference, final @NonNull PreferenceManager preferenceManager) {
         try {
             METHOD_ON_ATTACHED_TO_HIERARCHY.invoke(preference, preferenceManager);
         } catch (Exception e) {
@@ -155,7 +156,7 @@ public final class XpPreference {
         }
     }
 
-    static void notifyChanged(final Preference preference) {
+    static void notifyChanged(final @NonNull Preference preference) {
         try {
             METHOD_NOTIFY_CHANGED.invoke(preference);
         } catch (Exception e) {

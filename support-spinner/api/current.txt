@@ -13,16 +13,16 @@ package android.support.v7.widget {
 package net.xpece.android.support.widget {
 
   public class CheckedTypedItemAdapter<T> extends android.widget.ArrayAdapter<T> implements android.support.v7.widget.ThemedSpinnerAdapter {
-    ctor public CheckedTypedItemAdapter(android.content.Context!, @LayoutRes int, @IdRes int, T[]!);
-    ctor public CheckedTypedItemAdapter(android.content.Context!, @LayoutRes int, @IdRes int, java.util.List<T>!);
-    method public void bindDropDownView(android.view.View!, T!);
-    method public void bindView(android.view.View!, T!);
-    method protected android.view.View createViewFromResource(android.view.LayoutInflater!, android.view.View?, android.view.ViewGroup!, @LayoutRes int);
-    method protected android.widget.TextView findTextView(android.view.View!);
-    method public CharSequence getItemDropDownText(T!);
-    method public CharSequence getItemText(T!);
-    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context!, T[]!);
-    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context!, java.util.List<T>!);
+    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, T[]);
+    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, java.util.List<T>);
+    method public void bindDropDownView(android.view.View, T);
+    method public void bindView(android.view.View, T);
+    method protected android.view.View createViewFromResource(android.view.LayoutInflater, android.view.View?, android.view.ViewGroup, @LayoutRes int);
+    method protected android.widget.TextView findTextView(android.view.View);
+    method public CharSequence getItemDropDownText(T);
+    method public CharSequence getItemText(T);
+    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, T[]);
+    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, java.util.List<T>);
   }
 
   @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP) public final class SimpleMenu {
@@ -45,10 +45,10 @@ package net.xpece.android.support.widget {
   }
 
   public class XpListPopupWindow {
-    ctor public XpListPopupWindow(android.content.Context!);
-    ctor public XpListPopupWindow(android.content.Context!, android.util.AttributeSet?);
-    ctor public XpListPopupWindow(android.content.Context!, android.util.AttributeSet?, @AttrRes int);
-    ctor public XpListPopupWindow(android.content.Context!, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public XpListPopupWindow(android.content.Context);
+    ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?);
+    ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
   }
 
 }

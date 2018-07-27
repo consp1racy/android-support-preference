@@ -52,24 +52,24 @@ public class RingtonePreference extends DialogPreference {
 
     private OnFailedToReadRingtoneListener mOnFailedToReadRingtoneListener;
 
-    public RingtonePreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public RingtonePreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public RingtonePreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public RingtonePreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_RingtonePreference);
     }
 
-    public RingtonePreference(Context context, @Nullable AttributeSet attrs) {
+    public RingtonePreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.ringtonePreferenceStyle);
     }
 
-    public RingtonePreference(Context context) {
+    public RingtonePreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RingtonePreference, defStyleAttr, defStyleRes);
         mRingtoneType = a.getInt(R.styleable.RingtonePreference_android_ringtoneType, RingtoneManager.TYPE_RINGTONE);
         mShowDefault = a.getBoolean(R.styleable.RingtonePreference_android_showDefault, true);
@@ -77,7 +77,7 @@ public class RingtonePreference extends DialogPreference {
         a.recycle();
     }
 
-    public boolean canPlayDefaultRingtone(final Context context) {
+    public boolean canPlayDefaultRingtone(final @NonNull Context context) {
         final Uri defaultUri = RingtoneManager.getDefaultUri(mRingtoneType);
         final SafeRingtone ringtone = SafeRingtone.obtain(context, defaultUri);
         try {
@@ -87,7 +87,7 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
-    public boolean canShowSelectedRingtoneTitle(final Context context) {
+    public boolean canShowSelectedRingtoneTitle(final @NonNull Context context) {
         final Uri currentUri = onRestoreRingtone();
         final SafeRingtone ringtone = SafeRingtone.obtain(context, currentUri);
         try {
@@ -97,7 +97,7 @@ public class RingtonePreference extends DialogPreference {
         }
     }
 
-    public void showDialogFragment(final XpPreferenceFragment fragment) {
+    public void showDialogFragment(final @NonNull XpPreferenceFragment fragment) {
         final FragmentManager fm = fragment.getFragmentManager();
         assert fm != null;
         if (fm.findFragmentByTag(XpPreferenceFragment.DIALOG_FRAGMENT_TAG) == null) {
@@ -222,7 +222,7 @@ public class RingtonePreference extends DialogPreference {
 
     @Nullable
     @Override
-    protected String onGetDefaultValue(TypedArray a, int index) {
+    protected String onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getString(index);
     }
 
@@ -305,7 +305,7 @@ public class RingtonePreference extends DialogPreference {
     }
 
     @NonNull
-    public static String getRingtoneTitle(Context context, @Nullable Uri uri) {
+    public static String getRingtoneTitle(@NonNull Context context, @Nullable Uri uri) {
         final SafeRingtone ringtone = SafeRingtone.obtain(context, uri);
         try {
             return ringtone.getTitle();
@@ -315,51 +315,51 @@ public class RingtonePreference extends DialogPreference {
     }
 
     @NonNull
-    public static String getNotificationSoundDefaultString(Context context) {
+    public static String getNotificationSoundDefaultString(@NonNull Context context) {
         return context.getString(R.string.notification_sound_default);
     }
 
     @NonNull
-    public static String getAlarmSoundDefaultString(Context context) {
+    public static String getAlarmSoundDefaultString(@NonNull Context context) {
         return context.getString(R.string.alarm_sound_default);
     }
 
     @NonNull
-    public static String getRingtoneDefaultString(Context context) {
+    public static String getRingtoneDefaultString(@NonNull Context context) {
         return context.getString(R.string.ringtone_default);
     }
 
     @NonNull
-    public static String getRingtoneDefaultWithActualString(Context context, String actual) {
+    public static String getRingtoneDefaultWithActualString(@NonNull Context context, @NonNull String actual) {
         return context.getString(R.string.ringtone_default_with_actual, actual);
     }
 
     @NonNull
-    public static String getRingtoneSilentString(Context context) {
+    public static String getRingtoneSilentString(@NonNull Context context) {
         return context.getString(R.string.ringtone_silent);
     }
 
     @NonNull
-    public static String getRingtoneUnknownString(Context context) {
+    public static String getRingtoneUnknownString(@NonNull Context context) {
         return context.getString(R.string.ringtone_unknown);
     }
 
     @NonNull
-    public static String getRingtonePickerTitleString(Context context) {
+    public static String getRingtonePickerTitleString(@NonNull Context context) {
         return context.getString(R.string.ringtone_picker_title);
     }
 
     @NonNull
-    public static String getRingtonePickerTitleAlarmString(Context context) {
+    public static String getRingtonePickerTitleAlarmString(@NonNull Context context) {
         return context.getApplicationContext().getString(R.string.ringtone_picker_title_alarm);
     }
 
     @NonNull
-    public static String getRingtonePickerTitleNotificationString(Context context) {
+    public static String getRingtonePickerTitleNotificationString(@NonNull Context context) {
         return context.getApplicationContext().getString(R.string.ringtone_picker_title_notification);
     }
 
     public interface OnFailedToReadRingtoneListener {
-        void onFailedToReadRingtone(RingtonePreference ringtonePreference, boolean cannotPlayDefault, boolean cannotShowTitleSelected);
+        void onFailedToReadRingtone(@NonNull RingtonePreference ringtonePreference, boolean cannotPlayDefault, boolean cannotShowTitleSelected);
     }
 }

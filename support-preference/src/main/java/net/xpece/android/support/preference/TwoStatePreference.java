@@ -45,19 +45,19 @@ public abstract class TwoStatePreference extends Preference {
     private boolean mCheckedSet;
     private boolean mDisableDependentsState;
 
-    public TwoStatePreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public TwoStatePreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public TwoStatePreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public TwoStatePreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public TwoStatePreference(Context context, @Nullable AttributeSet attrs) {
+    public TwoStatePreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TwoStatePreference(Context context) {
+    public TwoStatePreference(@NonNull Context context) {
         super(context);
     }
 
@@ -188,12 +188,12 @@ public abstract class TwoStatePreference extends Preference {
 
     @NonNull
     @Override
-    protected Boolean onGetDefaultValue(TypedArray a, int index) {
+    protected Boolean onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getBoolean(index, false);
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restoreValue, @Nullable Object defaultValue) {
         if (defaultValue == null) {
             defaultValue = false;
         }
@@ -205,7 +205,7 @@ public abstract class TwoStatePreference extends Preference {
      *
      * @param holder PreferenceViewHolder which holds a reference to the summary view
      */
-    protected void syncSummaryView(PreferenceViewHolder holder) {
+    protected void syncSummaryView(@NonNull PreferenceViewHolder holder) {
         // Sync the summary holder
         View view = holder.findViewById(android.R.id.summary);
         syncSummaryView(view);
@@ -217,7 +217,7 @@ public abstract class TwoStatePreference extends Preference {
      * @param view View where a summary should be located
      * @hide
      */
-    void syncSummaryView(View view) {
+    void syncSummaryView(@NonNull View view) {
         // Sync the summary view
         TextView summaryView = (TextView) view.findViewById(android.R.id.summary);
         if (summaryView != null) {
@@ -265,7 +265,7 @@ public abstract class TwoStatePreference extends Preference {
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    protected void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!state.getClass().equals(SavedState.class)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
@@ -280,25 +280,25 @@ public abstract class TwoStatePreference extends Preference {
     static class SavedState extends BaseSavedState {
         boolean checked;
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             checked = source.readInt() == 1;
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(checked ? 1 : 0);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
                     @NonNull
-                    public SavedState createFromParcel(Parcel in) {
+                    public SavedState createFromParcel(@NonNull Parcel in) {
                         return new SavedState(in);
                     }
 

@@ -1,6 +1,6 @@
 # Change log
 
-## 2.3.0 2018-05-XX
+## 2.3.0 2018-07-27
 
 ### Support Preference
 
@@ -18,11 +18,21 @@
 - *FIXED:* `SeekBarPreference` now treats null default value as zero.
 - *FIXED:* `TwoStatePreference` now treats null default value as false.
 - *FIXED:* `CheckBoxPreference` now correctly reverts check box state if preference change listener returned false.
+- *FIXED:* Added missing implementation in deprecated method `XpPreferenceHelpers#setDialogIcon`.
 - *NEW!* New API for using a long-lived themed context with the preference fragment.
   - This will prevent memory leaks when using retained preference fragments. Retained fragments
   don't reinflate the preference hierarchy on each configuration change which prevents jank.
   - Override `XpPreferenceFragment#onProvideCustomStyledContext` and return an application context
     with an activity theme overlay. Use utility methods in the `StyledContextProvider` class.
+- *NEW!* Preference theme with text aligned with activity title.
+
+```xml
+<item name="preferenceTheme">@style/PreferenceThemeOverlay.Asp.Material.Inset</item>
+<!-- Add if you use ColorPreference. -->
+<item name="colorPreferenceStyle">
+    @style/Preference.Asp.Material.Inset.DialogPreference.ColorPreference
+</item>
+```
 
 ### Support Spinner
 

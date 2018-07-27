@@ -24,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * An adapter that's responsible for transforming its items to text representation that's used
  * <ul>
@@ -34,7 +32,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * </ul>
  * Additionally checked items will be highlighted.
  */
-@ParametersAreNonnullByDefault
 public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements ThemedSpinnerAdapter {
 
     private static final int[] DISABLED_STATE_SET = {-android.R.attr.state_enabled};
@@ -52,30 +49,32 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     private int mResource;
 
     @NonNull
-    public static <T> CheckedTypedItemAdapter newInstance(Context context, T[] objects) {
+    public static <T> CheckedTypedItemAdapter newInstance(
+            @NonNull Context context, @NonNull T[] objects) {
         return newInstance(context, Arrays.asList(objects));
     }
 
     @NonNull
-    public static <T> CheckedTypedItemAdapter newInstance(Context context, List<T> objects) {
+    public static <T> CheckedTypedItemAdapter newInstance(
+            @NonNull Context context, @NonNull List<T> objects) {
         CheckedTypedItemAdapter a = new CheckedTypedItemAdapter<>(context, android.R.layout.simple_spinner_item, android.R.id.text1, objects);
         a.setDropDownViewResource(R.layout.asp_simple_spinner_dropdown_item);
         return a;
     }
 
     public CheckedTypedItemAdapter(
-            Context context,
+            @NonNull Context context,
             @LayoutRes int resource,
             @IdRes int textViewResourceId,
-            T[] objects) {
+            @NonNull T[] objects) {
         this(context, resource, textViewResourceId, Arrays.asList(objects));
     }
 
     public CheckedTypedItemAdapter(
-            Context context,
+            @NonNull Context context,
             @LayoutRes int resource,
             @IdRes int textViewResourceId,
-            List<T> objects) {
+            @NonNull List<T> objects) {
         super(context, resource, textViewResourceId, objects);
 
         mDropDownHelper = new Helper(context);
@@ -97,7 +96,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     @NonNull
     @Override
     public View getDropDownView(
-            final int position, @Nullable final View convertView, final ViewGroup parent) {
+            final int position, @Nullable final View convertView, @NonNull final ViewGroup parent) {
         LayoutInflater inflater = mDropDownHelper.getDropDownViewInflater();
         View view = createViewFromResource(inflater, convertView, parent, mDropDownResource);
         T item = getItem(position);
@@ -110,7 +109,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = createViewFromResource(mInflater, convertView, parent, mResource);
         T item = getItem(position);
         assert item != null;
@@ -137,8 +136,8 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
 
     @NonNull
     protected View createViewFromResource(
-            LayoutInflater inflater, @Nullable View convertView,
-            ViewGroup parent, @LayoutRes int resource) {
+            @NonNull LayoutInflater inflater, @Nullable View convertView,
+            @NonNull ViewGroup parent, @LayoutRes int resource) {
         View view;
         if (convertView == null) {
             view = inflater.inflate(resource, parent, false);
@@ -149,7 +148,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     }
 
     @NonNull
-    protected TextView findTextView(View view) {
+    protected TextView findTextView(@NonNull View view) {
         TextView text;
         try {
             if (mFieldId == 0) {
@@ -167,13 +166,13 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
         return text;
     }
 
-    public void bindDropDownView(View view, T item) {
+    public void bindDropDownView(@NonNull View view, @NonNull T item) {
         TextView text = findTextView(view);
         final CharSequence value = getItemDropDownText(item);
         text.setText(value);
     }
 
-    public void bindView(View view, T item) {
+    public void bindView(@NonNull View view, @NonNull T item) {
         TextView text = findTextView(view);
         final CharSequence value = getItemText(item);
         text.setText(value);
@@ -188,7 +187,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
      * @return String representation of {@code item}.
      */
     @NonNull
-    public CharSequence getItemText(T item) {
+    public CharSequence getItemText(@NonNull T item) {
         return item.toString();
     }
 
@@ -201,12 +200,12 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
      * @return String representation of {@code item}.
      */
     @NonNull
-    public CharSequence getItemDropDownText(T item) {
+    public CharSequence getItemDropDownText(@NonNull T item) {
         return getItemText(item);
     }
 
     @NonNull
-    private Drawable getCheckedBackgroundDrawable(final View view) {
+    private Drawable getCheckedBackgroundDrawable(final @NonNull View view) {
         Drawable d = sCheckedBackgroundMap.get(view);
         if (d == null) {
             d = createCheckedBackgroundDrawable(view.getContext());
@@ -216,7 +215,7 @@ public class CheckedTypedItemAdapter<T> extends ArrayAdapter<T> implements Theme
     }
 
     @NonNull
-    private Drawable createCheckedBackgroundDrawable(Context context) {
+    private Drawable createCheckedBackgroundDrawable(@NonNull Context context) {
         final int highlight = XpSpinnerUtil.resolveColor(context, R.attr.colorControlHighlight, 0);
         final int[][] states = new int[4][];
         final Drawable[] drawables = new Drawable[4];

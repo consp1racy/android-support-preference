@@ -38,7 +38,7 @@ public class PreferenceIconHelper {
     protected boolean mIconPaddingEnabled = false;
 
     @NonNull
-    public static PreferenceIconHelper setup(Preference pref, @DrawableRes int icon, @ColorRes int tint, boolean padding) {
+    public static PreferenceIconHelper setup(@NonNull Preference pref, @DrawableRes int icon, @ColorRes int tint, boolean padding) {
         PreferenceIconHelper helper = new PreferenceIconHelper(pref);
         helper.setIconPaddingEnabled(padding);
         helper.setIcon(icon);
@@ -51,7 +51,7 @@ public class PreferenceIconHelper {
         return helper;
     }
 
-    public PreferenceIconHelper(Preference preference) {
+    public PreferenceIconHelper(@NonNull Preference preference) {
         mPreference = new WeakReference<>(preference);
     }
 
@@ -85,14 +85,14 @@ public class PreferenceIconHelper {
 
     @Nullable
     @SuppressWarnings("RestrictedApi")
-    protected ColorStateList getTintList(TintTypedArray a, @AttrRes int attr, Context context) {
+    protected ColorStateList getTintList(@NonNull TintTypedArray a, @AttrRes int attr, @NonNull Context context) {
         ColorStateList csl = a.getColorStateList(attr);
         csl = withDisabled(csl, context);
         return csl;
     }
 
     @Nullable
-    protected static ColorStateList withDisabled(@Nullable ColorStateList csl, Context context) {
+    protected static ColorStateList withDisabled(@Nullable ColorStateList csl, @NonNull Context context) {
         if (csl != null && !csl.isStateful()) {
             int color = csl.getDefaultColor();
             int disabledAplha = (int) (Util.resolveFloat(context, android.R.attr.disabledAlpha, 0.5f) * 255);

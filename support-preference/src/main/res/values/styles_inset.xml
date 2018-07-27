@@ -1,0 +1,60 @@
+<resources>
+
+    <style name="Preference.Asp.Material.Inset" parent="Preference.Asp.Material">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.PreferenceScreen"/>
+
+    <style name="Preference.Asp.Material.Inset.Information" parent="Preference.Asp.Material.Information">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.Category" parent="Preference.Asp.Material.Category">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.CheckBoxPreference" parent="Preference.Asp.Material.CheckBoxPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.SwitchPreferenceCompat" parent="Preference.Asp.Material.SwitchPreferenceCompat">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference" parent="Preference.Asp.Material.DialogPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.YesNoPreference" parent="Preference.Asp.Material.DialogPreference.YesNoPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.EditTextPreference" parent="Preference.Asp.Material.DialogPreference.EditTextPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.SeekBarDialogPreference" parent="Preference.Asp.Material.DialogPreference.SeekBarDialogPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.SeekBarPreference" parent="Preference.Asp.Material.SeekBarPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.MultiSelectListPreference" parent="Preference.Asp.Material.DialogPreference.MultiSelectListPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.ListPreference" parent="Preference.Asp.Material.DialogPreference.ListPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.ListPreference.SimpleMenu" parent="Preference.Asp.Material.DialogPreference.ListPreference.SimpleMenu">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="Preference.Asp.Material.Inset.DialogPreference.RingtonePreference" parent="Preference.Asp.Material.DialogPreference.RingtonePreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+</resources>

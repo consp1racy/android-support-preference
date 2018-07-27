@@ -37,7 +37,7 @@ public final class StyledContextProvider {
      * @see #getActivityThemeResource(Activity)
      */
     @NonNull
-    public static ContextThemeWrapper getThemedApplicationContext(final Activity activity) {
+    public static ContextThemeWrapper getThemedApplicationContext(final @NonNull Activity activity) {
         final int activityThemeId = getActivityThemeResource(activity);
         final Context app = activity.getApplicationContext();
         return new ContextThemeWrapper(app, activityThemeId);
@@ -51,7 +51,7 @@ public final class StyledContextProvider {
      * However you may use your own logic to extract that runtime theme using retrieved theme ID.
      */
     @StyleRes
-    public static int getActivityThemeResource(final Activity activity) {
+    public static int getActivityThemeResource(final @NonNull Activity activity) {
         try {
             return activity.getPackageManager()
                     .getActivityInfo(activity.getComponentName(), 0)
@@ -70,7 +70,7 @@ public final class StyledContextProvider {
      * @return Resource ID, if found, {@code 0} otherwise.
      */
     @AnyRes
-    public static int resolveResourceId(final Context context, @AttrRes final int attrId) {
+    public static int resolveResourceId(final @NonNull Context context, @AttrRes final int attrId) {
         return Util.resolveResourceId(context, attrId, 0);
     }
 }

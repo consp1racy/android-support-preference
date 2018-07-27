@@ -49,13 +49,13 @@ public final class XpPreferenceManager extends PreferenceManager {
     private String[] mCustomDefaultPackages;
     private String[] mAllDefaultPackages;
 
-    XpPreferenceManager(final Context context, @Nullable final String[] customDefaultPackages) {
+    XpPreferenceManager(final @NonNull Context context, @Nullable final String[] customDefaultPackages) {
         this(context);
         mCustomDefaultPackages = customDefaultPackages;
     }
 
     @SuppressWarnings("RestrictedApi")
-    XpPreferenceManager(final Context context) {
+    XpPreferenceManager(final @NonNull Context context) {
         super(context);
     }
 
@@ -74,7 +74,7 @@ public final class XpPreferenceManager extends PreferenceManager {
     @Override
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public PreferenceScreen inflateFromResource(
-            final Context context,
+            @NonNull final Context context,
             @XmlRes final int resId,
             @Nullable PreferenceScreen rootPreferences) {
         XpPreferenceManagerCompat.setNoCommit(this, true);
@@ -86,7 +86,7 @@ public final class XpPreferenceManager extends PreferenceManager {
         return rootPreferences;
     }
 
-    private void initPreferenceInflater(final XpPreferenceInflater inflater) {
+    private void initPreferenceInflater(final @NonNull XpPreferenceInflater inflater) {
         if (mAllDefaultPackages == null) {
             if (mCustomDefaultPackages == null || mCustomDefaultPackages.length == 0) {
                 mAllDefaultPackages = DEFAULT_PACKAGES;
@@ -126,7 +126,7 @@ public final class XpPreferenceManager extends PreferenceManager {
      * @see #setDefaultValues(Context, String, int, int, boolean)
      * @see #setDefaultValues(Context, String, int, int, boolean, String[])
      */
-    public static void setDefaultValues(Context context, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(@NonNull Context context, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, customDefaultPackages);
     }
 
@@ -154,7 +154,7 @@ public final class XpPreferenceManager extends PreferenceManager {
      * @see #setDefaultValues(Context, String, int, int, boolean)
      * @see #setDefaultValues(Context, String, int, int, boolean, String[])
      */
-    public static void setDefaultValues(Context context, @XmlRes int resId, boolean readAgain) {
+    public static void setDefaultValues(@NonNull Context context, @XmlRes int resId, boolean readAgain) {
         setDefaultValues(context, getDefaultSharedPreferencesName(context), getDefaultSharedPreferencesMode(), resId, readAgain, null);
     }
 
@@ -187,7 +187,7 @@ public final class XpPreferenceManager extends PreferenceManager {
      * @see #setSharedPreferencesName(String)
      * @see #setSharedPreferencesMode(int)
      */
-    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain) {
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain) {
         setDefaultValues(context, sharedPreferencesName, sharedPreferencesMode, resId, readAgain, null);
     }
 
@@ -222,7 +222,7 @@ public final class XpPreferenceManager extends PreferenceManager {
      * @see #setSharedPreferencesName(String)
      * @see #setSharedPreferencesMode(int)
      */
-    public static void setDefaultValues(Context context, String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
+    public static void setDefaultValues(@NonNull Context context, @NonNull String sharedPreferencesName, int sharedPreferencesMode, @XmlRes int resId, boolean readAgain, @Nullable final String[] customDefaultPackages) {
         SharedPreferences defaultValueSp = context.getSharedPreferences(KEY_HAS_SET_DEFAULT_VALUES, 0);
         if (readAgain || !defaultValueSp.getBoolean(KEY_HAS_SET_DEFAULT_VALUES, false)) {
             XpPreferenceManager pm = new XpPreferenceManager(context, customDefaultPackages);
@@ -235,7 +235,7 @@ public final class XpPreferenceManager extends PreferenceManager {
     }
 
     @NonNull
-    private static String getDefaultSharedPreferencesName(Context context) {
+    private static String getDefaultSharedPreferencesName(@NonNull Context context) {
         return context.getPackageName() + "_preferences";
     }
 

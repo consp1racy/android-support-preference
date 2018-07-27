@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.Preference;
 import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
@@ -40,16 +41,16 @@ public class CheckBoxPreference extends TwoStatePreference {
     private final Listener mListener = new Listener();
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public CheckBoxPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public CheckBoxPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_CheckBoxPreference);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CheckBoxPreference, defStyleAttr, defStyleRes);
         setSummaryOn(a.getString(R.styleable.CheckBoxPreference_android_summaryOn));
         setSummaryOff(a.getString(R.styleable.CheckBoxPreference_android_summaryOff));
@@ -57,16 +58,16 @@ public class CheckBoxPreference extends TwoStatePreference {
         a.recycle();
     }
 
-    public CheckBoxPreference(Context context, @Nullable AttributeSet attrs) {
+    public CheckBoxPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.checkBoxPreferenceStyle);
     }
 
-    public CheckBoxPreference(Context context) {
+    public CheckBoxPreference(@NonNull Context context) {
         this(context, null);
     }
 
     @Override
-    public void onBindViewHolder(final PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull final PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         syncCheckboxView(holder);
         syncSummaryView(holder);
@@ -93,7 +94,7 @@ public class CheckBoxPreference extends TwoStatePreference {
 //        syncSummaryView(summaryView);
 //    }
 
-    private void syncCheckboxView(final PreferenceViewHolder holder) {
+    private void syncCheckboxView(final @NonNull PreferenceViewHolder holder) {
         View checkboxView = holder.findViewById(android.R.id.checkbox);
         if (checkboxView == null) {
             checkboxView = holder.findViewById(R.id.checkbox);
@@ -101,7 +102,7 @@ public class CheckBoxPreference extends TwoStatePreference {
         syncCheckboxView(checkboxView);
     }
 
-    private void syncCheckboxView(View view) {
+    private void syncCheckboxView(@NonNull View view) {
         if (view instanceof CompoundButton) {
             ((CompoundButton) view).setOnCheckedChangeListener(null);
         }
@@ -118,7 +119,7 @@ public class CheckBoxPreference extends TwoStatePreference {
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
             if (!callChangeListener(isChecked)) {
                 // Listener didn't like it, change it back.
                 // CompoundButton will make sure we don't recurse.

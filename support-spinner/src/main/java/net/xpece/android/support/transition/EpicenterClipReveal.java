@@ -38,8 +38,6 @@ import android.view.animation.AnimationUtils;
 
 import net.xpece.android.support.widget.spinner.R;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * EpicenterClipReveal captures the clip bounds and translation values
  * before and after the scene change and animates between those and the
@@ -47,7 +45,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RequiresApi(23)
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public class EpicenterClipReveal extends Visibility {
@@ -68,7 +65,7 @@ public class EpicenterClipReveal extends Visibility {
         mInterpolatorZ = null;
     }
 
-    public EpicenterClipReveal(Context context, @Nullable AttributeSet attrs) {
+    public EpicenterClipReveal(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         final TypedArray a = context.obtainStyledAttributes(attrs,
@@ -102,18 +99,18 @@ public class EpicenterClipReveal extends Visibility {
     }
 
     @Override
-    public void captureStartValues(TransitionValues transitionValues) {
+    public void captureStartValues(@NonNull TransitionValues transitionValues) {
         super.captureStartValues(transitionValues);
         captureValues(transitionValues);
     }
 
     @Override
-    public void captureEndValues(TransitionValues transitionValues) {
+    public void captureEndValues(@NonNull TransitionValues transitionValues) {
         super.captureEndValues(transitionValues);
         captureValues(transitionValues);
     }
 
-    private void captureValues(TransitionValues values) {
+    private void captureValues(@NonNull TransitionValues values) {
         final View view = values.view;
         if (view.getVisibility() == View.GONE) {
             return;
@@ -130,9 +127,10 @@ public class EpicenterClipReveal extends Visibility {
         values.values.put(PROPNAME_CLIP, clip);
     }
 
+    @NonNull
     @Override
-    public Animator onAppear(ViewGroup sceneRoot, View view,
-            TransitionValues startValues, @Nullable TransitionValues endValues) {
+    public Animator onAppear(@NonNull ViewGroup sceneRoot, @NonNull View view,
+                             @NonNull TransitionValues startValues, @Nullable TransitionValues endValues) {
         if (endValues == null) {
             return null;
         }
@@ -167,9 +165,10 @@ public class EpicenterClipReveal extends Visibility {
                 endZ, endValues, mInterpolatorX, mInterpolatorY, mInterpolatorZ);
     }
 
+    @NonNull
     @Override
-    public Animator onDisappear(ViewGroup sceneRoot, View view,
-            @Nullable TransitionValues startValues, TransitionValues endValues) {
+    public Animator onDisappear(@NonNull ViewGroup sceneRoot, @NonNull View view,
+                                @Nullable TransitionValues startValues, @NonNull TransitionValues endValues) {
         if (startValues == null) {
             return null;
         }
@@ -200,7 +199,7 @@ public class EpicenterClipReveal extends Visibility {
     }
 
     @NonNull
-    private Rect getEpicenterOrCenter(Rect bestRect) {
+    private Rect getEpicenterOrCenter(@NonNull Rect bestRect) {
         final Rect epicenter = getEpicenter();
         if (epicenter != null) {
             return epicenter;
@@ -212,7 +211,7 @@ public class EpicenterClipReveal extends Visibility {
     }
 
     @NonNull
-    private Rect getBestRect(TransitionValues values) {
+    private Rect getBestRect(@NonNull TransitionValues values) {
         final Rect clipRect = (Rect) values.values.get(PROPNAME_CLIP);
         if (clipRect == null) {
             return (Rect) values.values.get(PROPNAME_BOUNDS);
@@ -220,8 +219,11 @@ public class EpicenterClipReveal extends Visibility {
         return clipRect;
     }
 
-    private static Animator createRectAnimator(final View view, State startX, State startY,
-            float startZ, State endX, State endY, float endZ, TransitionValues endValues,
+    private static Animator createRectAnimator(
+            final @NonNull View view,
+            @NonNull State startX, @NonNull State startY, float startZ,
+            @NonNull State endX, @NonNull State endY, float endZ,
+            @NonNull TransitionValues endValues,
             @Nullable TimeInterpolator interpolatorX,
             @Nullable TimeInterpolator interpolatorY,
             @Nullable TimeInterpolator interpolatorZ) {
@@ -277,8 +279,9 @@ public class EpicenterClipReveal extends Visibility {
 
         private final State mTemp = new State();
 
+        @NonNull
         @Override
-        public State evaluate(float fraction, State startValue, State endValue) {
+        public State evaluate(float fraction, @NonNull State startValue, @NonNull State endValue) {
             mTemp.upper = startValue.upper + (int) ((endValue.upper - startValue.upper) * fraction);
             mTemp.lower = startValue.lower + (int) ((endValue.lower - startValue.lower) * fraction);
             mTemp.trans = startValue.trans + (int) ((endValue.trans - startValue.trans) * fraction);
@@ -302,7 +305,7 @@ public class EpicenterClipReveal extends Visibility {
         }
 
         @Override
-        public State get(View object) {
+        public State get(@NonNull View object) {
             final Rect tempRect = mTempRect;
             if (!object.getClipBounds(tempRect)) {
                 tempRect.setEmpty();
@@ -321,7 +324,7 @@ public class EpicenterClipReveal extends Visibility {
         }
 
         @Override
-        public void set(View object, State value) {
+        public void set(@NonNull View object, @NonNull State value) {
             final Rect tempRect = mTempRect;
             if (object.getClipBounds(tempRect)) {
                 if (mTargetDimension == TARGET_X) {

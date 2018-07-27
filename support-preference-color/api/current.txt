@@ -4,13 +4,13 @@ package net.xpece.android.colorpicker {
     ctor public ColorPickerDialog();
     method @ColorInt public int[]? getColors();
     method @ColorInt public int getSelectedColor();
-    method public void initialize(int, @ColorInt int[]!, @ColorInt int, int, int);
-    method public static net.xpece.android.colorpicker.ColorPickerDialog newInstance(@StringRes int, @ColorInt int[]!, @ColorInt int, int, int);
+    method public void initialize(int, @ColorInt int[], @ColorInt int, int, int);
+    method public static net.xpece.android.colorpicker.ColorPickerDialog newInstance(@StringRes int, @ColorInt int[], @ColorInt int, int, int);
     method public void onColorSelected(@ColorInt int);
     method public void setArguments(int, int, int);
-    method public void setColorContentDescriptions(String[]!);
-    method public void setColors(@ColorInt int[]!, @ColorInt int);
-    method public void setColors(@ColorInt int[]!);
+    method public void setColorContentDescriptions(String[]);
+    method public void setColors(@ColorInt int[], @ColorInt int);
+    method public void setColors(@ColorInt int[]);
     method public void setOnColorSelectedListener(net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener?);
     method public void setSelectedColor(@ColorInt int);
     method public void showPaletteView();
@@ -32,8 +32,8 @@ package net.xpece.android.colorpicker {
   }
 
   public class ColorPickerPalette extends android.widget.TableLayout {
-    ctor public ColorPickerPalette(android.content.Context!, android.util.AttributeSet?);
-    ctor public ColorPickerPalette(android.content.Context!);
+    ctor public ColorPickerPalette(android.content.Context, android.util.AttributeSet?);
+    ctor public ColorPickerPalette(android.content.Context);
     method public void drawPalette(@ColorInt int[]?, @ColorInt int);
     method public void drawPalette(@ColorInt int[]?, @ColorInt int, CharSequence[]?);
     method public int getEffectiveNumColumns();
@@ -44,8 +44,8 @@ package net.xpece.android.colorpicker {
   }
 
   public class ColorPickerSwatch extends android.widget.FrameLayout implements android.view.View.OnClickListener {
-    ctor public ColorPickerSwatch(android.content.Context!, @ColorInt int, boolean, net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener!);
-    method public void onClick(android.view.View!);
+    ctor public ColorPickerSwatch(android.content.Context, @ColorInt int, boolean, net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener?);
+    method public void onClick(android.view.View);
     method protected void setColor(@ColorInt int);
   }
 
@@ -54,13 +54,13 @@ package net.xpece.android.colorpicker {
   }
 
   public class ColorStateDrawable extends android.graphics.drawable.LayerDrawable {
-    ctor public ColorStateDrawable(android.graphics.drawable.Drawable[]!, @ColorInt int, @ColorInt int);
-    method public static android.graphics.drawable.Drawable create(android.graphics.drawable.Drawable[]!, @ColorInt int, @ColorInt int);
+    ctor public ColorStateDrawable(android.graphics.drawable.Drawable[], @ColorInt int, @ColorInt int);
+    method public static android.graphics.drawable.Drawable create(android.graphics.drawable.Drawable[], @ColorInt int, @ColorInt int);
   }
 
   public class HsvColorComparator implements java.util.Comparator<java.lang.Integer> {
     ctor public HsvColorComparator();
-    method public int compare(Integer!, Integer!);
+    method public int compare(Integer, Integer);
   }
 
 }
@@ -68,10 +68,10 @@ package net.xpece.android.colorpicker {
 package net.xpece.android.support.preference {
 
   public class ColorPreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public ColorPreference(android.content.Context!, android.util.AttributeSet?, int, int);
-    ctor public ColorPreference(android.content.Context!, android.util.AttributeSet?, int);
-    ctor public ColorPreference(android.content.Context!, android.util.AttributeSet?);
-    ctor public ColorPreference(android.content.Context!);
+    ctor public ColorPreference(android.content.Context, android.util.AttributeSet?, int, int);
+    ctor public ColorPreference(android.content.Context, android.util.AttributeSet?, int);
+    ctor public ColorPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public ColorPreference(android.content.Context);
     method public android.graphics.drawable.Drawable buildColorDrawable(@ColorInt int);
     method public int findIndexOfValue(@ColorInt int);
     method @ColorInt public int getColor();
@@ -80,7 +80,7 @@ package net.xpece.android.support.preference {
     method public int getColumnCount();
     method public CharSequence? getNameForColor(@ColorInt int);
     method public int getSwatchSize();
-    method @ColorInt protected Integer! onGetDefaultValue(android.content.res.TypedArray!, int);
+    method @ColorInt protected Integer! onGetDefaultValue(android.content.res.TypedArray, int);
     method public void setColor(@ColorInt int);
     method public void setColorNames(@ArrayRes int);
     method public void setColorNames(CharSequence[]?);
@@ -98,7 +98,7 @@ package net.xpece.android.support.preference {
     method public static net.xpece.android.support.preference.XpColorPreferenceDialogFragment newInstance(String!);
     method public void onColorSelected(@ColorInt int);
     method public void onDialogClosed(boolean);
-    method public static boolean onPreferenceDisplayDialog(android.support.v7.preference.PreferenceFragmentCompat!, android.support.v7.preference.Preference!);
+    method public static boolean onPreferenceDisplayDialog(android.support.v7.preference.PreferenceFragmentCompat, android.support.v7.preference.Preference);
     method protected net.xpece.android.support.preference.ColorPreference requireColorPreference();
     method public void showPaletteView();
     method public void showProgressBarView();

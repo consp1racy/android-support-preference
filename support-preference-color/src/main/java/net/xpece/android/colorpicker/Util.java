@@ -26,7 +26,7 @@ final class Util {
 
     @ColorInt
     @SuppressLint("RestrictedApi")
-    static int resolveColor(final Context context, @AttrRes final int attr, @ColorInt final int fallback) {
+    static int resolveColor(final @NonNull Context context, @AttrRes final int attr, @ColorInt final int fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, tempArray);

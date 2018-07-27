@@ -18,7 +18,7 @@ Available from API 14. *Connecting preference-v7 to appcompat-v7.*
 
 <a name="how-to-get"/>
 
-## How to get the preference library? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference%3A1.2.7"><img src="https://img.shields.io/badge/support--preference-1369-e91e63.svg"/></a> <a href="http://www.methodscount.com/?lib=com.android.support%3Apreference-v7%3A25.2.0"><img src="https://img.shields.io/badge/preference--v7-990-e91e63.svg"/></a>
+## How to get the preference library?
 
 ```groovy
 dependencies {
@@ -35,11 +35,13 @@ Always specify `preference-v7` version explicitly!
 ### Compatibility
 
 Version 1.x.x is compatible with support libraries from 23.2.0 to 27.0.2.
+
 Version 2.x.x requires at least support libraries 27.0.0.
+Version 2.x.x **IS NOT** compatible with AndroidX. Stay tuned for version 3.x.x!
 
 Keep the major version of all artifacts same. V2 is not compatible with V1.
 
-## How to get color picker preference too? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-preference-color%3A1.2.7"><img src="https://img.shields.io/badge/support--preference--color-216-e91e63.svg"/></a>
+## How to get color picker preference too?
 
 
 ```groovy
@@ -48,7 +50,7 @@ dependencies {
 }
 ```
 
-## How to get custom Material popup menu and spinner? <a href="http://www.methodscount.com/?lib=net.xpece.android%3Asupport-spinner%3A1.2.7"><img src="https://img.shields.io/badge/support--spinner-538-e91e63.svg"/></a>
+## How to get custom Material popup menu and spinner?
 
 
 ```groovy
@@ -428,11 +430,6 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-## Known issues
-
-- MultiSelectListPreference items may be incorrectly tinted on Android 2.
-  - Observed on Android 4 as well on first opening of multi select dialog.
-
 <a name="reporting-errors"/>
 
 ## Reporting errors
@@ -481,13 +478,6 @@ Thanks for making this library better!
 
 - Why are some of your classes in `android.support.v7` packages?
     - I'm using their package private features to achieve consistent results with AppCompat.
-
-## TODO
-
-- Compute simple menu preferred position with prompt enabled.
-- ListPreference scroll to viewport before renewing popup/dialog.
-- ColorPicker XML attributes.
-- Use ForwardingListener.
 
 ## Credit
 

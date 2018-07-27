@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.AnyRes;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -46,22 +47,23 @@ final class Util {
     }
 
     @Dimension
-    private static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
+    private static float dpToPx(@NonNull Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxOffset(@NonNull Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 
     @Dimension
-    static int dpToPxSize(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxSize(@NonNull Context context, @Dimension(unit = DP) int dp) {
         return (int) (0.5f + dpToPx(context, dp));
     }
 
-    static int resolveResourceId(Context context, @AttrRes int attr, int fallback) {
+    @AnyRes
+    static int resolveResourceId(@NonNull Context context, @AttrRes int attr, @AnyRes int fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(tempArray);
@@ -72,7 +74,7 @@ final class Util {
         }
     }
 
-    static float resolveFloat(Context context, @AttrRes int attr, float fallback) {
+    static float resolveFloat(@NonNull Context context, @AttrRes int attr, float fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(tempArray);
@@ -104,7 +106,7 @@ final class Util {
      */
     @Nullable
     static Drawable getDrawableCompat(
-            final Context context, @DrawableRes final int resId) {
+            final @NonNull Context context, @DrawableRes final int resId) {
         return AppCompatResources.getDrawable(context, resId);
     }
 
@@ -122,7 +124,7 @@ final class Util {
      */
     @NonNull
     static ColorStateList getColorStateListCompat(
-            final Context context, @ColorRes final int resId) {
+            final @NonNull Context context, @ColorRes final int resId) {
         return AppCompatResources.getColorStateList(context, resId);
     }
 

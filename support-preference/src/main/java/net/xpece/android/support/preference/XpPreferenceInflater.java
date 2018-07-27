@@ -63,7 +63,7 @@ final class XpPreferenceInflater {
     private static final String INTENT_TAG_NAME = "intent";
     private static final String EXTRA_TAG_NAME = "extra";
 
-    public XpPreferenceInflater(Context context, PreferenceManager preferenceManager) {
+    public XpPreferenceInflater(@NonNull Context context, @NonNull PreferenceManager preferenceManager) {
         mContext = context;
         mPreferenceManager = preferenceManager;
     }
@@ -142,7 +142,7 @@ final class XpPreferenceInflater {
      */
     @NonNull
     public android.support.v7.preference.Preference inflate(
-            final XmlPullParser parser, @Nullable final PreferenceGroup root) {
+            final @NonNull XmlPullParser parser, @Nullable final PreferenceGroup root) {
         synchronized (mConstructorArgs) {
             final AttributeSet attrs = Xml.asAttributeSet(parser);
             mConstructorArgs[0] = getContext();
@@ -189,7 +189,7 @@ final class XpPreferenceInflater {
 
     @NonNull
     private PreferenceGroup onMergeRoots(
-            @Nullable final PreferenceGroup givenRoot, final PreferenceGroup xmlRoot) {
+            @Nullable final PreferenceGroup givenRoot, final @NonNull PreferenceGroup xmlRoot) {
         // If we were given a Preferences, use it as the root (ignoring the root
         // Preferences from the XML file).
         if (givenRoot == null) {
@@ -218,9 +218,9 @@ final class XpPreferenceInflater {
      */
     @NonNull
     private Preference createItem(
-            final String name,
+            @NonNull final String name,
             @Nullable final String[] prefixes,
-            final AttributeSet attrs)
+            @NonNull final AttributeSet attrs)
             throws ClassNotFoundException, InflateException {
         Constructor constructor = CONSTRUCTOR_MAP.get(name);
 
@@ -275,7 +275,7 @@ final class XpPreferenceInflater {
     }
 
     @NonNull
-    private Preference createItemFromTag(final String name, final AttributeSet attrs) {
+    private Preference createItemFromTag(final @NonNull String name, final @NonNull AttributeSet attrs) {
         try {
             final android.support.v7.preference.Preference item;
 
@@ -311,7 +311,7 @@ final class XpPreferenceInflater {
      * items, instantiate their children, and then call onFinishInflate().
      */
     private void rInflate(
-            final XmlPullParser parser, final Preference parent, final AttributeSet attrs)
+            final @NonNull XmlPullParser parser, final @NonNull Preference parent, final @NonNull AttributeSet attrs)
             throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
 
@@ -358,7 +358,7 @@ final class XpPreferenceInflater {
 
     }
 
-    private static void skipCurrentTag(final XmlPullParser parser)
+    private static void skipCurrentTag(final @NonNull XmlPullParser parser)
             throws XmlPullParserException, IOException {
         int outerDepth = parser.getDepth();
         int type;

@@ -81,24 +81,24 @@ public class ColorPreference extends DialogPreference {
         return null;
     }
 
-    public ColorPreference(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    public ColorPreference(final @NonNull Context context, @Nullable final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public ColorPreference(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
+    public ColorPreference(final @NonNull Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_ColorPreference);
     }
 
-    public ColorPreference(final Context context, @Nullable final AttributeSet attrs) {
+    public ColorPreference(final @NonNull Context context, @Nullable final AttributeSet attrs) {
         this(context, attrs, R.attr.colorPreferenceStyle);
     }
 
-    public ColorPreference(final Context context) {
+    public ColorPreference(final @NonNull Context context) {
         this(context, null);
     }
 
-    private void init(final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    private void init(final @NonNull Context context, @Nullable final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorPreference, defStyleAttr, defStyleRes);
         final int colorValuesRes = a.getResourceId(R.styleable.ColorPreference_android_entryValues, 0);
         if (colorValuesRes != 0) {
@@ -112,7 +112,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     @NonNull
-    private int[] arrayResToColors(final Context context, @ArrayRes final int colorValuesRes) {
+    private int[] arrayResToColors(final @NonNull Context context, @ArrayRes final int colorValuesRes) {
         final Resources.Theme theme = context.getTheme();
         final TypedArray b = context.getResources().obtainTypedArray(colorValuesRes);
         final int size = b.length();
@@ -150,7 +150,7 @@ public class ColorPreference extends DialogPreference {
         mColorNames = array;
     }
 
-    private static int resolveColor(TypedArray ca, int i, Resources.Theme theme) {
+    private static int resolveColor(@NonNull TypedArray ca, int i, @NonNull Resources.Theme theme) {
         if (ca.peekValue(i).type == TypedValue.TYPE_ATTRIBUTE) {
             final TypedValue typedValue = new TypedValue();
             theme.resolveAttribute(ca.peekValue(i).data, typedValue, true);
@@ -178,7 +178,7 @@ public class ColorPreference extends DialogPreference {
     }
 
     @Override
-    public void onBindViewHolder(final PreferenceViewHolder holder) {
+    public void onBindViewHolder(final @NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         if (mDrawable == null) {
@@ -217,12 +217,12 @@ public class ColorPreference extends DialogPreference {
 
     @ColorInt
     @Override
-    protected Integer onGetDefaultValue(final TypedArray a, final int index) {
+    protected Integer onGetDefaultValue(final @NonNull TypedArray a, final int index) {
         return a.getInt(index, DEFAULT_COLOR);
     }
 
     @Override
-    protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
+    protected void onSetInitialValue(final boolean restoreValue, final @Nullable Object defaultValue) {
         //noinspection ResourceAsColor
         setColor(restoreValue ? getPersistedInt(mColor) : (int) defaultValue);
     }

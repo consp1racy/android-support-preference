@@ -24,7 +24,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     SeekBar mSeekBar;
 
     @NonNull
-    public static XpSeekBarPreferenceDialogFragment newInstance(String key) {
+    public static XpSeekBarPreferenceDialogFragment newInstance(@NonNull String key) {
         XpSeekBarPreferenceDialogFragment fragment = new XpSeekBarPreferenceDialogFragment();
         Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -46,12 +46,12 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     }
 
     @Nullable
-    protected static SeekBar findSeekBar(View dialogView) {
+    protected static SeekBar findSeekBar(@NonNull View dialogView) {
         return (SeekBar) dialogView.findViewById(R.id.seekbar);
     }
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         // Show the icon next to seek bar.
@@ -59,7 +59,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     }
 
     @Override
-    protected void onBindDialogView(final View view) {
+    protected void onBindDialogView(final @NonNull View view) {
         super.onBindDialogView(view);
 
         SeekBarDialogPreference preference = requireSeekBarDialogPreference();
@@ -93,7 +93,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     private void setupAccessibilityDelegate(final int max, final int min) {
         mSeekBar.setAccessibilityDelegate(new View.AccessibilityDelegate() {
             @Override
-            public void onInitializeAccessibilityEvent(final View host, final AccessibilityEvent event) {
+            public void onInitializeAccessibilityEvent(final @NonNull View host, final @NonNull AccessibilityEvent event) {
                 super.onInitializeAccessibilityEvent(host, event);
 
                 final int progress = mSeekBar.getProgress() + min;
@@ -106,7 +106,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
             }
 
             @Override
-            public void onInitializeAccessibilityNodeInfo(final View host, final AccessibilityNodeInfo info) {
+            public void onInitializeAccessibilityNodeInfo(final @NonNull View host, final @NonNull AccessibilityNodeInfo info) {
                 super.onInitializeAccessibilityNodeInfo(host, info);
 
                 int progress = mSeekBar.getProgress() + min;
@@ -125,7 +125,7 @@ public class XpSeekBarPreferenceDialogFragment extends XpPreferenceDialogFragmen
     private int mKeyProgressIncrement;
 
     @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
+    public boolean onKey(@NonNull View v, int keyCode, @NonNull KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) {
             final int step = mKeyProgressIncrement;
             if (keyCode == KeyEvent.KEYCODE_PLUS || keyCode == KeyEvent.KEYCODE_EQUALS) {

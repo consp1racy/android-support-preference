@@ -32,7 +32,6 @@ configurations {
 
 dependencies {
     implementation "com.android.support:support-annotations:$supportLibVersionAnnotations"
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     api "com.android.support:appcompat-v7:$supportLibVersion"
 
@@ -130,6 +129,7 @@ android.libraryVariants.all { variant ->
                 '--hide', 'AddedPackage',
                 '--hide', 'AddedClass',
                 '--hide', 'AddedMethod',
+                '--hide', 'AddedFinalUninstantiable',
 //                '--hide', 'ChangedDeprecated',
 //                '--hide', 'ChangedAbstract',
 //                '--hide', 'ChangedValue',

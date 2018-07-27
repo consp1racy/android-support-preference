@@ -33,8 +33,6 @@ import android.widget.ProgressBar;
 import net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import net.xpece.android.support.preference.color.R;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to
  * select a specific color swatch, which invokes a listener.
@@ -69,14 +67,14 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
 
     @NonNull
     @SuppressWarnings("deprecation")
-    public static ColorPickerDialog newInstance(@StringRes int titleResId, @ColorInt int[] colors, @ColorInt int selectedColor,
+    public static ColorPickerDialog newInstance(@StringRes int titleResId, @NonNull @ColorInt int[] colors, @ColorInt int selectedColor,
                                                 int columns, @ColorPickerPalette.SwatchSize int size) {
         ColorPickerDialog ret = new ColorPickerDialog();
         ret.initialize(titleResId, colors, selectedColor, columns, size);
         return ret;
     }
 
-    public void initialize(int titleResId, @ColorInt int[] colors, @ColorInt int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
+    public void initialize(int titleResId, @NonNull @ColorInt int[] colors, @ColorInt int selectedColor, int columns, @ColorPickerPalette.SwatchSize int size) {
         setArguments(titleResId, columns, size);
         setColors(colors, selectedColor);
     }
@@ -171,7 +169,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
-    public void setColors(@ColorInt int[] colors, @ColorInt int selectedColor) {
+    public void setColors(@NonNull @ColorInt int[] colors, @ColorInt int selectedColor) {
         if (mColors != colors || mSelectedColor != selectedColor) {
             mColors = colors;
             mSelectedColor = selectedColor;
@@ -179,7 +177,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
-    public void setColors(@ColorInt int[] colors) {
+    public void setColors(@NonNull @ColorInt int[] colors) {
         if (mColors != colors) {
             mColors = colors;
             refreshPalette();
@@ -193,7 +191,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
         }
     }
 
-    public void setColorContentDescriptions(String[] colorContentDescriptions) {
+    public void setColorContentDescriptions(@NonNull String[] colorContentDescriptions) {
         if (mColorContentDescriptions != colorContentDescriptions) {
             mColorContentDescriptions = colorContentDescriptions;
             refreshPalette();
@@ -217,7 +215,7 @@ public class ColorPickerDialog extends DialogFragment implements OnColorSelected
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntArray(KEY_COLORS, mColors);
         outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);

@@ -20,7 +20,6 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 /**
  * @hide
  */
-@ParametersAreNonnullByDefault
 @RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
 final class XpSpinnerUtil {
@@ -41,7 +40,7 @@ final class XpSpinnerUtil {
     }
 
     @ColorInt
-    public static int resolveColor(Context context, @AttrRes int attr, @ColorInt int fallback) {
+    public static int resolveColor(@NonNull Context context, @AttrRes int attr, @ColorInt int fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         final TintTypedArray ta = TintTypedArray.obtainStyledAttributes(context, null, tempArray);
@@ -54,7 +53,7 @@ final class XpSpinnerUtil {
 
     @Dimension
     private static float resolveDimension(
-            Context context, @AttrRes int attr, @Dimension float fallback) {
+            @NonNull Context context, @AttrRes int attr, @Dimension float fallback) {
         final int[] tempArray = getTempArray();
         tempArray[0] = attr;
         TypedArray ta = context.obtainStyledAttributes(tempArray);
@@ -67,19 +66,19 @@ final class XpSpinnerUtil {
 
     @Dimension
     static int resolveDimensionPixelSize(
-            Context context, @AttrRes int attr, @Dimension int fallback) {
+            @NonNull Context context, @AttrRes int attr, @Dimension int fallback) {
         float dimen = resolveDimension(context, attr, fallback);
         return (int) (dimen + 0.5f);
     }
 
     @Dimension
-    private static float dpToPx(Context context, @Dimension(unit = DP) int dp) {
+    private static float dpToPx(@NonNull Context context, @Dimension(unit = DP) int dp) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 
     @Dimension
-    static int dpToPxOffset(Context context, @Dimension(unit = DP) int dp) {
+    static int dpToPxOffset(@NonNull Context context, @Dimension(unit = DP) int dp) {
         return (int) (dpToPx(context, dp));
     }
 }

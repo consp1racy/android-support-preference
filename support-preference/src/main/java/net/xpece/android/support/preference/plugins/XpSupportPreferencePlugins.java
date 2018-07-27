@@ -1,5 +1,6 @@
 package net.xpece.android.support.preference.plugins;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 
@@ -14,11 +15,11 @@ public class XpSupportPreferencePlugins {
         sErrorInterceptors = Collections.newSetFromMap(new ConcurrentHashMap<ErrorInterceptor, Boolean>(1));
     }
 
-    public static void registerErrorInterceptor(final ErrorInterceptor interceptor) {
+    public static void registerErrorInterceptor(final @NonNull ErrorInterceptor interceptor) {
         sErrorInterceptors.add(requireNotNull(interceptor));
     }
 
-    public static void unregisterErrorInterceptor(final ErrorInterceptor interceptor) {
+    public static void unregisterErrorInterceptor(final @NonNull ErrorInterceptor interceptor) {
         sErrorInterceptors.remove(requireNotNull(interceptor));
     }
 
@@ -27,12 +28,13 @@ public class XpSupportPreferencePlugins {
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static void onError(final Throwable t, @Nullable final String message) {
+    public static void onError(final @NonNull Throwable t, @Nullable final String message) {
         for (ErrorInterceptor interceptor : sErrorInterceptors) {
             interceptor.onError(t, message);
         }
     }
 
+    @NonNull
     private static <T> T requireNotNull(@Nullable final T o) {
         if (o == null) throw new IllegalStateException("Expected non-null argument.");
         else return o;

@@ -58,7 +58,7 @@ public class SwitchPreference extends TwoStatePreference {
      *                     defStyleAttr is 0 or can not be found in the theme. Can be 0
      *                     to not look for defaults.
      */
-    public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public SwitchPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -72,7 +72,7 @@ public class SwitchPreference extends TwoStatePreference {
      *                     reference to a style resource that supplies default values for
      *                     the view. Can be 0 to not look for defaults.
      */
-    public SwitchPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public SwitchPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_SwitchPreferenceCompat);
     }
 
@@ -82,7 +82,7 @@ public class SwitchPreference extends TwoStatePreference {
      * @param context The Context that will style this preference
      * @param attrs   Style attributes that differ from the default
      */
-    public SwitchPreference(Context context, @Nullable AttributeSet attrs) {
+    public SwitchPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.switchPreferenceCompatStyle);
     }
 
@@ -91,11 +91,11 @@ public class SwitchPreference extends TwoStatePreference {
      *
      * @param context The Context that will style this preference
      */
-    public SwitchPreference(Context context) {
+    public SwitchPreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwitchPreferenceCompat, defStyleAttr, defStyleRes);
         setSummaryOn(a.getString(R.styleable.SwitchPreferenceCompat_android_summaryOn));
         setSummaryOff(a.getString(R.styleable.SwitchPreferenceCompat_android_summaryOff));
@@ -228,7 +228,7 @@ public class SwitchPreference extends TwoStatePreference {
         Listener() {
         }
 
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
             if (!callChangeListener(isChecked)) {
                 buttonView.setChecked(!isChecked);
             } else {

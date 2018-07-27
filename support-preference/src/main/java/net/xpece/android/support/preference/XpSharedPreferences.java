@@ -2,6 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
@@ -32,9 +33,9 @@ public final class XpSharedPreferences {
      * @deprecated Use {@link SharedPreferences.Editor#putStringSet(String, Set)} directly.
      */
     @Deprecated
-    public static void putStringSet(SharedPreferences.Editor editor,
-                                    String key,
-                                    Set<String> values) {
+    public static void putStringSet(@NonNull SharedPreferences.Editor editor,
+                                    @NonNull String key,
+                                    @NonNull Set<String> values) {
         editor.putStringSet(key, values);
     }
 
@@ -47,8 +48,8 @@ public final class XpSharedPreferences {
      * @return Data set
      */
     @Nullable
-    public static Set<String> getStringSet(SharedPreferences prefs,
-                                           String key,
+    public static Set<String> getStringSet(@NonNull SharedPreferences prefs,
+                                           @NonNull String key,
                                            @Nullable Set<String> defaultReturnValue) {
         try {
             return prefs.getStringSet(key, defaultReturnValue);
@@ -64,8 +65,8 @@ public final class XpSharedPreferences {
     }
 
     @Nullable
-    private static Set<String> getStringSetFromJson(SharedPreferences prefs,
-                                                    String key,
+    private static Set<String> getStringSetFromJson(@NonNull SharedPreferences prefs,
+                                                    @NonNull String key,
                                                     @Nullable Set<String> defaultReturnValue) {
         final String input = prefs.getString(key, null);
         if (input == null) return defaultReturnValue;
