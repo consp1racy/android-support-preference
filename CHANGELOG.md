@@ -44,6 +44,13 @@
 ### API Changes
 
 * While binary compatibility is maintained, nullability annotations were added *everywhere*.
+  This will affect Kotlin users.
+* In an effort to be compatible with upcoming AndroidX libraries **all classes of *this* library
+  that were previously in `android.support.*` packages are deprecated** and replaced with classes
+  in packages `net.xpece.android.support.*`. 
+  * Behavior and API *should* remain unaffected.
+  * Please migrate to the new classes, changing the import statements should suffice.
+  * Old classes will be removed in upcoming major release to ensure compatibility with AndroidX.
 
 ### Behavior Changes
 
