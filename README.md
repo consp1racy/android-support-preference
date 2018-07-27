@@ -35,7 +35,9 @@ Always specify `preference-v7` version explicitly!
 ### Compatibility
 
 Version 1.x.x is compatible with support libraries from 23.2.0 to 27.0.2.
+
 Version 2.x.x requires at least support libraries 27.0.0.
+Version 2.x.x **IS NOT** compatible with AndroidX. Stay tuned for version 3.x.x!
 
 Keep the major version of all artifacts same. V2 is not compatible with V1.
 
@@ -428,11 +430,6 @@ Since version 0.5.1 Proguard rules are bundled with the library.
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-## Known issues
-
-- MultiSelectListPreference items may be incorrectly tinted on Android 2.
-  - Observed on Android 4 as well on first opening of multi select dialog.
-
 <a name="reporting-errors"/>
 
 ## Reporting errors
@@ -481,13 +478,6 @@ Thanks for making this library better!
 
 - Why are some of your classes in `android.support.v7` packages?
     - I'm using their package private features to achieve consistent results with AppCompat.
-
-## TODO
-
-- Compute simple menu preferred position with prompt enabled.
-- ListPreference scroll to viewport before renewing popup/dialog.
-- ColorPicker XML attributes.
-- Use ForwardingListener.
 
 ## Credit
 
