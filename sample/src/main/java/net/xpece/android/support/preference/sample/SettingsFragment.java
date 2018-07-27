@@ -52,7 +52,7 @@ public class SettingsFragment extends XpPreferenceFragment {
      */
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
+        public boolean onPreferenceChange(@NonNull Preference preference, @NonNull Object value) {
             String stringValue = value.toString();
 
             if (preference instanceof SeekBarPreference) {

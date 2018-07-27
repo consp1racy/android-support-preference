@@ -21,7 +21,7 @@ public class DialogPreferenceIconHelper extends PreferenceIconHelper {
 
     private final WeakReference<DialogPreference> mPreference;
 
-    public DialogPreferenceIconHelper(DialogPreference preference) {
+    public DialogPreferenceIconHelper(@NonNull DialogPreference preference) {
         super(preference);
         mPreference = new WeakReference<>(preference);
     }

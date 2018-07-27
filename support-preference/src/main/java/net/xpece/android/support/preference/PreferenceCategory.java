@@ -117,7 +117,7 @@ public class PreferenceCategory extends android.support.v7.preference.Preference
         if (hasLongClickListener) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(@NonNull View v) {
                     return mOnPreferenceLongClickListener.onLongClick(PreferenceCategory.this, v);
                 }
             });

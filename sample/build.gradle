@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+    implementation "com.android.support:support-annotations:$supportLibVersionAnnotations"
+
 //    def jitpackVersion = "05655a4c95"
 //    implementation "com.github.consp1racy:android-support-preference:$jitpackVersion"
 //    implementation "com.github.consp1racy.android-support-preference:support-preference-color:$jitpackVersion"

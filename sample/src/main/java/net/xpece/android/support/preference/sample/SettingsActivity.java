@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity implements
     private PreferenceScreenNavigationStrategy.ReplaceFragment mReplaceFragmentStrategy;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);

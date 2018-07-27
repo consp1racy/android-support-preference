@@ -84,7 +84,7 @@ public final class XpPreferenceHelpers {
             if (hasLongClickListener) {
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public boolean onLongClick(@NonNull View v) {
                         return longClickListener.onLongClick(preference, v);
                     }
                 });

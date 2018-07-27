@@ -75,12 +75,12 @@ public class SeekBarDialogPreference extends DialogPreference {
 
     @NonNull
     @Override
-    protected Integer onGetDefaultValue(TypedArray a, int index) {
+    protected Integer onGetDefaultValue(@NonNull TypedArray a, int index) {
         return a.getInt(index, 0);
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restoreValue, @Nullable Object defaultValue) {
         setProgress(restoreValue ? getPersistedInt(mProgress) : (int) defaultValue);
     }
 
@@ -180,7 +180,7 @@ public class SeekBarDialogPreference extends DialogPreference {
         int max;
         int min;
 
-        public SavedState(Parcel source) {
+        public SavedState(@NonNull Parcel source) {
             super(source);
             progress = source.readInt();
             max = source.readInt();
@@ -188,21 +188,21 @@ public class SeekBarDialogPreference extends DialogPreference {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(progress);
             dest.writeInt(max);
             dest.writeInt(min);
         }
 
-        public SavedState(Parcelable superState) {
+        public SavedState(@NonNull Parcelable superState) {
             super(superState);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
                     @NonNull
-                    public SavedState createFromParcel(Parcel in) {
+                    public SavedState createFromParcel(@NonNull Parcel in) {
                         return new SavedState(in);
                     }
 

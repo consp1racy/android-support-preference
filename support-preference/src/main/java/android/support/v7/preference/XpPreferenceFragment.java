@@ -234,6 +234,7 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
          * @param fragment A fragment for obtaining host activity.
          * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
          */
+        @NonNull
         static Context wrapIfNecessary(final @NonNull Context base, final @NonNull Fragment fragment) {
             for (Context i = base; i instanceof ContextWrapper; i = ((ContextWrapper) i).getBaseContext()) {
                 if (i instanceof Activity) return base;

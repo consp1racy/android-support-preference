@@ -127,6 +127,7 @@ public class EpicenterClipReveal extends Visibility {
         values.values.put(PROPNAME_CLIP, clip);
     }
 
+    @NonNull
     @Override
     public Animator onAppear(@NonNull ViewGroup sceneRoot, @NonNull View view,
                              @NonNull TransitionValues startValues, @Nullable TransitionValues endValues) {
@@ -164,6 +165,7 @@ public class EpicenterClipReveal extends Visibility {
                 endZ, endValues, mInterpolatorX, mInterpolatorY, mInterpolatorZ);
     }
 
+    @NonNull
     @Override
     public Animator onDisappear(@NonNull ViewGroup sceneRoot, @NonNull View view,
                                 @Nullable TransitionValues startValues, @NonNull TransitionValues endValues) {
@@ -277,6 +279,7 @@ public class EpicenterClipReveal extends Visibility {
 
         private final State mTemp = new State();
 
+        @NonNull
         @Override
         public State evaluate(float fraction, @NonNull State startValue, @NonNull State endValue) {
             mTemp.upper = startValue.upper + (int) ((endValue.upper - startValue.upper) * fraction);
