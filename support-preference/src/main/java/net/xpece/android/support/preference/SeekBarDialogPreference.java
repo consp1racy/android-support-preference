@@ -34,24 +34,24 @@ public class SeekBarDialogPreference extends DialogPreference {
     private int mPreferredMax = 100;
     private int mPreferredMin = 0;
 
-    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public SeekBarDialogPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public SeekBarDialogPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DialogPreference_SeekBarDialogPreference);
     }
 
-    public SeekBarDialogPreference(Context context, @Nullable AttributeSet attrs) {
+    public SeekBarDialogPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
     }
 
-    public SeekBarDialogPreference(Context context) {
+    public SeekBarDialogPreference(@NonNull Context context) {
         this(context, null);
     }
 
-    private void init(Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
 
         final boolean hasAspMin = a.hasValue(R.styleable.SeekBarPreference_asp_min);

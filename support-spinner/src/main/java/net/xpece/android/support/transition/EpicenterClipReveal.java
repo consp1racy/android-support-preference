@@ -219,6 +219,7 @@ public class EpicenterClipReveal extends Visibility {
         return clipRect;
     }
 
+    @NonNull
     private static Animator createRectAnimator(
             final @NonNull View view,
             @NonNull State startX, @NonNull State startY, float startZ,
@@ -304,6 +305,7 @@ public class EpicenterClipReveal extends Visibility {
             mTargetDimension = targetDimension;
         }
 
+        @NonNull
         @Override
         public State get(@NonNull View object) {
             final Rect tempRect = mTempRect;

@@ -69,7 +69,7 @@ public final class XpPreferenceHelpers {
         return defStyleAttr;
     }
 
-    static void onBindViewHolder(final Preference preference, final PreferenceViewHolder holder) {
+    static void onBindViewHolder(final @NonNull Preference preference, final @NonNull PreferenceViewHolder holder) {
         final PreferenceTextHelper textHelper = PREFERENCE_TEXT_HELPERS.get(preference);
         if (textHelper != null) {
             textHelper.onBindViewHolder(holder);
@@ -81,7 +81,7 @@ public final class XpPreferenceHelpers {
             if (hasLongClickListener) {
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public boolean onLongClick(@NonNull View v) {
                         return longClickListener.onLongClick(preference, v);
                     }
                 });

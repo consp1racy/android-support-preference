@@ -12,8 +12,6 @@ import android.support.v7.widget.TintTypedArray;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static android.support.annotation.Dimension.DP;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 

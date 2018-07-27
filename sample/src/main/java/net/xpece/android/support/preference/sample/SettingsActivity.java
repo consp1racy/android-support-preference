@@ -24,7 +24,6 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import net.xpece.android.support.preference.XpPreferenceManager;
 import net.xpece.android.support.preference.ColorPreference;
 import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.XpColorPreferenceDialogFragment;

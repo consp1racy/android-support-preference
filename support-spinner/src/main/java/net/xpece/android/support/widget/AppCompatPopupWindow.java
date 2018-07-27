@@ -49,7 +49,7 @@ class AppCompatPopupWindow extends PopupWindow {
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs,
                 R.styleable.PopupWindow, defStyleAttr, defStyleRes);
         if (a.hasValue(R.styleable.PopupWindow_overlapAnchor)) {
@@ -62,7 +62,7 @@ class AppCompatPopupWindow extends PopupWindow {
     }
 
     @Override
-    public void showAsDropDown(View anchor, int xoff, int yoff) {
+    public void showAsDropDown(@NonNull View anchor, int xoff, int yoff) {
         if (COMPAT_OVERLAP_ANCHOR && mOverlapAnchor) {
             // If we're pre-L, emulate overlapAnchor by modifying the yOff
             yoff -= anchor.getHeight();
@@ -71,7 +71,7 @@ class AppCompatPopupWindow extends PopupWindow {
     }
 
     @Override
-    public void showAsDropDown(View anchor, int xoff, int yoff, int gravity) {
+    public void showAsDropDown(@NonNull View anchor, int xoff, int yoff, int gravity) {
         if (COMPAT_OVERLAP_ANCHOR && mOverlapAnchor) {
             // If we're pre-L, emulate overlapAnchor by modifying the yOff
             yoff -= anchor.getHeight();
@@ -80,7 +80,7 @@ class AppCompatPopupWindow extends PopupWindow {
     }
 
     @Override
-    public void update(View anchor, int xoff, int yoff, int width, int height) {
+    public void update(@NonNull View anchor, int xoff, int yoff, int width, int height) {
         if (COMPAT_OVERLAP_ANCHOR && mOverlapAnchor) {
             // If we're pre-L, emulate overlapAnchor by modifying the yOff
             yoff -= anchor.getHeight();

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.TintTypedArray;
@@ -97,6 +98,7 @@ abstract class AbstractXpAppCompatSpinner extends AppCompatSpinner {
     /**
      * @return the context used to inflate the Spinner's popup or dialog window
      */
+    @NonNull
     @Override
     public Context getPopupContext() {
         if (mPopupContext != null ) {
