@@ -354,6 +354,7 @@ public final class XpPreferenceHelpers {
 
     @SuppressWarnings("deprecation")
     public static void setDialogIcon(final DialogPreference preference, @DrawableRes final int icon) {
+        setSupportDialogIcon(preference, icon);
     }
 
     @Nullable
