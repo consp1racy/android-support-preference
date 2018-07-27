@@ -22,22 +22,28 @@ Available from API 14. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-preference:2.3.0'
+    implementation 'net.xpece.android:support-preference:3.0.0'
     
-    ext.supportLibsVersion = "27.1.0"
+    // Pick one depending on your use case:
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.preference:preference:1.0.0"
+    // or
+    ext.supportLibsVersion = "28.0.0"
     implementation "com.android.support:appcompat-v7:$supportLibsVersion"
     implementation "com.android.support:preference-v7:$supportLibsVersion"
 }
 ```
 
-Always specify `preference-v7` version explicitly!
+Always specify `preference-v7`/`androidx.preference` version explicitly!
 
 ### Compatibility
 
 Version 1.x.x is compatible with support libraries from 23.2.0 to 27.0.2.
 
 Version 2.x.x requires at least support libraries 27.0.0.
-Version 2.x.x **IS NOT** compatible with AndroidX. Stay tuned for version 3.x.x!
+Version 2.x.x **IS NOT** compatible with AndroidX.
+
+Version 3.x.x requires at least support libraries 28.0.0 or AndroidX.
 
 Keep the major version of all artifacts same. V2 is not compatible with V1.
 
@@ -46,7 +52,7 @@ Keep the major version of all artifacts same. V2 is not compatible with V1.
 
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-preference-color:2.3.0'
+    implementation 'net.xpece.android:support-preference-color:3.0.0'
 }
 ```
 
@@ -55,7 +61,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-spinner:2.3.0'
+    implementation 'net.xpece.android:support-spinner:3.0.0'
 }
 ```
 
@@ -473,11 +479,6 @@ What's needed:
 * xpece-android-support-preference library version
 
 Thanks for making this library better!
-
-## Questions
-
-- Why are some of your classes in `android.support.v7` packages?
-    - I'm using their package private features to achieve consistent results with AppCompat.
 
 ## Credit
 

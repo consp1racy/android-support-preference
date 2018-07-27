@@ -1,5 +1,16 @@
 # Change log
 
+## 3.0.0 2018-XX-XX
+
+### Compatibility
+
+- *NEW!* This library is now compatible with AndroidX.
+
+### API Changes
+
+- *REMOVED:* Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
+- *REMOVED:* Previously deprecated classes in `android.support.*` packages are now gone.
+
 ## 2.3.0 2018-07-27
 
 ### Support Preference
