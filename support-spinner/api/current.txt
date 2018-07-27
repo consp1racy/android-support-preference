@@ -19,13 +19,13 @@ package net.xpece.android.support.widget {
     method public void bindView(android.view.View, T);
     method protected android.view.View createViewFromResource(android.view.LayoutInflater, android.view.View?, android.view.ViewGroup, @LayoutRes int);
     method protected android.widget.TextView findTextView(android.view.View);
-    method public CharSequence! getItemDropDownText(T);
-    method public CharSequence! getItemText(T);
+    method public CharSequence getItemDropDownText(T);
+    method public CharSequence getItemText(T);
     method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, T[]);
     method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, java.util.List<T>);
   }
 
-  @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP) public abstract class SimpleMenu {
+  @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP) public final class SimpleMenu {
   }
 
   public class XpAppCompatSpinner extends android.widget.Spinner {

@@ -1,35 +1,48 @@
 package android.support.v7.preference {
 
-  public abstract class XpPreferenceFragment extends android.support.v7.preference.PreferenceFragmentCompat {
+  @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY) deprecated public final class XpPreferenceCompat {
+    ctor public XpPreferenceCompat();
+    method public static java.util.Set<java.lang.String>? getPersistedStringSet(android.support.v7.preference.Preference, java.util.Set<java.lang.String>?);
+    method public static boolean persistStringSet(android.support.v7.preference.Preference, java.util.Set<java.lang.String>);
+  }
+
+  deprecated public abstract class XpPreferenceFragment extends android.support.v7.preference.PreferenceFragmentCompat {
     ctor public XpPreferenceFragment();
-    method public String[]! getCustomDefaultPackages();
-    method public final void onCreatePreferences(android.os.Bundle!, String!);
-    method public abstract void onCreatePreferences2(android.os.Bundle!, String!);
+    method public String[]? getCustomDefaultPackages();
+    method public final void onCreatePreferences(android.os.Bundle?, String?);
+    method public abstract void onCreatePreferences2(android.os.Bundle?, String?);
+    method protected android.view.ContextThemeWrapper? onProvideCustomStyledContext();
     field public static final String! DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
   }
 
-  public final class XpPreferenceHelpers {
-    method public static android.graphics.drawable.Drawable! getSupportDialogIcon(android.support.v7.preference.DialogPreference!);
-    method public static android.graphics.drawable.Drawable! getSupportIcon(android.support.v7.preference.Preference!);
-    method public static boolean hasOnPreferenceLongClickListener(android.support.v7.preference.Preference!);
-    method public static boolean hasSummaryTextAppearance(android.support.v7.preference.Preference!);
-    method public static boolean hasSummaryTextColor(android.support.v7.preference.Preference!);
-    method public static boolean hasTitleTextAppearance(android.support.v7.preference.Preference!);
-    method public static boolean hasTitleTextColor(android.support.v7.preference.Preference!);
-    method public static void setOnPreferenceLongClickListener(android.support.v7.preference.Preference!, net.xpece.android.support.preference.OnPreferenceLongClickListener!);
-    method public static void setSummaryTextAppearance(android.support.v7.preference.Preference!, int);
-    method public static void setSummaryTextColor(android.support.v7.preference.Preference!, android.content.res.ColorStateList!);
-    method public static void setSummaryTextColor(android.support.v7.preference.Preference!, @ColorInt int);
-    method public static void setSupportDialogIcon(android.support.v7.preference.DialogPreference!, android.graphics.drawable.Drawable!);
-    method public static void setSupportDialogIcon(android.support.v7.preference.DialogPreference!, @DrawableRes int);
-    method public static void setSupportIcon(android.support.v7.preference.Preference!, android.graphics.drawable.Drawable!);
-    method public static void setSupportIcon(android.support.v7.preference.Preference!, @DrawableRes int);
-    method public static void setTitleTextAppearance(android.support.v7.preference.Preference!, int);
-    method public static void setTitleTextColor(android.support.v7.preference.Preference!, android.content.res.ColorStateList!);
-    method public static void setTitleTextColor(android.support.v7.preference.Preference!, @ColorInt int);
+  deprecated public final class XpPreferenceHelpers {
+    method public static android.graphics.drawable.Drawable? getDialogIcon(android.support.v7.preference.DialogPreference);
+    method public static android.graphics.drawable.Drawable? getIcon(android.support.v7.preference.Preference);
+    method deprecated public static android.graphics.drawable.Drawable? getSupportDialogIcon(android.support.v7.preference.DialogPreference);
+    method deprecated public static android.graphics.drawable.Drawable? getSupportIcon(android.support.v7.preference.Preference);
+    method public static boolean hasOnPreferenceLongClickListener(android.support.v7.preference.Preference);
+    method public static boolean hasSummaryTextAppearance(android.support.v7.preference.Preference);
+    method public static boolean hasSummaryTextColor(android.support.v7.preference.Preference);
+    method public static boolean hasTitleTextAppearance(android.support.v7.preference.Preference);
+    method public static boolean hasTitleTextColor(android.support.v7.preference.Preference);
+    method public static void setDialogIcon(android.support.v7.preference.DialogPreference, android.graphics.drawable.Drawable?);
+    method public static void setDialogIcon(android.support.v7.preference.DialogPreference, @DrawableRes int);
+    method public static void setIcon(android.support.v7.preference.Preference, android.graphics.drawable.Drawable?);
+    method public static void setIcon(android.support.v7.preference.Preference, @DrawableRes int);
+    method public static void setOnPreferenceLongClickListener(android.support.v7.preference.Preference, net.xpece.android.support.preference.OnPreferenceLongClickListener?);
+    method public static void setSummaryTextAppearance(android.support.v7.preference.Preference, @StyleRes int);
+    method public static void setSummaryTextColor(android.support.v7.preference.Preference, android.content.res.ColorStateList);
+    method public static void setSummaryTextColor(android.support.v7.preference.Preference, @ColorInt int);
+    method deprecated public static void setSupportDialogIcon(android.support.v7.preference.DialogPreference, android.graphics.drawable.Drawable?);
+    method deprecated public static void setSupportDialogIcon(android.support.v7.preference.DialogPreference, @DrawableRes int);
+    method deprecated public static void setSupportIcon(android.support.v7.preference.Preference, android.graphics.drawable.Drawable?);
+    method deprecated public static void setSupportIcon(android.support.v7.preference.Preference, @DrawableRes int);
+    method public static void setTitleTextAppearance(android.support.v7.preference.Preference, @StyleRes int);
+    method public static void setTitleTextColor(android.support.v7.preference.Preference, android.content.res.ColorStateList);
+    method public static void setTitleTextColor(android.support.v7.preference.Preference, @ColorInt int);
   }
 
-  public class XpPreferenceManager extends android.support.v7.preference.PreferenceManager {
+  deprecated public class XpPreferenceManager extends android.support.v7.preference.PreferenceManager {
     method public static void setDefaultValues(android.content.Context, int, boolean, String[]?);
     method public static void setDefaultValues(android.content.Context, int, boolean);
     method public static void setDefaultValues(android.content.Context, String, int, int, boolean);
@@ -41,16 +54,16 @@ package android.support.v7.preference {
 package android.support.v7.widget {
 
   @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY) deprecated public class AspAppCompatCheckedTextView extends android.support.v7.widget.AppCompatCheckedTextView {
-    ctor public AspAppCompatCheckedTextView(android.content.Context!);
-    ctor public AspAppCompatCheckedTextView(android.content.Context!, android.util.AttributeSet!);
-    ctor public AspAppCompatCheckedTextView(android.content.Context!, android.util.AttributeSet!, int);
-    ctor @RequiresApi(21) public AspAppCompatCheckedTextView(android.content.Context!, android.util.AttributeSet!, int, int);
+    ctor public AspAppCompatCheckedTextView(android.content.Context);
+    ctor public AspAppCompatCheckedTextView(android.content.Context, android.util.AttributeSet?);
+    ctor public AspAppCompatCheckedTextView(android.content.Context, android.util.AttributeSet?, int);
+    ctor @RequiresApi(21) public AspAppCompatCheckedTextView(android.content.Context, android.util.AttributeSet?, int, int);
   }
 
-  @RestrictTo(android.support.annotation.RestrictTo.Scope.GROUP_ID) public class AspSwitchCompat extends android.support.v7.widget.SwitchCompat {
-    ctor public AspSwitchCompat(android.content.Context!);
-    ctor public AspSwitchCompat(android.content.Context!, android.util.AttributeSet!);
-    ctor public AspSwitchCompat(android.content.Context!, android.util.AttributeSet!, int);
+  @RestrictTo(android.support.annotation.RestrictTo.Scope.GROUP_ID) deprecated public class AspSwitchCompat extends net.xpece.android.support.widget.AspSwitchCompat {
+    ctor public AspSwitchCompat(android.content.Context);
+    ctor public AspSwitchCompat(android.content.Context, android.util.AttributeSet?);
+    ctor public AspSwitchCompat(android.content.Context, android.util.AttributeSet?, @AttrRes int);
   }
 
 }
@@ -58,10 +71,10 @@ package android.support.v7.widget {
 package net.xpece.android.support.preference {
 
   public class CheckBoxPreference extends net.xpece.android.support.preference.TwoStatePreference {
-    ctor public CheckBoxPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public CheckBoxPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public CheckBoxPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public CheckBoxPreference(android.content.Context!);
+    ctor public CheckBoxPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public CheckBoxPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public CheckBoxPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public CheckBoxPreference(android.content.Context);
   }
 
   public interface ColorableTextPreference {
@@ -69,39 +82,39 @@ package net.xpece.android.support.preference {
     method public boolean hasSummaryTextColor();
     method public boolean hasTitleTextAppearance();
     method public boolean hasTitleTextColor();
-    method public void setSummaryTextAppearance(int);
-    method public void setSummaryTextColor(android.content.res.ColorStateList!);
+    method public void setSummaryTextAppearance(@StyleRes int);
+    method public void setSummaryTextColor(android.content.res.ColorStateList);
     method public void setSummaryTextColor(@ColorInt int);
-    method public void setTitleTextAppearance(int);
-    method public void setTitleTextColor(android.content.res.ColorStateList!);
+    method public void setTitleTextAppearance(@StyleRes int);
+    method public void setTitleTextColor(android.content.res.ColorStateList);
     method public void setTitleTextColor(@ColorInt int);
   }
 
   public interface CustomDialogIconPreference {
-    method public android.graphics.drawable.Drawable! getSupportDialogIcon();
+    method public android.graphics.drawable.Drawable? getSupportDialogIcon();
     method public boolean isSupportDialogIconPaddingEnabled();
-    method public void setSupportDialogIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportDialogIcon(android.graphics.drawable.Drawable?);
     method public void setSupportDialogIcon(@DrawableRes int);
     method public void setSupportDialogIconPaddingEnabled(boolean);
   }
 
   public interface CustomIconPreference {
-    method public android.graphics.drawable.Drawable! getSupportIcon();
+    method public android.graphics.drawable.Drawable? getSupportIcon();
     method public boolean isSupportIconPaddingEnabled();
-    method public void setSupportIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportIcon(android.graphics.drawable.Drawable?);
     method public void setSupportIcon(@DrawableRes int);
     method public void setSupportIconPaddingEnabled(boolean);
   }
 
   public abstract class DialogPreference extends android.support.v7.preference.DialogPreference implements net.xpece.android.support.preference.ColorableTextPreference net.xpece.android.support.preference.CustomDialogIconPreference net.xpece.android.support.preference.CustomIconPreference net.xpece.android.support.preference.LongClickablePreference net.xpece.android.support.preference.TintableDialogPreference net.xpece.android.support.preference.TintablePreference {
-    ctor public DialogPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public DialogPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public DialogPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public DialogPreference(android.content.Context!);
-    method public android.graphics.drawable.Drawable! getSupportDialogIcon();
+    ctor public DialogPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public DialogPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public DialogPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public DialogPreference(android.content.Context);
+    method public android.graphics.drawable.Drawable? getSupportDialogIcon();
     method public android.content.res.ColorStateList? getSupportDialogIconTintList();
     method public android.graphics.PorterDuff.Mode? getSupportDialogIconTintMode();
-    method public android.graphics.drawable.Drawable! getSupportIcon();
+    method public android.graphics.drawable.Drawable? getSupportIcon();
     method public android.content.res.ColorStateList? getSupportIconTintList();
     method public android.graphics.PorterDuff.Mode? getSupportIconTintMode();
     method public boolean hasOnPreferenceLongClickListener();
@@ -113,72 +126,74 @@ package net.xpece.android.support.preference {
     method public boolean isSupportDialogIconTintEnabled();
     method public boolean isSupportIconPaddingEnabled();
     method public boolean isSupportIconTintEnabled();
-    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener!);
-    method public void setSummaryTextAppearance(int);
-    method public void setSummaryTextColor(android.content.res.ColorStateList!);
+    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener?);
+    method public void setSummaryTextAppearance(@StyleRes int);
+    method public void setSummaryTextColor(android.content.res.ColorStateList);
     method public void setSummaryTextColor(@ColorInt int);
-    method public void setSupportDialogIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportDialogIcon(android.graphics.drawable.Drawable?);
     method public void setSupportDialogIcon(@DrawableRes int);
     method public void setSupportDialogIconPaddingEnabled(boolean);
     method public void setSupportDialogIconTintEnabled(boolean);
     method public void setSupportDialogIconTintList(android.content.res.ColorStateList?);
     method public void setSupportDialogIconTintMode(android.graphics.PorterDuff.Mode?);
-    method public void setSupportIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportIcon(android.graphics.drawable.Drawable?);
     method public void setSupportIcon(@DrawableRes int);
     method public void setSupportIconPaddingEnabled(boolean);
     method public void setSupportIconTintEnabled(boolean);
     method public void setSupportIconTintList(android.content.res.ColorStateList?);
     method public void setSupportIconTintMode(android.graphics.PorterDuff.Mode?);
-    method public void setTitleTextAppearance(int);
-    method public void setTitleTextColor(android.content.res.ColorStateList!);
+    method public void setTitleTextAppearance(@StyleRes int);
+    method public void setTitleTextColor(android.content.res.ColorStateList);
     method public void setTitleTextColor(@ColorInt int);
   }
 
   public class DialogPreferenceIconHelper extends net.xpece.android.support.preference.PreferenceIconHelper {
-    ctor public DialogPreferenceIconHelper(android.support.v7.preference.DialogPreference!);
-    method protected android.support.v7.preference.DialogPreference! getPreference();
+    ctor public DialogPreferenceIconHelper(android.support.v7.preference.DialogPreference);
+    method protected android.support.v7.preference.DialogPreference getPreference();
   }
 
   public class EditTextPreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public EditTextPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public EditTextPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public EditTextPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public EditTextPreference(android.content.Context!);
-    method public android.widget.EditText! createEditText(android.content.Context!);
-    method public net.xpece.android.support.preference.EditTextPreference.OnEditTextCreatedListener! getOnEditTextCreatedListener();
-    method public String! getText();
-    method public void setOnEditTextCreatedListener(net.xpece.android.support.preference.EditTextPreference.OnEditTextCreatedListener!);
-    method public void setText(String!);
+    ctor public EditTextPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public EditTextPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public EditTextPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public EditTextPreference(android.content.Context);
+    method public android.widget.EditText createEditText(android.content.Context);
+    method public net.xpece.android.support.preference.EditTextPreference.OnEditTextCreatedListener? getOnEditTextCreatedListener();
+    method public String? getText();
+    method protected String? onGetDefaultValue(android.content.res.TypedArray, int);
+    method public void setOnEditTextCreatedListener(net.xpece.android.support.preference.EditTextPreference.OnEditTextCreatedListener?);
+    method public void setText(String?);
   }
 
   public static interface EditTextPreference.OnEditTextCreatedListener {
-    method public void onEditTextCreated(android.widget.EditText!);
+    method public void onEditTextCreated(android.widget.EditText);
   }
 
   public final class Fixes {
-    method deprecated public static void updateLayoutInflaterFactory(android.view.LayoutInflater!);
+    method deprecated public static void updateLayoutInflaterFactory(android.view.LayoutInflater);
   }
 
   public class ListPreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public ListPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public ListPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public ListPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public ListPreference(android.content.Context!);
-    method public android.widget.SpinnerAdapter buildSimpleDialogAdapter(android.content.Context!);
-    method public android.widget.SpinnerAdapter buildSimpleMenuAdapter(android.content.Context!);
-    method public int findIndexOfValue(String!);
-    method public CharSequence[]! getEntries();
-    method public CharSequence! getEntry();
-    method public CharSequence[]! getEntryValues();
+    ctor public ListPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public ListPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public ListPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public ListPreference(android.content.Context);
+    method public android.widget.SpinnerAdapter buildSimpleDialogAdapter(android.content.Context);
+    method public android.widget.SpinnerAdapter buildSimpleMenuAdapter(android.content.Context);
+    method public int findIndexOfValue(String?);
+    method public CharSequence[]? getEntries();
+    method public CharSequence? getEntry();
+    method public CharSequence[]? getEntryValues();
     method public int getMenuMode();
-    method public android.content.Context! getPopupContext();
+    method public android.content.Context getPopupContext();
     method deprecated public float getSimpleMenuPreferredWidthUnit();
-    method public String! getValue();
+    method public String? getValue();
     method public boolean isSimple();
+    method protected String? onGetDefaultValue(android.content.res.TypedArray, int);
     method public void onItemSelected(int);
-    method public void setEntries(CharSequence[]!);
+    method public void setEntries(CharSequence[]);
     method public void setEntries(@ArrayRes int);
-    method public void setEntryValues(CharSequence[]!);
+    method public void setEntryValues(CharSequence[]);
     method public void setEntryValues(@ArrayRes int);
     method public void setMenuMode(int);
     method public void setSimpleMenuMaxItemCount(int);
@@ -186,7 +201,7 @@ package net.xpece.android.support.preference {
     method deprecated public void setSimpleMenuPreferredWidthUnit(float);
     method public void setSimpleMenuWidthMode(int);
     method public void setSimpleMenuWidthUnit(float);
-    method public void setValue(String!);
+    method public void setValue(String);
     method public void setValueIndex(int);
     field public static final int MENU_MODE_DIALOG = 0; // 0x0
     field public static final int MENU_MODE_SIMPLE_ADAPTIVE = 3; // 0x3
@@ -196,36 +211,37 @@ package net.xpece.android.support.preference {
 
   public interface LongClickablePreference {
     method public boolean hasOnPreferenceLongClickListener();
-    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener!);
+    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener?);
   }
 
   public class MultiSelectListPreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public MultiSelectListPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public MultiSelectListPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public MultiSelectListPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public MultiSelectListPreference(android.content.Context!);
-    method public int findIndexOfValue(String!);
-    method public CharSequence[]! getEntries();
-    method public CharSequence[]! getEntryValues();
-    method public boolean[]! getSelectedItems();
-    method public java.util.Set<java.lang.String>! getValues();
-    method public void setEntries(CharSequence[]!);
-    method public void setEntries(int);
-    method public void setEntryValues(CharSequence[]!);
-    method public void setEntryValues(int);
-    method public void setValues(java.util.Set<java.lang.String>!);
+    ctor public MultiSelectListPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public MultiSelectListPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public MultiSelectListPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public MultiSelectListPreference(android.content.Context);
+    method public int findIndexOfValue(String?);
+    method public CharSequence[]? getEntries();
+    method public CharSequence[]? getEntryValues();
+    method public boolean[] getSelectedItems();
+    method public java.util.Set<java.lang.String> getValues();
+    method protected java.util.Set<java.lang.String> onGetDefaultValue(android.content.res.TypedArray, int);
+    method public void setEntries(CharSequence[]);
+    method public void setEntries(@ArrayRes int);
+    method public void setEntryValues(CharSequence[]);
+    method public void setEntryValues(@ArrayRes int);
+    method public void setValues(java.util.Set<java.lang.String>);
   }
 
   public interface OnPreferenceLongClickListener {
-    method public boolean onLongClick(android.support.v7.preference.Preference!, android.view.View!);
+    method public boolean onLongClick(android.support.v7.preference.Preference, android.view.View);
   }
 
   public class Preference extends android.support.v7.preference.Preference implements net.xpece.android.support.preference.ColorableTextPreference net.xpece.android.support.preference.CustomIconPreference net.xpece.android.support.preference.LongClickablePreference net.xpece.android.support.preference.TintablePreference {
-    ctor public Preference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public Preference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public Preference(android.content.Context!, android.util.AttributeSet!);
-    ctor public Preference(android.content.Context!);
-    method public android.graphics.drawable.Drawable! getSupportIcon();
+    ctor public Preference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public Preference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public Preference(android.content.Context, android.util.AttributeSet?);
+    ctor public Preference(android.content.Context);
+    method public android.graphics.drawable.Drawable? getSupportIcon();
     method public android.content.res.ColorStateList? getSupportIconTintList();
     method public android.graphics.PorterDuff.Mode? getSupportIconTintMode();
     method public boolean hasOnPreferenceLongClickListener();
@@ -235,27 +251,27 @@ package net.xpece.android.support.preference {
     method public boolean hasTitleTextColor();
     method public boolean isSupportIconPaddingEnabled();
     method public boolean isSupportIconTintEnabled();
-    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener!);
-    method public void setSummaryTextAppearance(int);
-    method public void setSummaryTextColor(android.content.res.ColorStateList!);
+    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener?);
+    method public void setSummaryTextAppearance(@StyleRes int);
+    method public void setSummaryTextColor(android.content.res.ColorStateList);
     method public void setSummaryTextColor(@ColorInt int);
-    method public void setSupportIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportIcon(android.graphics.drawable.Drawable?);
     method public void setSupportIcon(@DrawableRes int);
     method public void setSupportIconPaddingEnabled(boolean);
     method public void setSupportIconTintEnabled(boolean);
     method public void setSupportIconTintList(android.content.res.ColorStateList?);
     method public void setSupportIconTintMode(android.graphics.PorterDuff.Mode?);
-    method public void setTitleTextAppearance(int);
-    method public void setTitleTextColor(android.content.res.ColorStateList!);
+    method public void setTitleTextAppearance(@StyleRes int);
+    method public void setTitleTextColor(android.content.res.ColorStateList);
     method public void setTitleTextColor(@ColorInt int);
   }
 
   public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory implements net.xpece.android.support.preference.ColorableTextPreference net.xpece.android.support.preference.CustomIconPreference net.xpece.android.support.preference.LongClickablePreference net.xpece.android.support.preference.TintablePreference {
-    ctor public PreferenceCategory(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public PreferenceCategory(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public PreferenceCategory(android.content.Context!, android.util.AttributeSet!);
-    ctor public PreferenceCategory(android.content.Context!);
-    method public android.graphics.drawable.Drawable! getSupportIcon();
+    ctor public PreferenceCategory(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public PreferenceCategory(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public PreferenceCategory(android.content.Context, android.util.AttributeSet?);
+    ctor public PreferenceCategory(android.content.Context);
+    method public android.graphics.drawable.Drawable? getSupportIcon();
     method public android.content.res.ColorStateList? getSupportIconTintList();
     method public android.graphics.PorterDuff.Mode? getSupportIconTintMode();
     method public boolean hasOnPreferenceLongClickListener();
@@ -265,65 +281,64 @@ package net.xpece.android.support.preference {
     method public boolean hasTitleTextColor();
     method public boolean isSupportIconPaddingEnabled();
     method public boolean isSupportIconTintEnabled();
-    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener!);
-    method public void setSummaryTextAppearance(int);
-    method public void setSummaryTextColor(android.content.res.ColorStateList!);
+    method public void setOnPreferenceLongClickListener(net.xpece.android.support.preference.OnPreferenceLongClickListener?);
+    method public void setSummaryTextAppearance(@StyleRes int);
+    method public void setSummaryTextColor(android.content.res.ColorStateList);
     method public void setSummaryTextColor(@ColorInt int);
-    method public void setSupportIcon(android.graphics.drawable.Drawable!);
+    method public void setSupportIcon(android.graphics.drawable.Drawable?);
     method public void setSupportIcon(@DrawableRes int);
     method public void setSupportIconPaddingEnabled(boolean);
     method public void setSupportIconTintEnabled(boolean);
     method public void setSupportIconTintList(android.content.res.ColorStateList?);
     method public void setSupportIconTintMode(android.graphics.PorterDuff.Mode?);
-    method public void setTitleTextAppearance(int);
-    method public void setTitleTextColor(android.content.res.ColorStateList!);
+    method public void setTitleTextAppearance(@StyleRes int);
+    method public void setTitleTextColor(android.content.res.ColorStateList);
     method public void setTitleTextColor(@ColorInt int);
   }
 
   public class PreferenceDividerDecoration extends android.support.v7.widget.RecyclerView.ItemDecoration {
-    ctor public PreferenceDividerDecoration(android.graphics.drawable.Drawable!, int);
-    ctor public PreferenceDividerDecoration(android.content.Context!, @DrawableRes int, @DimenRes int);
-    ctor public PreferenceDividerDecoration(android.content.Context!);
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! drawBetweenCategories(boolean);
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! drawBetweenItems(boolean);
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! drawBottom(boolean);
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! drawTop(boolean);
+    ctor public PreferenceDividerDecoration(android.graphics.drawable.Drawable?, @Dimension int);
+    ctor public PreferenceDividerDecoration(android.content.Context, @DrawableRes int, @DimenRes int);
+    ctor public PreferenceDividerDecoration(android.content.Context);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration drawBetweenCategories(boolean);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration drawBetweenItems(boolean);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration drawBottom(boolean);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration drawTop(boolean);
     method public boolean getDrawBetweenCategories();
     method public boolean getDrawBetweenItems();
     method public boolean getDrawBottom();
     method public boolean getDrawTop();
     method public int getPadding();
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! padding(int);
-    method public net.xpece.android.support.preference.PreferenceDividerDecoration! paddingDp(android.content.Context!, float);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration padding(@Dimension int);
+    method public net.xpece.android.support.preference.PreferenceDividerDecoration paddingDp(android.content.Context, @Dimension(unit=android.support.annotation.Dimension.DP) float);
   }
 
   public class PreferenceIconHelper {
-    ctor public PreferenceIconHelper(android.support.v7.preference.Preference!);
+    ctor public PreferenceIconHelper(android.support.v7.preference.Preference);
     method protected void ensureTintInfo();
-    method public android.content.Context! getContext();
-    method public android.graphics.drawable.Drawable! getIcon();
-    method protected android.support.v7.preference.Preference! getPreference();
-    method protected android.content.res.ColorStateList! getTintList(android.support.v7.widget.TintTypedArray!, int, android.content.Context!);
-    method public android.content.res.ColorStateList! getTintList();
-    method public android.graphics.PorterDuff.Mode! getTintMode();
+    method public android.content.Context getContext();
+    method public android.graphics.drawable.Drawable? getIcon();
+    method protected android.support.v7.preference.Preference getPreference();
+    method protected android.content.res.ColorStateList? getTintList(android.support.v7.widget.TintTypedArray, @AttrRes int, android.content.Context);
+    method public android.content.res.ColorStateList? getTintList();
+    method public android.graphics.PorterDuff.Mode? getTintMode();
     method public boolean isIconPaddingEnabled();
     method public boolean isIconTintEnabled();
-    method public void loadFromAttributes(android.util.AttributeSet!, int, int);
+    method public void loadFromAttributes(android.util.AttributeSet?, @AttrRes int, @StyleRes int);
     method protected void onSetIcon();
-    method public void setIcon(android.graphics.drawable.Drawable!);
-    method public void setIcon(int);
+    method public void setIcon(android.graphics.drawable.Drawable?);
+    method public void setIcon(@DrawableRes int);
     method public void setIconPaddingEnabled(boolean);
     method public void setIconTintEnabled(boolean);
-    method public void setTintList(android.content.res.ColorStateList!);
-    method public void setTintMode(android.graphics.PorterDuff.Mode!);
-    method public static net.xpece.android.support.preference.PreferenceIconHelper! setup(android.support.v7.preference.Preference!, @DrawableRes int, @ColorRes int, boolean);
-    method protected static android.content.res.ColorStateList! withDisabled(android.content.res.ColorStateList!, android.content.Context!);
+    method public void setTintList(android.content.res.ColorStateList?);
+    method public void setTintMode(android.graphics.PorterDuff.Mode?);
+    method public static net.xpece.android.support.preference.PreferenceIconHelper setup(android.support.v7.preference.Preference, @DrawableRes int, @ColorRes int, boolean);
+    method protected static android.content.res.ColorStateList? withDisabled(android.content.res.ColorStateList?, android.content.Context);
     field protected android.graphics.drawable.Drawable! mIcon;
     field protected android.graphics.drawable.Drawable! mIconInternal;
     field protected boolean mIconPaddingEnabled;
     field protected int mIconResId;
     field protected boolean mIconTintEnabled;
-    field protected net.xpece.android.support.preference.TintInfo! mTintInfo;
   }
 
   public abstract class PreferenceScreenNavigationStrategy {
@@ -332,29 +347,29 @@ package net.xpece.android.support.preference {
   }
 
   public static class PreferenceScreenNavigationStrategy.ReplaceFragment extends net.xpece.android.support.preference.PreferenceScreenNavigationStrategy {
-    ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks!, int, int, int, int);
-    ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks!);
-    method public static boolean onCreatePreferences(android.support.v7.preference.PreferenceFragmentCompat!, String!);
-    method public void onPreferenceStartScreen(android.support.v4.app.FragmentManager!, android.support.v7.preference.PreferenceFragmentCompat!, android.support.v7.preference.PreferenceScreen!);
+    ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks, int, int, int, int);
+    ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks);
+    method public static boolean onCreatePreferences(android.support.v7.preference.PreferenceFragmentCompat, String?);
+    method public void onPreferenceStartScreen(android.support.v4.app.FragmentManager, android.support.v7.preference.PreferenceFragmentCompat, android.support.v7.preference.PreferenceScreen);
   }
 
   public static interface PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
-    method public android.support.v7.preference.PreferenceFragmentCompat! onBuildPreferenceFragment(String!);
+    method public android.support.v7.preference.PreferenceFragmentCompat onBuildPreferenceFragment(String?);
   }
 
   deprecated public static class PreferenceScreenNavigationStrategy.ReplaceRoot extends net.xpece.android.support.preference.PreferenceScreenNavigationStrategy {
-    ctor public PreferenceScreenNavigationStrategy.ReplaceRoot(android.support.v7.preference.PreferenceFragmentCompat!, net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks!);
-    method public net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks! getCallbacks();
+    ctor public PreferenceScreenNavigationStrategy.ReplaceRoot(android.support.v7.preference.PreferenceFragmentCompat, net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks);
+    method public net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks getCallbacks();
     method public boolean onBackPressed();
-    method public void onCreatePreferences(android.os.Bundle!);
-    method public void onPreferenceScreenClick(android.support.v7.preference.PreferenceScreen!);
+    method public void onCreatePreferences(android.os.Bundle?);
+    method public void onPreferenceScreenClick(android.support.v7.preference.PreferenceScreen);
     method protected void onRestoreScrollPosition(int, int);
     method public void onSaveInstanceState(android.os.Bundle);
-    method public void setCallbacks(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks!);
+    method public void setCallbacks(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks);
   }
 
   public static interface PreferenceScreenNavigationStrategy.ReplaceRoot.Callbacks {
-    method public void onNavigateToPreferenceScreen(android.support.v7.preference.PreferenceScreen!);
+    method public void onNavigateToPreferenceScreen(android.support.v7.preference.PreferenceScreen);
   }
 
   public class PreferenceTextHelper {
@@ -363,32 +378,32 @@ package net.xpece.android.support.preference {
     method public boolean hasSummaryTextColor();
     method public boolean hasTitleTextAppearance();
     method public boolean hasTitleTextColor();
-    method public void init(android.content.Context!, android.util.AttributeSet!, int, int);
-    method public void onBindViewHolder(android.support.v7.preference.PreferenceViewHolder!);
-    method public void setSummaryTextAppearance(int);
-    method public void setSummaryTextColor(android.content.res.ColorStateList!);
+    method public void init(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    method public void onBindViewHolder(android.support.v7.preference.PreferenceViewHolder);
+    method public void setSummaryTextAppearance(@StyleRes int);
+    method public void setSummaryTextColor(android.content.res.ColorStateList);
     method public void setSummaryTextColor(@ColorInt int);
-    method public void setTitleTextAppearance(int);
-    method public void setTitleTextColor(android.content.res.ColorStateList!);
+    method public void setTitleTextAppearance(@StyleRes int);
+    method public void setTitleTextColor(android.content.res.ColorStateList);
     method public void setTitleTextColor(@ColorInt int);
   }
 
   @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY) public final class RingtoneManagerCompat extends android.media.RingtoneManager {
-    ctor public RingtoneManagerCompat(android.app.Activity!);
-    ctor public RingtoneManagerCompat(android.content.Context!);
+    ctor public RingtoneManagerCompat(android.app.Activity);
+    ctor public RingtoneManagerCompat(android.content.Context);
   }
 
   public class RingtonePreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public RingtonePreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public RingtonePreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public RingtonePreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public RingtonePreference(android.content.Context!);
+    ctor public RingtonePreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public RingtonePreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public RingtonePreference(android.content.Context, android.util.AttributeSet?);
+    ctor public RingtonePreference(android.content.Context);
     method public android.content.Intent buildRingtonePickerIntent();
-    method public boolean canPlayDefaultRingtone(android.content.Context!);
-    method public boolean canShowSelectedRingtoneTitle(android.content.Context!);
+    method public boolean canPlayDefaultRingtone(android.content.Context);
+    method public boolean canShowSelectedRingtoneTitle(android.content.Context);
     method public static String getAlarmSoundDefaultString(android.content.Context);
     method public static String getNotificationSoundDefaultString(android.content.Context);
-    method public net.xpece.android.support.preference.RingtonePreference.OnFailedToReadRingtoneListener! getOnFailedToReadRingtoneListener();
+    method public net.xpece.android.support.preference.RingtonePreference.OnFailedToReadRingtoneListener? getOnFailedToReadRingtoneListener();
     method public static String getRingtoneDefaultString(android.content.Context);
     method public static String getRingtoneDefaultWithActualString(android.content.Context, String);
     method public static String getRingtonePickerTitleAlarmString(android.content.Context);
@@ -401,17 +416,18 @@ package net.xpece.android.support.preference {
     method public boolean getShowDefault();
     method public boolean getShowSilent();
     method public void onActivityResult(android.content.Intent?);
-    method public android.net.Uri! onRestoreRingtone();
-    method public void onSaveRingtone(android.net.Uri!);
-    method public void setOnFailedToReadRingtoneListener(net.xpece.android.support.preference.RingtonePreference.OnFailedToReadRingtoneListener!);
+    method protected String? onGetDefaultValue(android.content.res.TypedArray, int);
+    method public android.net.Uri? onRestoreRingtone();
+    method public void onSaveRingtone(android.net.Uri?);
+    method public void setOnFailedToReadRingtoneListener(net.xpece.android.support.preference.RingtonePreference.OnFailedToReadRingtoneListener?);
     method public void setRingtoneType(int);
     method public void setShowDefault(boolean);
     method public void setShowSilent(boolean);
-    method public void showDialogFragment(android.support.v7.preference.XpPreferenceFragment!);
+    method public void showDialogFragment(android.support.v7.preference.XpPreferenceFragment);
   }
 
   public static interface RingtonePreference.OnFailedToReadRingtoneListener {
-    method public void onFailedToReadRingtone(net.xpece.android.support.preference.RingtonePreference!, boolean, boolean);
+    method public void onFailedToReadRingtone(net.xpece.android.support.preference.RingtonePreference, boolean, boolean);
   }
 
   @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY) public class SafeRingtone {
@@ -428,13 +444,14 @@ package net.xpece.android.support.preference {
   }
 
   public class SeekBarDialogPreference extends net.xpece.android.support.preference.DialogPreference {
-    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet!);
+    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet?, @AttrRes int);
+    ctor public SeekBarDialogPreference(android.content.Context!, android.util.AttributeSet?);
     ctor public SeekBarDialogPreference(android.content.Context!);
     method public int getMax();
     method public int getMin();
     method public int getProgress();
+    method protected Integer onGetDefaultValue(android.content.res.TypedArray, int);
     method public void setMax(int);
     method public void setMin(int);
     method public void setProgress(int);
@@ -442,45 +459,52 @@ package net.xpece.android.support.preference {
   }
 
   public class SeekBarPreference extends net.xpece.android.support.preference.Preference {
-    ctor public SeekBarPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public SeekBarPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public SeekBarPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public SeekBarPreference(android.content.Context!);
-    method public CharSequence! getInfo();
+    ctor public SeekBarPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public SeekBarPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public SeekBarPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public SeekBarPreference(android.content.Context);
+    method public CharSequence? getInfo();
     method public int getMax();
     method public int getMin();
-    method public android.widget.SeekBar.OnSeekBarChangeListener! getOnSeekBarChangeListener();
+    method public android.widget.SeekBar.OnSeekBarChangeListener? getOnSeekBarChangeListener();
     method public final int getSeekBarIncrement();
     method public int getValue();
     method public boolean isAdjustable();
     method public boolean isShowSeekBarValue();
+    method protected Integer onGetDefaultValue(android.content.res.TypedArray, int);
     method public void onInfoChanged();
     method public void setAdjustable(boolean);
     method public void setInfo(CharSequence?);
     method public void setMax(int);
     method public void setMin(int);
-    method public void setOnSeekBarChangeListener(android.widget.SeekBar.OnSeekBarChangeListener!);
+    method public void setOnSeekBarChangeListener(android.widget.SeekBar.OnSeekBarChangeListener?);
     method public final void setSeekBarIncrement(int);
     method public void setShowSeekBarValue(boolean);
     method public void setValue(int);
   }
 
-  public final class SharedPreferencesCompat {
-    method public static java.util.Set<java.lang.String>! getStringSet(android.content.SharedPreferences!, String!, java.util.Set<java.lang.String>!);
-    method public static void putStringSet(android.content.SharedPreferences.Editor, String!, java.util.Set<java.lang.String>!);
+  deprecated public final class SharedPreferencesCompat {
+    method public static java.util.Set<java.lang.String>? getStringSet(android.content.SharedPreferences, String, java.util.Set<java.lang.String>?);
+    method deprecated public static void putStringSet(android.content.SharedPreferences.Editor, String, java.util.Set<java.lang.String>);
+  }
+
+  public final class StyledContextProvider {
+    method @StyleRes public static int getActivityThemeResource(android.app.Activity);
+    method public static android.view.ContextThemeWrapper getThemedApplicationContext(android.app.Activity);
+    method @AnyRes public static int resolveResourceId(android.content.Context, @AttrRes int);
   }
 
   public class SwitchPreference extends net.xpece.android.support.preference.TwoStatePreference {
-    ctor public SwitchPreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public SwitchPreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public SwitchPreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public SwitchPreference(android.content.Context!);
-    method public CharSequence! getSwitchTextOff();
-    method public CharSequence! getSwitchTextOn();
-    method public void setSwitchTextOff(CharSequence!);
-    method public void setSwitchTextOff(int);
-    method public void setSwitchTextOn(CharSequence!);
-    method public void setSwitchTextOn(int);
+    ctor public SwitchPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public SwitchPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public SwitchPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public SwitchPreference(android.content.Context);
+    method public CharSequence? getSwitchTextOff();
+    method public CharSequence? getSwitchTextOn();
+    method public void setSwitchTextOff(CharSequence?);
+    method public void setSwitchTextOff(@StringRes int);
+    method public void setSwitchTextOn(CharSequence?);
+    method public void setSwitchTextOn(@StringRes int);
   }
 
   public interface TintableDialogPreference {
@@ -502,53 +526,98 @@ package net.xpece.android.support.preference {
   }
 
   public abstract class TwoStatePreference extends net.xpece.android.support.preference.Preference {
-    ctor public TwoStatePreference(android.content.Context!, android.util.AttributeSet!, int, int);
-    ctor public TwoStatePreference(android.content.Context!, android.util.AttributeSet!, int);
-    ctor public TwoStatePreference(android.content.Context!, android.util.AttributeSet!);
-    ctor public TwoStatePreference(android.content.Context!);
+    ctor public TwoStatePreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public TwoStatePreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public TwoStatePreference(android.content.Context, android.util.AttributeSet?);
+    ctor public TwoStatePreference(android.content.Context);
     method public boolean getDisableDependentsState();
-    method public CharSequence! getSummaryOff();
-    method public CharSequence! getSummaryOn();
+    method public CharSequence? getSummaryOff();
+    method public CharSequence? getSummaryOn();
     method public boolean isChecked();
+    method protected Boolean onGetDefaultValue(android.content.res.TypedArray, int);
     method public void setChecked(boolean);
     method public void setDisableDependentsState(boolean);
-    method public void setSummaryOff(CharSequence!);
-    method public void setSummaryOff(int);
-    method public void setSummaryOn(CharSequence!);
-    method public void setSummaryOn(int);
-    method protected void syncSummaryView(android.support.v7.preference.PreferenceViewHolder!);
+    method public void setSummaryOff(CharSequence?);
+    method public void setSummaryOff(@StringRes int);
+    method public void setSummaryOn(CharSequence?);
+    method public void setSummaryOn(@StringRes int);
+    method protected void syncSummaryView(android.support.v7.preference.PreferenceViewHolder);
   }
 
   public class XpEditTextPreferenceDialogFragment extends net.xpece.android.support.preference.XpPreferenceDialogFragment {
     ctor public XpEditTextPreferenceDialogFragment();
-    method public static net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment! newInstance(String!);
+    method public net.xpece.android.support.preference.EditTextPreference? getEditTextPreference();
+    method public static net.xpece.android.support.preference.XpEditTextPreferenceDialogFragment newInstance(String);
     method public void onDialogClosed(boolean);
+    method protected net.xpece.android.support.preference.EditTextPreference requireEditTextPreference();
   }
 
   public class XpListPreferenceDialogFragment extends net.xpece.android.support.preference.XpPreferenceDialogFragment {
     ctor public XpListPreferenceDialogFragment();
-    method public static net.xpece.android.support.preference.XpListPreferenceDialogFragment! newInstance(String!);
+    method public net.xpece.android.support.preference.ListPreference? getListPreference();
+    method public static net.xpece.android.support.preference.XpListPreferenceDialogFragment newInstance(String);
     method public void onDialogClosed(boolean);
+    method protected net.xpece.android.support.preference.ListPreference requireListPreference();
   }
 
   public class XpMultiSelectListPreferenceDialogFragment extends net.xpece.android.support.preference.XpPreferenceDialogFragment {
     ctor public XpMultiSelectListPreferenceDialogFragment();
-    method public net.xpece.android.support.preference.MultiSelectListPreference! getMultiSelectListPreference();
-    method public static net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment! newInstance(String!);
+    method public net.xpece.android.support.preference.MultiSelectListPreference? getMultiSelectListPreference();
+    method public static net.xpece.android.support.preference.XpMultiSelectListPreferenceDialogFragment newInstance(String);
     method public void onDialogClosed(boolean);
+    method protected net.xpece.android.support.preference.MultiSelectListPreference requireMultiSelectListPreference();
+  }
+
+  @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY) public final class XpPreference {
+    method public static java.util.Set<java.lang.String>? getPersistedStringSet(android.support.v7.preference.Preference, java.util.Set<java.lang.String>?);
+    method public static boolean persistStringSet(android.support.v7.preference.Preference, java.util.Set<java.lang.String>);
   }
 
   public abstract class XpPreferenceDialogFragment extends android.support.v7.preference.PreferenceDialogFragmentCompat {
     ctor public XpPreferenceDialogFragment();
   }
 
+  public abstract class XpPreferenceFragment extends android.support.v7.preference.XpPreferenceFragment {
+    ctor public XpPreferenceFragment();
+  }
+
+  public final class XpPreferenceHelpers {
+    method public static android.graphics.drawable.Drawable? getDialogIcon(android.support.v7.preference.DialogPreference);
+    method public static android.graphics.drawable.Drawable? getIcon(android.support.v7.preference.Preference);
+    method public static boolean hasOnPreferenceLongClickListener(android.support.v7.preference.Preference);
+    method public static boolean hasSummaryTextAppearance(android.support.v7.preference.Preference);
+    method public static boolean hasSummaryTextColor(android.support.v7.preference.Preference);
+    method public static boolean hasTitleTextAppearance(android.support.v7.preference.Preference);
+    method public static boolean hasTitleTextColor(android.support.v7.preference.Preference);
+    method public static void setDialogIcon(android.support.v7.preference.DialogPreference, android.graphics.drawable.Drawable?);
+    method public static void setDialogIcon(android.support.v7.preference.DialogPreference, @DrawableRes int);
+    method public static void setIcon(android.support.v7.preference.Preference, android.graphics.drawable.Drawable?);
+    method public static void setIcon(android.support.v7.preference.Preference, @DrawableRes int);
+    method public static void setOnPreferenceLongClickListener(android.support.v7.preference.Preference, net.xpece.android.support.preference.OnPreferenceLongClickListener?);
+    method public static void setSummaryTextAppearance(android.support.v7.preference.Preference, @StyleRes int);
+    method public static void setSummaryTextColor(android.support.v7.preference.Preference, android.content.res.ColorStateList);
+    method public static void setSummaryTextColor(android.support.v7.preference.Preference, @ColorInt int);
+    method public static void setTitleTextAppearance(android.support.v7.preference.Preference, @StyleRes int);
+    method public static void setTitleTextColor(android.support.v7.preference.Preference, android.content.res.ColorStateList);
+    method public static void setTitleTextColor(android.support.v7.preference.Preference, @ColorInt int);
+  }
+
+  public abstract class XpPreferenceManager {
+    ctor public XpPreferenceManager();
+    method public static android.content.SharedPreferences getDefaultSharedPreferences(android.content.Context);
+    method public static void setDefaultValues(android.content.Context, @XmlRes int, boolean, String[]?);
+    method public static void setDefaultValues(android.content.Context, @XmlRes int, boolean);
+    method public static void setDefaultValues(android.content.Context, String, int, @XmlRes int, boolean);
+    method public static void setDefaultValues(android.content.Context, String, int, @XmlRes int, boolean, String[]?);
+  }
+
   public class XpRingtonePreferenceDialogFragment extends net.xpece.android.support.preference.XpPreferenceDialogFragment implements android.widget.AdapterView.OnItemSelectedListener java.lang.Runnable {
     ctor public XpRingtonePreferenceDialogFragment();
-    method public net.xpece.android.support.preference.RingtonePreference! getRingtonePreference();
-    method public static net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment newInstance(String!);
+    method public net.xpece.android.support.preference.RingtonePreference? getRingtonePreference();
+    method public static net.xpece.android.support.preference.XpRingtonePreferenceDialogFragment newInstance(String);
     method public void onDialogClosed(boolean);
-    method public void onItemSelected(android.widget.AdapterView<?>!, android.view.View!, int, long);
-    method public void onNothingSelected(android.widget.AdapterView<?>!);
+    method public void onItemSelected(android.widget.AdapterView<?>, android.view.View, int, long);
+    method public void onNothingSelected(android.widget.AdapterView<?>);
     method public void onRingtonePickerNotFound(int);
     method protected net.xpece.android.support.preference.RingtonePreference requireRingtonePreference();
     method public void run();
@@ -556,11 +625,17 @@ package net.xpece.android.support.preference {
 
   public class XpSeekBarPreferenceDialogFragment extends net.xpece.android.support.preference.XpPreferenceDialogFragment implements android.view.View.OnKeyListener {
     ctor public XpSeekBarPreferenceDialogFragment();
-    method protected static android.widget.SeekBar! findSeekBar(android.view.View!);
-    method public net.xpece.android.support.preference.SeekBarDialogPreference! getSeekBarDialogPreference();
-    method public static net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment! newInstance(String!);
+    method protected static android.widget.SeekBar? findSeekBar(android.view.View);
+    method public net.xpece.android.support.preference.SeekBarDialogPreference? getSeekBarDialogPreference();
+    method public static net.xpece.android.support.preference.XpSeekBarPreferenceDialogFragment newInstance(String);
     method public void onDialogClosed(boolean);
-    method public boolean onKey(android.view.View!, int, android.view.KeyEvent!);
+    method public boolean onKey(android.view.View, int, android.view.KeyEvent);
+    method protected net.xpece.android.support.preference.SeekBarDialogPreference requireSeekBarDialogPreference();
+  }
+
+  public final class XpSharedPreferences {
+    method public static java.util.Set<java.lang.String>? getStringSet(android.content.SharedPreferences, String, java.util.Set<java.lang.String>?);
+    method deprecated public static void putStringSet(android.content.SharedPreferences.Editor, String, java.util.Set<java.lang.String>);
   }
 
 }
@@ -576,7 +651,17 @@ package net.xpece.android.support.preference.plugins {
     method @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP) public static void onError(Throwable, String?);
     method public static void registerErrorInterceptor(net.xpece.android.support.preference.plugins.ErrorInterceptor);
     method public static void reset();
-    method public static void unregisterErrorInterceptor(net.xpece.android.support.preference.plugins.ErrorInterceptor!);
+    method public static void unregisterErrorInterceptor(net.xpece.android.support.preference.plugins.ErrorInterceptor);
+  }
+
+}
+
+package net.xpece.android.support.widget {
+
+  @RestrictTo(android.support.annotation.RestrictTo.Scope.GROUP_ID) public class AspSwitchCompat extends android.support.v7.widget.SwitchCompat {
+    ctor public AspSwitchCompat(android.content.Context);
+    ctor public AspSwitchCompat(android.content.Context, android.util.AttributeSet?);
+    ctor public AspSwitchCompat(android.content.Context, android.util.AttributeSet?, int);
   }
 
 }
