@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
 
     <style name="Preference.Asp.Material" parent="">
         <item name="android:layout">@layout/asp_preference</item>
@@ -6,7 +6,7 @@
         <item name="asp_iconPaddingEnabled">true</item>
     </style>
 
-    <style name="Preference.Asp.Material.PreferenceScreen"/>
+    <style name="Preference.Asp.Material.PreferenceScreen" />
 
     <style name="Preference.Asp.Material.Information">
         <!--<item name="android:layout">@layout/preference_information_material</item>-->
@@ -62,8 +62,7 @@
         <item name="asp_infoAnchor">@android:id/summary</item>
     </style>
 
-    <style name="Preference.Asp.Material.DialogPreference.MultiSelectListPreference">
-    </style>
+    <style name="Preference.Asp.Material.DialogPreference.MultiSelectListPreference" />
 
     <style name="Preference.Asp.Material.DialogPreference.ListPreference">
         <item name="android:positiveButtonText">@null</item>
@@ -77,6 +76,10 @@
         <item name="asp_menuMode">simple_adaptive</item>
         <item name="asp_simpleMenuWidthUnit">@dimen/asp_simple_menu_width_unit</item>
         <item name="asp_simpleMenuWidthMode">wrap_content_unit</item>
+    </style>
+
+    <style name="Preference.Asp.Material.DropDownPreference" parent="Preference.Asp.Material.DialogPreference.ListPreference.SimpleMenu">
+        <item name="asp_menuMode">simple_menu</item>
     </style>
 
     <style name="Preference.Asp.Material.DialogPreference.RingtonePreference">

@@ -37,6 +37,9 @@
         <item name="listPreferenceStyle">
             @style/Preference.Asp.Material.DialogPreference.ListPreference
         </item>
+        <item name="dropdownPreferenceStyle">
+            @style/Preference.Asp.Material.DropDownPreference
+        </item>
         <item name="multiSelectListPreferenceStyle">
             @style/Preference.Asp.Material.DialogPreference.MultiSelectListPreference
         </item>

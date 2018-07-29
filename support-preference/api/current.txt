@@ -152,6 +152,13 @@ package net.xpece.android.support.preference {
     method protected android.support.v7.preference.DialogPreference getPreference();
   }
 
+  public class DropDownPreference extends net.xpece.android.support.preference.ListPreference {
+    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?, int, int);
+    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?, int);
+    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?);
+    ctor public DropDownPreference(android.content.Context!);
+  }
+
   public class EditTextPreference extends net.xpece.android.support.preference.DialogPreference {
     ctor public EditTextPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
     ctor public EditTextPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);

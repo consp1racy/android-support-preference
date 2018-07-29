@@ -11,6 +11,15 @@
 - *REMOVED:* Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
 - *REMOVED:* Previously deprecated classes in `android.support.*` packages are now gone.
 
+## 2.3.1 2018-07-29
+
+### Support Preference
+
+- *FIXED:* Added missing support for `DropDownPreference`.
+  - Android Support Library uses an invisible `Spinner` to display its popup. This library uses
+    `XpListPopupWindow` directly. If you want to use a custom layout with custom styled Spinner,
+    extend and use Android Support Library `DropDownPreference`.
+
 ## 2.3.0 2018-07-27
 
 ### Support Preference
