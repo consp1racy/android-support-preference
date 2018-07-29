@@ -1,7 +1,10 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,7 +22,7 @@ import net.xpece.android.support.widget.XpListPopupWindow;
  * Support for advanced XML styling attributes will be retained.
  */
 public class DropDownPreference extends ListPreference {
-    public DropDownPreference(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DropDownPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         if (getMenuMode() != MENU_MODE_SIMPLE_MENU) {
@@ -29,15 +32,15 @@ public class DropDownPreference extends ListPreference {
         }
     }
 
-    public DropDownPreference(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DropDownPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Asp_Material_DropDownPreference);
     }
 
-    public DropDownPreference(Context context, @Nullable AttributeSet attrs) {
+    public DropDownPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.dropdownPreferenceStyle);
     }
 
-    public DropDownPreference(Context context) {
+    public DropDownPreference(@NonNull Context context) {
         this(context, null);
     }
 
