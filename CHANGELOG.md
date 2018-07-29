@@ -1,10 +1,10 @@
 # Change log
 
-## 2.x.x 2018-XX-XX
+## 2.3.1 2018-07-29
 
 ### Support Preference
 
-- *NEW!* Added missing support for `DropDownPreference`.
+- *FIXED:* Added missing support for `DropDownPreference`.
   - Android Support Library uses an invisible `Spinner` to display its popup. This library uses
     `XpListPopupWindow` directly. If you want to use a custom layout with custom styled Spinner,
     extend and use Android Support Library `DropDownPreference`.
