@@ -99,6 +99,7 @@ Library version 0.5.1. Android version 4.4.
 - `ListPreference`
     - Optionally can display as a simple menu or simple dialog.
     - Subclasses support custom adapter.
+- `DropDownPreference`
 - `MultiSelectListPreference`
     - Available since API 7
 - `SeekBarDialogPreference` extends `DialogPreference`
@@ -151,12 +152,6 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
 - `ColorPreference`
 - Preference long click listeners.
 - Title/summary text color and text appearance defined in Java or XML.
-
-## Features not supported
-
-- Support library 27.0.0 introduced `DropDownPreference` whose functionality is already covered
-  and superseded by `ListPreference` in simple menu or adaptive mode. This library will not provide
-  styling or any other support for `DropDownPreference`. Use simple menu `ListPreference` instead.
 
 <a name="how-to-use"/>
 

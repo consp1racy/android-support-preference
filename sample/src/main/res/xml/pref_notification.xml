@@ -1,5 +1,4 @@
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- A 'parent' preference, which enables/disables child preferences (below)
@@ -7,7 +6,7 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="notifications_new_message"
-        android:title="@string/pref_title_new_message_notifications"/>
+        android:title="@string/pref_title_new_message_notifications" />
 
     <ListPreference
         style="@style/Preference.Material.DialogPreference.ListPreference.SimpleMenu"
@@ -16,7 +15,16 @@
         android:entries="@array/pref_notif_content_titles_long"
         android:entryValues="@array/pref_notif_content_values"
         android:key="notif_content"
-        android:title="@string/pref_notif_content"/>
+        android:title="@string/pref_notif_content" />
+
+    <!--<android.support.v7.preference.DropDownPreference-->
+    <DropDownPreference
+        android:defaultValue="0"
+        android:dependency="notifications_new_message"
+        android:entries="@array/pref_notif_content_titles_long"
+        android:entryValues="@array/pref_notif_content_values"
+        android:key="notif_content_dropdown"
+        android:title="@string/pref_notif_content" />
 
     <ColorPreference
         android:defaultValue="?colorPrimary"
@@ -25,8 +33,7 @@
         android:entryValues="@array/colors_material"
         android:key="notif_color"
         android:title="@string/pref_notif_color"
-        app:asp_columnCount="-1"
-        />
+        app:asp_columnCount="-1" />
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
     <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
@@ -37,7 +44,7 @@
         android:ringtoneType="notification"
         android:showDefault="true"
         android:showSilent="true"
-        android:title="@string/pref_title_ringtone"/>
+        android:title="@string/pref_title_ringtone" />
 
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
     <CheckBoxPreference
@@ -45,19 +52,19 @@
         android:dependency="notifications_new_message"
         android:key="notifications_new_message_vibrate"
         android:summary="Some supposedly long text to emulate multiline summary. And even more text to make sure it sticks."
-        android:title="@string/pref_title_vibrate"/>
+        android:title="@string/pref_title_vibrate" />
 
     <!--<android.support.v7.preference.SeekBarPreference-->
-        <!--android:defaultValue="50"-->
-        <!--android:dependency="notifications_new_message"-->
-        <!--android:icon="@drawable/ic_volume_up_black_24dp"-->
-        <!--android:key="notifications_new_message_volume1"-->
-        <!--android:max="100"-->
-        <!--android:title="@string/pref_title_volume2"-->
-        <!--android:summary="@string/pref_title_volume2"-->
-        <!--app:asp_dialogTintEnabled="true"-->
-        <!--app:min="20"-->
-        <!--app:asp_tintEnabled="true"/>-->
+    <!--android:defaultValue="50"-->
+    <!--android:dependency="notifications_new_message"-->
+    <!--android:icon="@drawable/ic_volume_up_black_24dp"-->
+    <!--android:key="notifications_new_message_volume1"-->
+    <!--android:max="100"-->
+    <!--android:title="@string/pref_title_volume2"-->
+    <!--android:summary="@string/pref_title_volume2"-->
+    <!--app:asp_dialogTintEnabled="true"-->
+    <!--app:min="20"-->
+    <!--app:asp_tintEnabled="true"/>-->
 
     <SeekBarPreference
         android:defaultValue="50"
@@ -68,8 +75,8 @@
         android:title="@string/pref_title_volume2"
         app:asp_dialogTintEnabled="true"
         app:asp_infoAnchor="@android:id/title"
-        app:asp_min="20"
-        app:asp_tintEnabled="true"/>
+        app:asp_tintEnabled="true"
+        app:min="20" />
 
     <SeekBarDialogPreference
         android:defaultValue="768"
@@ -82,7 +89,7 @@
         android:max="1024"
         android:title="@string/pref_title_volume"
         app:asp_dialogTintEnabled="true"
-        app:asp_min="256"
-        app:asp_tintEnabled="true"/>
+        app:asp_tintEnabled="true"
+        app:min="256" />
 
 </PreferenceScreen>
