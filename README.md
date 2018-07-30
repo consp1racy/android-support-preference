@@ -37,7 +37,6 @@ Always specify `preference-v7` version explicitly!
 Version 1.x.x is compatible with support libraries from 23.2.0 to 27.0.2.
 
 Version 2.x.x requires at least support libraries 27.0.0.
-Version 2.x.x **IS NOT** compatible with AndroidX. Stay tuned for version 3.x.x!
 
 Keep the major version of all artifacts same. V2 is not compatible with V1.
 
