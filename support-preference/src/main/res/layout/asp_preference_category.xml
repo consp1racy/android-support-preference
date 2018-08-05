@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2014 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2014 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,11 +14,14 @@
 -->
 
 <!-- Layout used for PreferenceCategory in a PreferenceActivity. -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:baselineAligned="false"
+    android:clipToPadding="false"
+    android:gravity="center_vertical"
     android:paddingLeft="?listPreferredItemPaddingLeft"
     android:paddingRight="?listPreferredItemPaddingRight">
     <!-- Do not flatten. This allows hiding preference categories with empty title. -->
@@ -28,10 +30,10 @@
         android:id="@+id/icon_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginRight="12dp"
         android:layout_marginStart="-4dp"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:minWidth="48dp"
         android:visibility="gone"
         tools:visibility="visible">
@@ -40,24 +42,25 @@
             android:id="@android:id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxHeight="48dp"
             android:maxWidth="48dp"
+            android:maxHeight="48dp"
             android:scaleType="fitStart"
             android:visibility="gone"
             tools:ignore="ContentDescription"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
     </FrameLayout>
 
     <TextView
         android:id="@android:id/title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:minHeight="48dp"
-        android:paddingBottom="16dip"
         android:paddingTop="16dip"
+        android:paddingBottom="16dip"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="?colorAccent"
-        tools:ignore="RtlHardcoded"/>
+        tools:ignore="RtlHardcoded" />
 </LinearLayout>

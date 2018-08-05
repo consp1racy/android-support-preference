@@ -2,14 +2,15 @@
 
 ## 3.0.0 2018-XX-XX
 
-### Compatibility
-
-- *NEW!* This library is now compatible with AndroidX.
-
 ### API Changes
 
 - *REMOVED:* Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
 - *REMOVED:* Previously deprecated classes in `android.support.*` packages are now gone.
+
+## 2.3.2 2018-08-05
+
+- *FIXED:* `PreferenceCategory` now has proper padding on API 16 (introduced in 2.3.0).
+- *FIXED:* `DropDownPreference` is now properly styled when using `.Inset` theme (introduced in 2.3.1).
 
 ## 2.3.1 2018-07-29
 

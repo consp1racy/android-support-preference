@@ -54,6 +54,10 @@
         <item name="android:icon">@android:color/transparent</item>
     </style>
 
+    <style name="Preference.Asp.Material.Inset.DropDownPreference" parent="Preference.Asp.Material.DropDownPreference">
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
     <style name="Preference.Asp.Material.Inset.DialogPreference.RingtonePreference" parent="Preference.Asp.Material.DialogPreference.RingtonePreference">
         <item name="android:icon">@android:color/transparent</item>
     </style>

@@ -153,10 +153,10 @@ package net.xpece.android.support.preference {
   }
 
   public class DropDownPreference extends net.xpece.android.support.preference.ListPreference {
-    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?, int, int);
-    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?, int);
-    ctor public DropDownPreference(android.content.Context!, android.util.AttributeSet?);
-    ctor public DropDownPreference(android.content.Context!);
+    ctor public DropDownPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    ctor public DropDownPreference(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public DropDownPreference(android.content.Context, android.util.AttributeSet?);
+    ctor public DropDownPreference(android.content.Context);
   }
 
   public class EditTextPreference extends net.xpece.android.support.preference.DialogPreference {
