@@ -1,5 +1,10 @@
 # Change log
 
+## 2.3.2 2018-08-05
+
+- *FIXED:* `PreferenceCategory` now has proper padding on API 16 (introduced in 2.3.0).
+- *FIXED:* `DropDownPreference` is now properly styled when using `.Inset` theme (introduced in 2.3.1).
+
 ## 2.3.1 2018-07-29
 
 ### Support Preference

@@ -45,7 +45,7 @@ public class DropDownPreference extends ListPreference {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         if (holder.findViewById(R.id.spinner) != null) {
             Log.w("DropDownPreference", "This version of DropDownPreference doesn't work with a Spinner in the layout." +
                     "\na) Please remove the Spinner from your layout." +
