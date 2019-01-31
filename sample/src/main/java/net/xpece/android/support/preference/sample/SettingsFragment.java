@@ -11,6 +11,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.XpPreferenceHelpers;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,7 +101,7 @@ public class SettingsFragment extends XpPreferenceFragment {
                         ringtone.stop();
                     }
                 }
-            } else if (preference instanceof TwoStatePreference){
+            } else if (preference instanceof TwoStatePreference) {
                 // Fail 50% of the time.
                 final boolean success = new Random().nextBoolean();
                 if (!success) {
@@ -151,7 +152,7 @@ public class SettingsFragment extends XpPreferenceFragment {
         addPreferencesFromResource(R.xml.pref_general);
 
         // Manually tint PreferenceScreen icon.
-//        Preference subs = findPreference("subs_screen");
+//        Preference subs = findPreference("subscreen");
 //        PreferenceIconHelper subsHelper = PreferenceIconHelper.setup(subs,
 //            R.drawable.ic_inbox_black_24dp,
 //            Util.resolveResourceId(subs.getContext(), R.attr.asp_preferenceIconTint, R.color.accent),
@@ -227,14 +228,24 @@ public class SettingsFragment extends XpPreferenceFragment {
         XpPreferenceHelpers.setOnPreferenceLongClickListener(findPreference("example_text"), new OnLongClickListenerSample());
 
         // Setup root preference title.
-//        getPreferenceScreen().setTitle(R.string.app_name);
-        getPreferenceScreen().setTitle(getActivity().getTitle());
+        final PreferenceScreen root = getPreferenceScreen();
+        if (TextUtils.isEmpty(root.getTitle())) {
+            // Only set title *of the root preference* if it's empty.
+            // getActivity().getTitle() doesn't work correctly with synthesized back stack.
+//            final FragmentActivity activity = getActivity();
+//            final PackageManager pm = activity.getPackageManager();
+//            final CharSequence title = pm.getActivityInfo(activity.getComponentName(), 0).loadLabel(pm);
+//            final CharSequence title = activity.getApplicationInfo().loadLabel(pm);
+            final CharSequence title = getString(R.string.settings_activity_title);
+            root.setTitle(title);
+        }
 
         // Setup root preference.
         // Use with ReplaceFragment strategy.
         PreferenceScreenNavigationStrategy.ReplaceFragment.onCreatePreferences(this, rootKey);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onStart() {
         super.onStart();
