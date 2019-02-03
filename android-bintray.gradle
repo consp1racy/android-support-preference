@@ -33,4 +33,6 @@ bintray {
     }
 }
 
-bintrayUpload.dependsOn publishToMavenLocal
+tasks.named("bintrayUpload").configure {
+    dependsOn tasks.named("publishToMavenLocal")
+}
