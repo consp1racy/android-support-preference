@@ -226,8 +226,13 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
                 // Check if cursor is valid.
                 mCursor.getColumnNames();
             } catch (IllegalStateException ex) {
+                // We throw this when there's an error with reflective method lookup.
                 recover(preference, ex);
             } catch (IllegalArgumentException ex) {
+                recover(preference, ex);
+            } catch (Exception ex) {
+                // You know what, fallback to system picker on any error. Example:
+                // https://github.com/consp1racy/android-support-preference/issues/117
                 recover(preference, ex);
             }
         }
