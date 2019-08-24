@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static net.xpece.android.support.preference.Util.checkPreferenceNotNull;
@@ -272,8 +274,7 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         }
     }
 
-    @Override
-    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
+    private void onOnPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         RingtonePreference preference = requireRingtonePreference();
@@ -290,24 +291,35 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         a.recycle();
 
         final LayoutInflater inflater = LayoutInflater.from(context);
-        if (mHasDefaultItem) {
+        final boolean isDefault = RingtoneManager.isDefault(mExistingUri);
+        if (mHasDefaultItem /*|| isDefault*/) {
             mDefaultRingtonePos = addDefaultRingtoneItem(inflater, singleChoiceItemLayout);
 
-            if (mClickedPos == POS_UNKNOWN && RingtoneManager.isDefault(mExistingUri)) {
+            if (mClickedPos == POS_UNKNOWN && isDefault) {
                 mClickedPos = mDefaultRingtonePos;
             }
         }
-        if (mHasSilentItem) {
+
+        final boolean isSilent = mExistingUri == null;
+        if (mHasSilentItem /*|| isSilent*/) {
             mSilentPos = addSilentItem(inflater, singleChoiceItemLayout);
 
             // The 'Silent' item should use a null Uri
-            if (mClickedPos == POS_UNKNOWN && mExistingUri == null) {
+            if (mClickedPos == POS_UNKNOWN && isSilent) {
                 mClickedPos = mSilentPos;
             }
         }
 
         if (mClickedPos == POS_UNKNOWN) {
+            try {
             mClickedPos = getListPosition(mRingtoneManager.getRingtonePosition(mExistingUri));
+            } catch (NumberFormatException e) {
+                // This can happen on Android Q Beta 6 if the Uri doesn't end with a number.
+                // https://github.com/consp1racy/android-support-preference/issues/120
+                // https://issuetracker.google.com/issues/139935440
+                final String message = "Couldn't resolve ringtone position: " + mExistingUri;
+                XpSupportPreferencePlugins.onError(e, message);
+            }
         }
 
         // If we still don't have selected item, but we're not silent, show the 'Unknown' item.
@@ -342,6 +354,15 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         builder.setSingleChoiceItems(adapter, mClickedPos, mRingtoneClickListener);
 
         builder.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
+        try {
+            onOnPrepareDialogBuilder(builder);
+        } catch (Throwable e) {
+            recover(getRingtonePreference(), e);
+        }
     }
 
     /**
@@ -397,6 +418,22 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
     @Override
     public void onNothingSelected(@NonNull AdapterView<?> parent) {
         // No-op.
+    }
+
+    @Override
+    public void onStart() {
+        if (!getShowsDialog() && getDialog() != null) {
+            try {
+                // Don't show the dialog if we failed during onPrepareDialogBuilder.
+                final Field f = DialogFragment.class.getDeclaredField("mDialog");
+                f.setAccessible(true);
+                f.set(this, null);
+            } catch (IllegalAccessException ignore) {
+            } catch (NoSuchFieldException ignore) {
+            }
+        }
+
+        super.onStart();
     }
 
     @Override

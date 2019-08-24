@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings.System;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * A {@link Preference} that allows the user to choose a ringtone from those on the device.
@@ -252,14 +254,43 @@ public class RingtonePreference extends DialogPreference {
      */
     @NonNull
     public Intent buildRingtonePickerIntent() {
-        int type = getRingtoneType();
+        final int type = getRingtoneType();
+        Uri existingUri = onRestoreRingtone();
+        final Uri defaultUri = RingtoneManager.getDefaultUri(type);
+        final boolean showDefault = getShowDefault();
+        final boolean showSilent = getShowSilent();
+        final CharSequence title = getNonEmptyDialogTitle();
+
+        if (Build.VERSION.SDK_INT >= 29) {
+            // https://github.com/consp1racy/android-support-preference/issues/120
+            // https://issuetracker.google.com/issues/139935440
+            boolean synthesizeValidNonExistentUri = false;
+            final boolean isDefaultWithType = RingtoneManager.isDefault(existingUri) &&
+                    RingtoneManager.getDefaultType(existingUri) == type;
+            if (isDefaultWithType && !showDefault) {
+                synthesizeValidNonExistentUri = true;
+            } else if (existingUri == null && !showSilent) {
+                synthesizeValidNonExistentUri = true;
+            } else if (existingUri != null) {
+                try {
+                    Long.parseLong(existingUri.getLastPathSegment());
+                } catch (NumberFormatException e) {
+                    synthesizeValidNonExistentUri = true;
+                }
+            }
+            if (synthesizeValidNonExistentUri) {
+                Log.w("RingtonePicker", "Synthesized fake ringtone Uri to prevent crash.");
+                existingUri = Uri.fromParts("fake", "0", null);
+            }
+        }
+
         Intent i = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, onRestoreRingtone());
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(type));
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, getShowDefault());
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, getShowSilent());
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, existingUri);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, defaultUri);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, showDefault);
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, showSilent);
         i.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, type);
-        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getNonEmptyDialogTitle());
+        i.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, title);
         return i;
     }
 
