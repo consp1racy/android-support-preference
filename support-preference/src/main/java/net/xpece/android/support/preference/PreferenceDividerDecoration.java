@@ -214,6 +214,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         final PreferenceGroupAdapter adapter = (PreferenceGroupAdapter) parent.getAdapter();
+        if (adapter == null) return;
         final int adapterCount = adapter.getItemCount();
 
         boolean wasLastPreferenceGroup = false;
