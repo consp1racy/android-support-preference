@@ -4,20 +4,21 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+import android.view.View;
+
 import androidx.annotation.DimenRes;
 import androidx.annotation.Dimension;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.TintTypedArray;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceGroupAdapter;
 import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.TintTypedArray;
-import android.util.TypedValue;
-import android.view.View;
 
 import static androidx.annotation.Dimension.DP;
 
@@ -214,6 +215,7 @@ public class PreferenceDividerDecoration extends RecyclerView.ItemDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         final PreferenceGroupAdapter adapter = (PreferenceGroupAdapter) parent.getAdapter();
+        if (adapter == null) return;
         final int adapterCount = adapter.getItemCount();
 
         boolean wasLastPreferenceGroup = false;
