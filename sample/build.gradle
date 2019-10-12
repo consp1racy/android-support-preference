@@ -40,10 +40,7 @@ dependencies {
 
     implementation "com.android.support:design:$supportLibVersion"
 
-    def leakCanaryVersion = "1.5.4"
-//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
 }
 
 repositories {
