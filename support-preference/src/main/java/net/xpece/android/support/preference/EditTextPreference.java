@@ -150,14 +150,18 @@ public class EditTextPreference extends DialogPreference {
     }
 
     public void setText(@Nullable String text) {
-        boolean wasBlocking = this.shouldDisableDependents();
-        this.mText = text;
-        this.persistString(text);
-        boolean isBlocking = this.shouldDisableDependents();
+        boolean wasBlocking = shouldDisableDependents();
+
+        mText = text;
+
+        persistString(text);
+
+        boolean isBlocking = shouldDisableDependents();
         if (isBlocking != wasBlocking) {
-            this.notifyDependencyChange(isBlocking);
+            notifyDependencyChange(isBlocking);
         }
 
+        notifyChanged();
     }
 
     @Nullable
