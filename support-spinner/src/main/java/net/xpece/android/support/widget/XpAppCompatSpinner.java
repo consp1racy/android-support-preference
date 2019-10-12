@@ -5,16 +5,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import androidx.annotation.ArrayRes;
-import androidx.annotation.AttrRes;
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.annotation.StyleRes;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +16,17 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 
 import net.xpece.android.support.widget.spinner.R;
 
@@ -385,13 +386,12 @@ public class XpAppCompatSpinner extends AbstractXpAppCompatSpinner {
         int preferredVerticalOffset = popup.getMeasuredPreferredVerticalOffset();
         popup.setVerticalOffset(preferredVerticalOffset);
 
-        final XpDropDownListView list = popup.getListView();
+        final ListView list = popup.getListView();
         assert list != null;
 
         final View view = adapter.getView(0, null, this); // In dropdown.
         final View spinnerItemView = getSelectedView(); // In spinner.
         if (view != null && spinnerItemView != null) {
-            list.ensureListPaddingResolved();
             int preferredHorizontalOffset;
             if (GravityCompat.getAbsoluteGravity(popup.getDropDownGravity() & GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK, ViewCompat.getLayoutDirection(this)) == Gravity.LEFT) {
                 preferredHorizontalOffset = -(view.getPaddingLeft() + list.getListPaddingLeft() - this.getPaddingLeft() - spinnerItemView.getPaddingLeft());

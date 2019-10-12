@@ -24,21 +24,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import androidx.annotation.AttrRes;
-import androidx.annotation.Dimension;
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.annotation.Size;
-import androidx.annotation.StyleRes;
-import androidx.core.text.TextUtilsCompat;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.ListViewCompat;
-import androidx.core.widget.PopupWindowCompat;
-import androidx.appcompat.view.menu.ShowableListMenu;
-import androidx.appcompat.widget.ForwardingListener;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
@@ -57,6 +42,22 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.Size;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.view.menu.ShowableListMenu;
+import androidx.appcompat.widget.ForwardingListener;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.ListViewCompat;
+import androidx.core.widget.PopupWindowCompat;
 
 import net.xpece.android.support.widget.spinner.R;
 
@@ -1636,8 +1637,12 @@ abstract class AbstractXpListPopupWindow implements ShowableListMenu {
      */
     @Nullable
     @Override
-    public XpDropDownListView getListView() {
-        return mDropDownList;
+    public ListView getListView() {
+        final XpDropDownListView list = this.mDropDownList;
+        if (list != null) {
+            list.ensureListPaddingResolved();
+        }
+        return list;
     }
 
     @NonNull
