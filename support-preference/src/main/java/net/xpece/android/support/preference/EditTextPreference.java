@@ -67,9 +67,28 @@ public class EditTextPreference extends DialogPreference {
     }
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        initXpece(context, attrs, defStyleAttr, defStyleRes);
+        initAndroidX(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    private void initXpece(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPreference, defStyleAttr, defStyleRes);
-        mEditTextLayout = a.getResourceId(R.styleable.EditTextPreference_asp_editTextLayout, 0);
-        a.recycle();
+        try {
+            mEditTextLayout = a.getResourceId(R.styleable.EditTextPreference_asp_editTextLayout, 0);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    private void initAndroidX(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, androidx.preference.R.styleable.EditTextPreference, defStyleAttr, defStyleRes);
+        try {
+            if (a.getBoolean(androidx.preference.R.styleable.EditTextPreference_useSimpleSummaryProvider, false)) {
+                setSummaryProvider(SimpleSummaryProvider.getInstance());
+            }
+        } finally {
+            a.recycle();
+        }
     }
 
     /**
@@ -243,5 +262,40 @@ public class EditTextPreference extends DialogPreference {
     @Deprecated
     public interface OnEditTextCreatedListener {
         void onEditTextCreated(@NonNull EditText edit);
+    }
+
+    /**
+     * A simple {@link androidx.preference.Preference.SummaryProvider} implementation for an
+     * {@link EditTextPreference}. If no value has been set, the summary displayed will be 'Not
+     * set', otherwise the summary displayed will be the value set for this preference.
+     */
+    public static final class SimpleSummaryProvider implements SummaryProvider<EditTextPreference> {
+
+        private static SimpleSummaryProvider sSimpleSummaryProvider;
+
+        private SimpleSummaryProvider() {}
+
+        /**
+         * Retrieve a singleton instance of this simple
+         * {@link androidx.preference.Preference.SummaryProvider} implementation.
+         *
+         * @return a singleton instance of this simple
+         * {@link androidx.preference.Preference.SummaryProvider} implementation
+         */
+        public static SimpleSummaryProvider getInstance() {
+            if (sSimpleSummaryProvider == null) {
+                sSimpleSummaryProvider = new SimpleSummaryProvider();
+            }
+            return sSimpleSummaryProvider;
+        }
+
+        @Override
+        public CharSequence provideSummary(EditTextPreference preference) {
+            if (TextUtils.isEmpty(preference.getText())) {
+                return (preference.getContext().getString(R.string.not_set));
+            } else {
+                return preference.getText();
+            }
+        }
     }
 }

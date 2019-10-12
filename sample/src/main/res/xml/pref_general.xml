@@ -13,7 +13,8 @@
         android:defaultValue="@string/pref_default_display_name"
         android:key="example_text"
         android:title="@string/pref_title_display_name"
-        app:asp_editTextLayout="@layout/prefs_edit_example_text" />
+        app:asp_editTextLayout="@layout/prefs_edit_example_text"
+        app:useSimpleSummaryProvider="true" />
 
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <MultiSelectListPreference
