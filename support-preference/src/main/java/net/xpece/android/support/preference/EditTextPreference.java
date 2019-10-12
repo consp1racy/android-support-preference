@@ -21,17 +21,18 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.widget.AppCompatEditText;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 
 /**
  * A base class for {@link Preference} objects that are
@@ -45,7 +46,8 @@ public class EditTextPreference extends DialogPreference {
     @LayoutRes
     private int mEditTextLayout;
 
-    private OnEditTextCreatedListener mOnEditTextCreatedListener;
+    @Nullable
+    private androidx.preference.EditTextPreference.OnBindEditTextListener mOnBindEditTextListener;
 
     public EditTextPreference(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -70,24 +72,50 @@ public class EditTextPreference extends DialogPreference {
         a.recycle();
     }
 
-    @Nullable
-    public OnEditTextCreatedListener getOnEditTextCreatedListener() {
-        return mOnEditTextCreatedListener;
+    /**
+     * Set a listener that will be invoked when the corresponding dialog
+     * view for this preference is bound. Set {@code null} to remove the existing
+     * OnBindEditTextListener.
+     *
+     * @param onEditTextCreatedListener The listener that will be invoked when
+     *                                  the corresponding dialog view for this preference is bound
+     * @see androidx.preference.EditTextPreference.OnBindEditTextListener
+     */
+    @Deprecated
+    @SuppressWarnings("deprecation")
+    public void setOnEditTextCreatedListener(@Nullable final OnEditTextCreatedListener onEditTextCreatedListener) {
+        if (onEditTextCreatedListener == null) {
+            mOnBindEditTextListener = null;
+        } else {
+            mOnBindEditTextListener = new androidx.preference.EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    onEditTextCreatedListener.onEditTextCreated(editText);
+                }
+            };
+        }
     }
 
-    public void setOnEditTextCreatedListener(@Nullable OnEditTextCreatedListener onEditTextCreatedListener) {
-        mOnEditTextCreatedListener = onEditTextCreatedListener;
+    /**
+     * Set an {@link androidx.preference.EditTextPreference.OnBindEditTextListener} that will be invoked when the corresponding dialog
+     * view for this preference is bound. Set {@code null} to remove the existing
+     * OnBindEditTextListener.
+     *
+     * @param onBindEditTextListener The {@link androidx.preference.EditTextPreference.OnBindEditTextListener} that will be invoked when
+     *                               the corresponding dialog view for this preference is bound
+     * @see androidx.preference.EditTextPreference.OnBindEditTextListener
+     */
+    public void setOnBindEditTextListener(@Nullable androidx.preference.EditTextPreference.OnBindEditTextListener onBindEditTextListener) {
+        mOnBindEditTextListener = onBindEditTextListener;
     }
 
     /**
      * Creates a new edit text widget based on supplied context. If {@link OnEditTextCreatedListener}
      * is set it will be invoked.
-     *
-     * @param context
-     * @return
      */
+    @SuppressWarnings("deprecation")
     @NonNull
-    public EditText createEditText(@NonNull Context context) {
+    EditText createEditText(@NonNull Context context) {
         final EditText editText;
 
         if (mEditTextLayout == 0) {
@@ -111,8 +139,8 @@ public class EditTextPreference extends DialogPreference {
             editText.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         }
 
-        if (mOnEditTextCreatedListener != null) {
-            mOnEditTextCreatedListener.onEditTextCreated(editText);
+        if (mOnBindEditTextListener != null) {
+            mOnBindEditTextListener.onBindEditText(editText);
         }
 
         // Give it an ID so it can be saved/restored
@@ -205,6 +233,10 @@ public class EditTextPreference extends DialogPreference {
         }
     }
 
+    /**
+     * @deprecated Use {@link androidx.preference.EditTextPreference.OnBindEditTextListener OnBindEditTextListener}.
+     */
+    @Deprecated
     public interface OnEditTextCreatedListener {
         void onEditTextCreated(@NonNull EditText edit);
     }
