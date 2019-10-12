@@ -7,22 +7,6 @@ publishing {
 
             artifact(androidSourcesJar)
             artifact(androidJavadocsJar)
-
-            pom.withXml {
-                def dependencies = asNode().get("dependencies")
-                if (!dependencies.isEmpty()) {
-                    dependencies[0].children().forEach {
-                        if (isSupportLibrary(it)) {
-                            it.get("version")[0].setValue(rootProject.SUPPORT_LIB_VERSION_MIN)
-                        }
-                    }
-                }
-            }
         }
     }
-}
-
-private boolean isSupportLibrary(Node it) {
-    return it.get("groupId")[0].localText()[0] == "com.android.support" &&
-            !it.get("artifactId")[0].localText()[0].startsWith("multidex")
 }

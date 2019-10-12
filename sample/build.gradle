@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:$supportLibVersionAnnotations"
+    implementation "com.android.support:support-annotations:$supportLibVersion"
 
 //    def jitpackVersion = "05655a4c95"
 //    implementation "com.github.consp1racy:android-support-preference:$jitpackVersion"
@@ -47,13 +47,4 @@ repositories {
     jcenter()
     google()
     maven { url 'https://jitpack.io' }
-}
-
-// For testing compatibility with oldest supported support library.
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'com.android.support') {
-            details.useVersion rootProject.ext.supportLibVersionOverride
-        }
-    }
 }

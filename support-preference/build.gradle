@@ -46,7 +46,7 @@ configurations {
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:$supportLibVersionAnnotations"
+    implementation "com.android.support:support-annotations:$supportLibVersion"
 
     api "com.android.support:appcompat-v7:$supportLibVersion"
     api "com.android.support:preference-v7:$supportLibVersion"

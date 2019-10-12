@@ -11,13 +11,11 @@ buildscript {
 }
 
 ext {
-    compileSdkVersion = 27
+    compileSdkVersion = 28
     buildToolsVersion = "28.0.3"
-    supportLibVersion = "27.1.0"
-    supportLibVersionOverride = "27.1.1"
-    supportLibVersionAnnotations = supportLibVersion
+    supportLibVersion = "28.0.0"
     minSdkVersion = 14
-    targetSdkVersion = 27
+    targetSdkVersion = 28
 }
 
 if (JavaVersion.current().isJava8Compatible()) {

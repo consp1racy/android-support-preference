@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:$supportLibVersionAnnotations"
+    implementation "com.android.support:support-annotations:$supportLibVersion"
 
     api project(':support-preference')
 
