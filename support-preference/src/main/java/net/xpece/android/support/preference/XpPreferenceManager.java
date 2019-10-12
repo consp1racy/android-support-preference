@@ -33,16 +33,9 @@ public final class XpPreferenceManager extends PreferenceManager {
     static {
         final Set<String> defaultPackages = new LinkedHashSet<>(); // Preserve order.
         defaultPackages.add(net.xpece.android.support.preference.Preference.class.getPackage().getName() + ".");
-        // Support the AndroidX relocated classes.
+        // Support the AndroidX classes.
         defaultPackages.add(Preference.class.getPackage().getName() + ".");
-        try {
-            defaultPackages.add(SwitchPreference.class.getPackage().getName() + ".");
-        } catch (NoClassDefFoundError ignore) {
-            // preference-v14 is an optional dependency; classes were merged in 27.0.0.
-        }
-        // For backwards compatibility. Someone may have put their classes in these packages.
-        defaultPackages.add("android.support.v7.preference.");
-        defaultPackages.add("android.support.v14.preference.");
+        defaultPackages.add(SwitchPreference.class.getPackage().getName() + ".");
         DEFAULT_PACKAGES = defaultPackages.toArray(new String[defaultPackages.size()]);
     }
 
