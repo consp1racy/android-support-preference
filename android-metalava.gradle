@@ -10,7 +10,7 @@ def variantClasspath( /*BaseVariant*/ variant) {
         if (it.file.name == "full.jar") {
             def intermediates = it.file.parentFile.parentFile.parentFile.parentFile
             // TODO Don't hardcode flavor name.
-            new File(intermediates, "intermediate-jars/release/classes.jar")
+            new File(intermediates, "packaged-classes/release/classes.jar")
         } else {
             it.file
         }
