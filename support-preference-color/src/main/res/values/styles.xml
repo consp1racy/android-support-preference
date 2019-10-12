@@ -11,7 +11,7 @@
     </style>
 
     <style name="Preference.Asp.Material.Inset.DialogPreference.ColorPreference" parent="Preference.Asp.Material.DialogPreference.ColorPreference">
-        <item name="android:icon">@android:color/transparent</item>
+        <item name="iconSpaceReserved">true</item>
     </style>
 
 </resources>
