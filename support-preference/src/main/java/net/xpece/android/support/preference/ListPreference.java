@@ -11,16 +11,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.ArrayRes;
-import androidx.annotation.AttrRes;
-import androidx.annotation.IntDef;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.annotation.StyleRes;
-import androidx.preference.PreferenceViewHolder;
-import androidx.appcompat.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -30,6 +20,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SpinnerAdapter;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.preference.PreferenceViewHolder;
 
 import net.xpece.android.support.widget.CheckedTypedItemAdapter;
 import net.xpece.android.support.widget.DropDownAdapter;
@@ -118,10 +119,23 @@ public class ListPreference extends DialogPreference {
         this.mSummary = a.getString(R.styleable.Preference_android_summary);
         a.recycle();
 
+        initAndroidX(context, attrs, defStyleAttr, defStyleRes);
+
         if (popupThemeResId != 0) {
             mPopupContext = new ContextThemeWrapper(context, popupThemeResId);
         } else {
             mPopupContext = context;
+        }
+    }
+
+    private void initAndroidX(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, androidx.preference.R.styleable.ListPreference, defStyleAttr, defStyleRes);
+        try {
+            if (a.getBoolean(androidx.preference.R.styleable.ListPreference_useSimpleSummaryProvider, false)) {
+                setSummaryProvider(SimpleSummaryProvider.getInstance());
+            }
+        } finally {
+            a.recycle();
         }
     }
 
@@ -711,4 +725,38 @@ public class ListPreference extends DialogPreference {
         }
     }
 
+    /**
+     * A simple {@link androidx.preference.Preference.SummaryProvider} implementation for a
+     * {@link ListPreference}. If no value has been set, the summary displayed will be 'Not set',
+     * otherwise the summary displayed will be the entry set for this preference.
+     */
+    public static final class SimpleSummaryProvider implements SummaryProvider<ListPreference> {
+
+        private static SimpleSummaryProvider sSimpleSummaryProvider;
+
+        private SimpleSummaryProvider() {}
+
+        /**
+         * Retrieve a singleton instance of this simple
+         * {@link androidx.preference.Preference.SummaryProvider} implementation.
+         *
+         * @return a singleton instance of this simple
+         * {@link androidx.preference.Preference.SummaryProvider} implementation
+         */
+        public static SimpleSummaryProvider getInstance() {
+            if (sSimpleSummaryProvider == null) {
+                sSimpleSummaryProvider = new SimpleSummaryProvider();
+            }
+            return sSimpleSummaryProvider;
+        }
+
+        @Override
+        public CharSequence provideSummary(ListPreference preference) {
+            if (TextUtils.isEmpty(preference.getEntry())) {
+                return (preference.getContext().getString(R.string.not_set));
+            } else {
+                return preference.getEntry();
+            }
+        }
+    }
 }

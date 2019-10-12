@@ -15,7 +15,8 @@
         android:entries="@array/pref_notif_content_titles_long"
         android:entryValues="@array/pref_notif_content_values"
         android:key="notif_content"
-        android:title="@string/pref_notif_content" />
+        android:title="@string/pref_notif_content"
+        app:useSimpleSummaryProvider="true" />
 
     <!--<android.support.v7.preference.DropDownPreference-->
     <DropDownPreference

@@ -179,7 +179,6 @@ public class SettingsFragment extends XpPreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("example_list"));
         bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        bindPreferenceSummaryToValue(findPreference("notif_content"));
         bindPreferenceSummaryToValue(findPreference("notif_color"));
 
         // Test checked state restoration.
