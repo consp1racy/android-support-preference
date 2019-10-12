@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -16,8 +22,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -29,7 +33,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     public static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final Field FIELD_PREFERENCE_MANAGER;
-    private static final Field FIELD_STYLED_CONTEXT;
 
     static {
         Field f = null;
@@ -40,15 +43,17 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
             XpSupportPreferencePlugins.onError(e, "mPreferenceManager not available.");
         }
         FIELD_PREFERENCE_MANAGER = f;
-
-        try {
-            f = PreferenceFragmentCompat.class.getDeclaredField("mStyledContext");
-            f.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            XpSupportPreferencePlugins.onError(e, "mStyledContext not available.");
-        }
-        FIELD_STYLED_CONTEXT = f;
     }
+
+    /**
+     * For tracking whether {@link #getContext()} should return the real thing
+     * or styled {@link PreferenceManager#getContext()}.
+     *
+     * AndroidX Preference 1.1.0 injects the preference theme overlay into its activity.
+     * We support the case of themed application context with retained fragments.
+     * This allows us to achieve that.
+     */
+    private boolean mCreatingViews = false;
 
     /**
      * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
@@ -60,14 +65,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
             throw new IllegalStateException("Must specify preferenceTheme in theme");
         }
         return new ContextThemeWrapper(context, theme);
-    }
-
-    private void setStyledContext(@NonNull final Context context) {
-        try {
-            FIELD_STYLED_CONTEXT.set(this, context);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
     }
 
     private void setPreferenceManager(@NonNull final PreferenceManager manager) {
@@ -121,11 +118,11 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         PreferenceManager manager = getPreferenceManager();
         manager.setOnNavigateToScreenListener(null);
 
-        final Context styledContext;
+        Context styledContext;
         final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
         if (customStyledContext != null) {
             styledContext = resolveStyledContext(customStyledContext);
-            setStyledContext(ActivityAwareContext.wrapIfNecessary(styledContext, this));
+            styledContext = ActivityAwareContext.wrapIfNecessary(styledContext, this);
         } else {
             if (getRetainInstance()) {
                 printActivityLeakWarning();
@@ -140,6 +137,46 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     }
 
     public abstract void onCreatePreferences2(@Nullable final Bundle savedInstanceState, @Nullable final String rootKey);
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mCreatingViews = true;
+        try {
+            return super.onCreateView(inflater, container, savedInstanceState);
+        } finally {
+            mCreatingViews = false;
+        }
+    }
+
+    @Override
+    public void addPreferencesFromResource(int preferencesResId) {
+        mCreatingViews = true;
+        try {
+            super.addPreferencesFromResource(preferencesResId);
+        } finally {
+            mCreatingViews = false;
+        }
+    }
+
+    @Override
+    public void setPreferencesFromResource(int preferencesResId, @Nullable String key) {
+        mCreatingViews = true;
+        try {
+            super.setPreferencesFromResource(preferencesResId, key);
+        } finally {
+            mCreatingViews = false;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        if (mCreatingViews) {
+            return getStyledContext();
+        } else {
+            return super.getContext();
+        }
+    }
 
     @Override
     public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
@@ -216,7 +253,8 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         /**
          * If supplied context is derived from an activity it returns the supplied context.
          * Otherwise {@code startActivity} calls will be routed to {@code fragment.getActivity()}.
-         * @param base A context.
+         *
+         * @param base     A context.
          * @param fragment A fragment for obtaining host activity.
          * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
          */

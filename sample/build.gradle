@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
 //    def jitpackVersion = "05655a4c95"
 //    implementation "com.github.consp1racy:android-support-preference:$jitpackVersion"
