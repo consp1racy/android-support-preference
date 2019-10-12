@@ -46,10 +46,10 @@ configurations {
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:$supportLibVersion"
+    implementation 'androidx.annotation:annotation:1.0.0'
 
-    api "com.android.support:appcompat-v7:$supportLibVersion"
-    api "com.android.support:preference-v7:$supportLibVersion"
+    api 'androidx.appcompat:appcompat:1.0.0'
+    api 'androidx.preference:preference:1.0.0'
 
     implementation project(':support-spinner')
 

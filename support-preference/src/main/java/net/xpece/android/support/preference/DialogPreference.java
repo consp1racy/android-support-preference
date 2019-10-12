@@ -21,13 +21,13 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -36,7 +36,7 @@ import android.view.View;
  * dialog-based. These preferences will, when clicked, open a dialog showing the
  * actual preference controls.
  */
-public abstract class DialogPreference extends android.support.v7.preference.DialogPreference
+public abstract class DialogPreference extends androidx.preference.DialogPreference
         implements TintablePreference, TintableDialogPreference,
         CustomIconPreference, CustomDialogIconPreference, ColorableTextPreference,
         LongClickablePreference {

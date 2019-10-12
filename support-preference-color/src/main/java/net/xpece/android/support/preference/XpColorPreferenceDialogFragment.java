@@ -20,12 +20,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceFragmentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -58,7 +58,7 @@ public class XpColorPreferenceDialogFragment extends XpPreferenceDialogFragment
 
     public static boolean onPreferenceDisplayDialog(
             final @NonNull PreferenceFragmentCompat preferenceFragment,
-            final @NonNull android.support.v7.preference.Preference preference) {
+            final @NonNull androidx.preference.Preference preference) {
         if (preference instanceof ColorPreference) {
             final String key = preference.getKey();
             final DialogFragment f = XpColorPreferenceDialogFragment.newInstance(key);

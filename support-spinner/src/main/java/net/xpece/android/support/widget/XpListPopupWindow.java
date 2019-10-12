@@ -1,14 +1,14 @@
 package net.xpece.android.support.widget;
 
 import android.content.Context;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import android.util.AttributeSet;
 
 /**
- * @see android.support.v7.widget.ListPopupWindow
+ * @see androidx.appcompat.widget.ListPopupWindow
  * @see android.widget.ListPopupWindow
  */
 public class XpListPopupWindow extends AbstractXpListPopupWindow {

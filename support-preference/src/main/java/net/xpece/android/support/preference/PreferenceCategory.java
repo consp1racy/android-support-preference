@@ -4,20 +4,20 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
 /**
  * Created by Eugen on 08.03.2016.
  */
-public class PreferenceCategory extends android.support.v7.preference.PreferenceCategory
+public class PreferenceCategory extends androidx.preference.PreferenceCategory
         implements ColorableTextPreference, LongClickablePreference,
         TintablePreference, CustomIconPreference {
 

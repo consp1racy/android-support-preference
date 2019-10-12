@@ -2,10 +2,10 @@ package net.xpece.android.colorpicker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.TintTypedArray;
 
 final class Util {
     private static final ThreadLocal<int[]> TEMP_ARRAY = new ThreadLocal<int[]>() {

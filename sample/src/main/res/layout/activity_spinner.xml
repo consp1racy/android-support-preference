@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Widget.AppTheme.Toolbar.Solid"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:theme="?actionBarTheme" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,18 +41,18 @@
                     android:src="@drawable/ic_create_black_24dp"
                     android:tint="?colorAccent" />
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
                     android:layout_marginRight="-4dp"
                     android:hint="Name">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minEms="10" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -73,18 +73,18 @@
                     android:src="@drawable/ic_mail_black_24dp"
                     android:tint="?colorAccent" />
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
                     android:layout_marginRight="-4dp"
                     android:hint="Email">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minEms="10" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -105,7 +105,7 @@
                     android:entries="@array/colors_material_names"
                     android:theme="@style/ThemeOverlay.Asp.Spinner" />
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="16dp"
                     android:layout_height="0dp" />
                 <!--android:layout_width="0dp"-->
@@ -137,7 +137,7 @@
                     android:entries="@array/pref_sync_frequency_titles"
                     android:theme="@style/ThemeOverlay.Asp.Spinner" />
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="16dp"
                     android:layout_height="0dp" />
 
@@ -185,5 +185,5 @@
                     android:entries="@array/states" />
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

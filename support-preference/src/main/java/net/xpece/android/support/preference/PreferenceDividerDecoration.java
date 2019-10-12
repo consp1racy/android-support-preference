@@ -4,22 +4,22 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DimenRes;
-import android.support.annotation.Dimension;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceCategory;
-import android.support.v7.preference.PreferenceGroup;
-import android.support.v7.preference.PreferenceGroupAdapter;
-import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.DimenRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceGroupAdapter;
+import androidx.preference.PreferenceScreen;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.TypedValue;
 import android.view.View;
 
-import static android.support.annotation.Dimension.DP;
+import static androidx.annotation.Dimension.DP;
 
 /**
  * Use this class to add dividers between {@link Preference} items.

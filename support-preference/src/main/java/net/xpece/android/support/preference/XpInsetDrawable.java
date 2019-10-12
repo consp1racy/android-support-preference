@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Before Lollipop insets didn't count to intrinsic size. This class aims to fix this issue.

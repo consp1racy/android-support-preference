@@ -4,22 +4,22 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AnyRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.Dimension;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.graphics.ColorUtils;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.preference.Preference;
+import androidx.annotation.AnyRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.preference.Preference;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import static android.support.annotation.Dimension.DP;
+import static androidx.annotation.Dimension.DP;
 
 final class Util {
     static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};

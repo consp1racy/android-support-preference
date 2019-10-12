@@ -1,6 +1,6 @@
 package net.xpece.android.support.preference;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Eugen on 08.03.2016.

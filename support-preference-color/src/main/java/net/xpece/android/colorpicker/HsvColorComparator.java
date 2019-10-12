@@ -17,7 +17,7 @@
 package net.xpece.android.colorpicker;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Comparator;
 

@@ -17,13 +17,13 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.widget.AbsoluteLayout;
 
-import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
+import static androidx.annotation.RestrictTo.Scope.GROUP_ID;
 
 /**
  * Custom AbsoluteLayout that does not propagate the pressed state down to its children.

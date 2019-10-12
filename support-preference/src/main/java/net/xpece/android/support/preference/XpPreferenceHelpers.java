@@ -2,17 +2,17 @@ package net.xpece.android.support.preference;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceCategory;
-import android.support.v7.preference.PreferenceGroup;
-import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.DialogPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 

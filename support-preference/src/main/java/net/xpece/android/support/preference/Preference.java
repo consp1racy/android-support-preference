@@ -9,13 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcelable;
 import android.preference.PreferenceActivity;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
@@ -41,7 +41,7 @@ import android.widget.ListView;
  * guide.</p>
  * </div>
  */
-public class Preference extends android.support.v7.preference.Preference
+public class Preference extends androidx.preference.Preference
         implements TintablePreference, CustomIconPreference, ColorableTextPreference, LongClickablePreference {
 
     private PreferenceTextHelper mPreferenceTextHelper;

@@ -1,13 +1,13 @@
 package net.xpece.android.support.preference;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceGroup;
-import android.support.v7.preference.PreferenceScreen;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 
 /**
  * Created by Eugen on 08.12.2015.
@@ -76,7 +76,7 @@ public abstract class PreferenceScreenNavigationStrategy {
         }
 
         /**
-         * Call this inside {@link android.support.v7.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallback#onPreferenceStartScreen(PreferenceFragmentCompat, PreferenceScreen)}.
+         * Call this inside {@link androidx.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallback#onPreferenceStartScreen(PreferenceFragmentCompat, PreferenceScreen)}.
          *
          * @param fragmentManager Fragment manager form activity or calling fragment
          * @param preferenceFragmentCompat The old preference fragment about to be replaced.

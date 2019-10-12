@@ -6,8 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 import android.util.Log;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;

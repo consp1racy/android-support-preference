@@ -18,11 +18,11 @@ package net.xpece.android.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,7 @@ import net.xpece.android.support.preference.color.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * A color picker custom view which creates an grid of color squares.  The number of squares per

@@ -2,19 +2,19 @@ package net.xpece.android.support.preference;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Created by Eugen on 26.03.2016.

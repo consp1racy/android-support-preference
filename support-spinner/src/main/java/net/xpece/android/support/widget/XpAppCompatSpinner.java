@@ -5,16 +5,16 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.StyleRes;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.ArrayRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StyleRes;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,14 +32,14 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * A {@link Spinner} which supports compatible features on older version of the platform,
  * including:
  * <ul>
  * <li>Allows dynamic tint of it background via the background tint methods in
- * {@link android.support.v4.view.ViewCompat}.</li>
+ * {@link androidx.core.view.ViewCompat}.</li>
  * <li>Allows setting of the background tint using {@link R.attr#backgroundTint} and
  * {@link R.attr#backgroundTintMode}.</li>
  * <li>Allows setting of the popups theme using {@link R.attr#popupTheme}.</li>

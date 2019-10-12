@@ -2,8 +2,8 @@ package net.xpece.android.support.preference;
 
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 

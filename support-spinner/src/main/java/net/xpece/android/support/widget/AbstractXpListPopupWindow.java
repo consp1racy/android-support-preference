@@ -24,21 +24,21 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.AttrRes;
-import android.support.annotation.Dimension;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.Size;
-import android.support.annotation.StyleRes;
-import android.support.v4.text.TextUtilsCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.ListViewCompat;
-import android.support.v4.widget.PopupWindowCompat;
-import android.support.v7.view.menu.ShowableListMenu;
-import android.support.v7.widget.ForwardingListener;
+import androidx.annotation.AttrRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.Size;
+import androidx.annotation.StyleRes;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.ListViewCompat;
+import androidx.core.widget.PopupWindowCompat;
+import androidx.appcompat.view.menu.ShowableListMenu;
+import androidx.appcompat.widget.ForwardingListener;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
@@ -63,8 +63,8 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Static library support version of the framework's {@link android.widget.ListPopupWindow}.

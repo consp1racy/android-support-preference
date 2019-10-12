@@ -3,12 +3,12 @@ package net.xpece.android.support.preference;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.DialogPreference;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.DialogPreference;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 

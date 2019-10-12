@@ -1,9 +1,9 @@
 package net.xpece.android.support.preference;
 
 import android.content.res.ColorStateList;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
 
 /**
  * Created by Eugen on 08.03.2016.

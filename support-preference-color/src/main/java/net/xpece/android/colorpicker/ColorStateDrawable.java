@@ -22,9 +22,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.ColorUtils;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 
 /**
  * A drawable which sets its color filter to a color specified by the user, and changes to a

@@ -16,7 +16,7 @@
 package net.xpece.android.support.transition;
 
 import android.animation.TimeInterpolator;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.view.animation.PathInterpolator;
 
 @RequiresApi(21)

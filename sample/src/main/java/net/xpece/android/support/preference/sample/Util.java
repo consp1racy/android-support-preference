@@ -4,15 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.support.annotation.AnyRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.Dimension;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.AnyRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.TypedValue;
 
-import static android.support.annotation.Dimension.DP;
+import static androidx.annotation.Dimension.DP;
 
 /**
  * Created by Eugen on 13. 5. 2015.

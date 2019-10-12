@@ -2,14 +2,14 @@ package net.xpece.android.support.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.XmlRes;
-import android.support.v14.preference.SwitchPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.PreferenceScreen;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.XmlRes;
+import androidx.preference.SwitchPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -102,7 +102,7 @@ public final class XpPreferenceManager extends PreferenceManager {
 
     /**
      * Sets the default values from an XML preference file by reading the values defined
-     * by each {@link android.support.v7.preference.Preference} item's {@code android:defaultValue} attribute. This should
+     * by each {@link androidx.preference.Preference} item's {@code android:defaultValue} attribute. This should
      * be called by the application's main activity.
      * <p>
      *

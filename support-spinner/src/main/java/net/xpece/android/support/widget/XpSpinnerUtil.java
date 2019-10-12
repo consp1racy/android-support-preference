@@ -3,17 +3,17 @@ package net.xpece.android.support.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Dimension;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-import android.support.v7.widget.TintTypedArray;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.TintTypedArray;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import static android.support.annotation.Dimension.DP;
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.Dimension.DP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * @hide

@@ -2,7 +2,7 @@ package net.xpece.android.support.preference;
 
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * @author Eugen on 6. 12. 2015.

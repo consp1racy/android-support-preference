@@ -2,8 +2,8 @@ package net.xpece.android.support.preference.sample;
 
 import android.app.Application;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import net.xpece.android.support.preference.plugins.ErrorInterceptor;

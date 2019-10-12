@@ -11,16 +11,16 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.PreferenceViewHolder;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.annotation.ArrayRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StyleRes;
+import androidx.preference.PreferenceViewHolder;
+import androidx.appcompat.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -39,10 +39,10 @@ import net.xpece.android.support.widget.XpListPopupWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
- * A {@link android.support.v7.preference.Preference} that displays a list of entries as
+ * A {@link androidx.preference.Preference} that displays a list of entries as
  * a dialog (or a simple menu or simple dialog).
  * <p>
  * This preference will store a string into the SharedPreferences. This string will be the value

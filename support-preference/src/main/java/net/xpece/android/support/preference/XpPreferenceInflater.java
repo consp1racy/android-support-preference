@@ -19,12 +19,12 @@ package net.xpece.android.support.preference;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceGroup;
-import android.support.v7.preference.PreferenceManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.InflateException;
@@ -111,7 +111,7 @@ final class XpPreferenceInflater {
      * XML file.
      */
     @NonNull
-    public android.support.v7.preference.Preference inflate(
+    public androidx.preference.Preference inflate(
             @XmlRes final int resource, @Nullable final PreferenceGroup root) {
         XmlResourceParser parser = getContext().getResources().getXml(resource);
         try {
@@ -141,12 +141,12 @@ final class XpPreferenceInflater {
      * the inflated XML file.
      */
     @NonNull
-    public android.support.v7.preference.Preference inflate(
+    public androidx.preference.Preference inflate(
             final @NonNull XmlPullParser parser, @Nullable final PreferenceGroup root) {
         synchronized (mConstructorArgs) {
             final AttributeSet attrs = Xml.asAttributeSet(parser);
             mConstructorArgs[0] = getContext();
-            final android.support.v7.preference.Preference result;
+            final androidx.preference.Preference result;
 
             try {
                 // Look for the root node.
@@ -277,7 +277,7 @@ final class XpPreferenceInflater {
     @NonNull
     private Preference createItemFromTag(final @NonNull String name, final @NonNull AttributeSet attrs) {
         try {
-            final android.support.v7.preference.Preference item;
+            final androidx.preference.Preference item;
 
             if (-1 == name.indexOf('.')) {
                 item = createItem(name, getDefaultPackages(), attrs);

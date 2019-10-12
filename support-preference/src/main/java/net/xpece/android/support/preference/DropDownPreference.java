@@ -1,24 +1,24 @@
 package net.xpece.android.support.preference;
 
 import android.content.Context;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.preference.PreferenceViewHolder;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import net.xpece.android.support.widget.XpListPopupWindow;
 
 /**
- * A version of {@link android.support.v7.preference.ListPreference} that presents the options in a
+ * A version of {@link androidx.preference.ListPreference} that presents the options in a
  * drop down menu rather than a dialog.
  * <p></p>
  * <strong>Note:</strong> Android Support Library version uses an invisible spinner to invoke
  * the popup. This class uses {@link XpListPopupWindow} directly. There is no spinner.
  * If you need to supply your own spinner in a custom layout, also create a custom preference
- * that extends {@link android.support.v7.preference.DropDownPreference} instead of this class.
+ * that extends {@link androidx.preference.DropDownPreference} instead of this class.
  * Support for advanced XML styling attributes will be retained.
  */
 public class DropDownPreference extends ListPreference {

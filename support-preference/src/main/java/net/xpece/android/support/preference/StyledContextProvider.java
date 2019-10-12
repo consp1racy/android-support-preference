@@ -3,10 +3,10 @@ package net.xpece.android.support.preference;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.AnyRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
+import androidx.annotation.AnyRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
 import android.view.ContextThemeWrapper;
 
 /**
