@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -11,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.preference.PreferenceViewHolder;
-import android.util.AttributeSet;
-import android.view.View;
 
 /**
  * Created by Eugen on 08.03.2016.
@@ -111,20 +111,10 @@ public class PreferenceCategory extends androidx.preference.PreferenceCategory
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
+
         mPreferenceTextHelper.onBindViewHolder(holder);
 
-        final boolean hasLongClickListener = hasOnPreferenceLongClickListener();
-        if (hasLongClickListener) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(@NonNull View v) {
-                    return mOnPreferenceLongClickListener.onLongClick(PreferenceCategory.this, v);
-                }
-            });
-        } else {
-            holder.itemView.setOnLongClickListener(null);
-        }
-        holder.itemView.setLongClickable(hasLongClickListener && isSelectable());
+        LongClickBinder.bindLongClickListener(this, holder, mOnPreferenceLongClickListener);
     }
 
     @Override

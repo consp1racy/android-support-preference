@@ -2,6 +2,8 @@ package net.xpece.android.support.preference;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -13,8 +15,6 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
-import android.util.AttributeSet;
-import android.view.View;
 
 import java.util.WeakHashMap;
 
@@ -77,18 +77,7 @@ public final class XpPreferenceHelpers {
 
         if (PREFERENCE_LONG_CLICK_LISTENERS.containsKey(preference)) {
             final OnPreferenceLongClickListener longClickListener = PREFERENCE_LONG_CLICK_LISTENERS.get(preference);
-            final boolean hasLongClickListener = longClickListener != null;
-            if (hasLongClickListener) {
-                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(@NonNull View v) {
-                        return longClickListener.onLongClick(preference, v);
-                    }
-                });
-            } else {
-                holder.itemView.setOnLongClickListener(null);
-            }
-            holder.itemView.setLongClickable(hasLongClickListener && preference.isSelectable());
+            LongClickBinder.bindLongClickListener(preference, holder, longClickListener);
         }
     }
 

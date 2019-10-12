@@ -14,6 +14,7 @@
         android:key="example_text"
         android:title="@string/pref_title_display_name"
         app:asp_editTextLayout="@layout/prefs_edit_example_text"
+        app:enableCopying="true"
         app:useSimpleSummaryProvider="true" />
 
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -21,7 +22,8 @@
         android:entries="@array/pref_example_list_titles"
         android:entryValues="@array/pref_example_list_values"
         android:key="example_list"
-        android:title="@string/pref_title_add_friends_to_messages" />
+        android:title="@string/pref_title_add_friends_to_messages"
+        app:enableCopying="true" />
     <PreferenceCategory>
         <PreferenceScreen
             android:icon="@drawable/ic_inbox_black_24dp"
