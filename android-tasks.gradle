@@ -1,26 +1,31 @@
-task androidJavadocs(type: Javadoc) {
+//import com.android.build.gradle.LibraryExtension
+//import com.android.build.gradle.api.LibraryVariant
+//
+//def android = (LibraryExtension) android
+
+class LazyJavadoc extends Javadoc {
+
+    final Provider<File> destinationDirectory = project.providers.provider { destinationDir }
+}
+
+def androidJavadocs = tasks.register("androidJavadocs", LazyJavadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     options.linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
 //    exclude '**/BuildConfig.java'
 //    exclude '**/R.java'
+
+    android.libraryVariants.all { /*LibraryVariant*/ variant ->
+        classpath += files(variant.javaCompileProvider.map { it.classpath })
+    }
 }
 
-afterEvaluate {
-    androidJavadocs.classpath += files(android.libraryVariants.collect { variant ->
-        variant.javaCompile.classpath.files
-    })
-}
-
-task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+tasks.register("androidJavadocsJar", Jar) {
     classifier = 'javadoc'
-    from androidJavadocs.destinationDir
+    from androidJavadocs.map { it.destinationDirectory }
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register("androidSourcesJar", Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
-
-// Make sure the .aar exists.
-androidSourcesJar.dependsOn assemble

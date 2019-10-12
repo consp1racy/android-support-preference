@@ -357,6 +357,7 @@ package net.xpece.android.support.preference {
     ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks, int, int, int, int);
     ctor public PreferenceScreenNavigationStrategy.ReplaceFragment(net.xpece.android.support.preference.PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks);
     method public static boolean onCreatePreferences(android.support.v7.preference.PreferenceFragmentCompat, String?);
+    method public boolean onNavigateUp(android.support.v4.app.FragmentManager, android.support.v7.preference.PreferenceFragmentCompat);
     method public void onPreferenceStartScreen(android.support.v4.app.FragmentManager, android.support.v7.preference.PreferenceFragmentCompat, android.support.v7.preference.PreferenceScreen);
   }
 

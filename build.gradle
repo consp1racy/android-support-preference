@@ -4,18 +4,26 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0' // 1.8.1 is broken.
-        classpath 'digital.wup:android-maven-publish:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'digital.wup:android-maven-publish:3.6.2'
     }
 }
 
 ext {
     compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
+    buildToolsVersion = "28.0.3"
     supportLibVersion = "27.1.0"
     supportLibVersionOverride = "27.1.1"
     supportLibVersionAnnotations = supportLibVersion
     minSdkVersion = 14
     targetSdkVersion = 27
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc).configureEach {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
 }

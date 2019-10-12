@@ -6,6 +6,10 @@
         android:title="@string/reset"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/nested"
+        android:title="@string/nested"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/github"
         android:title="@string/github"
         app:showAsAction="never"/>

@@ -1,0 +1,87 @@
+//import com.android.build.gradle.api.BaseVariant
+//import com.android.build.gradle.api.LibraryVariant
+
+def variantClasspath( /*BaseVariant*/ variant) {
+    return (android.bootClasspath + variant.compileConfiguration.incoming.artifactView { config ->
+        config.attributes { container ->
+            container.attribute(Attribute.of("artifactType", String.class), "jar")
+        }
+    }.artifacts.artifacts.collect {
+        if (it.file.name == "full.jar") {
+            def intermediates = it.file.parentFile.parentFile.parentFile.parentFile
+            // TODO Don't hardcode flavor name.
+            new File(intermediates, "packaged-classes/release/classes.jar")
+        } else {
+            it.file
+        }
+    }).join(File.pathSeparator)
+}
+
+android.libraryVariants.all { /*LibraryVariant*/ variant ->
+    if (variant.buildType.isDebuggable()) {
+        return
+    }
+
+    tasks.register("updateApi", JavaExec) {
+        inputs.dir('src/main/java')
+        outputs.file('api/current.txt')
+
+        classpath = configurations.metalava
+        main = 'com.android.tools.metalava.Driver'
+
+        dependsOn variant.assembleProvider
+
+        doFirst {
+            args = [
+                    '--no-banner',
+                    '--source-path', 'src/main/java',
+                    '--compatible-output=no',
+                    '--omit-common-packages=yes',
+                    '--output-kotlin-nulls=yes',
+                    '--hide', 'HiddenSuperclass',
+                    '--hide', 'DeprecationMismatch',
+                    '--classpath', variantClasspath(variant),
+                    '--api', 'api/current.txt'
+            ]
+        }
+    }
+
+    def checkApi = tasks.register("checkApi", JavaExec) {
+        inputs.file('api/current.txt')
+        inputs.dir('src/main/java')
+        outputs.file('api/current.txt')
+
+        classpath = configurations.metalava
+        main = 'com.android.tools.metalava.Driver'
+
+        dependsOn variant.assembleProvider
+
+        doFirst {
+            args = [
+                    '--no-banner',
+                    '--source-path', 'src/main/java',
+                    '--compatible-output=no',
+                    '--omit-common-packages=yes',
+                    '--output-kotlin-nulls=yes',
+                    '--input-kotlin-nulls=yes',
+                    '--hide', 'HiddenSuperclass',
+                    '--hide', 'DeprecationMismatch',
+                    '--hide', 'AddedPackage',
+                    '--hide', 'AddedClass',
+                    '--hide', 'AddedMethod',
+                    '--hide', 'AddedFinalUninstantiable',
+//                '--hide', 'ChangedDeprecated',
+//                '--hide', 'ChangedAbstract',
+//                '--hide', 'ChangedValue',
+//                '--hide', 'InvalidNullConversion', //@ParametersAreNonNullByDefault is unsupported.
+                    '--classpath', variantClasspath(variant),
+                    '--check-compatibility',
+                    '--previous-api', 'api/current.txt'
+            ]
+        }
+    }
+
+    tasks.named("check").configure {
+        dependsOn checkApi
+    }
+}

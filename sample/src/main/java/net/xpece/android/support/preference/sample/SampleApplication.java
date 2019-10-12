@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import net.xpece.android.support.preference.plugins.ErrorInterceptor;
 import net.xpece.android.support.preference.plugins.XpSupportPreferencePlugins;
 
@@ -26,10 +24,6 @@ public class SampleApplication extends Application {
                 .detectAll()
                 .penaltyLog()
                 .build());
-
-        if (!LeakCanary.isInAnalyzerProcess(this)) {
-            LeakCanary.install(this);
-        }
 
         XpSupportPreferencePlugins.registerErrorInterceptor(new ErrorInterceptor() {
             @Override

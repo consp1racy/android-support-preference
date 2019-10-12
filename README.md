@@ -364,6 +364,9 @@ Possible solution is implemented in `PreferenceScreenNavigationStrategy.ReplaceF
 This class will help you replace the whole preference fragment with a new instance with specified root preference.
 It is using fragment transactions and back stack allowing for transition animations and saved states.
 
+This class also supports Up button navigation which synthesizes preference screen stack on-the-fly.
+Please see the sample project for details.
+
 ### Known issues with support library
 
 You may have experienced unexpected background color which manifests as holo blue on Android 4 and grey on Android 5.
@@ -406,7 +409,7 @@ As `PreferenceScreen` class is final and hardwired into preference system
 I was unable to automate icon tinting and padding. However you are able to do this yourself:
 
 ```java
-Preference subs = findPreference("subs_screen");
+Preference subs = findPreference("subscreen");
 PreferenceIconHelper subsHelper = new PreferenceIconHelper(subs);
 subsHelper.setIconPaddingEnabled(true); // Call this BEFORE setIcon!
 subsHelper.setIcon(R.drawable.some_icon);

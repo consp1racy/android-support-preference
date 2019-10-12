@@ -41,16 +41,14 @@ import net.xpece.android.support.preference.XpPreferenceManager;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatActivity implements
-    PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
-    PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback,
-    PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
+        PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
+        PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback,
+        PreferenceScreenNavigationStrategy.ReplaceFragment.Callbacks {
 
     Toolbar mToolbar;
     TextSwitcher mTitleSwitcher;
 
     private CharSequence mTitle;
-
-    private SettingsFragment mSettingsFragment;
 
     private PreferenceScreenNavigationStrategy.ReplaceFragment mReplaceFragmentStrategy;
 
@@ -63,10 +61,12 @@ public class SettingsActivity extends AppCompatActivity implements
         mReplaceFragmentStrategy = new PreferenceScreenNavigationStrategy.ReplaceFragment(this, R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out);
 
         if (savedInstanceState == null) {
-            mSettingsFragment = SettingsFragment.newInstance(null);
-            getSupportFragmentManager().beginTransaction().add(R.id.content, mSettingsFragment, "Settings").commit();
-        } else {
-            mSettingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("Settings");
+            final String key = getIntent().getStringExtra(SettingsFragment.ARG_PREFERENCE_ROOT);
+            final SettingsFragment settingsFragment = SettingsFragment.newInstance(key);
+            final FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction()
+                    .add(R.id.content, settingsFragment, "Settings")
+                    .commitNow();
         }
 
         mToolbar = findViewById(R.id.toolbar);
@@ -129,7 +129,12 @@ public class SettingsActivity extends AppCompatActivity implements
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home: {
-                onBackPressed();
+                final FragmentManager fm = getSupportFragmentManager();
+                final SettingsFragment f = (SettingsFragment) fm.findFragmentByTag("Settings");
+                if (!mReplaceFragmentStrategy.onNavigateUp(fm, f)) {
+                    // If we're at root or we have a back stack let the activity do its thing.
+                    onBackPressed();
+                }
                 return true;
             }
             case R.id.github: {
@@ -150,12 +155,19 @@ public class SettingsActivity extends AppCompatActivity implements
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true, customPackages);
-                mSettingsFragment = SettingsFragment.newInstance(null);
-                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                    .replace(R.id.content, mSettingsFragment, "Settings")
-                    .commit();
+                final FragmentManager fm = getSupportFragmentManager();
+                final SettingsFragment settingsFragment = SettingsFragment.newInstance(null);
+                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fm.beginTransaction()
+                        .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+                        .replace(R.id.content, settingsFragment, "Settings")
+                        .commitNow();
+                return true;
+            }
+            case R.id.nested: {
+                final Intent i = new Intent(this, SettingsActivity.class)
+                        .putExtra(SettingsFragment.ARG_PREFERENCE_ROOT, "another_subscreen");
+                startActivity(i);
                 return true;
             }
         }

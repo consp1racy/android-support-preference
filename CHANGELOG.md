@@ -7,6 +7,9 @@
 - *REMOVED:* Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
 - *REMOVED:* Previously deprecated classes in `android.support.*` packages are now gone.
 
+## 2.4.0 2019-02-XX
+* *NEW!* Replace fragment navigation strategy supports Up navigation
+
 ## 2.3.2 2018-08-05
 
 - *FIXED:* `PreferenceCategory` now has proper padding on API 16 (introduced in 2.3.0).

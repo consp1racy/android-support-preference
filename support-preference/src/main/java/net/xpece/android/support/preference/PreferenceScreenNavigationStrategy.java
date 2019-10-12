@@ -2,9 +2,11 @@ package net.xpece.android.support.preference;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.preference.PreferenceScreen;
 
 /**
@@ -82,14 +84,31 @@ public abstract class PreferenceScreenNavigationStrategy {
          */
         public void onPreferenceStartScreen(final @NonNull FragmentManager fragmentManager, final @NonNull PreferenceFragmentCompat preferenceFragmentCompat, final @NonNull PreferenceScreen preferenceScreen) {
             final String key = preferenceScreen.getKey();
-            PreferenceFragmentCompat f = buildFragment(key);
-            FragmentTransaction ft = fragmentManager.beginTransaction();
+            final PreferenceFragmentCompat f = buildFragment(key);
+            final FragmentTransaction ft = fragmentManager.beginTransaction();
             if (mCustomAnimations) {
                 ft.setCustomAnimations(mAnimEnter, mAnimExit, mAnimPopEnter, mAnimPopExit);
             }
             ft.replace(preferenceFragmentCompat.getId(), f, preferenceFragmentCompat.getTag())
                     .addToBackStack(key)
                     .commit();
+        }
+
+        public boolean onNavigateUp(final @NonNull FragmentManager fragmentManager, final @NonNull PreferenceFragmentCompat preferenceFragment) {
+            final PreferenceScreen screen = preferenceFragment.getPreferenceScreen();
+            final PreferenceGroup parent = screen.getParent();
+            if (parent != null) {
+                final String key = parent.getKey();
+                final Fragment newFragment = buildFragment(key);
+                final FragmentTransaction ft = fragmentManager.beginTransaction();
+                if (mCustomAnimations) {
+                    ft.setCustomAnimations(mAnimEnter, mAnimExit, mAnimPopEnter, mAnimPopExit);
+                }
+                ft.replace(preferenceFragment.getId(), newFragment, preferenceFragment.getTag())
+                        .commit();
+                return true;
+            }
+            return false;
         }
 
         public interface Callbacks {

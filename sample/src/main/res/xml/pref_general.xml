@@ -1,12 +1,11 @@
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="example_checkbox"
         android:summary="@string/pref_description_social_recommendations"
-        android:title="@string/pref_title_social_recommendations"/>
+        android:title="@string/pref_title_social_recommendations" />
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
@@ -14,18 +13,18 @@
         android:defaultValue="@string/pref_default_display_name"
         android:key="example_text"
         android:title="@string/pref_title_display_name"
-        app:asp_editTextLayout="@layout/prefs_edit_example_text"/>
+        app:asp_editTextLayout="@layout/prefs_edit_example_text" />
 
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <MultiSelectListPreference
         android:entries="@array/pref_example_list_titles"
         android:entryValues="@array/pref_example_list_values"
         android:key="example_list"
-        android:title="@string/pref_title_add_friends_to_messages"/>
+        android:title="@string/pref_title_add_friends_to_messages" />
     <PreferenceCategory>
         <PreferenceScreen
             android:icon="@drawable/ic_inbox_black_24dp"
-            android:key="subs_screen"
+            android:key="subscreen"
             android:persistent="false"
             android:title="Subscreen"
             app:asp_tintEnabled="true"
@@ -35,8 +34,13 @@
                 android:icon="@drawable/ic_mail_black_24dp"
                 android:key="example_icon_pref"
                 android:title="Icon test"
-                app:asp_tintEnabled="true"
-                />
+                app:asp_tintEnabled="true" />
+
+            <PreferenceScreen
+                android:key="another_subscreen"
+                android:title="Another screen">
+                <Preference android:title="Nothing" />
+            </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
