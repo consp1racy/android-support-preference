@@ -133,7 +133,7 @@ public class SettingsFragment extends XpPreferenceFragment {
 
     @Override
     public String[] getCustomDefaultPackages() {
-        return new String[]{BuildConfig.APPLICATION_ID};
+        return new String[]{getContext().getPackageName()};
     }
 
     @Nullable
