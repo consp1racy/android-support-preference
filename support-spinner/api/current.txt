@@ -1,39 +1,35 @@
-package android.support.v7.widget {
-
-  public final class XpDropDownListView extends android.widget.ListView {
-    method public int compatMeasureContentWidth();
-    method public void ensureListPaddingResolved();
-    method public int lookForSelectablePosition(int, boolean);
-    method public int measureHeightOfChildrenCompat(int, int, int, int, int);
-    method public boolean onForwardedEvent(android.view.MotionEvent!, int);
-  }
-
-}
-
+// Signature format: 3.0
 package net.xpece.android.support.widget {
 
-  public class CheckedTypedItemAdapter<T> extends android.widget.ArrayAdapter<T> implements android.support.v7.widget.ThemedSpinnerAdapter {
-    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, T[]);
-    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, java.util.List<T>);
+  public class CheckedTypedItemAdapter<T> extends android.widget.ArrayAdapter<T> implements androidx.appcompat.widget.ThemedSpinnerAdapter {
+    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, T![]);
+    ctor public CheckedTypedItemAdapter(android.content.Context, @LayoutRes int, @IdRes int, java.util.List<T!>);
     method public void bindDropDownView(android.view.View, T);
     method public void bindView(android.view.View, T);
     method protected android.view.View createViewFromResource(android.view.LayoutInflater, android.view.View?, android.view.ViewGroup, @LayoutRes int);
     method protected android.widget.TextView findTextView(android.view.View);
     method public CharSequence getItemDropDownText(T);
     method public CharSequence getItemText(T);
-    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, T[]);
-    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, java.util.List<T>);
+    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, T![]);
+    method public static <T> net.xpece.android.support.widget.CheckedTypedItemAdapter newInstance(android.content.Context, java.util.List<T!>);
   }
 
-  @RestrictTo(android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP) public final class SimpleMenu {
+  @RestrictTo(androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP) public final class SimpleMenu {
   }
 
-  public class XpAppCompatSpinner extends android.widget.Spinner {
+  public class XpAppCompatPopupWindow extends android.widget.PopupWindow {
+    ctor public XpAppCompatPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int);
+    ctor public XpAppCompatPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+  }
+
+  public class XpAppCompatSpinner extends androidx.appcompat.widget.AppCompatSpinner {
     ctor public XpAppCompatSpinner(android.content.Context);
     ctor public XpAppCompatSpinner(android.content.Context, android.util.AttributeSet?);
     ctor public XpAppCompatSpinner(android.content.Context, android.util.AttributeSet?, @AttrRes int);
     method public int getSpinnerMode();
     method public void onClickDefault();
+    method public static void setEntries(android.widget.Spinner, @ArrayRes int);
+    method public static void setEntries(android.widget.Spinner, CharSequence![]);
     method public void setSimpleMenuMaxItemCount(int);
     method public void setSimpleMenuMaxWidth(int);
     method public void setSimpleMenuWidthMode(int);
@@ -44,11 +40,104 @@ package net.xpece.android.support.widget {
     field public static final int SPINNER_MODE_DROPDOWN = 2; // 0x2
   }
 
-  public class XpListPopupWindow {
+  public class XpListPopupWindow implements androidx.appcompat.view.menu.ShowableListMenu {
     ctor public XpListPopupWindow(android.content.Context);
     ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?);
     ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int);
     ctor public XpListPopupWindow(android.content.Context, android.util.AttributeSet?, @AttrRes int, @StyleRes int);
+    method public void clearListSelection();
+    method @Deprecated public android.view.View.OnTouchListener createDragToOpenListener(android.view.View);
+    method public void dismiss();
+    method public android.view.View? getAnchorView();
+    method @StyleRes public int getAnimationStyle();
+    method public android.graphics.drawable.Drawable? getBackground();
+    method public android.view.View? getBoundsView();
+    method public int getDropDownGravity();
+    method public int getHeight();
+    method public int getHorizontalOffset();
+    method public int getInputMethodMode();
+    method public android.widget.ListView? getListView();
+    method public int getMarginBottom();
+    method @Deprecated public int getMarginEnd(int);
+    method public int getMarginEnd();
+    method public int getMarginLeft();
+    method public int getMarginRight();
+    method @Deprecated public int getMarginStart(int);
+    method public int getMarginStart();
+    method public int getMarginTop();
+    method public int getMaxWidth();
+    method public int getMeasuredPreferredVerticalOffset();
+    method public int getMeasuredSelectedItemViewHeight();
+    method @Deprecated public int getPreferredVerticalOffset(int);
+    method @Deprecated @Dimension public float getPreferredWidthUnit();
+    method public int getPromptPosition();
+    method public Object? getSelectedItem();
+    method public long getSelectedItemId();
+    method public int getSelectedItemPosition();
+    method public android.view.View? getSelectedView();
+    method public int getSoftInputMode();
+    method public int getVerticalOffset();
+    method public int getWidth();
+    method @Dimension public float getWidthUnit();
+    method @Deprecated public boolean hasMultiLineItems();
+    method public boolean hasMultilineItems();
+    method public boolean isInputMethodNotNeeded();
+    method public boolean isModal();
+    method public boolean isShowing();
+    method public void measurePreferredVerticalOffset(int);
+    method public boolean performItemClick(int);
+    method public void postShow();
+    method public void setAdapter(android.widget.ListAdapter?);
+    method public void setAnchorView(android.view.View?);
+    method public void setAnimationStyle(int);
+    method public void setBackgroundDrawable(android.graphics.drawable.Drawable?);
+    method public void setBoundsView(android.view.View?);
+    method public void setContentWidth(int);
+    method public void setDropDownGravity(int);
+    method @RestrictTo(androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP) public void setEpicenterBounds(android.graphics.Rect?);
+    method public void setHeight(int);
+    method public void setHorizontalOffset(int);
+    method public void setInputMethodMode(int);
+    method public void setListSelector(android.graphics.drawable.Drawable?);
+    method public void setMargin(int);
+    method public void setMargin(int, int);
+    method public void setMargin(int, int, int, int);
+    method public void setMarginBottom(int);
+    method public void setMarginEnd(int);
+    method public void setMarginLeft(int);
+    method public void setMarginRelative(int, int, int, int);
+    method public void setMarginRight(int);
+    method public void setMarginStart(int);
+    method public void setMarginTop(int);
+    method public void setMaxItemCount(int);
+    method public void setMaxWidth(int);
+    method public void setModal(boolean);
+    method public void setOnDismissListener(android.widget.PopupWindow.OnDismissListener?);
+    method public void setOnItemClickListener(android.widget.AdapterView.OnItemClickListener?);
+    method public void setOnItemSelectedListener(android.widget.AdapterView.OnItemSelectedListener?);
+    method @Deprecated public void setPreferredWidthUnit(@Dimension float);
+    method public void setPromptPosition(int);
+    method public void setPromptView(android.view.View?);
+    method public void setSelection(int);
+    method public void setSoftInputMode(int);
+    method public void setVerticalOffset(int);
+    method public void setWidth(int);
+    method public void setWidthUnit(@Dimension float);
+    method public void setWindowLayoutType(int);
+    method @MainThread public void show();
+    field public static final int INPUT_METHOD_FROM_FOCUSABLE = 0; // 0x0
+    field public static final int INPUT_METHOD_NEEDED = 1; // 0x1
+    field public static final int INPUT_METHOD_NOT_NEEDED = 2; // 0x2
+    field public static final int MATCH_PARENT = -1; // 0xffffffff
+    field public static final int MAX_WIDTH_FIT_ANCHOR = -2; // 0xfffffffe
+    field public static final int MAX_WIDTH_FIT_SCREEN = -1; // 0xffffffff
+    field public static final int POSITION_PROMPT_ABOVE = 0; // 0x0
+    field public static final int POSITION_PROMPT_BELOW = 1; // 0x1
+    field @Deprecated public static final int PREFERRED = -3; // 0xfffffffd
+    field public static final int WIDTH_MATCH_CONSTRAINT = -1; // 0xffffffff
+    field public static final int WIDTH_WRAP_CONTENT = -2; // 0xfffffffe
+    field public static final int WIDTH_WRAP_CONTENT_UNIT = -3; // 0xfffffffd
+    field public static final int WRAP_CONTENT = -2; // 0xfffffffe
   }
 
 }
