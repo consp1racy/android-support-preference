@@ -24,3 +24,7 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
+tasks.named("wrapper", Wrapper) {
+    distributionType = "all"
+}
