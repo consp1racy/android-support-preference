@@ -1,31 +1,30 @@
-apply plugin: 'com.android.library'
+plugins {
+    id("com.android.library")
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion(29)
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion(14)
     }
 
     lintOptions {
-        checkReleaseBuilds = false
-        abortOnError = false
+        isCheckReleaseBuilds = false
+        isAbortOnError = false
         // Revert when lint stops with all the false positives >:-(
     }
 }
 
-configurations {
-    metalava
-}
+val metalava by configurations.creating
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation("androidx.annotation:annotation:1.1.0")
 
-    api 'androidx.appcompat:appcompat:1.1.0'
+    api("androidx.appcompat:appcompat:1.1.0")
 
     // Metalava isn't released yet. Check in its jar and explicitly track its transitive deps.
-    metalava rootProject.files('metalava.jar')
+    metalava(rootProject.files("metalava.jar"))
     metalava("com.android.tools.external.org-jetbrains:uast:27.2.0-alpha11")
     metalava("com.android.tools.external.com-intellij:kotlin-compiler:27.2.0-alpha11")
     metalava("com.android.tools.external.com-intellij:intellij-core:27.2.0-alpha11")
@@ -42,7 +41,7 @@ dependencies {
     metalava("org.ow2.asm:asm-tree:8.0")
 }
 
-group = rootProject.GROUP_ID
-version = rootProject.VERSION_NAME
+group = rootProject.property("GROUP_ID").toString()
+version = rootProject.property("VERSION_NAME").toString()
 
-apply from: rootProject.file('android-metalava.gradle')
+apply(from = rootProject.file("android-metalava.gradle"))

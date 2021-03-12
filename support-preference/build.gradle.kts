@@ -1,31 +1,46 @@
-apply plugin: 'com.android.library'
+plugins {
+    id("com.android.library")
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion(29)
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion(14)
+
+        consumerProguardFile("proguard-consumer-rules.pro")
+    }
+
+    resourcePrefix("asp_")
+
+    sourceSets {
+        getByName("main") {
+            res.srcDir("src/main/res-aosp")
+            res.srcDir("src/main/res-media")
+        }
     }
 
     lintOptions {
-        checkReleaseBuilds = false
-        abortOnError = false
+        disable("ResourceName", "InlinedApi")
+        warning("GradleCompatible")
+        isCheckReleaseBuilds = false
+        isAbortOnError = false
         // Revert when lint stops with all the false positives >:-(
     }
 }
 
-configurations {
-    metalava
-}
+val metalava by configurations.creating
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation("androidx.annotation:annotation:1.1.0")
 
-    api project(':support-preference')
+    api("androidx.appcompat:appcompat:1.1.0")
+    api("androidx.preference:preference:1.1.0")
+
+    implementation(project(":support-spinner"))
 
     // Metalava isn't released yet. Check in its jar and explicitly track its transitive deps.
-    metalava rootProject.files('metalava.jar')
+    metalava(rootProject.files("metalava.jar"))
     metalava("com.android.tools.external.org-jetbrains:uast:27.2.0-alpha11")
     metalava("com.android.tools.external.com-intellij:kotlin-compiler:27.2.0-alpha11")
     metalava("com.android.tools.external.com-intellij:intellij-core:27.2.0-alpha11")
@@ -42,7 +57,7 @@ dependencies {
     metalava("org.ow2.asm:asm-tree:8.0")
 }
 
-group = rootProject.GROUP_ID
-version = rootProject.VERSION_NAME
+group = rootProject.property("GROUP_ID").toString()
+version = rootProject.property("VERSION_NAME").toString()
 
-apply from: rootProject.file('android-metalava.gradle')
+apply(from = rootProject.file("android-metalava.gradle"))

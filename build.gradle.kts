@@ -26,13 +26,6 @@ subprojects {
     }
 }
 
-ext {
-    compileSdkVersion = 29
-    buildToolsVersion = "29.0.2"
-    minSdkVersion = 14
-    targetSdkVersion = 28
-}
-
-tasks.named("wrapper", Wrapper) {
-    distributionType = "all"
+tasks.named<Wrapper>("wrapper") {
+    distributionType = Wrapper.DistributionType.ALL
 }
