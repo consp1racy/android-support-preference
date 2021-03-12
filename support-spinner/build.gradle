@@ -8,12 +8,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
-
     lintOptions {
         checkReleaseBuilds = false
         abortOnError = false
@@ -57,5 +51,4 @@ repositories {
 group = rootProject.GROUP_ID
 version = rootProject.VERSION_NAME
 
-apply from: rootProject.file('android-release.gradle')
 apply from: rootProject.file('android-metalava.gradle')

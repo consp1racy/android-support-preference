@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -15,7 +14,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-            minifyEnabled false
         }
     }
     lintOptions {
@@ -27,12 +25,6 @@ android {
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
-
-//    def jitpackVersion = "05655a4c95"
-//    implementation "com.github.consp1racy:android-support-preference:$jitpackVersion"
-//    implementation "com.github.consp1racy.android-support-preference:support-preference-color:$jitpackVersion"
-//    implementation "com.github.consp1racy.android-support-preference:support-preference:$jitpackVersion"
-//    implementation "com.github.consp1racy.android-support-preference:support-spinner:$jitpackVersion"
 
     implementation project(':support-preference')
     implementation project(':support-preference-color')
@@ -46,5 +38,4 @@ dependencies {
 repositories {
     jcenter()
     google()
-    maven { url 'https://jitpack.io' }
 }
