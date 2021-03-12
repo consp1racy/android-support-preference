@@ -42,11 +42,6 @@ dependencies {
     metalava("org.ow2.asm:asm-tree:8.0")
 }
 
-repositories {
-    jcenter()
-    google()
-}
-
 group = rootProject.GROUP_ID
 version = rootProject.VERSION_NAME
 
