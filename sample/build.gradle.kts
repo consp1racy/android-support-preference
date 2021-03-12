@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":support-preference-color"))
     implementation(project(":support-spinner"))
 
-    implementation("com.google.android.material:material:1.0.0")
+    implementation("com.google.android.material:material:1.3.0")
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.0-beta-3")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
 }

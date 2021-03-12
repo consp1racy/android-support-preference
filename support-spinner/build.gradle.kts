@@ -21,7 +21,7 @@ val metalava by configurations.creating
 dependencies {
     implementation("androidx.annotation:annotation:1.1.0")
 
-    api("androidx.appcompat:appcompat:1.1.0")
+    api("androidx.appcompat:appcompat:1.2.0")
 
     // Metalava isn't released yet. Check in its jar and explicitly track its transitive deps.
     metalava(rootProject.files("metalava.jar"))

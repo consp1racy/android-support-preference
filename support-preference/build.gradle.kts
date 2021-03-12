@@ -34,8 +34,8 @@ val metalava by configurations.creating
 dependencies {
     implementation("androidx.annotation:annotation:1.1.0")
 
-    api("androidx.appcompat:appcompat:1.1.0")
-    api("androidx.preference:preference:1.1.0")
+    api("androidx.appcompat:appcompat:1.2.0")
+    api("androidx.preference:preference:1.1.1")
 
     implementation(project(":support-spinner"))
 
