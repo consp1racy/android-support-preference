@@ -64,7 +64,6 @@ import net.xpece.android.support.widget.spinner.R;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
-import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
@@ -74,16 +73,14 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * to switch to the framework's implementation. See the framework SDK
  * documentation for a class overview.
  *
- * @hide
  * @see android.widget.ListPopupWindow
  */
-@RestrictTo(LIBRARY)
 @SuppressLint("RestrictedApi")
 abstract class AbstractXpListPopupWindow implements ShowableListMenu {
     private static final String TAG = AbstractXpListPopupWindow.class.getSimpleName();
     private static final boolean DEBUG = false;
 
-    private static final boolean API_18 = Build.VERSION.SDK_INT >= 18;
+    private static final boolean SUPPORTS_RTL = Build.VERSION.SDK_INT >= 18;
 
     /**
      * This value controls the length of time that the user
@@ -461,7 +458,7 @@ abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             mMargins.left = margin;
             mMargins.right = margin;
         } else {
-            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
+            if (SUPPORTS_RTL && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginEnd)) {
                 int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginEnd, 0);
                 if (mLayoutDirection == LayoutDirection.RTL) {
                     mMargins.left = margin;
@@ -471,7 +468,7 @@ abstract class AbstractXpListPopupWindow implements ShowableListMenu {
             } else {
                 mMargins.right = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginRight, defaultMargin);
             }
-            if (API_18 && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
+            if (SUPPORTS_RTL && b.hasValue(R.styleable.XpListPopupWindow_android_layout_marginStart)) {
                 int margin = b.getDimensionPixelOffset(R.styleable.XpListPopupWindow_android_layout_marginStart, 0);
                 if (mLayoutDirection == LayoutDirection.RTL) {
                     mMargins.right = margin;
