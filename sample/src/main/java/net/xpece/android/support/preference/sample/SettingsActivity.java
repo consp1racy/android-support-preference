@@ -19,6 +19,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
@@ -156,13 +157,9 @@ public class SettingsActivity extends AppCompatActivity implements
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_data_sync, true, customPackages);
-                final FragmentManager fm = getSupportFragmentManager();
-                final SettingsFragment settingsFragment = SettingsFragment.newInstance(null);
-                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fm.beginTransaction()
-                        .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                        .replace(R.id.content, settingsFragment, "Settings")
-                        .commitNow();
+                getSupportFragmentManager()
+                    .popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                ActivityCompat.recreate(this);
                 return true;
             }
             case R.id.nested: {
