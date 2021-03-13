@@ -12,6 +12,7 @@
 
 ### Deprecated
 - Use `OnBindEditTextListener` instead of `OnEditTextCreatedListener`.
+- `StyledContextProvider` and `XpPreferenceFragment.onProvideCustomStyledContext` no longer work.
 
 ### Removed
 - Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
@@ -20,6 +21,7 @@
 ### Fixed
 - Prevent crashing on Android Q when picking ringtone (#120)
 - Prefer custom long click instead of long-click-to-copy.
+- Fix widget styles (e.g. check box tints) on Android 4.x.
 
 ## 2.3.2 2018-08-05
 
