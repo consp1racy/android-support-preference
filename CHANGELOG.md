@@ -1,14 +1,25 @@
 # Change log
 
-## 3.0.0 2018-XX-XX
+## 3.0.0 2021-XX-XX
 
-### API Changes
+### Added
+- `PreferenceScreenNavigationStrategy.ReplaceFragment` supports Up navigation.
+- Support `useSimpleSummaryProvider` XML attribute.
+- Better compatibility with AndroidX Preference 1.1.x.
 
-- *REMOVED:* Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
-- *REMOVED:* Previously deprecated classes in `android.support.*` packages are now gone.
+### Changed
+- Migrated to AndroidX.
 
-## 2.4.0 2019-02-XX
-* *NEW!* Replace fragment navigation strategy supports Up navigation
+### Deprecated
+- Use `OnBindEditTextListener` instead of `OnEditTextCreatedListener`.
+
+### Removed
+- Previously deprecated `PreferenceScreenNavigationStrategy.ReplaceRoot` is now gone.
+- Previously deprecated classes in `android.support.*` packages are now gone.
+
+### Fixed
+- Prevent crashing on Android Q when picking ringtone (#120)
+- Prefer custom long click instead of long-click-to-copy.
 
 ## 2.3.2 2018-08-05
 
