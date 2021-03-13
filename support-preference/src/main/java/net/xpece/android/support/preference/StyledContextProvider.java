@@ -3,11 +3,12 @@ package net.xpece.android.support.preference;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.view.ContextThemeWrapper;
+
 import androidx.annotation.AnyRes;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
-import android.view.ContextThemeWrapper;
 
 /**
  * Utilities that help you extract activity theme and apply it onto a long-lived context
@@ -16,31 +17,20 @@ import android.view.ContextThemeWrapper;
  * re-inflating on each configuration change.
  *
  * @see XpPreferenceFragment#onProvideCustomStyledContext()
+ * @deprecated No longer useful.
  */
+@Deprecated
 public final class StyledContextProvider {
     private StyledContextProvider() {
         throw new AssertionError();
     }
 
     /**
-     * Provide application scoped context with a theme from supplied activity.
-     * <p>
-     * What this means:
-     * <ul>
-     * <li>keeping this context won't leak your activity instance,</li>
-     * <li>views inflated using this context will look just like from the activity.</li>
-     * </ul>
-     * <p>
-     * <i>Note:</i> The theme resource ID is taken from the manifest. It doesn't take into account
-     * any changes you make to it at runtime, such as implementation of runtime theme switching.
-     *
-     * @see #getActivityThemeResource(Activity)
+     * @deprecated No longer useful.
      */
     @NonNull
     public static ContextThemeWrapper getThemedApplicationContext(final @NonNull Activity activity) {
-        final int activityThemeId = getActivityThemeResource(activity);
-        final Context app = activity.getApplicationContext();
-        return new ContextThemeWrapper(app, activityThemeId);
+        return activity;
     }
 
     /**
@@ -49,6 +39,8 @@ public final class StyledContextProvider {
      * <i>Note:</i> The theme resource ID is taken from the manifest. It doesn't take into account
      * any changes you make to it at runtime, such as implementation of runtime theme switching.
      * However you may use your own logic to extract that runtime theme using retrieved theme ID.
+     *
+     * @deprecated No longer useful.
      */
     @StyleRes
     public static int getActivityThemeResource(final @NonNull Activity activity) {
@@ -68,6 +60,7 @@ public final class StyledContextProvider {
      * You can use this e.g. to extract a runtime theme resource ID from your activity theme.
      *
      * @return Resource ID, if found, {@code 0} otherwise.
+     * @deprecated No longer useful.
      */
     @AnyRes
     public static int resolveResourceId(final @NonNull Context context, @AttrRes final int attrId) {

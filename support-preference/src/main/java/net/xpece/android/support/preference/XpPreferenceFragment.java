@@ -2,8 +2,6 @@ package net.xpece.android.support.preference;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -13,10 +11,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -48,24 +44,12 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     /**
      * For tracking whether {@link #getContext()} should return the real thing
      * or styled {@link PreferenceManager#getContext()}.
-     *
+     * <p>
      * AndroidX Preference 1.1.0 injects the preference theme overlay into its activity.
      * We support the case of themed application context with retained fragments.
      * This allows us to achieve that.
      */
     private boolean mCreatingViews = false;
-
-    /**
-     * Read and apply the {@link R.attr#preferenceTheme} overlay on top of supplied context.
-     */
-    @NonNull
-    private Context resolveStyledContext(@NonNull final Context context) {
-        final int theme = StyledContextProvider.resolveResourceId(context, R.attr.preferenceTheme);
-        if (theme == 0) {
-            throw new IllegalStateException("Must specify preferenceTheme in theme");
-        }
-        return new ContextThemeWrapper(context, theme);
-    }
 
     private void setPreferenceManager(@NonNull final PreferenceManager manager) {
         try {
@@ -83,8 +67,6 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
 
     private void printActivityLeakWarning() {
         Log.w(TAG, "When using setRetainInstance(true) your Activity instance will leak on configuration change.");
-        Log.w(TAG, "Override onProvideCustomStyledContext() and provide a custom long-lived context.");
-        Log.w(TAG, "You can use methods in " + StyledContextProvider.class + " class.");
     }
 
     /**
@@ -94,9 +76,9 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
      * Use this method to provide your own themed long-lived context.
      *
      * @return Your own base styled context or {@code null} to use standard activity context.
-     * @see StyledContextProvider#getThemedApplicationContext(Activity)
-     * @see StyledContextProvider#getActivityThemeResource(Activity)
+     * @deprecated The provided Context will be ignored. Don't use retained fragments.
      */
+    @Deprecated
     @Nullable
     protected ContextThemeWrapper onProvideCustomStyledContext() {
         return null;
@@ -118,19 +100,13 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
         PreferenceManager manager = getPreferenceManager();
         manager.setOnNavigateToScreenListener(null);
 
-        Context styledContext;
-        final ContextThemeWrapper customStyledContext = onProvideCustomStyledContext();
-        if (customStyledContext != null) {
-            styledContext = resolveStyledContext(customStyledContext);
-            styledContext = ActivityAwareContext.wrapIfNecessary(styledContext, this);
-        } else {
-            if (getRetainInstance()) {
-                printActivityLeakWarning();
-            }
-            styledContext = getStyledContext();
+        //noinspection deprecation
+        if (getRetainInstance()) {
+            printActivityLeakWarning();
         }
 
         // Setup custom Preference Manager
+        final Context styledContext = getStyledContext();
         manager = new XpPreferenceManager(styledContext, getCustomDefaultPackages());
         setPreferenceManager(manager);
         manager.setOnNavigateToScreenListener(this);
@@ -242,65 +218,5 @@ public abstract class XpPreferenceFragment extends PreferenceFragmentCompat {
     public void onDestroy() {
         super.onDestroy();
         setPreferenceScreen(null);
-    }
-
-    /**
-     * This allows to start activities from application context without the
-     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} flag.
-     */
-    private static class ActivityAwareContext extends ContextWrapper {
-
-        /**
-         * If supplied context is derived from an activity it returns the supplied context.
-         * Otherwise {@code startActivity} calls will be routed to {@code fragment.getActivity()}.
-         *
-         * @param base     A context.
-         * @param fragment A fragment for obtaining host activity.
-         * @return A context able to start activities without {@link Intent#FLAG_ACTIVITY_NEW_TASK}.
-         */
-        static Context wrapIfNecessary(final Context base, final Fragment fragment) {
-            for (Context i = base; i instanceof ContextWrapper; i = ((ContextWrapper) i).getBaseContext()) {
-                if (i instanceof Activity) return base;
-            }
-            return new ActivityAwareContext(base, fragment);
-        }
-
-        private final Fragment mFragment;
-
-        private ActivityAwareContext(final Context base, final Fragment fragment) {
-            super(base);
-            mFragment = fragment;
-        }
-
-        @NonNull
-        private FragmentActivity getActivity() {
-            final FragmentActivity activity = mFragment.getActivity();
-            if (activity == null) {
-                throw new IllegalStateException(mFragment + " is not attached to activity.");
-            }
-            return activity;
-        }
-
-        @Override
-        public void startActivities(final Intent[] intents) {
-            getActivity().startActivities(intents);
-        }
-
-        @Override
-        @RequiresApi(16)
-        public void startActivities(final Intent[] intents, @Nullable final Bundle options) {
-            getActivity().startActivities(intents, options);
-        }
-
-        @Override
-        public void startActivity(final Intent intent) {
-            getActivity().startActivity(intent);
-        }
-
-        @Override
-        @RequiresApi(16)
-        public void startActivity(final Intent intent, @Nullable final Bundle options) {
-            getActivity().startActivity(intent, options);
-        }
     }
 }

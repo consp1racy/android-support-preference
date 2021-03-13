@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -34,7 +33,6 @@ import net.xpece.android.support.preference.PreferenceScreenNavigationStrategy;
 import net.xpece.android.support.preference.RingtonePreference;
 import net.xpece.android.support.preference.SafeRingtone;
 import net.xpece.android.support.preference.SeekBarPreference;
-import net.xpece.android.support.preference.StyledContextProvider;
 import net.xpece.android.support.preference.TwoStatePreference;
 import net.xpece.android.support.preference.XpPreferenceFragment;
 import net.xpece.android.support.preference.XpPreferenceHelpers;
@@ -128,19 +126,11 @@ public class SettingsFragment extends XpPreferenceFragment {
     }
 
     public SettingsFragment() {
-        setRetainInstance(true);
     }
 
     @Override
     public String[] getCustomDefaultPackages() {
         return new String[]{getContext().getPackageName()};
-    }
-
-    @Nullable
-    @Override
-    protected ContextThemeWrapper onProvideCustomStyledContext() {
-        // Read the javadocs for instructions why and how to use this feature.
-        return StyledContextProvider.getThemedApplicationContext(getActivity());
     }
 
     @Override
