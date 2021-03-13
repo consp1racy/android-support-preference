@@ -1,6 +1,14 @@
+import net.xpece.gradle.android.withJavadocJar
+import net.xpece.gradle.android.withSourcesJar
+
 plugins {
     id("com.android.library")
+    id("net.xpece.android")
+    id("net.xpece.publish.sonatype")
 }
+
+group = rootProject.property("GROUP_ID").toString()
+version = rootProject.property("VERSION_NAME").toString()
 
 android {
     compileSdkVersion(30)
@@ -20,6 +28,9 @@ android {
         }
     }
 
+    withSourcesJar()
+    withJavadocJar()
+
     lintOptions {
         disable("ResourceName", "InlinedApi")
         warning("GradleCompatible")
@@ -37,8 +48,5 @@ dependencies {
 
     implementation(project(":support-spinner"))
 }
-
-group = rootProject.property("GROUP_ID").toString()
-version = rootProject.property("VERSION_NAME").toString()
 
 apply(from = rootProject.file("android-metalava.gradle"))

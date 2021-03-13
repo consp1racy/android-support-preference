@@ -1,6 +1,14 @@
+import net.xpece.gradle.android.withJavadocJar
+import net.xpece.gradle.android.withSourcesJar
+
 plugins {
     id("com.android.library")
+    id("net.xpece.android")
+    id("net.xpece.publish.sonatype")
 }
+
+group = rootProject.property("GROUP_ID").toString()
+version = rootProject.property("VERSION_NAME").toString()
 
 android {
     compileSdkVersion(30)
@@ -8,6 +16,9 @@ android {
     defaultConfig {
         minSdkVersion(14)
     }
+
+    withSourcesJar()
+    withJavadocJar()
 
     lintOptions {
         isCheckReleaseBuilds = false
@@ -21,8 +32,5 @@ dependencies {
 
     api("androidx.appcompat:appcompat:1.2.0")
 }
-
-group = rootProject.property("GROUP_ID").toString()
-version = rootProject.property("VERSION_NAME").toString()
 
 apply(from = rootProject.file("android-metalava.gradle"))
