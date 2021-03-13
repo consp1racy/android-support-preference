@@ -1,20 +1,27 @@
 //import com.android.build.gradle.api.BaseVariant
 //import com.android.build.gradle.api.LibraryVariant
 
-def variantClasspath( /*BaseVariant*/ variant) {
-    return (android.bootClasspath + variant.compileConfiguration.incoming.artifactView { config ->
-        config.attributes { container ->
-            container.attribute(Attribute.of("artifactType", String.class), "jar")
-        }
-    }.artifacts.artifacts.collect {
-        if (it.file.name == "full.jar") {
-            def intermediates = it.file.parentFile.parentFile.parentFile.parentFile
-            // TODO Don't hardcode flavor name.
-            new File(intermediates, "packaged-classes/release/classes.jar")
-        } else {
-            it.file
-        }
-    }).join(File.pathSeparator)
+configurations {
+    metalava
+}
+
+dependencies {
+// Metalava isn't released yet. Check in its jar and explicitly track its transitive deps.
+    metalava(rootProject.files("metalava.jar"))
+    metalava("com.android.tools.external.org-jetbrains:uast:27.2.0-alpha11")
+    metalava("com.android.tools.external.com-intellij:kotlin-compiler:27.2.0-alpha11")
+    metalava("com.android.tools.external.com-intellij:intellij-core:27.2.0-alpha11")
+    metalava("com.android.tools.lint:lint-api:27.2.0-alpha11")
+    metalava("com.android.tools.lint:lint-checks:27.2.0-alpha11")
+    metalava("com.android.tools.lint:lint-gradle:27.2.0-alpha11")
+    metalava("com.android.tools.lint:lint:27.2.0-alpha11")
+    metalava("com.android.tools:common:27.2.0-alpha11")
+    metalava("com.android.tools:sdk-common:27.2.0-alpha11")
+    metalava("com.android.tools:sdklib:27.2.0-alpha11")
+    metalava("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.30")
+    metalava("org.jetbrains.kotlin:kotlin-reflect:1.4.30")
+    metalava("org.ow2.asm:asm:8.0")
+    metalava("org.ow2.asm:asm-tree:8.0")
 }
 
 android.libraryVariants.all { /*LibraryVariant*/ variant ->
@@ -40,7 +47,10 @@ android.libraryVariants.all { /*LibraryVariant*/ variant ->
                     '--output-kotlin-nulls=yes',
                     '--hide', 'HiddenSuperclass',
                     '--hide', 'DeprecationMismatch',
-                    '--classpath', variantClasspath(variant),
+                    '--classpath', variant.getCompileClasspath(null).join(";") +
+                            ";${android.sdkDirectory}\\platforms\\android-${android.compileSdk}\\android.jar",
+//                    '--sdk-home', android.sdkDirectory,
+//                    '--compile-sdk-version', android.compileSdk,
                     '--api', 'api/current.txt'
             ]
         }
@@ -74,9 +84,11 @@ android.libraryVariants.all { /*LibraryVariant*/ variant ->
 //                '--hide', 'ChangedAbstract',
 //                '--hide', 'ChangedValue',
 //                '--hide', 'InvalidNullConversion', //@ParametersAreNonNullByDefault is unsupported.
-                    '--classpath', variantClasspath(variant),
-                    '--check-compatibility',
-                    '--previous-api', 'api/current.txt'
+                    '--classpath', variant.getCompileClasspath(null).join(";") +
+                            ";${android.sdkDirectory}\\platforms\\android-${android.compileSdk}\\android.jar",
+//                    '--sdk-home', android.sdkDirectory,
+//                    '--compile-sdk-version', 'android-29',
+                    '--check-compatibility', 'api/current.txt'
             ]
         }
     }

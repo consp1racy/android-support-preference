@@ -1,5 +1,6 @@
 .gradle
 /local.properties
+/publishing.properties
 /.idea
 *.iml
 .DS_Store

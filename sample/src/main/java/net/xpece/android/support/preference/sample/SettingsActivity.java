@@ -151,7 +151,7 @@ public class SettingsActivity extends AppCompatActivity implements
             }
             case R.id.reset: {
                 final Context context = this;
-                final String[] customPackages = {BuildConfig.APPLICATION_ID};
+                final String[] customPackages = {getPackageName()};
                 XpPreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply();
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_general, true, customPackages);
                 XpPreferenceManager.setDefaultValues(context, R.xml.pref_notification, true, customPackages);

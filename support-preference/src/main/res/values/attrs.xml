@@ -11,7 +11,7 @@
         <!-- Default style for EditTextPreference. -->
         <attr name="editTextPreferenceStyle"/>
         <!-- Default style for RingtonePreference. -->
-        <attr name="ringtonePreferenceStyle"/>
+        <attr name="ringtonePreferenceStyle" format="reference"/>
         <!-- Default style for switch preferences. -->
         <attr name="switchPreferenceStyle"/>
 

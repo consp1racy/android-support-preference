@@ -1,41 +1,42 @@
+// Signature format: 3.0
 package net.xpece.android.colorpicker {
 
-  deprecated public class ColorPickerDialog extends android.support.v4.app.DialogFragment implements net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener {
-    ctor public ColorPickerDialog();
-    method @ColorInt public int[]? getColors();
-    method @ColorInt public int getSelectedColor();
-    method public void initialize(int, @ColorInt int[], @ColorInt int, int, int);
-    method public static net.xpece.android.colorpicker.ColorPickerDialog newInstance(@StringRes int, @ColorInt int[], @ColorInt int, int, int);
-    method public void onColorSelected(@ColorInt int);
-    method public void setArguments(int, int, int);
-    method public void setColorContentDescriptions(String[]);
-    method public void setColors(@ColorInt int[], @ColorInt int);
-    method public void setColors(@ColorInt int[]);
-    method public void setOnColorSelectedListener(net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener?);
-    method public void setSelectedColor(@ColorInt int);
-    method public void showPaletteView();
-    method public void showProgressBarView();
-    field protected static final String! KEY_COLORS = "colors";
-    field protected static final String! KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
-    field protected static final String! KEY_COLUMNS = "columns";
-    field protected static final String! KEY_SELECTED_COLOR = "selected_color";
-    field protected static final String! KEY_SIZE = "size";
-    field protected static final String! KEY_TITLE_ID = "title_id";
-    field protected android.app.AlertDialog! mAlertDialog;
-    field protected String[]! mColorContentDescriptions;
-    field protected int[]! mColors;
-    field protected int mColumns;
-    field protected net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener! mListener;
-    field protected int mSelectedColor;
-    field protected int mSize;
-    field protected int mTitleResId;
+  @Deprecated public class ColorPickerDialog extends androidx.fragment.app.DialogFragment implements net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener {
+    ctor @Deprecated public ColorPickerDialog();
+    method @Deprecated @ColorInt public int[]? getColors();
+    method @Deprecated @ColorInt public int getSelectedColor();
+    method @Deprecated public void initialize(int, @ColorInt int[], @ColorInt int, int, int);
+    method @Deprecated public static net.xpece.android.colorpicker.ColorPickerDialog newInstance(@StringRes int, @ColorInt int[], @ColorInt int, int, int);
+    method @Deprecated public void onColorSelected(@ColorInt int);
+    method @Deprecated public void setArguments(int, int, int);
+    method @Deprecated public void setColorContentDescriptions(String![]);
+    method @Deprecated public void setColors(@ColorInt int[], @ColorInt int);
+    method @Deprecated public void setColors(@ColorInt int[]);
+    method @Deprecated public void setOnColorSelectedListener(net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener?);
+    method @Deprecated public void setSelectedColor(@ColorInt int);
+    method @Deprecated public void showPaletteView();
+    method @Deprecated public void showProgressBarView();
+    field @Deprecated protected static final String KEY_COLORS = "colors";
+    field @Deprecated protected static final String KEY_COLOR_CONTENT_DESCRIPTIONS = "color_content_descriptions";
+    field @Deprecated protected static final String KEY_COLUMNS = "columns";
+    field @Deprecated protected static final String KEY_SELECTED_COLOR = "selected_color";
+    field @Deprecated protected static final String KEY_SIZE = "size";
+    field @Deprecated protected static final String KEY_TITLE_ID = "title_id";
+    field @Deprecated protected android.app.AlertDialog! mAlertDialog;
+    field @Deprecated protected String![]! mColorContentDescriptions;
+    field @Deprecated protected int[]! mColors;
+    field @Deprecated protected int mColumns;
+    field @Deprecated protected net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener! mListener;
+    field @Deprecated protected int mSelectedColor;
+    field @Deprecated protected int mSize;
+    field @Deprecated protected int mTitleResId;
   }
 
   public class ColorPickerPalette extends android.widget.TableLayout {
     ctor public ColorPickerPalette(android.content.Context, android.util.AttributeSet?);
     ctor public ColorPickerPalette(android.content.Context);
     method public void drawPalette(@ColorInt int[]?, @ColorInt int);
-    method public void drawPalette(@ColorInt int[]?, @ColorInt int, CharSequence[]?);
+    method public void drawPalette(@ColorInt int[]?, @ColorInt int, CharSequence![]?);
     method public int getEffectiveNumColumns();
     method public void init(int, int, net.xpece.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener?);
     field public static final int SIZE_LARGE = 1; // 0x1
@@ -54,8 +55,8 @@ package net.xpece.android.colorpicker {
   }
 
   public class ColorStateDrawable extends android.graphics.drawable.LayerDrawable {
-    ctor public ColorStateDrawable(android.graphics.drawable.Drawable[], @ColorInt int, @ColorInt int);
-    method public static android.graphics.drawable.Drawable create(android.graphics.drawable.Drawable[], @ColorInt int, @ColorInt int);
+    ctor public ColorStateDrawable(android.graphics.drawable.Drawable![], @ColorInt int, @ColorInt int);
+    method public static android.graphics.drawable.Drawable create(android.graphics.drawable.Drawable![], @ColorInt int, @ColorInt int);
   }
 
   public class HsvColorComparator implements java.util.Comparator<java.lang.Integer> {
@@ -75,15 +76,16 @@ package net.xpece.android.support.preference {
     method public android.graphics.drawable.Drawable buildColorDrawable(@ColorInt int);
     method public int findIndexOfValue(@ColorInt int);
     method @ColorInt public int getColor();
-    method public CharSequence[]? getColorNames();
+    method public CharSequence![]? getColorNames();
     method public int[]? getColorValues();
     method public int getColumnCount();
     method public CharSequence? getNameForColor(@ColorInt int);
     method public int getSwatchSize();
     method @ColorInt protected Integer! onGetDefaultValue(android.content.res.TypedArray, int);
+    method protected void onSetInitialValue(boolean, Object?);
     method public void setColor(@ColorInt int);
     method public void setColorNames(@ArrayRes int);
-    method public void setColorNames(CharSequence[]?);
+    method public void setColorNames(CharSequence![]?);
     method public void setColorResource(@ColorRes int);
     method public void setColorValues(@ArrayRes int);
     method public void setColorValues(int[]?);
@@ -98,11 +100,11 @@ package net.xpece.android.support.preference {
     method public static net.xpece.android.support.preference.XpColorPreferenceDialogFragment newInstance(String!);
     method public void onColorSelected(@ColorInt int);
     method public void onDialogClosed(boolean);
-    method public static boolean onPreferenceDisplayDialog(android.support.v7.preference.PreferenceFragmentCompat, android.support.v7.preference.Preference);
+    method public static boolean onPreferenceDisplayDialog(androidx.preference.PreferenceFragmentCompat, androidx.preference.Preference);
     method protected net.xpece.android.support.preference.ColorPreference requireColorPreference();
     method public void showPaletteView();
     method public void showProgressBarView();
-    field protected static final String! KEY_SELECTED_COLOR = "selected_color";
+    field protected static final String KEY_SELECTED_COLOR = "selected_color";
     field protected int mSelectedColor;
   }
 
