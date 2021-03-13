@@ -1,6 +1,6 @@
 # Change log
 
-## 3.0.0 2021-XX-XX
+## 3.0.0 2021-03-13
 
 ### Added
 - `PreferenceScreenNavigationStrategy.ReplaceFragment` supports Up navigation.
