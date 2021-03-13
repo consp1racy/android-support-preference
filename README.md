@@ -1,4 +1,4 @@
-# Material Preference [ ![Download](https://api.bintray.com/packages/consp1racy/maven/net.xpece.android%3Asupport-preference/images/download.svg)](https://bintray.com/consp1racy/maven/net.xpece.android%3Asupport-preference/_latestVersion) [ ![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--support--preference-green.svg?style=true)](https://android-arsenal.com/details/1/3267)
+# Material Preference
 
 <img src="./sample/src/main/res/mipmap-xxhdpi/ic_launcher.png" align="right" style="margin-left: 1em;"/>
 
@@ -6,7 +6,9 @@ Material theme for preference widgets.
 
 Backporting dat material look *and* functionality.
 
-Available from API 14. *Connecting preference-v7 to appcompat-v7.*
+Available from API 14. *Connecting AndroidX Preference to AppCompat.*
+
+For older version see the [2.x](https://github.com/consp1racy/android-support-preference/tree/2.x) branch.
 
 ## Table of contents
 - [How to get the library?](#how-to-get)
@@ -22,45 +24,31 @@ Available from API 14. *Connecting preference-v7 to appcompat-v7.*
 
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-preference:3.0.0'
-    
-    // Pick one depending on your use case:
-    implementation "androidx.appcompat:appcompat:1.0.0"
-    implementation "androidx.preference:preference:1.0.0"
-    // or
-    ext.supportLibsVersion = "28.0.0"
-    implementation "com.android.support:appcompat-v7:$supportLibsVersion"
-    implementation "com.android.support:preference-v7:$supportLibsVersion"
+    implementation("net.xpece.android:support-preference:3.0.0")
+}
+
+repositories {
+    mavenCentral()
 }
 ```
 
-Always specify `preference-v7`/`androidx.preference` version explicitly!
-
 ### Compatibility
 
-Version 1.x.x is compatible with support libraries from 23.2.0 to 27.0.2.
-
-Version 2.x.x requires at least support libraries 27.0.0.
-
-Version 3.x.x requires at least support libraries 28.0.0 or AndroidX.
-
-Keep the major version of all artifacts same. V2 is not compatible with V1.
+Version 3.x.x requires AndroidX.
 
 ## How to get color picker preference too?
 
-
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-preference-color:3.0.0'
+    implementation("net.xpece.android:support-preference-color:3.0.0")
 }
 ```
 
 ## How to get custom Material popup menu and spinner?
 
-
 ```groovy
 dependencies {
-    implementation 'net.xpece.android:support-spinner:3.0.0'
+    implementation("net.xpece.android:support-spinner:3.0.0")
 }
 ```
 
@@ -68,16 +56,13 @@ dependencies {
 
 ## Screenshots
 
-Library version 0.6.0. Android version 4.4.
+Android version 4.4.
 
 Showcasing simple menu/dialog, custom title and summary text appearance and color picker.
 
 ![Simple menu](./docs/device-2016-03-25-220208.png)&nbsp;
 ![Simple dialog with long items](./docs/device-2016-03-25-220317.png)&nbsp;
 ![ColorPreference and custom text color](./docs/device-2016-03-25-220005.png)&nbsp;
-
-Library version 0.5.1. Android version 4.4.
-
 ![Overview 1](./docs/device-2015-12-08-200222.png)&nbsp;
 ![EditTextPreference](./docs/device-2015-12-08-200302.png)&nbsp;
 ![MultiSelectListPreference](./docs/device-2015-12-08-201133.png)&nbsp;
@@ -122,11 +107,7 @@ Library version 0.5.1. Android version 4.4.
     - `setDefaultValues` method takes into account preference classes in custom packages
 - `XpPreferenceHelpers`
     - Tinted icons and text appearance support for preferences outside of this library
-    
-### Support color preference
-
 - `ColorPreference`
-    - Pillaged http://www.materialdoc.com/color-picker/
 
 ### Support spinner
 
@@ -143,14 +124,14 @@ Read https://www.google.com/design/spec/components/menus.html#menus-behavior.
   - Open methods for converting `T` to `CharSequence`.
   - Allows different string representations for selected spinner item and drop down menu.
 
-## Features on top of preference-v7
+## Features on top of AndroidX Preference
 
-- Using appcompat-v7 features.
+- Using AppCompat features.
 - Material preference item layouts out of the box.
 - Icon and dialog icon tinting and padding.
 - <s>`EditTextPreference` understands `EditText` XML attributes.</s>
   - Use `EditTextPreference.setOnCreateEditTextListener(OnCreateEditTextListener)` to setup your input field.
-- Several preference widgets not publicly available in preference-v7 or SDK.
+- Several preference widgets not publicly available in AndroidX or SDK.
     - `RingtonePreference`, `SeekBarPreference`, `SeekBarDialogPreference`, `MultiSelectListPreference`
 - Subscreen navigation implementation.
 - `ListPreference` can optionally show as a simple menu in a popup instead of a dialog.
@@ -170,7 +151,7 @@ Setup your preference items in the following method:
 
 ```java
 public void onCreatePreferences2(final Bundle savedInstanceState, final String rootKey) {
-    // ...
+    addPreferencesFromResource(R.xml.my_preferences);
 }
 ```
 
@@ -179,7 +160,7 @@ Your settings activity theme *needs to* specify the following values:
 ```xml
 <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Used to theme preference list and items. -->
-    <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+    <item name="preferenceTheme">@style/PreferenceThemeOverlay.Asp.Material</item>
     <!-- Default icon tint for preferences. -->
     <item name="asp_preferenceIconTint">?colorAccent</item>
     <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
@@ -192,22 +173,23 @@ Styling `alertDialogTheme` is recommended for a proper color theme. See the samp
 
 ### Dividers
 
-Preference-v7 r23.2.0 provides a divider implementation out of the box.
+AndroidX Preference provides a divider implementation out of the box.
 If you want to customize how this divider looks you can call `setDivider(...)` and `setDividerHeight(...)`.
-Preference-v7 divider will be drawn just between items and at the bottom of the list. It will not be drawn before the end of category.
+The divider will be drawn just between items and at the bottom of the list. It will not be drawn before the end of category.
 
-If you want more control over where the dividers are drawn, disable the default implementation and use my own instead:
+If you want more control over where the dividers are drawn, disable the default implementation
+and enable the one from this library:
 
 ```java
 @Override
 public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    getListView().addItemDecoration(new PreferenceDividerDecoration(getContext()).drawBottom(true));
+    getListView().addItemDecoration(
+            new PreferenceDividerDecoration(getStyledContext())
+                    .drawBottom(true));
     setDivider(null);
 }
 ```
-
-Preference-v7 r23.1.1 does not provide a default divider so you don't need to call `setDivider(null)`.
 
 ### Ringtone picker
 
@@ -308,8 +290,6 @@ or supply your own adapter (responsible for its own styling) to `XpAppCompatSpin
 |  | `X` | Popup will show at most `X` items. 
 
 ### Color preference
-
-Version 0.6.0 introduced color preference as a separate module. An example would look like this:
 
 ```xml
 <ColorPreference
@@ -422,12 +402,12 @@ PreferenceIconHelper.setup(subs /* preference */,
     true /* padding */);
 ```
 
-You can use this class even on preference classes from preference-v7 package in case you're not using
-`XpPreferenceFragment`.
+You can use this class even on preference classes from `androidx.preference` package
+in case you're not using `XpPreferenceFragment`.
 
 ### Proguard
 
-Since version 0.5.1 Proguard rules are bundled with the library.
+Proguard rules are bundled with the library.
 
 ## Changelog
 
@@ -479,5 +459,5 @@ Thanks for making this library better!
 
 ## Credit
 
-Most of this library is straight up pillaged latest SDK mixed with heavy reliance on appcompat-v7.
-Since version 0.5.0 the same applies to preference-v7. Kudos to people who create and maintain these!
+Most of this library is straight up pillaged latest SDK mixed with heavy reliance
+on AndroidX AppCompat and Preference. Kudos to people who create and maintain these!
