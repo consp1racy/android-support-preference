@@ -1,9 +1,9 @@
--keepclassmembernames class android.support.v7.preference.PreferenceManager {
+-keepclassmembernames class androidx.preference.PreferenceManager {
     void setNoCommit(boolean);
 }
 
--keepclassmembernames class android.support.v7.preference.PreferenceFragmentCompat {
-    android.support.v7.preference.PreferenceManager mPreferenceManager;
+-keepclassmembernames class androidx.preference.PreferenceFragmentCompat {
+    androidx.preference.PreferenceManager mPreferenceManager;
 }
 
 -dontwarn net.xpece.android.support.preference.SeekBarPreference
