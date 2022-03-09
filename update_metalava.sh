@@ -16,10 +16,10 @@ fi
     echo " Done"
 
     echo -n "Building…"
-    ./gradlew jar --console=plain -q --no-daemon
+    ./gradlew jar --console=plain -q --daemon
     find ../../out/host/common/libs ! -name '*full*' -type f -exec cp {} ../../../../metalava.jar \;
     echo " Done"
 
     echo -e "\nDependencies:\n"
-    ./gradlew dependencies --no-daemon --configuration implementation | \egrep '^.--- ' | cut -d' ' -f2
+    ./gradlew dependencies --daemon --configuration implementation | \egrep '^.--- ' | cut -d' ' -f2
 )
