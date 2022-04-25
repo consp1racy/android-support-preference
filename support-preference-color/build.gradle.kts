@@ -1,9 +1,5 @@
-import net.xpece.gradle.android.withJavadocJar
-import net.xpece.gradle.android.withSourcesJar
-
 plugins {
-    id("com.android.library")
-    id("net.xpece.android")
+    id("com.android.library").version("7.1.3")
     id("net.xpece.publish.sonatype")
 }
 
@@ -17,8 +13,12 @@ android {
         minSdkVersion(14)
     }
 
-    withSourcesJar()
-    withJavadocJar()
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 
     lintOptions {
         isCheckReleaseBuilds = false
