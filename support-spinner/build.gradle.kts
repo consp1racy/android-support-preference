@@ -7,10 +7,10 @@ group = rootProject.property("GROUP_ID").toString()
 version = rootProject.property("VERSION_NAME").toString()
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(14)
+        minSdk = 14
     }
 
     publishing {
@@ -20,9 +20,9 @@ android {
         }
     }
 
-    lintOptions {
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
         // Revert when lint stops with all the false positives >:-(
     }
 }

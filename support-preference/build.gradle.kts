@@ -7,10 +7,10 @@ group = rootProject.property("GROUP_ID").toString()
 version = rootProject.property("VERSION_NAME").toString()
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(14)
+        minSdk = 14
 
         consumerProguardFile("proguard-consumer-rules.pro")
     }
@@ -31,11 +31,11 @@ android {
         }
     }
 
-    lintOptions {
-        disable("ResourceName", "InlinedApi")
-        warning("GradleCompatible")
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
+    lint {
+        disable += setOf("ResourceName", "InlinedApi")
+        warning += setOf("GradleCompatible")
+        checkReleaseBuilds = false
+        abortOnError = false
         // Revert when lint stops with all the false positives >:-(
     }
 }

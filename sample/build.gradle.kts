@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
         applicationId = "net.xpece.android.support.preference.sample"
 
-        minSdkVersion(14)
-        targetSdkVersion(28)
+        minSdk = 14
+        targetSdk = 28
 
         versionCode = 1
         versionName = "1.0"
@@ -21,10 +21,10 @@ android {
         }
     }
 
-    lintOptions {
-        ignore("MissingTranslation")
-        warning("PrivateResource", "RestrictedApi")
-        isAbortOnError = false
+    lint {
+        ignore += setOf("MissingTranslation")
+        warning += setOf("PrivateResource", "RestrictedApi")
+        abortOnError = false
     }
 }
 
