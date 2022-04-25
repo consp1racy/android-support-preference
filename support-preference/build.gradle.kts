@@ -41,11 +41,11 @@ android {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.1.0")
+    implementation(libs.androidx.annotation)
 
-    api("androidx.appcompat:appcompat:1.2.0")
-    api("androidx.fragment:fragment:1.3.1")
-    api("androidx.preference:preference:1.1.1")
+    api(libs.androidx.appcompat)
+    api(libs.androidx.fragment)
+    api(libs.androidx.preference)
 
     implementation(project(":support-spinner"))
 }

@@ -29,13 +29,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.1.0")
+    implementation(libs.androidx.annotation)
 
-    implementation(project(":support-preference"))
-    implementation(project(":support-preference-color"))
-    implementation(project(":support-spinner"))
+    implementation(projects.supportPreference)
+    implementation(projects.supportPreferenceColor)
+    implementation(projects.supportSpinner)
 
-    implementation("com.google.android.material:material:1.3.0")
+    implementation(libs.material)
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+    debugImplementation(libs.leakcanary)
 }

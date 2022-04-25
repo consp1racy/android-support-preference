@@ -28,9 +28,9 @@ android {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.1.0")
+    implementation(libs.androidx.annotation)
 
-    api(project(":support-preference"))
+    api(projects.supportPreference)
 }
 
 apply(from = rootProject.file("android-metalava.gradle"))
