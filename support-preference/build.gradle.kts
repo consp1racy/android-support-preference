@@ -1,9 +1,5 @@
-import net.xpece.gradle.android.withJavadocJar
-import net.xpece.gradle.android.withSourcesJar
-
 plugins {
-    id("com.android.library")
-    id("net.xpece.android")
+    id("com.android.library").version("7.1.3")
     id("net.xpece.publish.sonatype")
 }
 
@@ -11,10 +7,10 @@ group = rootProject.property("GROUP_ID").toString()
 version = rootProject.property("VERSION_NAME").toString()
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(14)
+        minSdk = 14
 
         consumerProguardFile("proguard-consumer-rules.pro")
     }
@@ -28,24 +24,28 @@ android {
         }
     }
 
-    withSourcesJar()
-    withJavadocJar()
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 
-    lintOptions {
-        disable("ResourceName", "InlinedApi")
-        warning("GradleCompatible")
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
+    lint {
+        disable += setOf("ResourceName", "InlinedApi")
+        warning += setOf("GradleCompatible")
+        checkReleaseBuilds = false
+        abortOnError = false
         // Revert when lint stops with all the false positives >:-(
     }
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.1.0")
+    implementation(libs.androidx.annotation)
 
-    api("androidx.appcompat:appcompat:1.2.0")
-    api("androidx.fragment:fragment:1.3.1")
-    api("androidx.preference:preference:1.1.1")
+    api(libs.androidx.appcompat)
+    api(libs.androidx.fragment)
+    api(libs.androidx.preference)
 
     implementation(project(":support-spinner"))
 }
