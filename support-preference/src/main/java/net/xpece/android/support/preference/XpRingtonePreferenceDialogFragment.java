@@ -139,8 +139,6 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
             };
 
-    private boolean mActivityCreated = false;
-
     @NonNull
     public static XpRingtonePreferenceDialogFragment newInstance(@NonNull String key) {
         XpRingtonePreferenceDialogFragment fragment = new XpRingtonePreferenceDialogFragment();
@@ -155,40 +153,13 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
         super.onCreate(savedInstanceState);
 
         mHandler = new Handler();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mActivityCreated = true;
 
         loadRingtoneManager(savedInstanceState);
-
-        if (getDialog() instanceof DummyAlertDialog) {
-            // Reinstall the real dialog now if we don't have custom view.
-            // The resulting layout inflater will be discarded. First call result is preserved.
-            // Fragment-Dialog listeners are attached in super.onActivityCreated. Do this before.
-            getDialog().dismiss();
-            onGetLayoutInflater(savedInstanceState);
-        }
-
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        if (mActivityCreated) {
-            return super.onCreateDialog(savedInstanceState);
-        } else {
-            // Dummy. Will be replaced with real dialog in onActivityCreated.
-            // LayoutInflater from the dialog builder will remain cached in this fragment.
-            return new DummyAlertDialog(getContext());
-        }
     }
 
     private void loadRingtoneManager(@Nullable Bundle savedInstanceState) {
         // Give the Activity so it can do managed queries
-        mRingtoneManager = new RingtoneManagerCompat(getActivity());
+        mRingtoneManager = new RingtoneManagerCompat(requireActivity());
 
         final boolean fallbackRingtonePicker;
         if (savedInstanceState != null) {
@@ -620,11 +591,5 @@ public class XpRingtonePreferenceDialogFragment extends XpPreferenceDialogFragme
 
     private int getRingtoneManagerPosition(int listPos) {
         return listPos - mStaticItems.size();
-    }
-
-    private static class DummyAlertDialog extends AlertDialog {
-        DummyAlertDialog(@NonNull Context context) {
-            super(context);
-        }
     }
 }

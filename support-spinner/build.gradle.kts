@@ -7,7 +7,7 @@ group = rootProject.property("GROUP_ID").toString()
 version = rootProject.property("VERSION_NAME").toString()
 
 android {
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         minSdk = 14

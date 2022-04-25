@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         applicationId = "net.xpece.android.support.preference.sample"
