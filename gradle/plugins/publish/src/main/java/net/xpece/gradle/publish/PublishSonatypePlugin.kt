@@ -11,6 +11,11 @@ import java.util.*
 class PublishSonatypePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
+        if (System.getenv("JITPACK").toBoolean()) {
+            target.logger.warn("Will not setup Sonatype publishing in Jitpack.")
+            return
+        }
+
         target.plugins.findPlugin(PublishPlugin::class)
             ?: target.apply<PublishPlugin>()
 
