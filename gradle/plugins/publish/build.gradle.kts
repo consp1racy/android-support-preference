@@ -23,3 +23,4 @@ repositories {
     google()
     gradlePluginPortal()
 }
+/* Ignore anything jitpack.io adds here 🙄
