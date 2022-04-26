@@ -16,7 +16,7 @@ gradlePlugin {
 }
 
 dependencies {
-    compileOnly("com.android.tools.build:gradle:4.1.2")
+    compileOnly("com.android.tools.build:gradle:7.1.3")
 }
 
 repositories {
