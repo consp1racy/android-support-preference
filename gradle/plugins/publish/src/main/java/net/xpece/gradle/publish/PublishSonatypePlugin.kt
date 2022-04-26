@@ -11,34 +11,13 @@ import java.util.*
 class PublishSonatypePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        if (System.getenv("JITPACK").toBoolean()) {
-            target.logger.warn("Will not setup Sonatype publishing in Jitpack.")
-            return
-        }
-
         target.plugins.findPlugin(PublishPlugin::class)
             ?: target.apply<PublishPlugin>()
 
-        target.plugins.findPlugin("signing")
-            ?: target.apply(plugin = "signing")
-
         val publishing = target.extensions.getByName<PublishingExtension>("publishing")
-        val signing = target.extensions.getByName<SigningExtension>("signing")
-        signing.sign(publishing.publications)
-
-        if (System.getenv("CI") == null) {
-            signing.useGpgCmd()
-        }
 
         val extension = target.extensions.getByType<PublishExtension>()
         extension.releaseFromDefaultComponent()
-
-        val signingProps by lazy {
-            Properties().apply {
-                target.rootProject.file("publishing.properties")
-                    .inputStream().buffered().use(this::load)
-            }
-        }
 
         extension.pom {
             name.set(target.name)
@@ -64,6 +43,28 @@ class PublishSonatypePlugin : Plugin<Project> {
                 connection.set("scm:git:https://github.com/consp1racy/android-support-preference.git")
                 developerConnection.set("scm:git:ssh://git@github.com/consp1racy/android-support-preference.git")
                 url.set("https://github.com/consp1racy/android-support-preference")
+            }
+        }
+
+        if (System.getenv("JITPACK").toBoolean()) {
+            target.logger.warn("Will not setup signing and Sonatype publishing in Jitpack.")
+            return
+        }
+
+        target.plugins.findPlugin("signing")
+            ?: target.apply(plugin = "signing")
+
+        val signing = target.extensions.getByName<SigningExtension>("signing")
+        signing.sign(publishing.publications)
+
+        if (System.getenv("CI") == null) {
+            signing.useGpgCmd()
+        }
+
+        val signingProps by lazy {
+            Properties().apply {
+                target.rootProject.file("publishing.properties")
+                    .inputStream().buffered().use(this::load)
             }
         }
 
